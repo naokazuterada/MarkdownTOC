@@ -1,0 +1,51 @@
+[
+  {
+    "id": "tools",
+    "children":
+    [
+      {
+        "caption": "MarkdownTOC",
+        "children":
+        [
+          { 
+          	"caption": "Insert TOC(Table of Contents)", 
+          	"command": "markdowntoc"
+          }
+        ]
+      }
+    ]
+},
+{
+  "caption": "Preferences",
+  "mnemonic": "n",
+  "id": "preferences",
+  "children":
+  [
+    {
+        "caption": "Package Settings",
+        "mnemonic": "P",
+        "id": "package-settings",
+        "children":
+        [
+          {
+            "caption": "MarkdownTOC",
+            "children":
+            [
+              {
+                "command": "open_file",
+                "args": {"file": "${packages}/MarkdownTOC/MarkdownTOC.sublime-settings"},
+                "caption": "Settings – Default"
+              },
+              {
+                "command": "open_file",
+                "args": {"file": "${packages}/User/MarkdownTOC.sublime-settings"},
+                "caption": "Settings – User"
+              },
+              { "caption": "-" }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+]
