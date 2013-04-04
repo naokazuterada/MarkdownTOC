@@ -1,4 +1,7 @@
-import sublime, sublime_plugin
+import sublime, sublime_plugin, re
+
+pattern_anchor = re.compile(r'\[.*?\]')
+pattern_endspace = re.compile(r' *?\z')
 
 class MarkdowntocCommand(sublime_plugin.TextCommand):
 
@@ -17,14 +20,21 @@ class MarkdowntocCommand(sublime_plugin.TextCommand):
     toc = ''
     for item in items:
     	heading_num = item[0]
-    	heading_text = item[1]
+    	heading_text = item[1].rstrip()
 
     	# indent by heading_num
     	heading_num -= 1
     	for i in range(heading_num):
-    		toc += '	'
-    	
-    	toc += '- '+item[1]+'\n'
+    		toc += '\t'
+
+    	matchObj = None
+    	matchObj = pattern_anchor.search(heading_text)
+    	if matchObj:
+    	  only_text = heading_text[0:matchObj.start()]
+    	  only_text = only_text.rstrip()
+    	  toc += '- ['+only_text+']'+matchObj.group()+'\n'
+    	else:
+    		toc += '- '+heading_text+'\n'
 
     # Insert TOC to selection
     sels = self.view.sel()
