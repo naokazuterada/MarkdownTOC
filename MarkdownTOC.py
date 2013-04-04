@@ -23,7 +23,7 @@ class MarkdowntocCommand(sublime_plugin.TextCommand):
     	heading_num -= 1
     	for i in range(heading_num):
     		toc += '	'
-
+    	
     	toc += '- '+item[1]+'\n'
 
     # Insert TOC to selection
