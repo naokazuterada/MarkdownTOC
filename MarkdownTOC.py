@@ -27,7 +27,7 @@ class MarkdowntocCommand(sublime_plugin.TextCommand):
     	for i in range(heading_num):
     		toc += '\t'
 
-    	matchObj = None
+    	# Handling anchors
     	matchObj = pattern_anchor.search(heading_text)
     	if matchObj:
     	  only_text = heading_text[0:matchObj.start()]
