@@ -4,7 +4,6 @@ This plugin search headings in document and insert TOC(TableOfContents) to it.
 
 ## Feature
 
-- Trim spaces at the end of the heading string
 - Auto Link when heading has anchor
 - Refresh contents when file is saving
 
