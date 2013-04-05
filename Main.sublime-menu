@@ -8,12 +8,12 @@
         "children":
         [
           { 
-          	"caption": "Search TOCtags and update content", 
-          	"command": "markdowntoc_search"
-          },
-          { 
             "caption": "Insert", 
             "command": "markdowntoc_insert"
+          },
+          { 
+          	"caption": "Search TOCtags and update content", 
+          	"command": "markdowntoc_search"
           }
         ]
       }
