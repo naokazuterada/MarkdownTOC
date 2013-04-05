@@ -10,7 +10,7 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
 
   def run(self, edit):
 
-    if not find_tag_and_insert(self,edit):
+    if not self.find_tag_and_insert(edit):
 
       # add TOCTAG
       toc = self.get_TOC()
