@@ -23,7 +23,7 @@ Open packges directory (Sublime Text 2 > Preference > Browse Packages...), and m
 ## Using
 
 1. Open Markdown files.
-2. Move cursor to position where you want to insert COT.
+2. Move cursor to position where you want to insert TOC.
 3. Tools > MarkdownTOC > Insert TOC
 4. TOC has inserted into document!
 5. Update contents and save...
