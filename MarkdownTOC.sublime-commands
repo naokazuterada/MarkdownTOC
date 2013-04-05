@@ -1,3 +1,4 @@
 [
-  { "caption": "MarkdownTOC:InsertTOC", "command": "markdowntoc" }
+  { "caption": "MarkdownTOC:Insert TOC", "command": "markdowntoc_insert" },
+  { "caption": "MarkdownTOC:Update TOC", "command": "markdowntoc_update" }
 ]

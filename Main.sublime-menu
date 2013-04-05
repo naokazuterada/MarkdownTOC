@@ -8,11 +8,11 @@
         "children":
         [
           { 
-            "caption": "Insert", 
+            "caption": "Insert TOC", 
             "command": "markdowntoc_insert"
           },
           { 
-          	"caption": "Search TOCtags and update content", 
+          	"caption": "Update TOC", 
           	"command": "markdowntoc_search"
           }
         ]

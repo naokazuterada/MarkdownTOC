@@ -71,7 +71,7 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
 
 
 # Search and refresh if it's exist
-class MarkdowntocSearch(MarkdowntocInsert):
+class MarkdowntocUpdate(MarkdowntocInsert):
   def run(self, edit):
     MarkdowntocInsert.find_tag_and_insert(self,edit)
 
@@ -81,4 +81,4 @@ class AutoRunner(sublime_plugin.EventListener):
     # limit scope
     root, ext = os.path.splitext(view.file_name())
     if ext == ".md" or ext == ".markdown":
-      view.run_command('markdowntoc_search')
+      view.run_command('markdowntoc_update')
