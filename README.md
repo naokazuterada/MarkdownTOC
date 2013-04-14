@@ -1,6 +1,6 @@
 # MarkdownTOC Plugin for Sublime Text 2
 
-This plugin search headings in document and insert TOC(TableOfContents) to it.
+This plugin search headings in document and insert TOC(Table Of Contents) to it.
 
 ## Feature
 
