@@ -31,6 +31,6 @@ git clone git@github.com:naokazuterada/MarkdownTOC.git
 3. Tools > MarkdownTOC > Insert TOC
 4. TOC has inserted into document!
 5. Update contents and save...
-6. TOC has been updated!
+6. TOC has been updated.
 
-***Do NOT remove the comment tags if you want to update by time saving.***
+***Don't remove the comment tags if you want to update every time saving.***
