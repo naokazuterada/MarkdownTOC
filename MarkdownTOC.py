@@ -53,14 +53,28 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
 
     # Create TOC  ------------------
     toc = ''
-    prev_heading_num = 0;
+    heading_num_first = 0
+    heading_num_prev = 0
     for item in items:
       heading_num = item[0]
       
-      # indent limiting by comparison previous heading
-      if prev_heading_num < heading_num:
-        heading_num = min(prev_heading_num+1,heading_num);
-      prev_heading_num = heading_num
+      # ------------------------
+      
+      # recalculate indent
+      # TODO: add "root index" setting manualy in toc_tags ?
+
+      # set root heading num
+      if heading_num_first == 0:
+        heading_num_first = heading_num
+
+      if heading_num_prev < heading_num:
+        heading_num = min(heading_num_prev+1, heading_num)
+      
+      if heading_num <= heading_num_first:
+        heading_num = max(1,heading_num-heading_num_first)
+
+      heading_num_prev = heading_num
+      # ------------------------
 
       heading_text = item[1].rstrip()
 
