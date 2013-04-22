@@ -39,7 +39,7 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
     return False
 
   def get_TOC(self):
-    headings = self.view.find_all("^#*? ")
+    headings = self.view.find_all("^#+? ")
     
     # Search headings in docment ---
     items = [] # [headingNum,text]
@@ -50,8 +50,15 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
 
     # Create TOC  ------------------
     toc = ''
+    prev_heading_num = 0;
     for item in items:
       heading_num = item[0]
+      
+      # indent limiting by comparison previous heading
+      if 0 < prev_heading_num & prev_heading_num < heading_num:
+        heading_num = min(prev_heading_num+1,heading_num);
+      prev_heading_num = heading_num
+
       heading_text = item[1].rstrip()
 
       # add indent by heading_num
