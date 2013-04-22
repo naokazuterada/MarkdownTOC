@@ -11,42 +11,45 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
   def run(self, edit):
 
     if not self.find_tag_and_insert(edit):
-
-      # add TOCTAG
-      toc = self.get_TOC()
-      toc = TOCTAG_START+"\n"+toc
-      toc = toc+TOCTAG_END+"\n"
-
       sels = self.view.sel()
       for sel in sels:
-          self.view.insert(edit, sel.begin(), toc) 
+        # add TOCTAG
+        toc = self.get_TOC(sel.end())
+        toc = TOCTAG_START+"\n"+toc
+        toc = toc+TOCTAG_END+"\n"
+
+        self.view.insert(edit, sel.begin(), toc) 
 
 
   # Search MarkdownTOC comments in document
   def find_tag_and_insert(self,edit):
-    toc = self.get_TOC()
     sublime.status_message('fint TOC tags and refresh its content')
     toc_starts = self.view.find_all("^"+TOCTAG_START+"\n")
     for toc_start in toc_starts:
       if 0 < len(toc_start):
         toc_end = self.view.find("^"+TOCTAG_END+"\n",toc_start.end())
         if toc_end:
+          toc = self.get_TOC(toc_end.end())
           tocRegion = sublime.Region(toc_start.end(),toc_end.begin())
+
           self.view.replace(edit, tocRegion, toc) 
           sublime.status_message('fint TOC tags and refresh its content')
           return True
     # self.view.status_message('no TOC tags')
     return False
 
-  def get_TOC(self):
+  # TODO: add "end" parameter
+  def get_TOC(self, begin=0):
     headings = self.view.find_all("^#+? ")
-    
+
     # Search headings in docment ---
     items = [] # [headingNum,text]
     for heading in headings:
-      text = self.view.substr(sublime.Region(heading.end(),self.view.line(heading).end()))
-      heading_num = heading.size()-1
-      items.append([heading_num,text])
+      if begin < heading.end():
+        heading_text = self.view.substr(sublime.Region(heading.end(),self.view.line(heading).end()))
+        heading_num = heading.size()-1
+
+        items.append([heading_num,heading_text])
 
     # Create TOC  ------------------
     toc = ''
@@ -55,7 +58,7 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
       heading_num = item[0]
       
       # indent limiting by comparison previous heading
-      if 0 < prev_heading_num & prev_heading_num < heading_num:
+      if prev_heading_num < heading_num:
         heading_num = min(prev_heading_num+1,heading_num);
       prev_heading_num = heading_num
 
