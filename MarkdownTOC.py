@@ -96,13 +96,10 @@ def format(items):
   # minimize "jump width"
   for i,item in enumerate(headings):
     if 0<i and 1<item-headings[i-1]:
-      print str(headings[i-1])+" "+str(item),
       before = headings[i]
       after = headings[i-1]+1
       headings[i] = after
-      print " > "+str(item)
       for n in range(i+1,len(headings)):
-        print "-"+str(headings[n])
         if(headings[n]==before):
           headings[n] = after
         else:
