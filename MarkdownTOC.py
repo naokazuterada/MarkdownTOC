@@ -91,7 +91,7 @@ def format(items):
   if 1<min_heading:
     for i,item in enumerate(headings):
       headings[i] -= min_heading-1
-  headings[0] = 1
+  headings[0] = 1 # first item must be 1
 
   # minimize "jump width"
   for i,item in enumerate(headings):
