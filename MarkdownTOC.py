@@ -33,53 +33,37 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
           tocRegion = sublime.Region(toc_start.end(),toc_end.begin())
 
           self.view.replace(edit, tocRegion, toc) 
-          sublime.status_message('fint TOC tags and refresh its content')
+          sublime.status_message('find TOC-tags and refresh')
           return True
-    # self.view.status_message('no TOC tags')
+    # self.view.status_message('no TOC-tags')
     return False
 
   # TODO: add "end" parameter
   def get_TOC(self, begin=0):
-    headings = self.view.find_all("^#+? ")
 
-    # Search headings in docment ---
-    items = [] # [headingNum,text]
+    # Search headings in docment
+    headings = self.view.find_all("^#+? ")
+    
+    items = [] # [[headingNum,text],...]
     for heading in headings:
       if begin < heading.end():
         heading_text = self.view.substr(sublime.Region(heading.end(),self.view.line(heading).end()))
         heading_num = heading.size()-1
-
         items.append([heading_num,heading_text])
+
+    
+
+    # Shape TOC  ------------------
+    items = format(items)
+
 
     # Create TOC  ------------------
     toc = ''
-    heading_num_first = 0
-    heading_num_prev = 0
     for item in items:
-      heading_num = item[0]
-      
-      # ------------------------
-      
-      # recalculate indent
-      # TODO: add "root index" setting manualy in toc_tags ?
-
-      # set root heading num
-      if heading_num_first == 0:
-        heading_num_first = heading_num
-
-      if heading_num_prev < heading_num:
-        heading_num = min(heading_num_prev+1, heading_num)
-      
-      if heading_num <= heading_num_first:
-        heading_num = max(1,heading_num-heading_num_first)
-
-      heading_num_prev = heading_num
-      # ------------------------
-
+      heading_num = item[0] - 1
       heading_text = item[1].rstrip()
 
       # add indent by heading_num
-      heading_num -= 1
       for i in range(heading_num):
         toc += '\t'
 
@@ -90,9 +74,44 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
         only_text = only_text.rstrip()
         toc += '- ['+only_text+']'+matchObj.group()+'\n'
       else:
+        
         toc += '- '+heading_text+'\n'
+
+
     return toc
 
+def format(items):
+  headings = []
+  for item in items:
+    headings.append(item[0])
+  # ----------
+
+  # set root to 1
+  min_heading = min(headings)
+  if 1<min_heading:
+    for i,item in enumerate(headings):
+      headings[i] -= min_heading-1
+  headings[0] = 1
+
+  # minimize "jump width"
+  for i,item in enumerate(headings):
+    if 0<i and 1<item-headings[i-1]:
+      print str(headings[i-1])+" "+str(item),
+      before = headings[i]
+      after = headings[i-1]+1
+      headings[i] = after
+      print " > "+str(item)
+      for n in range(i+1,len(headings)):
+        print "-"+str(headings[n])
+        if(headings[n]==before):
+          headings[n] = after
+        else:
+          break
+
+  # ----------
+  for i,item in enumerate(items):
+    item[0] = headings[i]  
+  return items
 
 # Search and refresh if it's exist
 class MarkdowntocUpdate(MarkdowntocInsert):
