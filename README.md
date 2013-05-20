@@ -9,13 +9,22 @@ This plugin search headings in document and insert TOC(Table Of Contents) to it.
 
 ## Installing
 
-### Use Git
+With Package Control:
+
+
+1. Run “Package Control: Install Package” command, find and install `MarkdownTOC` plugin.
+2. Restart SublimeText.
+
+> [Package Control](http://wbond.net/sublime_packages/package_control)
+
+
+Use Git:
 
 ```sh
 git clone git@github.com:naokazuterada/MarkdownTOC.git ~/Library/Application\ Support/Sublime\ Text\ 2/Packages/MarkdownTOC
 ```
 
-### Don't use Git
+Don't use Git:
 
 1. [Download zip](https://github.com/naokazuterada/MarkdownTOC/archive/master.zip)
 2. Expand zip (appear "MarkdownTOC" folder)
