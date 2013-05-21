@@ -2,6 +2,8 @@
 
 This plugin search headings in document and insert TOC(Table Of Contents) to it.
 
+![](./capture.png)
+
 ## Feature
 
 - Insert Table of Contents depending on headings in document
