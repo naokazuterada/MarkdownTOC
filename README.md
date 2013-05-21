@@ -20,13 +20,13 @@ With Package Control:
 > [Package Control](http://wbond.net/sublime_packages/package_control)
 
 
-Use Git:
+With Git:
 
 ```sh
 git clone git@github.com:naokazuterada/MarkdownTOC.git ~/Library/Application\ Support/Sublime\ Text\ 2/Packages/MarkdownTOC
 ```
 
-Don't use Git:
+Without any dependencies:
 
 1. [Download zip](https://github.com/naokazuterada/MarkdownTOC/archive/master.zip) and expand it.
 2. Open "Packges" directory (Sublime Text 2 > Preference > Browse Packages...).
