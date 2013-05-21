@@ -4,7 +4,9 @@ This plugin search headings in document and insert TOC(Table Of Contents) to it.
 
 ## Feature
 
-- Auto linking if heading has anchor
+- Insert Table of Contents depending on headings in document
+- Search headings below cursor position (when you select "Insert TOC" menu)
+- Auto linking when heading has anchor
 - Refresh contents when file is saving
 
 ## Installing
