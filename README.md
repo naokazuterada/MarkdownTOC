@@ -28,10 +28,9 @@ git clone git@github.com:naokazuterada/MarkdownTOC.git ~/Library/Application\ Su
 
 Don't use Git:
 
-1. [Download zip](https://github.com/naokazuterada/MarkdownTOC/archive/master.zip).
-2. Expand zip.
-3. Open "Packges" directory (Sublime Text 2 > Preference > Browse Packages...).
-4. Move "MarkdownTOC" directory into "Packages" directory.
+1. [Download zip](https://github.com/naokazuterada/MarkdownTOC/archive/master.zip) and expand it.
+2. Open "Packges" directory (Sublime Text 2 > Preference > Browse Packages...).
+3. Move "MarkdownTOC" directory into "Packages" directory.
 
 
 ## Using
