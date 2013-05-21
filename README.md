@@ -15,7 +15,7 @@ With Package Control:
 
 
 1. Run “Package Control: Install Package” command, find and install `MarkdownTOC` plugin.
-2. Restart SublimeText.
+2. Restart ST2.
 
 > [Package Control](http://wbond.net/sublime_packages/package_control)
 
