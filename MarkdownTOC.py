@@ -42,7 +42,7 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
   def get_TOC(self, begin=0):
 
     # Search headings in docment
-    headings = self.view.find_all("^#+? ")
+    headings = self.view.find_all("^#{1,2}? ")
     
     items = [] # [[headingNum,text],...]
     for heading in headings:
