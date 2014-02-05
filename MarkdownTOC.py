@@ -18,7 +18,7 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
         toc = TOCTAG_START+"\n"+toc
         toc = toc+TOCTAG_END+"\n"
 
-        self.view.insert(edit, sel.begin(), toc) 
+        self.view.insert(edit, sel.begin(), toc)
 
 
   # Search MarkdownTOC comments in document
@@ -32,7 +32,7 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
           toc = self.get_TOC(toc_end.end())
           tocRegion = sublime.Region(toc_start.end(),toc_end.begin())
 
-          self.view.replace(edit, tocRegion, toc) 
+          self.view.replace(edit, tocRegion, toc + "\n")
           sublime.status_message('find TOC-tags and refresh')
           return True
     # self.view.status_message('no TOC-tags')
@@ -43,7 +43,7 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
 
     # Search headings in docment
     headings = self.view.find_all("^#+? ")
-    
+
     items = [] # [[headingNum,text],...]
     for heading in headings:
       if begin < heading.end():
@@ -51,7 +51,7 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
         heading_num = heading.size()-1
         items.append([heading_num,heading_text])
 
-    
+
 
     # Shape TOC  ------------------
     items = format(items)
@@ -74,7 +74,7 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
         only_text = only_text.rstrip()
         toc += '- ['+only_text+']'+matchObj.group()+'\n'
       else:
-        
+
         toc += '- '+heading_text+'\n'
 
 
@@ -107,7 +107,7 @@ def format(items):
 
   # ----------
   for i,item in enumerate(items):
-    item[0] = headings[i]  
+    item[0] = headings[i]
   return items
 
 # Search and refresh if it's exist
