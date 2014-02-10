@@ -26,12 +26,18 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
   # Search MarkdownTOC comments in document
   def find_tag_and_insert(self,edit):
     sublime.status_message('fint TOC tags and refresh its content')
-    toc_starts = self.view.find_all("^"+TOCTAG_START+"\n")
+    
+    extractions = []
+    toc_starts = self.view.find_all("^<!-- MarkdownTOC( | depth=([0-9]+) )-->\n",sublime.IGNORECASE,'$2',extractions)
+    depth = 0
+    if 0 < len(extractions) and str(extractions[0])!='':
+      depth = int(extractions[0])
+
     for toc_start in toc_starts:
       if 0 < len(toc_start):
         toc_end = self.view.find("^"+TOCTAG_END+"\n",toc_start.end())
         if toc_end:
-          toc = self.get_TOC(toc_end.end())
+          toc = self.get_TOC(depth, toc_end.end())
           tocRegion = sublime.Region(toc_start.end(),toc_end.begin())
 
           self.view.replace(edit, tocRegion, "\n"+toc+"\n")
@@ -41,10 +47,13 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
     return False
 
   # TODO: add "end" parameter
-  def get_TOC(self, begin=0):
+  def get_TOC(self, depth=0, begin=0):
 
     # Search headings in docment
-    headings = self.view.find_all("^#+? ")
+    if depth==0:
+      headings = self.view.find_all("^#+? ")
+    else:
+      headings = self.view.find_all("^#{1,"+str(depth)+"}? ")
 
     items = [] # [[headingNum,text],...]
     for heading in headings:
