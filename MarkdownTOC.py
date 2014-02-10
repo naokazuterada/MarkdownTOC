@@ -14,9 +14,11 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
       sels = self.view.sel()
       for sel in sels:
         # add TOCTAG
-        toc = self.get_TOC(sel.end())
-        toc = TOCTAG_START+"\n"+toc
-        toc = toc+TOCTAG_END+"\n"
+        toc  = TOCTAG_START+"\n"
+        toc += "\n"
+        toc += self.get_TOC(sel.end())
+        toc += "\n"
+        toc += TOCTAG_END+"\n"
 
         self.view.insert(edit, sel.begin(), toc)
 
@@ -32,7 +34,7 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
           toc = self.get_TOC(toc_end.end())
           tocRegion = sublime.Region(toc_start.end(),toc_end.begin())
 
-          self.view.replace(edit, tocRegion, toc + "\n")
+          self.view.replace(edit, tocRegion, "\n"+toc+"\n")
           sublime.status_message('find TOC-tags and refresh')
           return True
     # self.view.status_message('no TOC-tags')
