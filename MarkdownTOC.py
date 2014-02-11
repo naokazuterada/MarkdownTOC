@@ -24,6 +24,7 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
 
         self.view.insert(edit, sel.begin(), toc)
 
+    # TODO: process to add another toc when tag exists
 
   # Search MarkdownTOC comments in document
   def find_tag_and_insert(self,edit):
