@@ -80,7 +80,9 @@ You can control TOC depth in its comment tags.
 <!-- /MarkdownTOC -->
 ```
 
-You can also set default depth in Settings
+You can also set default depth in Settings.
+
+Preference > Package Settings > MarkdownTOC > Settings - User
 
 ```
 {
