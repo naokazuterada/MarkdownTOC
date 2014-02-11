@@ -4,9 +4,11 @@ This plugin search headings in document and insert TOC(Table Of Contents) to it.
 
 ## Feature
 
-- Auto linking if heading has anchor
+- Insert Table of Contents depending on headings in document
+- TOC reflects contents from below its position or cursor (when you select "Insert TOC" menu)
+- Auto linking when heading has anchor
 - Refresh contents when file is saving
-- Control TOC depth in its comment tags
+- [Control TOC depth in its comment tags][depth-control]
 
 ## Using
 
@@ -20,7 +22,7 @@ This plugin search headings in document and insert TOC(Table Of Contents) to it.
 ***Don't remove the comment tags if you want to update every time saving.***
 
 
-## Depth control
+## Depth control [depth-control]
 
 You can control TOC depth in its comment tags.
 
