@@ -3,7 +3,7 @@ import sublime, sublime_plugin, re, os.path
 pattern_anchor = re.compile(r'\[.*?\]')
 pattern_endspace = re.compile(r' *?\z')
 
-TOCTAG_START = "<!-- MarkdownTOC depth=2 -->"
+#TOCTAG_START = "<!-- MarkdownTOC depth=2 -->"
 TOCTAG_END   = "<!-- /MarkdownTOC -->"
 
 class MarkdowntocInsert(sublime_plugin.TextCommand):
@@ -13,8 +13,10 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
     if not self.find_tag_and_insert(edit):
       sels = self.view.sel()
       for sel in sels:
+        default_depth = self.get_default_depth()
+
         # add TOCTAG
-        toc  = TOCTAG_START+"\n"
+        toc  = "<!-- MarkdownTOC depth="+str(default_depth)+" -->\n"
         toc += "\n"
         toc += self.get_TOC(sel.end())
         toc += "\n"
@@ -30,7 +32,7 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
     extractions = []
     toc_starts = self.view.find_all("^<!-- MarkdownTOC( | depth=([0-9]+) )-->\n",sublime.IGNORECASE,'$2',extractions)
     depth = None
-    if 0 < len(extractions) and str(extractions[0])!='':
+    if 0 < len(extractions) and str(extractions[0])!='': # 1: There is "depth" attr
       depth = int(extractions[0])
 
     for toc_start in toc_starts:
@@ -38,12 +40,13 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
         toc_end = self.view.find("^"+TOCTAG_END+"\n",toc_start.end())
         if toc_end:
 
-          if depth==None: # No "depth" attr
-            depth = 2
-            self.view.replace(edit, toc_start, "<!-- MarkdownTOC depth="+str(depth)+" -->\n") # add "depth"
+          if depth==None: # 2: No "depth" attr
+            depth = self.get_default_depth()
+            toctag_start = "<!-- MarkdownTOC depth="+str(depth)+" -->\n"
+            self.view.replace(edit, toc_start, toctag_start) # add "depth"
             # reset variables
-            toc_start = self.view.find("^<!-- MarkdownTOC depth="+str(depth)+" -->\n",toc_start.begin())
-            toc_end = self.view.find("^"+TOCTAG_END+"\n",toc_start.end())
+            toc_start = self.view.find("^"+toctag_start, toc_start.begin())
+            toc_end = self.view.find("^"+TOCTAG_END+"\n", toc_start.end())
 
           toc = self.get_TOC(depth, toc_end.end())
           tocRegion = sublime.Region(toc_start.end(),toc_end.begin())
@@ -93,11 +96,22 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
         only_text = only_text.rstrip()
         toc += '- ['+only_text+']'+matchObj.group()+'\n'
       else:
-
         toc += '- '+heading_text+'\n'
 
-
     return toc
+
+  def get_default_depth(self):
+    setting_file = 'MarkdownTOC.sublime-settings'
+    settings = sublime.load_settings(setting_file)
+    default_depth = settings.get('default_depth')
+    if default_depth==None:
+      default_depth = 2
+      # Save "Settings - Default"
+      settings.set('default_depth', default_depth)
+      sublime.save_settings(setting_file)
+    return default_depth
+
+
 
 def format(items):
   headings = []
