@@ -10,6 +10,7 @@ This plugin search headings in document and insert TOC(Table Of Contents) to it.
 - TOC reflects contents from below its position or cursor (when you select "Insert TOC" menu)
 - Auto linking when heading has anchor
 - Refresh contents when file is saving
+- Control TOC depth in its comment tags
 
 ## Installing
 
@@ -51,6 +52,43 @@ Without any dependencies:
 6. TOC has been updated.
 
 ***Don't remove the comment tags if you want to update every time saving.***
+
+## Depth control
+
+You can control TOC depth in its comment tags.
+
+```
+<!-- MarkdownTOC depth=2 -->
+
+- foo
+  - bar
+  - buz
+- qux
+
+<!-- /MarkdownTOC -->
+```
+```
+<!-- MarkdownTOC depth=3 -->
+
+- foo
+  - bar
+    - qux
+    - quux
+  - buz
+- qux
+
+<!-- /MarkdownTOC -->
+```
+
+You can also set default depth in Settings
+
+```
+{
+  "default_depth": 0
+}
+```
+
+`depth=0` means no limit
 
 ===
 
