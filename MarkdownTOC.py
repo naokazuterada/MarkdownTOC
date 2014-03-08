@@ -67,10 +67,14 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
                     toc = self.get_TOC(depth, toc_end.end())
                     tocRegion = sublime.Region(
                         toc_start.end(), toc_end.begin())
+                    if toc:
+                        self.view.replace(edit, tocRegion, "\n" + toc + "\n")
+                        sublime.status_message('find TOC-tags and refresh')
+                        return True
+                    else:
+                        self.view.replace(edit, tocRegion, "\n")
+                        return False
 
-                    self.view.replace(edit, tocRegion, "\n" + toc + "\n")
-                    sublime.status_message('find TOC-tags and refresh')
-                    return True
         # self.view.status_message('no TOC-tags')
         return False
 
@@ -79,11 +83,15 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
 
         # Search headings in docment
         if depth == 0:
-            pattern_hash = "^#+?\s"
+            pattern_hash = "^#+?\s*"
         else:
-            pattern_hash = "^#{1," + str(depth) + "}\s"
+            pattern_hash = "^#{1," + str(depth) + "}\s*"
         headings = self.view.find_all(
             "%s|%s" % (pattern_h1_h2_equal_dash, pattern_hash))
+
+        if len(headings) < 1:
+            return False
+
         items = []  # [[headingNum,text],...]
         for heading in headings:
             if begin < heading.end():
