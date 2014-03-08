@@ -105,6 +105,8 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
                 elif len(lines) == 2:
                     # handle - or + headings, Title 1==== section1----
                     heading_text = self.view.substr(lines[0])
+                    if not heading_text.strip():
+                        break
                     heading_num = 1 if (
                         self.view.substr(lines[1])[0] == '=') else 2
                 items.append([heading_num, heading_text])
