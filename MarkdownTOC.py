@@ -83,9 +83,9 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
 
         # Search headings in docment
         if depth == 0:
-            pattern_hash = "^#+?\s*"
+            pattern_hash = "^#+?[^#]"
         else:
-            pattern_hash = "^#{1," + str(depth) + "}\s*"
+            pattern_hash = "^#{1," + str(depth) + "}[^#]"
         headings = self.view.find_all(
             "%s|%s" % (pattern_h1_h2_equal_dash, pattern_hash))
 
