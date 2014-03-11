@@ -25,7 +25,7 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
                 toc = "<!-- MarkdownTOC depth=" + \
                     str(default_depth) + " -->\n"
                 toc += "\n"
-                toc += self.get_TOC(sel.end())
+                toc += self.get_TOC(default_depth, sel.end())
                 toc += "\n"
                 toc += TOCTAG_END + "\n"
 
