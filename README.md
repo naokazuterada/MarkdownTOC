@@ -2,7 +2,7 @@
 
 This plugin search headings in document and insert TOC(Table Of Contents) to it.
 
-![](./capture.png)
+![](./demo.gif)
 
 ## Installing
 
