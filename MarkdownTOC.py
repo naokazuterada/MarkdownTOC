@@ -89,6 +89,23 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
         headings = self.view.find_all(
             "%s|%s" % (pattern_h1_h2_equal_dash, pattern_hash))
 
+        # -----------------------------------
+        # Ignore comments inside code blocks
+        
+        codeblocks = self.view.find_all("^`{3,}[^`]*$")
+        codeblockAreas = [] # [[area_begin, area_end], ..]
+        i = 0
+        while i < len(codeblocks)-1:
+            area_begin = codeblocks[i].begin()
+            area_end   = codeblocks[i+1].begin()
+            if area_begin and area_end:
+                codeblockAreas.append([area_begin, area_end])
+            i += 2
+
+        headings = [h for h in headings if isOutOfAreas(h.begin(), codeblockAreas)]
+
+        # -----------------------------------
+
         if len(headings) < 1:
             return False
 
@@ -148,6 +165,12 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
             sublime.save_settings(setting_file)
         return default_depth
 
+
+def isOutOfAreas(num, areas):
+    for area in areas:
+        if area[0] < num and num < area[1]:
+            return False
+    return True
 
 def format(items):
     headings = []
