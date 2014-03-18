@@ -25,7 +25,7 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
                 toc = "<!-- MarkdownTOC depth=" + \
                     str(default_depth) + " -->\n"
                 toc += "\n"
-                toc += self.get_TOC(default_depth, sel.end())
+                toc += self.getTOC(default_depth, sel.end())
                 toc += "\n"
                 toc += TOCTAG_END + "\n"
 
@@ -64,7 +64,7 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
                         toc_end = self.view.find(
                             "^" + TOCTAG_END + "\n", toc_start.end())
 
-                    toc = self.get_TOC(depth, toc_end.end())
+                    toc = self.getTOC(depth, toc_end.end())
                     tocRegion = sublime.Region(
                         toc_start.end(), toc_end.begin())
                     if toc:
@@ -79,7 +79,7 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
         return False
 
     # TODO: add "end" parameter
-    def get_TOC(self, depth=0, begin=0):
+    def getTOC(self, depth=0, begin=0):
 
         # Search headings in docment
         if depth == 0:
