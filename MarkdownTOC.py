@@ -119,15 +119,15 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
                         heading.end(), self.view.line(heading).end())
                     heading_text = self.view.substr(r)
                     heading_num = heading.size() - 1
+                    items.append([heading_num, heading_text])
                 elif len(lines) == 2:
                     # handle - or + headings, Title 1==== section1----
                     heading_text = self.view.substr(lines[0])
-                    if not heading_text.strip():
-                        break
-                    heading_num = 1 if (
-                        self.view.substr(lines[1])[0] == '=') else 2
-                items.append([heading_num, heading_text])
-
+                    if heading_text.strip():
+                        heading_num = 1 if (
+                            self.view.substr(lines[1])[0] == '=') else 2
+                        items.append([heading_num, heading_text])
+        
         if len(items) < 1:
             return
         # Shape TOC  ------------------
