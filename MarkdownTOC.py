@@ -143,12 +143,13 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
             for i in range(heading_num):
                 toc += '\t'
 
-            # Handling anchors
+            # Handling anchors ("Reference-style links")
             matchObj = pattern_anchor.search(heading_text)
             if matchObj:
                 only_text = heading_text[0:matchObj.start()]
                 only_text = only_text.rstrip()
-                toc += '- [' + only_text + ']' + matchObj.group() + '\n'
+                id_text = matchObj.group().replace('[','').replace(']','')
+                toc += '- [' + only_text + '](#' + id_text + ')\n'
             else:
                 toc += '- ' + heading_text + '\n'
 
