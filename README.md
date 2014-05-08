@@ -34,6 +34,40 @@ Without any dependencies:
 3. Move "MarkdownTOC" directory into "Packages" directory.
 
 
+## Sample
+
+```md
+
+# Heading 0
+
+Headings before MarkdownTOC tags will be ignored.
+
+<!-- MarkdownTOC depth=0 -->
+
+- Heading 1
+  - Heading 2
+    - Heading 3
+- [Heading with anchor](#with-anchor)
+
+<!-- /MarkdownTOC -->
+
+
+# Heading 1
+
+...
+
+## Heading 2
+
+...
+
+### Heading 3
+
+...
+
+# Heading with anchor [with-anchor]
+
+...
+```
 ## Using
 
 1. Open Markdown files.
