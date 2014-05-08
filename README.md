@@ -33,41 +33,6 @@ Without any dependencies:
 2. Open ST's "Packges" directory (Sublime Text > Preference > Browse Packages...).
 3. Move "MarkdownTOC" directory into "Packages" directory.
 
-
-## Sample
-
-```markdown
-
-# Heading 0
-
-Headings before MarkdownTOC tags will be ignored.
-
-<!-- MarkdownTOC depth=0 -->
-
-- Heading 1
-  - Heading 2
-    - Heading 3
-- [Heading with anchor](#with-anchor)
-
-<!-- /MarkdownTOC -->
-
-
-# Heading 1
-
-...
-
-## Heading 2
-
-...
-
-### Heading 3
-
-...
-
-# Heading with anchor [with-anchor]
-
-...
-```
 ## Using
 
 1. Open Markdown files.
@@ -126,3 +91,39 @@ Preference > Package Settings > MarkdownTOC > Settings - User
 ```
 
 `depth=0` means no limit
+
+
+## Sample
+
+```markdown
+
+# Heading 0
+
+Headings before MarkdownTOC tags will be ignored.
+
+<!-- MarkdownTOC depth=0 -->
+
+- Heading 1
+  - Heading 2
+    - Heading 3
+- [Heading with anchor](#with-anchor)
+
+<!-- /MarkdownTOC -->
+
+
+# Heading 1
+
+...
+
+## Heading 2
+
+...
+
+### Heading 3
+
+...
+
+# Heading with anchor [with-anchor]
+
+...
+```
