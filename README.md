@@ -36,7 +36,7 @@ Without any dependencies:
 
 ## Sample
 
-```md
+```markdown
 
 # Heading 0
 
