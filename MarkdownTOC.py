@@ -218,11 +218,5 @@ class AutoRunner(sublime_plugin.EventListener):
         # limit scope
         root, ext = os.path.splitext(view.file_name())
         ext = ext.lower()
-        if    ext == ".md" \
-          or  ext == ".markdown" \
-          or  ext == ".mdown" \
-          or  ext == ".mdwn" \
-          or  ext == ".mkdn" \
-          or  ext == ".mkd" \
-          or  ext == ".mark":
+        if ext in [".md", ".markdown", ".mdown", ".mdwn", ".mkdn", ".mkd", ".mark"]:
             view.run_command('markdowntoc_update')
