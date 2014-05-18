@@ -13,7 +13,7 @@
           },
           { 
           	"caption": "Update TOC", 
-          	"command": "markdowntoc_search"
+          	"command": "markdowntoc_update"
           }
         ]
       }
