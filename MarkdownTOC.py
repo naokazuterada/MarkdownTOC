@@ -41,7 +41,9 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
             "^<!-- MarkdownTOC( | depth=([0-9]+) )-->\n",
             sublime.IGNORECASE, '$2', extractions)
 
-        toc_starts = remove_items_in_codeblock(self, toc_starts)
+        toc_starts = self.remove_items_in_codeblock(toc_starts)
+
+
 
         depth = None
         # 1: There is "depth" attr
@@ -92,7 +94,7 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
         headings = self.view.find_all(
             "%s|%s" % (pattern_h1_h2_equal_dash, pattern_hash))
 
-        headings = remove_items_in_codeblock(self, headings)
+        headings = self.remove_items_in_codeblock(headings)
 
         if len(headings) < 1:
             return False
