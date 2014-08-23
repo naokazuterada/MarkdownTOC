@@ -25,7 +25,7 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
                 toc = "<!-- MarkdownTOC depth=" + \
                     str(default_depth) + " -->\n"
                 toc += "\n"
-                toc += self.getTOC(default_depth, sel.end())
+                toc += self.get_toc(default_depth, sel.end())
                 toc += "\n"
                 toc += TOCTAG_END + "\n"
 
@@ -41,7 +41,7 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
             "^<!-- MarkdownTOC( | depth=([0-9]+) )-->\n",
             sublime.IGNORECASE, '$2', extractions)
 
-        toc_starts = removeItemsInCodeblock(self, toc_starts)
+        toc_starts = remove_items_in_codeblock(self, toc_starts)
 
         depth = None
         # 1: There is "depth" attr
@@ -66,7 +66,7 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
                         toc_end = self.view.find(
                             "^" + TOCTAG_END + "\n", toc_start.end())
 
-                    toc = self.getTOC(depth, toc_end.end())
+                    toc = self.get_toc(depth, toc_end.end())
                     tocRegion = sublime.Region(
                         toc_start.end(), toc_end.begin())
                     if toc:
@@ -82,7 +82,7 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
         return False
 
     # TODO: add "end" parameter
-    def getTOC(self, depth=0, begin=0):
+    def get_toc(self, depth=0, begin=0):
 
         # Search headings in docment
         if depth == 0:
@@ -92,7 +92,7 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
         headings = self.view.find_all(
             "%s|%s" % (pattern_h1_h2_equal_dash, pattern_hash))
 
-        headings = removeItemsInCodeblock(self, headings)
+        headings = remove_items_in_codeblock(self, headings)
 
         if len(headings) < 1:
             return False
@@ -118,7 +118,7 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
         
         if len(items) < 1:
             return
-        
+
         # Shape TOC  ------------------
         items = format(items)
 
@@ -155,7 +155,7 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
             sublime.save_settings(setting_file)
         return default_depth
 
-    def removeItemsInCodeblock(self, items):
+    def remove_items_in_codeblock(self, items):
 
         codeblocks = self.view.find_all("^`{3,}[^`]*$")
         codeblockAreas = [] # [[area_begin, area_end], ..]
@@ -167,11 +167,11 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
                 codeblockAreas.append([area_begin, area_end])
             i += 2
 
-        items = [h for h in items if isOutOfAreas(h.begin(), codeblockAreas)]
+        items = [h for h in items if is_out_of_areas(h.begin(), codeblockAreas)]
         return items
 
 
-def isOutOfAreas(num, areas):
+def is_out_of_areas(num, areas):
     for area in areas:
         if area[0] < num and num < area[1]:
             return False
