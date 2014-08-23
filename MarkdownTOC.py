@@ -35,7 +35,6 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
 
     # Search MarkdownTOC comments in document
     def find_tag_and_insert(self, edit):
-        sublime.status_message('fint TOC tags and refresh its content')
 
         extractions = []
         toc_starts = self.view.find_all(
@@ -69,13 +68,14 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
                         toc_start.end(), toc_end.begin())
                     if toc:
                         self.view.replace(edit, tocRegion, "\n" + toc + "\n")
-                        sublime.status_message('find TOC-tags and refresh')
+                        sublime.status_message('refresh TOC content')
                         return True
                     else:
                         self.view.replace(edit, tocRegion, "\n")
+                        sublime.status_message('TOC is empty')
                         return False
 
-        # self.view.status_message('no TOC-tags')
+        sublime.status_message('cannot find TOC tags')
         return False
 
     # TODO: add "end" parameter
