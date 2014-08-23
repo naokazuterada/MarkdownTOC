@@ -46,7 +46,7 @@ Without any dependencies:
 
 ## Feature
 
-- Insert Table of Contents depending on headings in document
+- Insert TOC depending on headings in document
 - TOC reflects contents from below its position or cursor (when you select "Insert TOC" menu)
 - Auto linking when heading has anchor
 - Refresh contents when file is saving
