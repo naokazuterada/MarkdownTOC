@@ -40,6 +40,9 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
         toc_starts = self.view.find_all(
             "^<!-- MarkdownTOC( | depth=([0-9]+) )-->\n",
             sublime.IGNORECASE, '$2', extractions)
+
+        toc_starts = removeItemsInCodeblock(self, toc_starts)
+
         depth = None
         # 1: There is "depth" attr
         if 0 < len(extractions) and str(extractions[0]) != '':
@@ -89,22 +92,7 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
         headings = self.view.find_all(
             "%s|%s" % (pattern_h1_h2_equal_dash, pattern_hash))
 
-        # -----------------------------------
-        # Ignore comments inside code blocks
-        
-        codeblocks = self.view.find_all("^`{3,}[^`]*$")
-        codeblockAreas = [] # [[area_begin, area_end], ..]
-        i = 0
-        while i < len(codeblocks)-1:
-            area_begin = codeblocks[i].begin()
-            area_end   = codeblocks[i+1].begin()
-            if area_begin and area_end:
-                codeblockAreas.append([area_begin, area_end])
-            i += 2
-
-        headings = [h for h in headings if isOutOfAreas(h.begin(), codeblockAreas)]
-
-        # -----------------------------------
+        headings = removeItemsInCodeblock(self, headings)
 
         if len(headings) < 1:
             return False
@@ -130,6 +118,7 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
         
         if len(items) < 1:
             return
+        
         # Shape TOC  ------------------
         items = format(items)
 
@@ -165,6 +154,21 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
             settings.set('default_depth', default_depth)
             sublime.save_settings(setting_file)
         return default_depth
+
+    def removeItemsInCodeblock(self, items):
+
+        codeblocks = self.view.find_all("^`{3,}[^`]*$")
+        codeblockAreas = [] # [[area_begin, area_end], ..]
+        i = 0
+        while i < len(codeblocks)-1:
+            area_begin = codeblocks[i].begin()
+            area_end   = codeblocks[i+1].begin()
+            if area_begin and area_end:
+                codeblockAreas.append([area_begin, area_end])
+            i += 2
+
+        items = [h for h in items if isOutOfAreas(h.begin(), codeblockAreas)]
+        return items
 
 
 def isOutOfAreas(num, areas):

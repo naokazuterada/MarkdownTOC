@@ -62,6 +62,8 @@ You can control TOC depth in its comment tags.
 
 - foo
   - bar
+    - qux
+    - quux
   - buz
 - qux
 
