@@ -160,10 +160,10 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
                 toc += '- [' + only_text + '](#' + id_text + ')\n'
             elif autolink:
                 id_text = remove_reserved_chars(heading_text.lower().replace(" ", "-"))
-                n = id_texts.count(id_text)
-                if 0 < n:
-                    id_text += '-' + str(n)
                 id_texts.append(id_text)
+                n = id_texts.count(id_text)
+                if 1 < n:
+                    id_text += '-' + str(n-1)
                 toc += '- [' + heading_text + '](#' + id_text + ')\n'
             else:
                 toc += '- ' + heading_text + '\n'
