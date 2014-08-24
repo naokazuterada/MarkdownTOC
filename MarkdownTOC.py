@@ -73,14 +73,13 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
                         toc_start.end(), toc_end.begin())
                     if toc:
                         self.view.replace(edit, tocRegion, "\n" + toc + "\n")
-                        sublime.status_message('refresh TOC content')
+                        log('refresh TOC content')
                         return True
                     else:
                         self.view.replace(edit, tocRegion, "\n")
-                        sublime.status_message('TOC is empty')
+                        log('TOC is empty')
                         return False
-
-        sublime.status_message('cannot find TOC tags')
+        log('cannot find TOC tags')
         return False
 
     # TODO: add "end" parameter
@@ -208,6 +207,10 @@ def format(items):
     for i, item in enumerate(items):
         item[0] = headings[i]
     return items
+
+def log(arg):
+    sublime.status_message(arg)
+    print(arg)
 
 # Search and refresh if it's exist
 
