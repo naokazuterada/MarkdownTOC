@@ -33,29 +33,60 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
 
         # TODO: process to add another toc when tag exists
 
+    def get_toc_open_tag(self):
+        search_results = self.view.find_all(
+            "^<!-- MarkdownTOC .*-->\n",
+            sublime.IGNORECASE)
+        search_results = self.remove_items_in_codeblock(search_results)
+
+        toc_open_tags = []
+        for toc_open in search_results:
+            if 0 < len(toc_open):
+                
+                tag_str = self.view.substr(toc_open)
+
+                depth = re.search("depth=(\w+)", tag_str)
+                depth_val = self.get_default_depth()
+                if depth != None:
+                    depth_val = int(depth.group(1))
+
+
+                al = re.search(" autolink ", tag_str)
+                autolink_val = True if al != None else False
+                
+                toc_open_tag = {
+                    "region":   toc_open,
+                    "depth":    depth_val,
+                    "autolink": autolink_val
+                }
+                toc_open_tags.append(toc_open_tag)
+
+        return toc_open_tags
+
+    def get_toc_close_tag(self, start):
+        close_tags = self.view.find_all(
+            "^" + TOCTAG_END + "\n")
+        close_tags = self.remove_items_in_codeblock(close_tags)
+        for close_tag in close_tags:
+            if start < close_tag.begin():
+                return close_tag
+
     # Search MarkdownTOC comments in document
     def find_tag_and_insert(self, edit):
+        toc_starts = self.get_toc_open_tag()
+        for dic in toc_starts:
+            
+            toc_start = dic["region"]
+            depth     = dic["depth"]
+            autolink  = dic["autolink"]
 
-        extractions = []
-        toc_starts = self.view.find_all(
-            "^<!-- MarkdownTOC( | depth=([0-9]+) )-->\n",
-            sublime.IGNORECASE, '$2', extractions)
-
-        toc_starts = self.remove_items_in_codeblock(toc_starts)
-
-
-
-        depth = None
-        # 1: There is "depth" attr
-        if 0 < len(extractions) and str(extractions[0]) != '':
-            depth = int(extractions[0])
-
-        for toc_start in toc_starts:
             if 0 < len(toc_start):
-                toc_end = self.view.find(
-                    "^" + TOCTAG_END + "\n", toc_start.end())
-                if toc_end:
+                
+                toc_close = self.get_toc_close_tag(toc_start.end())
+                
+                if toc_close:
 
+                    # TODO iranai?
                     if depth is None:  # 2: No "depth" attr
                         depth = self.get_default_depth()
                         toctag_start = "<!-- MarkdownTOC depth=" + \
@@ -65,12 +96,12 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
                         # reset variables
                         toc_start = self.view.find(
                             "^" + toctag_start, toc_start.begin())
-                        toc_end = self.view.find(
+                        toc_close = self.view.find(
                             "^" + TOCTAG_END + "\n", toc_start.end())
 
-                    toc = self.get_toc(depth, toc_end.end())
+                    toc = self.get_toc(depth, autolink, toc_close.end())
                     tocRegion = sublime.Region(
-                        toc_start.end(), toc_end.begin())
+                        toc_start.end(), toc_close.begin())
                     if toc:
                         self.view.replace(edit, tocRegion, "\n" + toc + "\n")
                         log('refresh TOC content')
@@ -83,7 +114,7 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
         return False
 
     # TODO: add "end" parameter
-    def get_toc(self, depth=0, begin=0):
+    def get_toc(self, depth, autolink, begin):
 
         # Search headings in docment
         if depth == 0:
@@ -132,7 +163,7 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
             # add indent by heading_num
             for i in range(heading_num):
                 toc += '\t'
-
+            
             # Handling anchors ("Reference-style links")
             matchObj = pattern_anchor.search(heading_text)
             if matchObj:
@@ -140,6 +171,8 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
                 only_text = only_text.rstrip()
                 id_text = matchObj.group().replace('[','').replace(']','')
                 toc += '- [' + only_text + '](#' + id_text + ')\n'
+            elif autolink:
+                toc += '- [' + heading_text + '](#' + heading_text.lower().replace(' ','-') + ')\n'
             else:
                 toc += '- ' + heading_text + '\n'
 
