@@ -85,20 +85,6 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
                 toc_close = self.get_toc_close_tag(toc_start.end())
                 
                 if toc_close:
-
-                    # TODO iranai?
-                    if depth is None:  # 2: No "depth" attr
-                        depth = self.get_default_depth()
-                        toctag_start = "<!-- MarkdownTOC depth=" + \
-                            str(depth) + " -->\n"
-                        # add "depth"
-                        self.view.replace(edit, toc_start, toctag_start)
-                        # reset variables
-                        toc_start = self.view.find(
-                            "^" + toctag_start, toc_start.begin())
-                        toc_close = self.view.find(
-                            "^" + TOCTAG_END + "\n", toc_start.end())
-
                     toc = self.get_toc(depth, autolink, toc_close.end())
                     tocRegion = sublime.Region(
                         toc_start.end(), toc_close.begin())
