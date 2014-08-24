@@ -142,6 +142,7 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
 
         # Create TOC  ------------------
         toc = ''
+        id_texts = []
         for item in items:
             heading_num = item[0] - 1
             heading_text = item[1].rstrip()
@@ -158,8 +159,12 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
                 id_text = matchObj.group().replace('[','').replace(']','')
                 toc += '- [' + only_text + '](#' + id_text + ')\n'
             elif autolink:
-                toc += '- [' + heading_text + '](#' + \
-                    remove_reserved_chars(heading_text.lower().replace(" ", "-")) + ')\n'
+                id_text = remove_reserved_chars(heading_text.lower().replace(" ", "-"))
+                n = id_texts.count(id_text)
+                if 0 < n:
+                    id_text += '-' + str(n)
+                id_texts.append(id_text)
+                toc += '- [' + heading_text + '](#' + id_text + ')\n'
             else:
                 toc += '- ' + heading_text + '\n'
 
