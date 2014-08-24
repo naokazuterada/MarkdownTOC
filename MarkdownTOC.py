@@ -3,7 +3,7 @@ import sublime_plugin
 import re
 import os.path
 
-pattern_anchor = re.compile(r'\[.*?\]')
+pattern_anchor = re.compile(r'\[.+?\]')
 pattern_endspace = re.compile(r' *?\z')
 
 pattern_h1_h2_equal_dash = "^.*?(?:(?:\r\n)|\n|\r)(?:-+|=+)$"
@@ -158,7 +158,8 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
                 id_text = matchObj.group().replace('[','').replace(']','')
                 toc += '- [' + only_text + '](#' + id_text + ')\n'
             elif autolink:
-                toc += '- [' + heading_text + '](#' + heading_text.lower().replace(' ','-') + ')\n'
+                toc += '- [' + heading_text + '](#' + \
+                    remove_reserved_chars(heading_text.lower().replace(" ", "-")) + ')\n'
             else:
                 toc += '- ' + heading_text + '\n'
 
@@ -190,6 +191,30 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
         items = [h for h in items if is_out_of_areas(h.begin(), codeblockAreas)]
         return items
 
+
+def remove_reserved_chars(str):
+    # Percent-encoding reserved characters
+    delete = {
+        ord(u"!"): None,
+        ord(u"#"): None,
+        ord(u"$"): None,
+        ord(u"&"): None,
+        ord(u"'"): None,
+        ord(u"("): None,
+        ord(u")"): None,
+        ord(u"*"): None,
+        ord(u"+"): None,
+        ord(u","): None,
+        ord(u"/"): None,
+        ord(u":"): None,
+        ord(u";"): None,
+        ord(u"="): None,
+        ord(u"?"): None,
+        ord(u"@"): None,
+        ord(u"["): None,
+        ord(u"]"): None
+    }
+    return str.translate(delete)
 
 def is_out_of_areas(num, areas):
     for area in areas:
