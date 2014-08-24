@@ -51,7 +51,7 @@ Without any dependencies:
 - Auto linking when heading has anchor
 - Refresh contents when file is saving
 - Depth control
-
+- Auto link (useful on Github)
 
 ### Depth control
 
@@ -93,6 +93,25 @@ Preference > Package Settings > MarkdownTOC > Settings - User
 ```
 
 `depth=0` means no limit
+
+
+### Auto link
+
+Add `autolink` attribute on TOC tag. It will be useful on Github.
+
+```
+<!-- MarkdownTOC autolink -->
+
+- [MarkdownTOC Plugin for Sublime Text](#markdowntoc-plugin-for-sublime-text)
+  - [Installing](#installing)
+  - [Using](#using)
+  - [Feature](#feature)
+    - [Depth control](#depth-control)
+    - [Auto link](#auto-link)
+  - [Sample](#sample)
+
+<!-- /MarkdownTOC -->
+```
 
 
 ## Sample
