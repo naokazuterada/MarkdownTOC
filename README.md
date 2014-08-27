@@ -134,11 +134,11 @@ default: `false`
 
 Headings before MarkdownTOC tags will be ignored.
 
-<!-- MarkdownTOC depth=0 -->
+<!-- MarkdownTOC depth=0 autolink -->
 
-- Heading 1
-  - Heading 2
-    - Heading 3
+- [Heading 1](#heading-1)
+  - [Heading 2](#heading-2)
+    - [Heading 3](#heading-3)
 - [Heading with anchor](#with-anchor)
 
 <!-- /MarkdownTOC -->
