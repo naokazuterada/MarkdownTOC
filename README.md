@@ -113,6 +113,18 @@ Add `autolink` attribute on TOC tag. It will be useful on Github.
 <!-- /MarkdownTOC -->
 ```
 
+You can also set default autolink flag in Settings.
+
+Preference > Package Settings > MarkdownTOC > Settings - User
+
+```
+{
+  "default_autolink": true
+}
+```
+
+default: `false`
+
 
 ## Sample
 

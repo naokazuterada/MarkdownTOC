@@ -19,17 +19,21 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
         if not self.find_tag_and_insert(edit):
             sels = self.view.sel()
             for sel in sels:
-                default_depth = self.get_default_depth()
-
+                default_depth = self.get_setting('default_depth')
+                default_autolink = self.get_setting('default_autolink')
+                print(default_autolink)
                 # add TOCTAG
-                toc = "<!-- MarkdownTOC depth=" + \
-                    str(default_depth) + " -->\n"
+                toc = "<!-- MarkdownTOC depth=" + str(default_depth)
+                if default_autolink:
+                    toc += ' autolink'
+                toc += " -->\n"
                 toc += "\n"
-                toc += self.get_toc(default_depth, sel.end())
+                toc += self.get_toc(default_depth, default_autolink, sel.end())
                 toc += "\n"
                 toc += TOCTAG_END + "\n"
 
                 self.view.insert(edit, sel.begin(), toc)
+                log('inserted TOC')
 
         # TODO: process to add another toc when tag exists
 
@@ -46,7 +50,7 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
                 tag_str = self.view.substr(toc_open)
 
                 depth = re.search("depth=(\w+)", tag_str)
-                depth_val = self.get_default_depth()
+                depth_val = self.get_setting('default_depth')
                 if depth != None:
                     depth_val = int(depth.group(1))
 
@@ -169,17 +173,24 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
                 toc += '- ' + heading_text + '\n'
 
         return toc
-
-    def get_default_depth(self):
+    
+    def get_setting(self, attr):
         setting_file = 'MarkdownTOC.sublime-settings'
         settings = sublime.load_settings(setting_file)
-        default_depth = settings.get('default_depth')
-        if default_depth is None:
-            default_depth = 2
-            # Save "Settings - Default"
-            settings.set('default_depth', default_depth)
-            sublime.save_settings(setting_file)
-        return default_depth
+        val = settings.get(attr)
+        if attr == 'default_depth':
+            if val is None:
+                val = 2
+                # Save "Settings - Default"
+                settings.set(attr, val)
+                sublime.save_settings(setting_file)
+            return val
+        elif attr == 'default_autolink':
+            if val is None:
+                val = False
+            return val
+
+        log('cannot read settings: '+ attr)
 
     def remove_items_in_codeblock(self, items):
 
