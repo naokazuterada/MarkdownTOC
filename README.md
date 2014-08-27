@@ -103,12 +103,9 @@ Add `autolink` attribute on TOC tag. It will be useful on Github.
 <!-- MarkdownTOC autolink -->
 
 - [MarkdownTOC Plugin for Sublime Text](#markdowntoc-plugin-for-sublime-text)
-  - [Installing](#installing)
-  - [Using](#using)
   - [Feature](#feature)
-    - [Depth control](#depth-control)
-    - [Auto link](#auto-link)
-  - [Sample](#sample)
+  - [Feature](#feature-1)
+  - [Feature](#feature-2)
 
 <!-- /MarkdownTOC -->
 ```
