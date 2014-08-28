@@ -94,6 +94,7 @@ Preference > Package Settings > MarkdownTOC > Settings - User
 
 `depth=0` means no limit
 
+default: `2`
 
 ### Auto link
 
