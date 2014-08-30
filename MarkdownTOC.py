@@ -5,6 +5,7 @@ import os.path
 
 pattern_anchor = re.compile(r'\[.+?\]')
 pattern_endspace = re.compile(r' *?\z')
+pattern_tag = re.compile(r'<.*?>')
 
 pattern_h1_h2_equal_dash = "^.*?(?:(?:\r\n)|\n|\r)(?:-+|=+)$"
 
@@ -149,7 +150,9 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
         id_texts = []
         for item in items:
             heading_num = item[0] - 1
-            heading_text = item[1].rstrip()
+            heading_text = item[1]
+            heading_text = pattern_tag.sub('', heading_text) # remove html tags
+            heading_text = heading_text.rstrip() # remove end space
 
             # add indent by heading_num
             for i in range(heading_num):
