@@ -2,12 +2,14 @@ import sublime
 import sublime_plugin
 import re
 import os.path
+import distutils.util
 
 pattern_anchor = re.compile(r'\[.+?\]')
 pattern_tag = re.compile(r'<.*?>')
 
 pattern_h1_h2_equal_dash = "^.*?(?:(?:\r\n)|\n|\r)(?:-+|=+)$"
 
+TOCTAG_START = "<!-- MarkdownTOC -->"
 TOCTAG_END = "<!-- /MarkdownTOC -->"
 
 
@@ -18,16 +20,15 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
         if not self.find_tag_and_insert(edit):
             sels = self.view.sel()
             for sel in sels:
-                default_depth = self.get_setting('default_depth')
-                default_autolink = self.get_setting('default_autolink')
-                print(default_autolink)
+                attrs = {
+                    "depth":    self.get_setting('default_depth'),
+                    "autolink": self.get_setting('default_autolink'),
+                    "bracket":  self.get_setting('default_bracket')
+                }
                 # add TOCTAG
-                toc = "<!-- MarkdownTOC depth=" + str(default_depth)
-                if default_autolink:
-                    toc += ' autolink'
-                toc += " -->\n"
+                toc = TOCTAG_START + "\n"
                 toc += "\n"
-                toc += self.get_toc(default_depth, default_autolink, sel.end())
+                toc += self.get_toc(attrs, sel.end())
                 toc += "\n"
                 toc += TOCTAG_END + "\n"
 
@@ -48,19 +49,26 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
                 
                 tag_str = self.view.substr(toc_open)
 
-                depth = re.search("depth=(\w+)", tag_str)
                 depth_val = self.get_setting('default_depth')
-                if depth != None:
-                    depth_val = int(depth.group(1))
+                depth_search = re.search(" depth=(\w+) ", tag_str)
+                if depth_search != None:
+                    depth_val = int(depth_search.group(1))
 
+                autolink_val = self.get_setting('default_autolink')
+                autolink_search = re.search(" autolink=(\w+) ", tag_str)
+                if autolink_search != None:
+                    autolink_val = distutils.util.strtobool(autolink_search.group(1)) # cast to bool
 
-                al = re.search(" autolink ", tag_str)
-                autolink_val = True if al != None else False
+                bracket_val = self.get_setting('default_bracket')
+                bracket_search = re.search(" bracket=(\w+) ", tag_str)
+                if bracket_search != None:
+                    bracket_val = str(bracket_search.group(1))
                 
                 toc_open_tag = {
                     "region":   toc_open,
                     "depth":    depth_val,
-                    "autolink": autolink_val
+                    "autolink": autolink_val,
+                    "bracket":  bracket_val
                 }
                 toc_open_tags.append(toc_open_tag)
 
@@ -80,15 +88,12 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
         for dic in toc_starts:
             
             toc_start = dic["region"]
-            depth     = dic["depth"]
-            autolink  = dic["autolink"]
-
             if 0 < len(toc_start):
                 
                 toc_close = self.get_toc_close_tag(toc_start.end())
                 
                 if toc_close:
-                    toc = self.get_toc(depth, autolink, toc_close.end())
+                    toc = self.get_toc(dic, toc_close.end())
                     tocRegion = sublime.Region(
                         toc_start.end(), toc_close.begin())
                     if toc:
@@ -103,13 +108,13 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
         return False
 
     # TODO: add "end" parameter
-    def get_toc(self, depth, autolink, begin):
+    def get_toc(self, attrs, begin):
 
         # Search headings in docment
-        if depth == 0:
+        if attrs['depth'] == 0:
             pattern_hash = "^#+?[^#]"
         else:
-            pattern_hash = "^#{1," + str(depth) + "}[^#]"
+            pattern_hash = "^#{1," + str(attrs['depth']) + "}[^#]"
         headings = self.view.find_all(
             "%s|%s" % (pattern_h1_h2_equal_dash, pattern_hash))
 
@@ -159,39 +164,31 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
             # Handling anchors ("Reference-style links")
             matchObj = pattern_anchor.search(heading_text)
             if matchObj:
-                only_text = heading_text[0:matchObj.start()]
-                only_text = only_text.rstrip()
+                heading_text = heading_text[0:matchObj.start()]
+                heading_text = heading_text.rstrip()
                 id_text = matchObj.group().replace('[','').replace(']','')
-                toc += '- [' + only_text + '](#' + id_text + ')\n'
-            elif autolink:
+                if attrs['bracket'] == 'round':
+                    toc += '- [' + heading_text + '](#' + id_text + ')\n'
+                else:
+                    toc += '- [' + heading_text + '][' + id_text + ']\n'
+            elif attrs['autolink']:
                 id_text = remove_reserved_chars(heading_text.lower().replace(" ", "-"))
                 id_texts.append(id_text)
                 n = id_texts.count(id_text)
                 if 1 < n:
                     id_text += '-' + str(n-1)
-                toc += '- [' + heading_text + '](#' + id_text + ')\n'
+                if attrs['bracket'] == 'round':
+                    toc += '- [' + heading_text + '](#' + id_text + ')\n'
+                else:
+                    toc += '- [' + heading_text + '][' + id_text + ']\n'
             else:
                 toc += '- ' + heading_text + '\n'
 
         return toc
     
     def get_setting(self, attr):
-        setting_file = 'MarkdownTOC.sublime-settings'
-        settings = sublime.load_settings(setting_file)
-        val = settings.get(attr)
-        if attr == 'default_depth':
-            if val is None:
-                val = 2
-                # Save "Settings - Default"
-                settings.set(attr, val)
-                sublime.save_settings(setting_file)
-            return val
-        elif attr == 'default_autolink':
-            if val is None:
-                val = False
-            return val
-
-        log('cannot read settings: '+ attr)
+        settings = sublime.load_settings('MarkdownTOC.sublime-settings')
+        return settings.get(attr)
 
     def remove_items_in_codeblock(self, items):
 

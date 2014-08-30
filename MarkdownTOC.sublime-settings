@@ -1,3 +1,5 @@
 {
+  "default_autolink": false,
+  "default_bracket": "square",
   "default_depth": 2
 }
