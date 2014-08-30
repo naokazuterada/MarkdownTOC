@@ -4,12 +4,10 @@ import re
 import os.path
 
 pattern_anchor = re.compile(r'\[.+?\]')
-pattern_endspace = re.compile(r' *?\z')
 pattern_tag = re.compile(r'<.*?>')
 
 pattern_h1_h2_equal_dash = "^.*?(?:(?:\r\n)|\n|\r)(?:-+|=+)$"
 
-#TOCTAG_START = "<!-- MarkdownTOC depth=2 -->"
 TOCTAG_END = "<!-- /MarkdownTOC -->"
 
 
