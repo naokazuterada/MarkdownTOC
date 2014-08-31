@@ -92,7 +92,7 @@ Without any dependencies:
 
 | attributes            | values                      | defaults    | Key in settings    |
 |:--------------------- |:--------------------------- |:----------- |:------------------ |
-| [autolink](#auto-link) | `true`or`false`             | `true`      | `default_autolink` |
+| [autolink](#auto-link) | `true`or`false`             | `false`      | `default_autolink` |
 | [bracket](#bracket)   | `square`or`round`           | `square`    | `default_bracket`  |
 | [depth](#depth)       | uint (`0` means "no limit") | `2`         | `default_depth`    |
 
