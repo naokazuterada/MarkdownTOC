@@ -90,7 +90,7 @@ Without any dependencies:
 
 ## Attributes
 
-| attributes            | values                      | default     | Settings Key       |
+| attributes            | values                      | defaults    | Key in settings    |
 |:--------------------- |:--------------------------- |:----------- |:------------------ |
 | [autolink](#autolink) | `true`or`false`             | `true`      | `default_autolink` |
 | [bracket](#bracket)   | `square`or`round`           | `square`    | `default_bracket`  |
