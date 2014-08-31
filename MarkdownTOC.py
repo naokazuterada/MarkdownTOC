@@ -5,6 +5,7 @@ import os.path
 import distutils.util
 
 pattern_anchor = re.compile(r'\[.+?\]')
+pattern_ex_id = re.compile(r'\{#.+?\}')
 pattern_tag = re.compile(r'<.*?>')
 
 pattern_h1_h2_equal_dash = "^.*?(?:(?:\r\n)|\n|\r)(?:-+|=+)$"
@@ -75,8 +76,7 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
         return toc_open_tags
 
     def get_toc_close_tag(self, start):
-        close_tags = self.view.find_all(
-            "^" + TOCTAG_END + "\n")
+        close_tags = self.view.find_all("^" + TOCTAG_END + "\n")
         close_tags = self.remove_items_in_codeblock(close_tags)
         for close_tag in close_tags:
             if start < close_tag.begin():
@@ -131,16 +131,16 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
                     # handle hash headings, ### chapter 1
                     r = sublime.Region(
                         heading.end(), self.view.line(heading).end())
-                    heading_text = self.view.substr(r)
-                    heading_num = heading.size() - 1
-                    items.append([heading_num, heading_text])
+                    text = self.view.substr(r)
+                    indent = heading.size() - 1
+                    items.append([indent, text])
                 elif len(lines) == 2:
                     # handle - or + headings, Title 1==== section1----
-                    heading_text = self.view.substr(lines[0])
-                    if heading_text.strip():
-                        heading_num = 1 if (
+                    text = self.view.substr(lines[0])
+                    if text.strip():
+                        indent = 1 if (
                             self.view.substr(lines[1])[0] == '=') else 2
-                        items.append([heading_num, heading_text])
+                        items.append([indent, text])
         
         if len(items) < 1:
             return
@@ -152,37 +152,43 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
         toc = ''
         id_texts = []
         for item in items:
-            heading_num = item[0] - 1
-            heading_text = item[1]
-            heading_text = pattern_tag.sub('', heading_text) # remove html tags
-            heading_text = heading_text.rstrip() # remove end space
+            _indent  = item[0] - 1
+            _text = item[1]
+            _text = pattern_tag.sub('', _text) # remove html tags
+            _text = _text.rstrip() # remove end space
 
-            # add indent by heading_num
-            for i in range(heading_num):
+            # Add indent
+            for i in range(_indent):
                 toc += '\t'
             
-            # Handling anchors ("Reference-style links")
-            matchObj = pattern_anchor.search(heading_text)
-            if matchObj:
-                heading_text = heading_text[0:matchObj.start()]
-                heading_text = heading_text.rstrip()
-                id_text = matchObj.group().replace('[','').replace(']','')
-                if attrs['bracket'] == 'round':
-                    toc += '- [' + heading_text + '](#' + id_text + ')\n'
-                else:
-                    toc += '- [' + heading_text + '][' + id_text + ']\n'
+            # Reference-style links: e.g. '# heading [my-anchor]'
+            match_anchor = pattern_anchor.search(_text)
+
+            # Markdown-Extra special attribute style: e.g. '# heading {#my-anchor}'
+            match_ex_id = pattern_ex_id.search(_text)
+
+            if match_anchor:
+                _text = _text[0:match_anchor.start()]
+                _text = _text.rstrip()
+                _id = match_anchor.group().replace('[','').replace(']','')
+            elif match_ex_id:
+                _text = _text[0:match_ex_id.start()]
+                _text = _text.rstrip()
+                _id = match_ex_id.group().replace('{#','').replace('}','')
             elif attrs['autolink']:
-                id_text = remove_reserved_chars(heading_text.lower().replace(" ", "-"))
-                id_texts.append(id_text)
-                n = id_texts.count(id_text)
+                _id = remove_reserved_chars(_text.lower().replace(" ", "-"))
+                _ids.append(_id)
+                n = _ids.count(_id)
                 if 1 < n:
-                    id_text += '-' + str(n-1)
-                if attrs['bracket'] == 'round':
-                    toc += '- [' + heading_text + '](#' + id_text + ')\n'
-                else:
-                    toc += '- [' + heading_text + '][' + id_text + ']\n'
+                    _id += '-' + str(n-1)
+            
+            if _id == None:
+                toc += '- ' + _text + '\n'
+            elif attrs['bracket'] == 'round':
+                toc += '- [' + _text + '](#' + _id + ')\n'
             else:
-                toc += '- ' + heading_text + '\n'
+                toc += '- [' + _text + '][' + _id + ']\n'
+                
 
         return toc
     
