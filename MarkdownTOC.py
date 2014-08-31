@@ -150,7 +150,7 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
 
         # Create TOC  ------------------
         toc = ''
-        id_texts = []
+        _ids = []
         for item in items:
             _indent  = item[0] - 1
             _text = item[1]
