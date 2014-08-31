@@ -4,8 +4,9 @@ import re
 import os.path
 import distutils.util
 
-pattern_reference_link = re.compile(r'\[.+?\]')
-pattern_ex_id = re.compile(r'\{#.+?\}')
+pattern_reference_link = re.compile(r'\[.+?\]') # [Heading][my-id]
+pattern_link = re.compile(r'\[(.+?)\]\(.+?\)')    # [Heading](http://www.sample.com/)
+pattern_ex_id = re.compile(r'\{#.+?\}')         # [Heading]{#my-id}
 pattern_tag = re.compile(r'<.*?>')
 
 pattern_h1_h2_equal_dash = "^.*?(?:(?:\r\n)|\n|\r)(?:-+|=+)$"
@@ -156,6 +157,9 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
             _text = item[1]
             _text = pattern_tag.sub('', _text) # remove html tags
             _text = _text.rstrip() # remove end space
+
+            # Ignore links: e.g. '[link](http://sample.com/)' -> 'link'
+            _text = pattern_link.sub('\\1', _text)
 
             # Add indent
             for i in range(_indent):
