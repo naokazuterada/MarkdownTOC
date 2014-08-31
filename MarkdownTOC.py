@@ -4,7 +4,7 @@ import re
 import os.path
 import distutils.util
 
-pattern_anchor = re.compile(r'\[.+?\]')
+pattern_reference_link = re.compile(r'\[.+?\]')
 pattern_ex_id = re.compile(r'\{#.+?\}')
 pattern_tag = re.compile(r'<.*?>')
 
@@ -162,15 +162,15 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
                 toc += '\t'
             
             # Reference-style links: e.g. '# heading [my-anchor]'
-            match_anchor = pattern_anchor.search(_text)
-
+            list_reference_link = list(pattern_reference_link.finditer(_text))
+            
             # Markdown-Extra special attribute style: e.g. '# heading {#my-anchor}'
             match_ex_id = pattern_ex_id.search(_text)
 
-            if match_anchor:
-                _text = _text[0:match_anchor.start()]
-                _text = _text.rstrip()
-                _id = match_anchor.group().replace('[','').replace(']','')
+            if len(list_reference_link):
+                match = list_reference_link[-1]
+                _text = _text[0:match.start()].replace('[','').replace(']','').rstrip()
+                _id = match.group().replace('[','').replace(']','')
             elif match_ex_id:
                 _text = _text[0:match_ex_id.start()]
                 _text = _text.rstrip()
