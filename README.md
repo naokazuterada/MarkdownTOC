@@ -90,11 +90,11 @@ Without any dependencies:
 
 ## Attributes
 
-| attributes            | values                      | defaults    | Keys in settings    |
-|:--------------------- |:--------------------------- |:----------- |:------------------ |
-| [autolink](#auto-link) | `true`or`false`             | `false`      | `default_autolink` |
-| [bracket](#bracket)   | `square`or`round`           | `square`    | `default_bracket`  |
-| [depth](#depth)       | uint (`0` means "no limit") | `2`         | `default_depth`    |
+| attributes             | values                      | defaults    | keys in settings    |
+|:---------------------- |:--------------------------- |:----------- |:------------------- |
+| [autolink](#auto-link) | `true`or`false`             | `false`     | `default_autolink`  |
+| [bracket](#bracket)    | `square`or`round`           | `square`    | `default_bracket`   |
+| [depth](#depth)        | uint (`0` means "no limit") | `2`         | `default_depth`     |
 
 You can set default values. Preference > Package Settings > MarkdownTOC > Settings - User
 
