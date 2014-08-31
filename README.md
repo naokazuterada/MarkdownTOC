@@ -4,6 +4,50 @@ This plugin search headings in document and insert TOC(Table Of Contents) to it.
 
 ![](./demo.gif)
 
+## Feature
+
+- Insert TOC depending on headings in document
+- TOC reflects contents from below its position or cursor (when you select "Insert TOC" menu)
+- Auto linking when heading has anchor
+- Refresh contents when file is saving
+- Depth control
+- Auto link (useful on Github etc.)
+
+## Sample
+
+```
+# Heading 0
+
+Headings before MarkdownTOC tags will be ignored.
+
+<!-- MarkdownTOC autolink=true bracket=round -->
+
+- [Heading 1](#heading-1)
+  - [Heading 2](#heading-2)
+  - [Heading 3](#heading-3)
+- [Heading with anchor](#with-anchor)
+
+<!-- /MarkdownTOC -->
+
+
+# Heading 1
+
+...
+
+## Heading 2
+
+...
+
+## Heading 3
+
+...
+
+# Heading with anchor [with-anchor]
+
+...
+```
+
+
 ## Installing
 
 With Package Control:
@@ -44,26 +88,89 @@ Without any dependencies:
 
 ***Don't remove the comment tags if you want to update every time saving.***
 
-## Feature
+## Attributes
 
-- Insert TOC depending on headings in document
-- TOC reflects contents from below its position or cursor (when you select "Insert TOC" menu)
-- Auto linking when heading has anchor
-- Refresh contents when file is saving
-- Depth control
-- Auto link (useful on Github)
+| attributes            | values                      | default     | Settings Key       |
+|:--------------------- |:--------------------------- |:----------- |:------------------ |
+| [autolink](#autolink) | `true`or`false`             | `true`      | `default_autolink` |
+| [bracket](#bracket)   | `square`or`round`           | `square`    | `default_bracket`  |
+| [depth](#depth)       | uint (`0` means "no limit") | `2`         | `default_depth`    |
 
-### Depth control
+You can set default values. Preference > Package Settings > MarkdownTOC > Settings - User
 
-You can control TOC depth in its comment tags.
+MarkdownTOC.sublime-settings
+```json
+{
+  "default_autolink": false,
+  "default_bracket": "square",
+  "default_depth": 2
+}
+```
+
+All attributes can be overridden in each TOC open tags like...
+
+```
+<!-- MarkdownTOC depth=2 autolink=true bracket=round  -->
+```
+
+
+
+### Auto link
+
+This will be useful on Github.
+
+```
+<!-- MarkdownTOC autolink=false -->
+
+- MarkdownTOC Plugin for Sublime Text
+  - Feature
+  - Feature
+  - Feature
+
+<!-- /MarkdownTOC -->
+```
+```
+<!-- MarkdownTOC autolink=true -->
+
+- [MarkdownTOC Plugin for Sublime Text](#markdowntoc-plugin-for-sublime-text)
+  - [Feature](#feature)
+  - [Feature](#feature-1)
+  - [Feature](#feature-2)
+
+<!-- /MarkdownTOC -->
+```
+
+
+### Bracket
+
+**square**: according to ["Reference-style links"](http://daringfireball.net/projects/markdown/syntax#link).
+```
+<!-- MarkdownTOC bracket=square -->
+
+- [Heading][heading]
+
+<!-- /MarkdownTOC -->
+```
+
+**round**: according to Github style.
+```
+<!-- MarkdownTOC bracket=round -->
+
+- [Heading](#heading)
+
+<!-- /MarkdownTOC -->
+```
+
+
+### Depth
+
+You can control TOC depth.
 
 ```
 <!-- MarkdownTOC depth=2 -->
 
 - foo
   - bar
-    - qux
-    - quux
   - buz
 - qux
 
@@ -80,81 +187,4 @@ You can control TOC depth in its comment tags.
 - qux
 
 <!-- /MarkdownTOC -->
-```
-
-You can also set default depth in Settings.
-
-Preference > Package Settings > MarkdownTOC > Settings - User
-
-```
-{
-  "default_depth": 0
-}
-```
-
-`depth=0` means no limit
-
-default: `2`
-
-### Auto link
-
-Add `autolink` attribute on TOC tag. It will be useful on Github.
-
-```
-<!-- MarkdownTOC autolink -->
-
-- [MarkdownTOC Plugin for Sublime Text](#markdowntoc-plugin-for-sublime-text)
-  - [Feature](#feature)
-  - [Feature](#feature-1)
-  - [Feature](#feature-2)
-
-<!-- /MarkdownTOC -->
-```
-
-You can also set default autolink flag in Settings.
-
-Preference > Package Settings > MarkdownTOC > Settings - User
-
-```
-{
-  "default_autolink": true
-}
-```
-
-default: `false`
-
-
-## Sample
-
-```markdown
-
-# Heading 0
-
-Headings before MarkdownTOC tags will be ignored.
-
-<!-- MarkdownTOC depth=0 autolink -->
-
-- [Heading 1](#heading-1)
-  - [Heading 2](#heading-2)
-    - [Heading 3](#heading-3)
-- [Heading with anchor](#with-anchor)
-
-<!-- /MarkdownTOC -->
-
-
-# Heading 1
-
-...
-
-## Heading 2
-
-...
-
-### Heading 3
-
-...
-
-# Heading with anchor [with-anchor]
-
-...
 ```
