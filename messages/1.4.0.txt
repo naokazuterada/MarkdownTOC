@@ -11,7 +11,7 @@ CHANGES
   - Ignore links in heading
   - Ignore spaces in the end of heading
 
-NOTICE
+NOTICE-1
 
 If you use 'auto-link' feature, you should rewrite TOC open tag.
 
@@ -22,6 +22,11 @@ must to be...
 ```
 <!-- MarkdownTOC autolink=true -->
 ```
+
+NOTICE-2
+
+Check 'Bracket' feature. You should change `default_bracket` in settings if you want TOC to be Github style.
+
 
 ---
 
