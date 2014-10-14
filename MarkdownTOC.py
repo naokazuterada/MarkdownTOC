@@ -2,7 +2,6 @@ import sublime
 import sublime_plugin
 import re
 import os.path
-import distutils.util
 
 pattern_reference_link = re.compile(r'\[.+?\]') # [Heading][my-id]
 pattern_link = re.compile(r'\[(.+?)\]\(.+?\)')  # [link](http://www.sample.com/)
@@ -59,7 +58,7 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
                 autolink_val = self.get_setting('default_autolink')
                 autolink_search = re.search(" autolink=(\w+) ", tag_str)
                 if autolink_search != None:
-                    autolink_val = distutils.util.strtobool(autolink_search.group(1)) # cast to bool
+                    autolink_val = strtobool(autolink_search.group(1)) # cast to bool
 
                 bracket_val = self.get_setting('default_bracket')
                 bracket_search = re.search(" bracket=(\w+) ", tag_str)
@@ -283,6 +282,17 @@ def format(items):
 def log(arg):
     sublime.status_message(arg)
     print(arg)
+
+# pick out from 'distutils.util' module
+def strtobool (val):
+    val = val.lower()
+    if val in ('y', 'yes', 't', 'true', 'on', '1'):
+        return 1
+    elif val in ('n', 'no', 'f', 'false', 'off', '0'):
+        return 0
+    else:
+        raise ValueError("invalid truth value %r" % (val,))
+
 
 # Search and refresh if it's exist
 
