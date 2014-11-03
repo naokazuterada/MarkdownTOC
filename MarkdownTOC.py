@@ -143,7 +143,7 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
                         items.append([indent, text])
         
         if len(items) < 1:
-            return
+            return ''
 
         # Shape TOC  ------------------
         items = format(items)
