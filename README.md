@@ -1,4 +1,5 @@
 # MarkdownTOC Plugin for Sublime Text
+[![Gitter](https://badges.gitter.im/Join Chat.svg)](https://gitter.im/naokazuterada/MarkdownTOC?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 This plugin search headings in document and insert TOC(Table Of Contents) to it.
 
