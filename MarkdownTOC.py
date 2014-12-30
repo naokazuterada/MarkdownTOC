@@ -239,7 +239,11 @@ def remove_reserved_chars(str):
         ord(u"]"): None,
         ord(u"`"): None,
         ord(u"\""): None,
-        ord(u"."): None
+        ord(u"."): None,
+        ord(u"<"): None,
+        ord(u">"): None,
+        ord(u"{"): None,
+        ord(u"}"): None
     }
     return str.translate(delete)
 
