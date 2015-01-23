@@ -64,7 +64,7 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
                 bracket_search = re.search(" bracket=(\w+) ", tag_str)
                 if bracket_search != None:
                     bracket_val = str(bracket_search.group(1))
-                
+
                 toc_open_tag = {
                     "region":   toc_open,
                     "depth":    depth_val,
@@ -158,6 +158,7 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
             _text = pattern_tag.sub('', _text) # remove html tags
             _text = _text.rstrip() # remove end space
 
+
             # Ignore links: e.g. '[link](http://sample.com/)' -> 'link'
             _text = pattern_link.sub('\\1', _text)
 
@@ -181,6 +182,7 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
                 _id = match_ex_id.group().replace('{#','').replace('}','')
             elif attrs['autolink']:
                 _id = remove_reserved_chars(_text.lower().replace(" ", "-"))
+                _id = replace_disallowed_chars(_id)
                 _ids.append(_id)
                 n = _ids.count(_id)
                 if 1 < n:
@@ -246,6 +248,20 @@ def remove_reserved_chars(str):
         ord(u"}"): None
     }
     return str.translate(delete)
+
+
+def replace_disallowed_chars(str):
+    disallowed_characters = [
+        u"\u2122", # Trademark
+        u"\u00A9" # Copyright
+        # Todo
+    ]
+    for char in disallowed_characters:
+        if char in str:
+            str = str.replace(char, "-")
+
+    return  str
+
 
 def is_out_of_areas(num, areas):
     for area in areas:
