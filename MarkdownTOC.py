@@ -243,7 +243,9 @@ def remove_reserved_chars(str):
         ord(u"<"): None,
         ord(u">"): None,
         ord(u"{"): None,
-        ord(u"}"): None
+        ord(u"}"): None,
+        ord(u"\u2122"): None, # Trademark
+        ord(u"\u00A9"): None  # Copyright
     }
     return str.translate(delete)
 
