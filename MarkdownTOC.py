@@ -180,7 +180,7 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
                 _text = _text.rstrip()
                 _id = match_ex_id.group().replace('{#','').replace('}','')
             elif attrs['autolink']:
-                _id = remove_reserved_chars(_text.lower().replace(" ", "-"))
+                _id = self.remove_chars(_text.lower().replace(" ", "-"))
                 _ids.append(_id)
                 n = _ids.count(_id)
                 if 1 < n:
@@ -215,39 +215,13 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
         items = [h for h in items if is_out_of_areas(h.begin(), codeblockAreas)]
         return items
 
-
-def remove_reserved_chars(str):
-    # Percent-encoding reserved characters
-    delete = {
-        ord(u"!"): None,
-        ord(u"#"): None,
-        ord(u"$"): None,
-        ord(u"&"): None,
-        ord(u"'"): None,
-        ord(u"("): None,
-        ord(u")"): None,
-        ord(u"*"): None,
-        ord(u"+"): None,
-        ord(u","): None,
-        ord(u"/"): None,
-        ord(u":"): None,
-        ord(u";"): None,
-        ord(u"="): None,
-        ord(u"?"): None,
-        ord(u"@"): None,
-        ord(u"["): None,
-        ord(u"]"): None,
-        ord(u"`"): None,
-        ord(u"\""): None,
-        ord(u"."): None,
-        ord(u"<"): None,
-        ord(u">"): None,
-        ord(u"{"): None,
-        ord(u"}"): None,
-        ord(u"\u2122"): None, # Trademark
-        ord(u"\u00A9"): None  # Copyright
-    }
-    return str.translate(delete)
+    def remove_chars(self, _str):
+        # reserved characters
+        remove_charactors = self.get_setting('remove_charactors')
+        delete = {}
+        for char in remove_charactors:
+            delete[ord(char)] = ''
+        return _str.translate(delete)
 
 def is_out_of_areas(num, areas):
     for area in areas:
