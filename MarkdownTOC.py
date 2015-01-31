@@ -263,6 +263,10 @@ def log(arg):
     sublime.status_message(arg)
     print(arg)
 
+def log_arr(arr):
+    for _str in arr:
+        log(_str)
+
 # pick out from 'distutils.util' module
 def strtobool (val):
     val = val.lower()
