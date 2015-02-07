@@ -2,6 +2,10 @@ import sublime
 import sublime_plugin
 import re
 import os.path
+import pprint
+
+# for dbug
+pp = pprint.PrettyPrinter(indent=4)
 
 pattern_reference_link = re.compile(r'\[.+?\]') # [Heading][my-id]
 pattern_link = re.compile(r'\[(.+?)\]\(.+?\)')  # [link](http://www.sample.com/)
@@ -261,14 +265,10 @@ def format(items):
 
 def log(arg):
     sublime.status_message(arg)
-    print(arg)
-
-def log_arr(arr):
-    for _str in arr:
-        log(_str)
+    pp.pprint(arg)
 
 # pick out from 'distutils.util' module
-def strtobool (val):
+def strtobool(val):
     val = val.lower()
     if val in ('y', 'yes', 't', 'true', 'on', '1'):
         return 1
