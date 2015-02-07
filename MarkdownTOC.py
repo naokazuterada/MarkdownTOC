@@ -218,10 +218,10 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
     def remove_chars(self, _str):
         # reserved characters
         remove_charactors = self.get_setting('remove_charactors')
-        delete = {}
+        table = {}
         for char in remove_charactors:
-            delete[ord(char)] = ''
-        return _str.translate(delete)
+            table[ord(char)] = ''
+        return _str.translate(table)
 
 def is_out_of_areas(num, areas):
     for area in areas:
