@@ -152,20 +152,14 @@ You can also edit replecements when using 'Auto link' feature like following set
 
 ```json
 {
-  "id_replacements": [
-    {
-      "from": " ",
-      "to": "-"
-    },
-    {
-      "from": ["!","#","$","&","'","(",")","*","+",",","/",":",";","=","?","@","[","]","`","\"", ".","<",">","{","}","™","®","©"],
-      "to": ""
-    }
-  ]
+  "id_replacements": {
+    "-": " ",
+    "" : ["!","#","$","&","'","(",")","*","+",",","/",":",";","=","?","@","[","]","`","\"", ".","<",">","{","}","™","®","©"],
+  }
 }
 ```
 
-- Charactors in 'from' will replace to 'to' charactor.
+- The value charactor(s) will be replace to key charactor.
 - Replece sequence will execute from top to bottom.
 
 
