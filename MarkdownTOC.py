@@ -184,7 +184,7 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
                 _text = _text.rstrip()
                 _id = match_ex_id.group().replace('{#','').replace('}','')
             elif attrs['autolink']:
-                _id = self.remove_chars(_text.lower().replace(" ", "-"))
+                _id = self.replace_chars_in_id(_text.lower())
                 _ids.append(_id)
                 n = _ids.count(_id)
                 if 1 < n:
@@ -219,13 +219,16 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
         items = [h for h in items if is_out_of_areas(h.begin(), codeblockAreas)]
         return items
 
-    def remove_chars(self, _str):
-        # reserved characters
-        remove_charactors = self.get_setting('remove_charactors')
-        table = {}
-        for char in remove_charactors:
-            table[ord(char)] = ''
-        return _str.translate(table)
+    def replace_chars_in_id(self, _str):
+        replacements = self.get_setting('id_char_replacements')
+        # log(replacements)
+        for _set in replacements:
+            table = {}
+            to_str = _set['to']
+            for char in _set['from']:
+                table[ord(char)] = to_str
+            _str = _str.translate(table)
+        return _str
 
 def is_out_of_areas(num, areas):
     for area in areas:
