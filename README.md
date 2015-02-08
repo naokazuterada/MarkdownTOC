@@ -159,7 +159,7 @@ You can also edit replecements when using 'Auto link' feature like following set
 }
 ```
 
-- The value charactor(s) will be replace to key charactor.
+- The value charactor(s) will be replaced to the key charactor.
 - Replece sequence will execute from top to bottom.
 
 
