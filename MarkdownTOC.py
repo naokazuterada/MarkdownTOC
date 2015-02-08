@@ -220,7 +220,7 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
         return items
 
     def replace_chars_in_id(self, _str):
-        replacements = self.get_setting('id_char_replacements')
+        replacements = self.get_setting('id_replacements')
         # log(replacements)
         for _set in replacements:
             table = {}
