@@ -63,11 +63,13 @@ With Package Control:
 With Git:
 
 for SublimeText 2 (Mac)
+
 ```sh
 git clone git@github.com:naokazuterada/MarkdownTOC.git ~/Library/Application\ Support/Sublime\ Text\ 2/Packages/MarkdownTOC
 ```
 
 for SublimeText 3 (Mac)
+
 ```sh
 git clone git@github.com:naokazuterada/MarkdownTOC.git ~/Library/Application\ Support/Sublime\ Text\ 3/Packages/MarkdownTOC
 ```
@@ -99,7 +101,8 @@ Without any dependencies:
 
 You can set default values. Preference > Package Settings > MarkdownTOC > Settings - User
 
-MarkdownTOC.sublime-settings
+`MarkdownTOC.sublime-settings`
+
 ```json
 {
   "default_autolink": false,
@@ -140,6 +143,36 @@ This will be useful on Github.
 
 <!-- /MarkdownTOC -->
 ```
+
+#### Replecements for id charactors
+
+You can also edit replecements when using 'Auto link' feature like following settings.
+
+`MarkdownTOC.sublime-settings`
+
+```json
+{
+  "id_replacements": {
+    "-": " ",
+    "" : ["!","#","$","&","'","(",")","*","+",",","/",":",";","=","?","@","[","]","`","\"", ".","<",">","{","}","™","®","©"],
+  }
+}
+```
+
+example:
+
+```
+# Super Product™
+```
+
+This heading changes to link with following id.
+
+```
+#super-product
+```
+
+- The value charactor(s) will be replaced to the key charactor.
+- Replece sequence will execute from top to bottom.
 
 
 ### Bracket

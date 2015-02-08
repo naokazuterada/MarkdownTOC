@@ -2,6 +2,10 @@ import sublime
 import sublime_plugin
 import re
 import os.path
+import pprint
+
+# for dbug
+pp = pprint.PrettyPrinter(indent=4)
 
 pattern_reference_link = re.compile(r'\[.+?\]') # [Heading][my-id]
 pattern_link = re.compile(r'\[(.+?)\]\(.+?\)')  # [link](http://www.sample.com/)
@@ -180,7 +184,7 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
                 _text = _text.rstrip()
                 _id = match_ex_id.group().replace('{#','').replace('}','')
             elif attrs['autolink']:
-                _id = remove_reserved_chars(_text.lower().replace(" ", "-"))
+                _id = self.replace_chars_in_id(_text.lower())
                 _ids.append(_id)
                 n = _ids.count(_id)
                 if 1 < n:
@@ -215,39 +219,17 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
         items = [h for h in items if is_out_of_areas(h.begin(), codeblockAreas)]
         return items
 
-
-def remove_reserved_chars(str):
-    # Percent-encoding reserved characters
-    delete = {
-        ord(u"!"): None,
-        ord(u"#"): None,
-        ord(u"$"): None,
-        ord(u"&"): None,
-        ord(u"'"): None,
-        ord(u"("): None,
-        ord(u")"): None,
-        ord(u"*"): None,
-        ord(u"+"): None,
-        ord(u","): None,
-        ord(u"/"): None,
-        ord(u":"): None,
-        ord(u";"): None,
-        ord(u"="): None,
-        ord(u"?"): None,
-        ord(u"@"): None,
-        ord(u"["): None,
-        ord(u"]"): None,
-        ord(u"`"): None,
-        ord(u"\""): None,
-        ord(u"."): None,
-        ord(u"<"): None,
-        ord(u">"): None,
-        ord(u"{"): None,
-        ord(u"}"): None,
-        ord(u"\u2122"): None, # Trademark
-        ord(u"\u00A9"): None  # Copyright
-    }
-    return str.translate(delete)
+    def replace_chars_in_id(self, _str):
+        replacements = self.get_setting('id_replacements')
+        # log(replacements)
+        for _key in replacements:
+            _substitute = _key
+            _target_chars = replacements[_key]
+            table = {}
+            for char in _target_chars:
+                table[ord(char)] = _key
+            _str = _str.translate(table)
+        return _str
 
 def is_out_of_areas(num, areas):
     for area in areas:
@@ -287,10 +269,10 @@ def format(items):
 
 def log(arg):
     sublime.status_message(arg)
-    print(arg)
+    pp.pprint(arg)
 
 # pick out from 'distutils.util' module
-def strtobool (val):
+def strtobool(val):
     val = val.lower()
     if val in ('y', 'yes', 't', 'true', 'on', '1'):
         return 1

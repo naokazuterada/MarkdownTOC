@@ -1,6 +1,10 @@
 Changes in MarkdownTOC
 ===========================
 
+## 1.5.0
+
+- Add 'id_replacements' option in 'Package Settings'
+
 ## 1.4.0
 
 - Change 'Auto link' syntax
