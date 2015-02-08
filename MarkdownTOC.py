@@ -222,11 +222,12 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
     def replace_chars_in_id(self, _str):
         replacements = self.get_setting('id_replacements')
         # log(replacements)
-        for _set in replacements:
+        for _key in replacements:
+            _substitute = _key
+            _target_chars = replacements[_key]
             table = {}
-            to_str = _set['to']
-            for char in _set['from']:
-                table[ord(char)] = to_str
+            for char in _target_chars:
+                table[ord(char)] = _key
             _str = _str.translate(table)
         return _str
 
