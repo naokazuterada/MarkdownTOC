@@ -100,6 +100,7 @@ Without any dependencies:
 You can set default values. Preference > Package Settings > MarkdownTOC > Settings - User
 
 MarkdownTOC.sublime-settings
+
 ```json
 {
   "default_autolink": false,
@@ -140,6 +141,30 @@ This will be useful on Github.
 
 <!-- /MarkdownTOC -->
 ```
+
+#### Replecements for id charactors
+
+You can also edit replecements when using 'Auto link' feature like following settings.
+
+MarkdownTOC.sublime-settings
+
+```json
+{
+  "id_replacements": [
+    {
+      "from": " ",
+      "to": "-"
+    },
+    {
+      "from": ["!","#","$","&","'","(",")","*","+",",","/",":",";","=","?","@","[","]","`","\"", ".","<",">","{","}","™","®","©"],
+      "to": ""
+    }
+  ]
+}
+```
+
+- Charactors in 'from' will replace to 'to' charactor.
+- Replece sequence will execute from top to bottom.
 
 
 ### Bracket
