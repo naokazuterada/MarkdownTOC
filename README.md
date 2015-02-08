@@ -63,11 +63,13 @@ With Package Control:
 With Git:
 
 for SublimeText 2 (Mac)
+
 ```sh
 git clone git@github.com:naokazuterada/MarkdownTOC.git ~/Library/Application\ Support/Sublime\ Text\ 2/Packages/MarkdownTOC
 ```
 
 for SublimeText 3 (Mac)
+
 ```sh
 git clone git@github.com:naokazuterada/MarkdownTOC.git ~/Library/Application\ Support/Sublime\ Text\ 3/Packages/MarkdownTOC
 ```
@@ -99,7 +101,7 @@ Without any dependencies:
 
 You can set default values. Preference > Package Settings > MarkdownTOC > Settings - User
 
-MarkdownTOC.sublime-settings
+`MarkdownTOC.sublime-settings`
 
 ```json
 {
@@ -146,7 +148,7 @@ This will be useful on Github.
 
 You can also edit replecements when using 'Auto link' feature like following settings.
 
-MarkdownTOC.sublime-settings
+`MarkdownTOC.sublime-settings`
 
 ```json
 {
