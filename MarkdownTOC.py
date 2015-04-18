@@ -28,10 +28,10 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
             sels = self.view.sel()
             for sel in sels:
                 attrs = {
-                    "depth":    self.get_setting('default_depth'),
-                    "autolink": self.get_setting('default_autolink'),
-                    "autoanchor":  self.get_setting('default_autoanchor'),
-                    "bracket":  self.get_setting('default_bracket'),
+                    "depth":      self.get_setting('default_depth'),
+                    "autolink":   self.get_setting('default_autolink'),
+                    "bracket":    self.get_setting('default_bracket'),
+                    "autoanchor": self.get_setting('default_autoanchor')
                     }
                 # add TOCTAG
                 toc = TOCTAG_START + "\n"
@@ -67,22 +67,22 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
                 if autolink_search != None:
                     autolink_val = strtobool(autolink_search.group(1)) # cast to bool
 
-                autoanchor_val = self.get_setting('default_autoanchor')
-                autoanchor_search = re.search(" autoanchor=(\w+) ", tag_str)
-                if autoanchor_search != None:
-                    autoanchor_val = strtobool(autoanchor_search.group(1)) # cast to bool
-
                 bracket_val = self.get_setting('default_bracket')
                 bracket_search = re.search(" bracket=(\w+) ", tag_str)
                 if bracket_search != None:
                     bracket_val = str(bracket_search.group(1))
+
+                autoanchor_val = self.get_setting('default_autoanchor')
+                autoanchor_search = re.search(" autoanchor=(\w+) ", tag_str)
+                if autoanchor_search != None:
+                    autoanchor_val = strtobool(autoanchor_search.group(1)) # cast to bool
                 
                 toc_open_tag = {
                     "region":   toc_open,
                     "depth":    depth_val,
                     "autolink": autolink_val,
-                    "autoanchor": autoanchor_val,
-                    "bracket":  bracket_val
+                    "bracket":  bracket_val,
+                    "autoanchor": autoanchor_val
                 }
                 toc_open_tags.append(toc_open_tag)
 
