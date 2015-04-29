@@ -226,7 +226,7 @@ You can control TOC depth.
 
 ### Auto anchor
 
-You can add an HTML anchor (`<a name="xxx"></a>`) automaticaly before the heading.
+You can add an HTML anchor (`<a name="xxx"></a>`) before the heading automaticaly.
 
 ```
 <!-- MarkdownTOC autolink=true autoanchor=true brackets=round -->
