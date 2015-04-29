@@ -92,11 +92,12 @@ Without any dependencies:
 
 ## Attributes
 
-| attributes             | values                      | defaults    | keys in settings    |
-|:---------------------- |:--------------------------- |:----------- |:------------------- |
-| [autolink](#auto-link) | `true`or`false`             | `false`     | `default_autolink`  |
-| [bracket](#bracket)    | `square`or`round`           | `square`    | `default_bracket`   |
-| [depth](#depth)        | uint (`0` means "no limit") | `2`         | `default_depth`     |
+| attributes                | values                      | defaults    | keys in settings     |
+|:------------------------- |:--------------------------- |:----------- |:-------------------- |
+| [autolink](#auto-link)    | `true`or`false`             | `false`     | `default_autolink`   |
+| [bracket](#bracket)       | `square`or`round`           | `square`    | `default_bracket`    |
+| [depth](#depth)           | uint (`0` means "no limit") | `2`         | `default_depth`      |
+| [autoanchor](#autoanchor) | `true`or`false`             | `false`     | `default_autoanchor` |
 
 You can set default values. Preference > Package Settings > MarkdownTOC > Settings - User
 
@@ -106,14 +107,15 @@ You can set default values. Preference > Package Settings > MarkdownTOC > Settin
 {
   "default_autolink": false,
   "default_bracket": "square",
-  "default_depth": 2
+  "default_depth": 2,
+  "default_autoanchor": false
 }
 ```
 
 All attributes can be overridden in each TOC open tags like...
 
 ```
-<!-- MarkdownTOC depth=2 autolink=true bracket=round  -->
+<!-- MarkdownTOC depth=2 autolink=true bracket=round autoanchor=true  -->
 ```
 
 
@@ -220,4 +222,30 @@ You can control TOC depth.
 - qux
 
 <!-- /MarkdownTOC -->
+```
+
+### Auto anchor
+
+You can add an HTML anchor (`<a name="xxx"></a>`) automaticaly before the heading.
+
+```
+<!-- MarkdownTOC autolink=true autoanchor=true brackets=round -->
+
+- [Changelog](#changelog)
+- [Glossary](#glossary)
+- [API Specification](#api-specification)
+
+<!-- /MarkdownTOC -->
+
+<a name="changelog"></a>
+# Changelog
+Lorem ipsum...
+
+<a name="glossary"></a>
+# Glossary
+Lorem ipsum...
+
+<a name="api-specification"></a>
+# API Specification
+Lorem ipsum...
 ```

@@ -1,0 +1,38 @@
+MarkdownTOC - 1.6.0
+
+CHANGES
+
+- Add 'Auto anchor' feature
+
+
+NOTICE
+
+You can add an HTML anchor (`<a name="xxx"></a>`) automaticaly before the heading.
+
+```
+<!-- MarkdownTOC autolink=true autoanchor=true brackets=round -->
+
+- [Changelog](#changelog)
+- [Glossary](#glossary)
+- [API Specification](#api-specification)
+
+<!-- /MarkdownTOC -->
+
+<a name="changelog"></a>
+# Changelog
+Lorem ipsum...
+
+<a name="glossary"></a>
+# Glossary
+Lorem ipsum...
+
+<a name="api-specification"></a>
+# API Specification
+Lorem ipsum...
+```
+
+---
+
+More detail
+
+https://github.com/naokazuterada/MarkdownTOC/

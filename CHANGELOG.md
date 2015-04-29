@@ -1,6 +1,11 @@
 Changes in MarkdownTOC
 ===========================
 
+## 1.6.0
+
+- Add 'Auto anchor' feature
+
+
 ## 1.5.0
 
 - Add 'id_replacements' option in 'Package Settings'
