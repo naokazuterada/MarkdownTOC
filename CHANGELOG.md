@@ -1,6 +1,11 @@
 Changes in MarkdownTOC
 ===========================
 
+## 1.6.1
+
+- Fix issue about '===' or '---' headings
+
+
 ## 1.6.0
 
 - Add 'Auto anchor' feature
