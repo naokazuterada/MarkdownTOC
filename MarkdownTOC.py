@@ -153,7 +153,7 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
                     if text.strip():
                         indent = 1 if (
                             self.view.substr(lines[1])[0] == '=') else 2
-                        items.append([indent, text])
+                        items.append([indent, text, heading.begin()])
         
         if len(items) < 1:
             return ''
