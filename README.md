@@ -12,6 +12,7 @@ This plugin search headings in document and insert TOC(Table Of Contents) to it.
 - Refresh contents when file is saving
 - Depth control
 - Auto link (useful on Github etc.)
+- Ordered or unordered list
 
 ## Sample
 
@@ -98,6 +99,7 @@ Without any dependencies:
 | [bracket](#bracket)       | `square`or`round`           | `square`    | `default_bracket`    |
 | [depth](#depth)           | uint (`0` means "no limit") | `2`         | `default_depth`      |
 | [autoanchor](#autoanchor) | `true`or`false`             | `false`     | `default_autoanchor` |
+| [style](#style)           | `ordered` or `unordered`    | `unordered` | `default_style`    |
 
 You can set default values. Preference > Package Settings > MarkdownTOC > Settings - User
 
@@ -108,14 +110,15 @@ You can set default values. Preference > Package Settings > MarkdownTOC > Settin
   "default_autolink": false,
   "default_bracket": "square",
   "default_depth": 2,
-  "default_autoanchor": false
+  "default_autoanchor": false,
+  "default_style": unordered
 }
 ```
 
 All attributes can be overridden in each TOC open tags like...
 
 ```
-<!-- MarkdownTOC depth=2 autolink=true bracket=round autoanchor=true  -->
+<!-- MarkdownTOC depth=2 autolink=true bracket=round autoanchor=true style=ordered -->
 ```
 
 
@@ -248,4 +251,31 @@ Lorem ipsum...
 <a name="api-specification"></a>
 # API Specification
 Lorem ipsum...
+```
+
+### Style
+
+You can control the type of list representing the TOC:
+
+```
+<!-- MarkdownTOC style=unordered -->
+
+- foo
+  - bar
+  - buz
+- qux
+
+<!-- /MarkdownTOC -->
+```
+```
+<!-- MarkdownTOC style=ordered -->
+
+1. foo
+  1. bar
+    1. qux
+    2. quux
+  2. buz
+2. qux
+
+<!-- /MarkdownTOC -->
 ```
