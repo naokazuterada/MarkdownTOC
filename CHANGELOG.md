@@ -1,6 +1,10 @@
 Changes in MarkdownTOC
 ===========================
 
+## 1.7.0
+
+- Add 'style' feature
+
 ## 1.6.1
 
 - Fix issue about '===' or '---' headings
