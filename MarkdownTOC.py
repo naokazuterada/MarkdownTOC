@@ -31,7 +31,8 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
                     "depth":      self.get_setting('default_depth'),
                     "autolink":   self.get_setting('default_autolink'),
                     "bracket":    self.get_setting('default_bracket'),
-                    "autoanchor": self.get_setting('default_autoanchor')
+                    "autoanchor": self.get_setting('default_autoanchor'),
+                    "style":      self.get_setting('default_style')
                     }
                 # add TOCTAG
                 toc = TOCTAG_START + "\n"
@@ -54,7 +55,7 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
         toc_open_tags = []
         for toc_open in search_results:
             if 0 < len(toc_open):
-                
+
                 tag_str = self.view.substr(toc_open)
 
                 depth_val = self.get_setting('default_depth')
@@ -76,13 +77,19 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
                 autoanchor_search = re.search(" autoanchor=(\w+) ", tag_str)
                 if autoanchor_search != None:
                     autoanchor_val = strtobool(autoanchor_search.group(1)) # cast to bool
-                
+
+                style_val = self.get_setting('default_style')
+                style_search = re.search(" style=(\w+) ", tag_str)
+                if style_search != None:
+                    style_val = str(style_search.group(1))
+
                 toc_open_tag = {
-                    "region":   toc_open,
-                    "depth":    depth_val,
-                    "autolink": autolink_val,
-                    "bracket":  bracket_val,
-                    "autoanchor": autoanchor_val
+                    "region":     toc_open,
+                    "depth":      depth_val,
+                    "autolink":   autolink_val,
+                    "bracket":    bracket_val,
+                    "autoanchor": autoanchor_val,
+                    "style":      style_val
                 }
                 toc_open_tags.append(toc_open_tag)
 
@@ -99,12 +106,12 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
     def find_tag_and_insert(self, edit):
         toc_starts = self.get_toc_open_tag()
         for dic in toc_starts:
-            
+
             toc_start = dic["region"]
             if 0 < len(toc_start):
-                
+
                 toc_close = self.get_toc_close_tag(toc_start.end())
-                
+
                 if toc_close:
                     toc = self.get_toc(dic, toc_close.end(), edit)
                     tocRegion = sublime.Region(
@@ -154,7 +161,7 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
                         indent = 1 if (
                             self.view.substr(lines[1])[0] == '=') else 2
                         items.append([indent, text, heading.begin()])
-        
+
         if len(items) < 1:
             return ''
 
@@ -164,6 +171,8 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
         # Create TOC  ------------------
         toc = ''
         _ids = []
+        level_counters = [0]
+
         for item in items:
             _id = None
             _indent = item[0] - 1
@@ -177,10 +186,10 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
             # Add indent
             for i in range(_indent):
                 toc += '\t'
-            
+
             # Reference-style links: e.g. '# heading [my-anchor]'
             list_reference_link = list(pattern_reference_link.finditer(_text))
-            
+
             # Markdown-Extra special attribute style: e.g. '# heading {#my-anchor}'
             match_ex_id = pattern_ex_id.search(_text)
 
@@ -198,20 +207,32 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
                 n = _ids.count(_id)
                 if 1 < n:
                     _id += '-' + str(n-1)
-            
+
+            if attrs['style'] == 'unordered':
+                list_prefix = '- '
+            elif attrs['style'] == 'ordered':
+                if len(level_counters) == item[0]:
+                    level_counters[-1] = level_counters[-1] + 1
+                elif len(level_counters) > item[0]:
+                    level_counters.pop()
+                    level_counters[-1] = level_counters[-1] + 1
+                elif len(level_counters) < item[0]:
+                    level_counters.append(1)
+                list_prefix = "%d. " % level_counters[-1]
+
             if _id == None:
-                toc += '- ' + _text + '\n'
+                toc += list_prefix + _text + '\n'
             elif attrs['bracket'] == 'round':
-                toc += '- [' + _text + '](#' + _id + ')\n'
+                toc += list_prefix + '[' + _text + '](#' + _id + ')\n'
             else:
-                toc += '- [' + _text + '][' + _id + ']\n'
-                
+                toc += list_prefix + '[' + _text + '][' + _id + ']\n'
+
             item.append(_id)
 
         self.update_anchors(edit, items, bool(attrs['autoanchor']))
 
         return toc
-    
+
     def update_anchors(self, edit, items, autoanchor):
         """Inserts, updates or deletes a link anchor in the line before each header."""
         v = self.view
@@ -226,7 +247,7 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
                 else:
                     new_anchor = '\n<a name="{}"></a>'.format(item[3])
                     v.insert(edit, anchor_region.end(), new_anchor)
-                
+
             else:
                 if is_update:
                     v.erase(edit, sublime.Region(anchor_region.begin(), anchor_region.end() + 1))
