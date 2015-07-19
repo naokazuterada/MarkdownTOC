@@ -111,7 +111,7 @@ You can set default values. Preference > Package Settings > MarkdownTOC > Settin
   "default_bracket": "square",
   "default_depth": 2,
   "default_autoanchor": false,
-  "default_style": unordered
+  "default_style": "unordered"
 }
 ```
 
