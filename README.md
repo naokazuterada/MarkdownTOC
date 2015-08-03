@@ -262,6 +262,8 @@ You can control the type of list representing the TOC:
 
 - foo
   - bar
+    - qux
+    - quux
   - buz
 - qux
 
