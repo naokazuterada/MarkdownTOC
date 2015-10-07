@@ -148,7 +148,7 @@ This will be useful on Github.
 <!-- /MarkdownTOC -->
 ```
 
-#### Replecements for id charactors
+#### Replecements for id characters
 
 You can also edit replecements when using 'Auto link' feature like following settings.
 
