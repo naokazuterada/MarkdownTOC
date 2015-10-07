@@ -148,7 +148,7 @@ This will be useful on Github.
 <!-- /MarkdownTOC -->
 ```
 
-#### Replecements for id charactors
+#### Replecements for id characters
 
 You can also edit replecements when using 'Auto link' feature like following settings.
 
@@ -175,7 +175,7 @@ This heading changes to link with following id.
 #super-product
 ```
 
-- The value charactor(s) will be replaced to the key charactor.
+- The value character(s) will be replaced to the key character.
 - Replece sequence will execute from top to bottom.
 
 
