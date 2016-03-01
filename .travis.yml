@@ -6,7 +6,6 @@ sudo: required
 
 env:
     global:
-        # Your package name
         - PACKAGE="MarkdownTOC"
     matrix:
         - SUBLIME_TEXT_VERSION="2"
