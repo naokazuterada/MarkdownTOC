@@ -23,4 +23,4 @@ script:
     # - sh travis.sh run_syntax_tests
 
 notifications:
-    email: false
+    email: true
