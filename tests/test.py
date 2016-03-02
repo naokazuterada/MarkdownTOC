@@ -1,6 +1,5 @@
-import os
-import sys
-import sublime
+# coding=utf-8
+import os,re,sys,sublime
 from unittest import TestCase
 
 VERSION = sublime.version()
@@ -22,12 +21,12 @@ class test_helloworld_command(TestCase):
         s = sublime.load_settings("Preferences.sublime-settings")
         s.set("close_windows_when_empty", False)
 
-    # def tearDown(self):
-    #     if self.view:
-    #         # close file
-    #         self.view.set_scratch(True)
-    #         self.view.window().focus_view(self.view)
-    #         self.view.window().run_command("close_file")
+    def tearDown(self):
+        if self.view:
+            # close file
+            self.view.set_scratch(True)
+            self.view.window().focus_view(self.view)
+            self.view.window().run_command("close_file")
 
     def setText(self, string):
         self.view.run_command("insert", {"characters": string})
@@ -43,7 +42,7 @@ class test_helloworld_command(TestCase):
     # ----------
 
     def test_headings_before_TOC_will_be_ignored(self):
-        # 実行ファイルのパス取得
+
         testdata = open(SAMPLE_TEXT).read()
         self.setText(testdata)
 
@@ -52,17 +51,22 @@ class test_helloworld_command(TestCase):
         self.view.run_command('markdowntoc_insert')
 
         toc_start = self.view.find(
-            "^<!-- MarkdownTOC .*-->\n",
+            "^<!-- MarkdownTOC .*-->$",
             sublime.IGNORECASE)
         toc_end = self.view.find(
-            "^<!-- /MarkdownTOC -->\n",
+            "^<!-- /MarkdownTOC -->$",
             sublime.IGNORECASE)
 
         toc_txt = self.view.substr(sublime.Region(toc_start.begin(), toc_end.end()))
 
+        # TODO 上の２つの正規表現を１つにできないか
+        # pattern_toc = re.compile(r'<!-- MarkdownTOC .*-->.*<!-- /MarkdownTOC -->') # [Heading][my-id]
+        toc = self.view.find("^<!-- MarkdownTOC .*-->$(.\n)*^<!-- /MarkdownTOC -->$", sublime.IGNORECASE)
+        toc_txt2 = self.view.substr(toc)
+        self.moveTo(0)
+        self.setText(len(toc_txt2))
+
         self.assertFalse('Heading 0' in toc_txt)
-        # self.assertEqual(toc_txt, "<!-- MarkdownTOC -->")
-        # self.assertEqual(toc_txt, "<!-- MarkdownTOC -->\n\n- [Heading 1](#heading-1)\n  - [Heading 2](#heading-2)\n  - [Heading 3](#heading-3)\n- [Heading with anchor](#with-anchor)\n\n<!-- /MarkdownTOC -->")
 
 
 # class test_internal_functions(TestCase):
