@@ -9,6 +9,28 @@ Linux & OSX | Windows
 
 ![](./demo.gif)
 
+## Table Of Contents
+
+<!-- MarkdownTOC -->
+
+- [Feature](#feature)
+- [Sample](#sample)
+- [Usage](#usage)
+- [Attributes](#attributes)
+  - [Auto link](#auto-link)
+    - [Replecements for id characters](#replecements-for-id-characters)
+  - [Bracket](#bracket)
+  - [Depth](#depth)
+  - [Auto anchor](#auto-anchor)
+  - [Style](#style)
+- [Install](#install)
+- [Contribution](#contribution)
+- [Licence](#licence)
+- [Author](#author)
+
+<!-- /MarkdownTOC -->
+
+
 ## Feature
 
 - Insert TOC depending on headings in document
@@ -25,6 +47,8 @@ Linux & OSX | Windows
 # Heading 0
 
 Headings before MarkdownTOC tags will be ignored.
+
+TOC tag is able to having attributes.
 
 <!-- MarkdownTOC autolink=true bracket=round -->
 
@@ -53,39 +77,7 @@ Headings before MarkdownTOC tags will be ignored.
 ...
 ```
 
-
-## Installing
-
-With Package Control:
-
-
-1. Run “Package Control: Install Package” command, find and install `MarkdownTOC` plugin.
-2. Restart ST.
-
-> [Package Control](http://wbond.net/sublime_packages/package_control)
-
-
-With Git:
-
-for SublimeText 2 (Mac)
-
-```sh
-git clone git@github.com:naokazuterada/MarkdownTOC.git ~/Library/Application\ Support/Sublime\ Text\ 2/Packages/MarkdownTOC
-```
-
-for SublimeText 3 (Mac)
-
-```sh
-git clone git@github.com:naokazuterada/MarkdownTOC.git ~/Library/Application\ Support/Sublime\ Text\ 3/Packages/MarkdownTOC
-```
-
-Without any dependencies:
-
-1. [Download zip](https://github.com/naokazuterada/MarkdownTOC/archive/master.zip) and expand it.
-2. Open ST's "Packges" directory (Sublime Text > Preference > Browse Packages...).
-3. Move "MarkdownTOC" directory into "Packages" directory.
-
-## Using
+## Usage
 
 1. Open Markdown files.
 2. Move cursor to position where you want to insert TOC.
@@ -286,3 +278,48 @@ You can control the type of list representing the TOC:
 
 <!-- /MarkdownTOC -->
 ```
+
+## Install
+
+With Package Control:
+
+
+1. Run “Package Control: Install Package” command, find and install `MarkdownTOC` plugin.
+2. Restart ST.
+
+> [Package Control](http://wbond.net/sublime_packages/package_control)
+
+
+With Git:
+
+for SublimeText 2 (Mac)
+
+```sh
+git clone git@github.com:naokazuterada/MarkdownTOC.git ~/Library/Application\ Support/Sublime\ Text\ 2/Packages/MarkdownTOC
+```
+
+for SublimeText 3 (Mac)
+
+```sh
+git clone git@github.com:naokazuterada/MarkdownTOC.git ~/Library/Application\ Support/Sublime\ Text\ 3/Packages/MarkdownTOC
+```
+
+Without any dependencies:
+
+1. [Download zip](https://github.com/naokazuterada/MarkdownTOC/archive/master.zip) and expand it.
+2. Open ST's "Packges" directory (Sublime Text > Preference > Browse Packages...).
+3. Move "MarkdownTOC" directory into "Packages" directory.
+
+
+## Contribution
+
+[CONTRIBUTING.md](https://github.com/naokazuterada/MarkdownTOC/blob/master/CONTRIBUTING.md)
+
+
+## Licence
+
+[MIT](https://github.com/naokazuterada/MarkdownTOC/blob/master/LICENCE-MIT)
+
+## Author
+
+[naokazuterada](https://github.com/naokazuterada)
