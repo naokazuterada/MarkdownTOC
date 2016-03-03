@@ -1,4 +1,5 @@
 package-metadata.json
 .DS_Store
+.vagrant
 *.pyc
 *.pyo
