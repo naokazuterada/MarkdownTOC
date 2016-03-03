@@ -62,16 +62,10 @@ class test_markdownTOC(TestCase):
 
         toc_txt = self.getTOC_text()
 
-<<<<<<< HEAD
         if VERSION < '3000':
             self.assertFalse('Heading 0' in toc_txt)
         else:
             self.assertNotIn('Heading 0', toc_txt)
-
-
-=======
-        self.assertNotIn('Heading 0', toc_txt)
->>>>>>> parent of 183891c... Revert "Merge branch 'introduction-to-tests'"
 
 
     def test_headings_after_TOC_should_be_included(self):
@@ -86,7 +80,6 @@ class test_markdownTOC(TestCase):
 
         toc_txt = self.getTOC_text()
 
-<<<<<<< HEAD
         if VERSION < '3000':
             self.assertTrue('Heading 1' in toc_txt)
             self.assertTrue('Heading 2' in toc_txt)
@@ -97,12 +90,6 @@ class test_markdownTOC(TestCase):
             self.assertIn('Heading 2', toc_txt)
             self.assertIn('Heading 3', toc_txt)
             self.assertIn('Heading with anchor', toc_txt)
-=======
-        self.assertIn('Heading 1', toc_txt)
-        self.assertIn('Heading 2', toc_txt)
-        self.assertIn('Heading 3', toc_txt)
-        self.assertIn('Heading with anchor', toc_txt)
->>>>>>> parent of 183891c... Revert "Merge branch 'introduction-to-tests'"
 
 
 # class test_internal_functions(TestCase):
