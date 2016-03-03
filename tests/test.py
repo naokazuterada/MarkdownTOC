@@ -3,7 +3,10 @@ import os,re,sys,sublime
 from unittest import TestCase
 
 VERSION = sublime.version()
-SAMPLE_TEXT = os.path.join(os.path.dirname(__file__), 'sample.md')
+
+def loadfile(filename):
+    file = os.path.join(os.path.dirname(__file__), filename)
+    return open(file).read()
 
 # for testing internal function
 # if VERSION < '3000':
@@ -49,7 +52,7 @@ class test_helloworld_command(TestCase):
 
     def test_headings_before_TOC_should_be_ignored(self):
 
-        testdata = open(SAMPLE_TEXT).read()
+        testdata = loadfile('sample.md')
         self.setText(testdata)
 
         # move to the next line of "heading 0"
@@ -64,7 +67,7 @@ class test_helloworld_command(TestCase):
 
     def test_headings_after_TOC_should_be_included(self):
 
-        testdata = open(SAMPLE_TEXT).read()
+        testdata = loadfile('sample.md')
         self.setText(testdata)
 
         # move to the next line of "heading 0"
