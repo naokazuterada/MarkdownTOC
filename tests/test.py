@@ -62,7 +62,7 @@ class test_markdownTOC(TestCase):
 
         toc_txt = self.getTOC_text()
 
-        self.assertFalse('Heading 0' in toc_txt)
+        self.assertNotIn('Heading 0', toc_txt)
 
 
     def test_headings_after_TOC_should_be_included(self):
@@ -77,10 +77,10 @@ class test_markdownTOC(TestCase):
 
         toc_txt = self.getTOC_text()
 
-        self.assertTrue('Heading 1' in toc_txt)
-        self.assertTrue('Heading 2' in toc_txt)
-        self.assertTrue('Heading 3' in toc_txt)
-        self.assertTrue('Heading with anchor' in toc_txt)
+        self.assertIn('Heading 1', toc_txt)
+        self.assertIn('Heading 2', toc_txt)
+        self.assertIn('Heading 3', toc_txt)
+        self.assertIn('Heading with anchor', toc_txt)
 
 
 # class test_internal_functions(TestCase):
