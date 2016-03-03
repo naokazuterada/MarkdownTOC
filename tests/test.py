@@ -16,7 +16,7 @@ def loadfile(filename):
 #     # st3
 #     MarkdownTOC = sys.modules["MarkdownTOC.MarkdownTOC"]
 
-class test_helloworld_command(TestCase):
+class test_markdownTOC(TestCase):
 
     def setUp(self):
         self.view = sublime.active_window().new_file()
