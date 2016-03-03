@@ -39,34 +39,45 @@ class test_helloworld_command(TestCase):
         self.view.sel().clear()
         self.view.sel().add(sublime.Region(pos))
 
+    def getTOC_text(self):
+        toc_region = self.view.find(
+            "<!-- MarkdownTOC .*-->(.|\n)+?<!-- /MarkdownTOC -->",
+            sublime.IGNORECASE)
+        return self.view.substr(toc_region)
+
     # ----------
 
-    def test_headings_before_TOC_will_be_ignored(self):
+    def test_headings_before_TOC_should_be_ignored(self):
 
         testdata = open(SAMPLE_TEXT).read()
         self.setText(testdata)
 
+        # move to the next line of "heading 0"
         self.moveTo(13)
 
         self.view.run_command('markdowntoc_insert')
 
-        toc_start = self.view.find(
-            "^<!-- MarkdownTOC .*-->$",
-            sublime.IGNORECASE)
-        toc_end = self.view.find(
-            "^<!-- /MarkdownTOC -->$",
-            sublime.IGNORECASE)
-
-        toc_txt = self.view.substr(sublime.Region(toc_start.begin(), toc_end.end()))
-
-        # TODO 上の２つの正規表現を１つにできないか
-        # pattern_toc = re.compile(r'<!-- MarkdownTOC .*-->.*<!-- /MarkdownTOC -->') # [Heading][my-id]
-        toc = self.view.find("^<!-- MarkdownTOC .*-->$(.\n)*^<!-- /MarkdownTOC -->$", sublime.IGNORECASE)
-        toc_txt2 = self.view.substr(toc)
-        self.moveTo(0)
-        self.setText(len(toc_txt2))
+        toc_txt = self.getTOC_text()
 
         self.assertFalse('Heading 0' in toc_txt)
+
+
+    def test_headings_after_TOC_should_be_included(self):
+
+        testdata = open(SAMPLE_TEXT).read()
+        self.setText(testdata)
+
+        # move to the next line of "heading 0"
+        self.moveTo(13)
+
+        self.view.run_command('markdowntoc_insert')
+
+        toc_txt = self.getTOC_text()
+
+        self.assertTrue('Heading 1' in toc_txt)
+        self.assertTrue('Heading 2' in toc_txt)
+        self.assertTrue('Heading 3' in toc_txt)
+        self.assertTrue('Heading with anchor' in toc_txt)
 
 
 # class test_internal_functions(TestCase):
