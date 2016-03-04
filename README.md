@@ -322,4 +322,4 @@ Without any dependencies:
 
 ## Author
 
-[naokazuterada](https://github.com/naokazuterada)
+[Naokazu Terada](https://github.com/naokazuterada)
