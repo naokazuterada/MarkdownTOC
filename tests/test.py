@@ -54,7 +54,7 @@ class test_markdownTOC(TestCase):
 
     # ----------
 
-    def test_headings_before_TOC_should_be_ignored(self):
+    def test_before_than_TOC_should_be_ignored(self):
 
         text = loadfile('sample.md')
         self.setText(text)
@@ -69,7 +69,7 @@ class test_markdownTOC(TestCase):
         self.assert_NotIn('Heading 0', toc_txt)
 
 
-    def test_headings_after_TOC_should_be_included(self):
+    def test_after_than_TOC_should_be_included(self):
 
         text = loadfile('sample.md')
         self.setText(text)
