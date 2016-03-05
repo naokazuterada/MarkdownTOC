@@ -85,3 +85,23 @@ class test_markdownTOC(TestCase):
         self.assert_In('Heading 2', toc_txt)
         self.assert_In('Heading 3', toc_txt)
         self.assert_In('Heading with anchor', toc_txt)
+
+    def test_ignore_inside_codeblock(self):
+
+        text = loadfile('sample-codeblock.md')
+        self.setText(text)
+
+        self.moveTo(3) # [NOTICE!] Cannot insert TOC when coursor position <= 2
+
+        self.view.run_command('markdowntoc_insert')
+
+        toc_txt = self.getTOC_text()
+
+        self.moveTo(0)
+        self.setText(toc_txt)
+
+        self.assert_In('Outside1', toc_txt)
+        self.assert_In('Outside2', toc_txt)
+        self.assert_NotIn('Inside1', toc_txt)
+        self.assert_NotIn('Inside2', toc_txt)
+        self.assert_NotIn('Inside3', toc_txt)
