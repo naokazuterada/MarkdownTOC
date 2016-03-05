@@ -8,14 +8,6 @@ def loadfile(filename):
     file = os.path.join(os.path.dirname(__file__), filename)
     return open(file).read()
 
-# for testing internal function
-# if VERSION < '3000':
-#     # st2
-#     MarkdownTOC = sys.modules["MarkdownTOC"]
-# else:
-#     # st3
-#     MarkdownTOC = sys.modules["MarkdownTOC.MarkdownTOC"]
-
 class test_markdownTOC(TestCase):
 
     def setUp(self):
@@ -46,32 +38,33 @@ class test_markdownTOC(TestCase):
         toc_region = self.view.find(
             "<!-- MarkdownTOC .*-->(.|\n)+?<!-- /MarkdownTOC -->",
             sublime.IGNORECASE)
-        return self.view.substr(toc_region)
+        toc_all = self.view.substr(toc_region)
+
+        # pick toc contents
+        toc_contents = re.sub(r'<!-- MarkdownTOC .*-->', '', toc_all)
+        toc_contents = re.sub(r'<!-- /MarkdownTOC -->', '', toc_contents)
+        toc_contents = toc_contents.rstrip()
+
+        return toc_contents
+
+    def assert_NotIn(self, txt, toc_txt):
+        if VERSION < '3000':
+            self.assertFalse(txt in toc_txt)
+        else:
+            self.assertNotIn(txt, toc_txt)
+
+    def assert_In(self, txt, toc_txt):
+        if VERSION < '3000':
+            self.assertTrue(txt in toc_txt)
+        else:
+            self.assertIn(txt, toc_txt)
 
     # ----------
 
-    def test_headings_before_TOC_should_be_ignored(self):
+    def test_before_than_TOC_should_be_ignored(self):
 
-        testdata = loadfile('sample.md')
-        self.setText(testdata)
-
-        # move to the next line of "heading 0"
-        self.moveTo(13)
-
-        self.view.run_command('markdowntoc_insert')
-
-        toc_txt = self.getTOC_text()
-
-        if VERSION < '3000':
-            self.assertFalse('Heading 0' in toc_txt)
-        else:
-            self.assertNotIn('Heading 0', toc_txt)
-
-
-    def test_headings_after_TOC_should_be_included(self):
-
-        testdata = loadfile('sample.md')
-        self.setText(testdata)
+        text = loadfile('sample.md')
+        self.setText(text)
 
         # move to the next line of "heading 0"
         self.moveTo(13)
@@ -80,20 +73,53 @@ class test_markdownTOC(TestCase):
 
         toc_txt = self.getTOC_text()
 
-        if VERSION < '3000':
-            self.assertTrue('Heading 1' in toc_txt)
-            self.assertTrue('Heading 2' in toc_txt)
-            self.assertTrue('Heading 3' in toc_txt)
-            self.assertTrue('Heading with anchor' in toc_txt)
-        else:
-            self.assertIn('Heading 1', toc_txt)
-            self.assertIn('Heading 2', toc_txt)
-            self.assertIn('Heading 3', toc_txt)
-            self.assertIn('Heading with anchor', toc_txt)
+        self.assert_NotIn('Heading 0', toc_txt)
 
 
-# class test_internal_functions(TestCase):
+    def test_after_than_TOC_should_be_included(self):
 
-#     def test_foo(self):
-#         x = MarkdownTOC.MarkdowntocInsert(1)
-#         self.assertEqual(x, 2)
+        text = loadfile('sample.md')
+        self.setText(text)
+
+        # move to the next line of "heading 0"
+        self.moveTo(13)
+
+        self.view.run_command('markdowntoc_insert')
+
+        toc_txt = self.getTOC_text()
+
+        self.assert_In('Heading 1', toc_txt)
+        self.assert_In('Heading 2', toc_txt)
+        self.assert_In('Heading 3', toc_txt)
+        self.assert_In('Heading with anchor', toc_txt)
+
+    def test_ignore_inside_codeblock(self):
+
+        text = loadfile('sample-codeblock.md')
+        self.setText(text)
+
+        self.moveTo(3) # [NOTICE!] Cannot insert TOC when coursor position <= 2
+
+        self.view.run_command('markdowntoc_insert')
+
+        toc_txt = self.getTOC_text()
+
+        self.assert_In('Outside1', toc_txt)
+        self.assert_In('Outside2', toc_txt)
+        self.assert_NotIn('Inside1', toc_txt)
+        self.assert_NotIn('Inside2', toc_txt)
+        self.assert_NotIn('Inside3', toc_txt)
+
+    def test_escape_link(self):
+
+        text = loadfile('sample-link.md')
+        self.setText(text)
+
+        self.moveTo(3) # [NOTICE!] CPannot insert TOC when coursor position <= 2
+
+        self.view.run_command('markdowntoc_insert')
+
+        toc_txt = self.getTOC_text()
+
+        self.assert_In('- [This link is cool]', toc_txt)
+
