@@ -8,14 +8,6 @@ def loadfile(filename):
     file = os.path.join(os.path.dirname(__file__), filename)
     return open(file).read()
 
-# for testing internal function
-# if VERSION < '3000':
-#     # st2
-#     MarkdownTOC = sys.modules["MarkdownTOC"]
-# else:
-#     # st3
-#     MarkdownTOC = sys.modules["MarkdownTOC.MarkdownTOC"]
-
 class test_markdownTOC(TestCase):
 
     def setUp(self):
@@ -93,10 +85,3 @@ class test_markdownTOC(TestCase):
         self.assert_In('Heading 2', toc_txt)
         self.assert_In('Heading 3', toc_txt)
         self.assert_In('Heading with anchor', toc_txt)
-
-
-# class test_internal_functions(TestCase):
-
-#     def test_foo(self):
-#         x = MarkdownTOC.MarkdowntocInsert(1)
-#         self.assertEqual(x, 2)
