@@ -4,10 +4,6 @@ from unittest import TestCase
 
 VERSION = sublime.version()
 
-def loadfile(filename):
-    file = os.path.join(os.path.dirname(__file__), filename)
-    return open(file).read()
-
 class test_markdownTOC(TestCase):
 
     def setUp(self):
@@ -62,11 +58,13 @@ class test_markdownTOC(TestCase):
 
     def loadFileAndInsertTOC(self, filename, insert_position=3):
 
-        # [NOTICE] Why insert_position=3 ?: Cannnot insert TOC when coursor position <= 2
 
-        text = loadfile(filename)
+        file = os.path.join(os.path.dirname(__file__), filename)
+        text = open(file).read()
+
         self.setText(text)
 
+        # [NOTICE] Why insert_position=3 ?: Cannnot insert TOC when coursor position <= 2
         self.moveTo(insert_position)
 
         self.view.run_command('markdowntoc_insert')
