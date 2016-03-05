@@ -48,6 +48,18 @@ class test_markdownTOC(TestCase):
             sublime.IGNORECASE)
         return self.view.substr(toc_region)
 
+    def assert_NotIn(self, txt, toc_txt):
+        if VERSION < '3000':
+            self.assertFalse(txt in toc_txt)
+        else:
+            self.assertNotIn(txt, toc_txt)
+
+    def assert_In(self, txt, toc_txt):
+        if VERSION < '3000':
+            self.assertTrue(txt in toc_txt)
+        else:
+            self.assertIn(txt, toc_txt)
+
     # ----------
 
     def test_headings_before_TOC_should_be_ignored(self):
@@ -62,10 +74,7 @@ class test_markdownTOC(TestCase):
 
         toc_txt = self.getTOC_text()
 
-        if VERSION < '3000':
-            self.assertFalse('Heading 0' in toc_txt)
-        else:
-            self.assertNotIn('Heading 0', toc_txt)
+        self.assert_NotIn('Heading 0', toc_txt)
 
 
     def test_headings_after_TOC_should_be_included(self):
@@ -80,16 +89,10 @@ class test_markdownTOC(TestCase):
 
         toc_txt = self.getTOC_text()
 
-        if VERSION < '3000':
-            self.assertTrue('Heading 1' in toc_txt)
-            self.assertTrue('Heading 2' in toc_txt)
-            self.assertTrue('Heading 3' in toc_txt)
-            self.assertTrue('Heading with anchor' in toc_txt)
-        else:
-            self.assertIn('Heading 1', toc_txt)
-            self.assertIn('Heading 2', toc_txt)
-            self.assertIn('Heading 3', toc_txt)
-            self.assertIn('Heading with anchor', toc_txt)
+        self.assert_In('Heading 1', toc_txt)
+        self.assert_In('Heading 2', toc_txt)
+        self.assert_In('Heading 3', toc_txt)
+        self.assert_In('Heading with anchor', toc_txt)
 
 
 # class test_internal_functions(TestCase):
