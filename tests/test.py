@@ -98,5 +98,5 @@ class test_markdownTOC(TestCase):
 
     def test_escape_link(self):
         toc_txt = self.commonSetup('link.md')
-        self.assert_In('- [This link is cool]', toc_txt)
+        self.assert_In('This link is cool', toc_txt)
 
