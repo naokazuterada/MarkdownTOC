@@ -52,8 +52,8 @@ class test_markdownTOC(TestCase):
 
     def test_headings_before_TOC_should_be_ignored(self):
 
-        testdata = loadfile('sample.md')
-        self.setText(testdata)
+        text = loadfile('sample.md')
+        self.setText(text)
 
         # move to the next line of "heading 0"
         self.moveTo(13)
@@ -70,8 +70,8 @@ class test_markdownTOC(TestCase):
 
     def test_headings_after_TOC_should_be_included(self):
 
-        testdata = loadfile('sample.md')
-        self.setText(testdata)
+        text = loadfile('sample.md')
+        self.setText(text)
 
         # move to the next line of "heading 0"
         self.moveTo(13)
