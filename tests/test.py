@@ -4,10 +4,6 @@ from unittest import TestCase
 
 VERSION = sublime.version()
 
-def loadfile(filename):
-    file = os.path.join(os.path.dirname(__file__), filename)
-    return open(file).read()
-
 class test_markdownTOC(TestCase):
 
     def setUp(self):
@@ -22,6 +18,8 @@ class test_markdownTOC(TestCase):
             self.view.set_scratch(True)
             self.view.window().focus_view(self.view)
             self.view.window().run_command("close_file")
+
+    # -----
 
     def setText(self, string):
         self.view.run_command("insert", {"characters": string})
@@ -47,6 +45,23 @@ class test_markdownTOC(TestCase):
 
         return toc_contents
 
+    def commonSetup(self, filename, insert_position=3):
+
+        # 1. load file
+        file = os.path.join(os.path.dirname(__file__), 'samples/'+filename)
+        text = open(file).read()
+        self.setText(text)
+
+        # 2. insert TOC
+        # [NOTICE] Why insert_position=3 ?: Cannnot insert TOC when coursor position <= 2
+        self.moveTo(insert_position)
+        self.view.run_command('markdowntoc_insert')
+
+        # 3. return TOC
+        return self.getTOC_text()
+
+    # -----
+
     def assert_NotIn(self, txt, toc_txt):
         if VERSION < '3000':
             self.assertFalse(txt in toc_txt)
@@ -59,51 +74,22 @@ class test_markdownTOC(TestCase):
         else:
             self.assertIn(txt, toc_txt)
 
-    # ----------
+    # =====
 
     def test_before_than_TOC_should_be_ignored(self):
-
-        text = loadfile('sample.md')
-        self.setText(text)
-
-        # move to the next line of "heading 0"
-        self.moveTo(13)
-
-        self.view.run_command('markdowntoc_insert')
-
-        toc_txt = self.getTOC_text()
-
+        toc_txt = self.commonSetup('insert_position.md', 13)
         self.assert_NotIn('Heading 0', toc_txt)
 
 
     def test_after_than_TOC_should_be_included(self):
-
-        text = loadfile('sample.md')
-        self.setText(text)
-
-        # move to the next line of "heading 0"
-        self.moveTo(13)
-
-        self.view.run_command('markdowntoc_insert')
-
-        toc_txt = self.getTOC_text()
-
+        toc_txt = self.commonSetup('insert_position.md', 13)
         self.assert_In('Heading 1', toc_txt)
         self.assert_In('Heading 2', toc_txt)
         self.assert_In('Heading 3', toc_txt)
         self.assert_In('Heading with anchor', toc_txt)
 
     def test_ignore_inside_codeblock(self):
-
-        text = loadfile('sample-codeblock.md')
-        self.setText(text)
-
-        self.moveTo(3) # [NOTICE!] Cannot insert TOC when coursor position <= 2
-
-        self.view.run_command('markdowntoc_insert')
-
-        toc_txt = self.getTOC_text()
-
+        toc_txt = self.commonSetup('codeblock.md')
         self.assert_In('Outside1', toc_txt)
         self.assert_In('Outside2', toc_txt)
         self.assert_NotIn('Inside1', toc_txt)
@@ -111,15 +97,6 @@ class test_markdownTOC(TestCase):
         self.assert_NotIn('Inside3', toc_txt)
 
     def test_escape_link(self):
-
-        text = loadfile('sample-link.md')
-        self.setText(text)
-
-        self.moveTo(3) # [NOTICE!] CPannot insert TOC when coursor position <= 2
-
-        self.view.run_command('markdowntoc_insert')
-
-        toc_txt = self.getTOC_text()
-
+        toc_txt = self.commonSetup('link.md')
         self.assert_In('- [This link is cool]', toc_txt)
 
