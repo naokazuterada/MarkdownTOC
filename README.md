@@ -3,9 +3,9 @@
 This plugin search headings in document and insert TOC(Table Of Contents) to it.
 
 
-Linux & OSX | Windows
-------------|------------
-[![Build Status](https://travis-ci.org/naokazuterada/MarkdownTOC.svg?branch=master)](https://travis-ci.org/naokazuterada/MarkdownTOC) | [![Build status](https://ci.appveyor.com/api/projects/status/vxj9jbihlrwfa6ui/branch/master?svg=true)](https://ci.appveyor.com/project/naokazuterada/markdowntoc/branch/master)
+| Linux & OSX | Windows     |
+|:------------|:------------|
+| [![Build Status](https://travis-ci.org/naokazuterada/MarkdownTOC.svg?branch=master)](https://travis-ci.org/naokazuterada/MarkdownTOC) | [![Build status](https://ci.appveyor.com/api/projects/status/vxj9jbihlrwfa6ui/branch/master?svg=true)](https://ci.appveyor.com/project/naokazuterada/markdowntoc/branch/master) |
 
 ![](./demo.gif)
 
@@ -13,20 +13,20 @@ Linux & OSX | Windows
 
 <!-- MarkdownTOC -->
 
-- [Feature](#feature)
-- [Sample](#sample)
-- [Usage](#usage)
-- [Attributes](#attributes)
-  - [Auto link](#auto-link)
-    - [Replecements for id characters](#replecements-for-id-characters)
-  - [Bracket](#bracket)
-  - [Depth](#depth)
-  - [Auto anchor](#auto-anchor)
-  - [Style](#style)
-- [Install](#install)
-- [Contribution](#contribution)
-- [Licence](#licence)
-- [Author](#author)
+- [Feature][feature]
+- [Sample][sample]
+- [Usage][usage]
+- [Attributes][attributes]
+  - [Auto link][auto-link]
+    - [Replecements for id characters][replecements-for-id-characters]
+  - [Bracket][bracket]
+  - [Depth][depth]
+  - [Auto anchor][auto-anchor]
+  - [Style][style]
+- [Install][install]
+- [Contribution][contribution]
+- [Licence][licence]
+- [Author][author]
 
 <!-- /MarkdownTOC -->
 
