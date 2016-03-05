@@ -38,7 +38,14 @@ class test_markdownTOC(TestCase):
         toc_region = self.view.find(
             "<!-- MarkdownTOC .*-->(.|\n)+?<!-- /MarkdownTOC -->",
             sublime.IGNORECASE)
-        return self.view.substr(toc_region)
+        toc_all = self.view.substr(toc_region)
+
+        # pick toc contents
+        toc_contents = re.sub(r'<!-- MarkdownTOC .*-->', '', toc_all)
+        toc_contents = re.sub(r'<!-- /MarkdownTOC -->', '', toc_contents)
+        toc_contents = toc_contents.rstrip()
+
+        return toc_contents
 
     def assert_NotIn(self, txt, toc_txt):
         if VERSION < '3000':
