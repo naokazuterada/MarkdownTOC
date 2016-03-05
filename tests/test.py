@@ -109,3 +109,17 @@ class test_markdownTOC(TestCase):
         self.assert_NotIn('Inside1', toc_txt)
         self.assert_NotIn('Inside2', toc_txt)
         self.assert_NotIn('Inside3', toc_txt)
+
+    def test_escape_link(self):
+
+        text = loadfile('sample-link.md')
+        self.setText(text)
+
+        self.moveTo(3) # [NOTICE!] CPannot insert TOC when coursor position <= 2
+
+        self.view.run_command('markdowntoc_insert')
+
+        toc_txt = self.getTOC_text()
+
+        self.assert_In('- [This link is cool]', toc_txt)
+
