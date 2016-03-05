@@ -59,51 +59,36 @@ class test_markdownTOC(TestCase):
         else:
             self.assertIn(txt, toc_txt)
 
-    # ----------
 
-    def test_before_than_TOC_should_be_ignored(self):
+    def loadFileAndInsertTOC(self, filename, insert_position=3):
 
-        text = loadfile('sample.md')
+        # [NOTICE] Why insert_position=3 ?: Cannnot insert TOC when coursor position <= 2
+
+        text = loadfile(filename)
         self.setText(text)
 
-        # move to the next line of "heading 0"
-        self.moveTo(13)
+        self.moveTo(insert_position)
 
         self.view.run_command('markdowntoc_insert')
 
-        toc_txt = self.getTOC_text()
+        return self.getTOC_text()
 
+    # ----------
+
+    def test_before_than_TOC_should_be_ignored(self):
+        toc_txt = self.loadFileAndInsertTOC('sample.md', 13)
         self.assert_NotIn('Heading 0', toc_txt)
 
 
     def test_after_than_TOC_should_be_included(self):
-
-        text = loadfile('sample.md')
-        self.setText(text)
-
-        # move to the next line of "heading 0"
-        self.moveTo(13)
-
-        self.view.run_command('markdowntoc_insert')
-
-        toc_txt = self.getTOC_text()
-
+        toc_txt = self.loadFileAndInsertTOC('sample.md', 13)
         self.assert_In('Heading 1', toc_txt)
         self.assert_In('Heading 2', toc_txt)
         self.assert_In('Heading 3', toc_txt)
         self.assert_In('Heading with anchor', toc_txt)
 
     def test_ignore_inside_codeblock(self):
-
-        text = loadfile('sample-codeblock.md')
-        self.setText(text)
-
-        self.moveTo(3) # [NOTICE!] Cannot insert TOC when coursor position <= 2
-
-        self.view.run_command('markdowntoc_insert')
-
-        toc_txt = self.getTOC_text()
-
+        toc_txt = self.loadFileAndInsertTOC('sample-codeblock.md')
         self.assert_In('Outside1', toc_txt)
         self.assert_In('Outside2', toc_txt)
         self.assert_NotIn('Inside1', toc_txt)
@@ -111,15 +96,6 @@ class test_markdownTOC(TestCase):
         self.assert_NotIn('Inside3', toc_txt)
 
     def test_escape_link(self):
-
-        text = loadfile('sample-link.md')
-        self.setText(text)
-
-        self.moveTo(3) # [NOTICE!] CPannot insert TOC when coursor position <= 2
-
-        self.view.run_command('markdowntoc_insert')
-
-        toc_txt = self.getTOC_text()
-
+        toc_txt = self.loadFileAndInsertTOC('sample-link.md')
         self.assert_In('- [This link is cool]', toc_txt)
 
