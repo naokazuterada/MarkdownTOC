@@ -48,7 +48,7 @@ class test_markdownTOC(TestCase):
     def commonSetup(self, filename, insert_position=3):
 
         # 1. load file
-        file = os.path.join(os.path.dirname(__file__), filename)
+        file = os.path.join(os.path.dirname(__file__), 'samples/'+filename)
         text = open(file).read()
         self.setText(text)
 
@@ -77,19 +77,19 @@ class test_markdownTOC(TestCase):
     # =====
 
     def test_before_than_TOC_should_be_ignored(self):
-        toc_txt = self.commonSetup('sample.md', 13)
+        toc_txt = self.commonSetup('insert_position.md', 13)
         self.assert_NotIn('Heading 0', toc_txt)
 
 
     def test_after_than_TOC_should_be_included(self):
-        toc_txt = self.commonSetup('sample.md', 13)
+        toc_txt = self.commonSetup('insert_position.md', 13)
         self.assert_In('Heading 1', toc_txt)
         self.assert_In('Heading 2', toc_txt)
         self.assert_In('Heading 3', toc_txt)
         self.assert_In('Heading with anchor', toc_txt)
 
     def test_ignore_inside_codeblock(self):
-        toc_txt = self.commonSetup('sample-codeblock.md')
+        toc_txt = self.commonSetup('codeblock.md')
         self.assert_In('Outside1', toc_txt)
         self.assert_In('Outside2', toc_txt)
         self.assert_NotIn('Inside1', toc_txt)
@@ -97,6 +97,6 @@ class test_markdownTOC(TestCase):
         self.assert_NotIn('Inside3', toc_txt)
 
     def test_escape_link(self):
-        toc_txt = self.commonSetup('sample-link.md')
+        toc_txt = self.commonSetup('link.md')
         self.assert_In('- [This link is cool]', toc_txt)
 
