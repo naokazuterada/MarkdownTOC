@@ -97,9 +97,6 @@ class test_markdownTOC(TestCase):
 
         toc_txt = self.getTOC_text()
 
-        self.moveTo(0)
-        self.setText(toc_txt)
-
         self.assert_In('Outside1', toc_txt)
         self.assert_In('Outside2', toc_txt)
         self.assert_NotIn('Inside1', toc_txt)
