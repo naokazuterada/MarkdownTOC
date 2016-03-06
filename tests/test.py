@@ -8,7 +8,7 @@ from unittest import TestCase
 VERSION = sublime.version()
 
 
-class test_markdownTOC(TestCase):
+class MarkdownTocTest(TestCase):
 
     def setUp(self):
         self.view = sublime.active_window().new_file()
