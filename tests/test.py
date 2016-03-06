@@ -102,3 +102,7 @@ class test_markdownTOC(TestCase):
     def test_escape_link(self):
         toc_txt = self.commonSetup('link.md')
         self.assert_In('This link is cool', toc_txt)
+
+    def test_escape_square_bracket(self):
+        toc_txt = self.commonSetup('square_bracket.md')
+        self.assert_In('function(foo\[, bar\])', toc_txt)
