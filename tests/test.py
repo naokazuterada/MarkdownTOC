@@ -1,4 +1,4 @@
-# coding=utf-8
+# coding:utf-8
 import os
 import re
 import sys
@@ -31,8 +31,8 @@ class test_markdownTOC(TestCase):
     def getRow(self, row):
         return self.view.substr(self.view.line(self.view.text_point(row, 0)))
 
-    # move cursor to
     def moveTo(self, pos):
+        # Move cursor to...
         self.view.sel().clear()
         self.view.sel().add(sublime.Region(pos))
 
@@ -50,7 +50,6 @@ class test_markdownTOC(TestCase):
         return toc_contents
 
     def commonSetup(self, filename, insert_position=3):
-
         # 1. load file
         file = os.path.join(os.path.dirname(__file__), 'samples/' + filename)
         text = open(file).read()
