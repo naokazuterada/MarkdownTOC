@@ -32,11 +32,12 @@ class test_markdownTOC(TestCase):
         return self.view.substr(self.view.line(self.view.text_point(row, 0)))
 
     def moveTo(self, pos):
-        # Move cursor to...
+        """Move cursor to pos."""
         self.view.sel().clear()
         self.view.sel().add(sublime.Region(pos))
 
     def getTOC_text(self):
+        """Find TOC in the document, and return the list texts in it."""
         toc_region = self.view.find(
             "<!-- MarkdownTOC .*-->(.|\n)+?<!-- /MarkdownTOC -->",
             sublime.IGNORECASE)
@@ -66,12 +67,14 @@ class test_markdownTOC(TestCase):
     # -----
 
     def assert_NotIn(self, txt, toc_txt):
+        """Adapt assertNotIn to SublimeText2."""
         if VERSION < '3000':
             self.assertFalse(txt in toc_txt)
         else:
             self.assertNotIn(txt, toc_txt)
 
     def assert_In(self, txt, toc_txt):
+        """Adapt assertIn to SublimeText2."""
         if VERSION < '3000':
             self.assertTrue(txt in toc_txt)
         else:
