@@ -1,8 +1,12 @@
 # coding=utf-8
-import os,re,sys,sublime
+import os
+import re
+import sys
+import sublime
 from unittest import TestCase
 
 VERSION = sublime.version()
+
 
 class test_markdownTOC(TestCase):
 
@@ -48,7 +52,7 @@ class test_markdownTOC(TestCase):
     def commonSetup(self, filename, insert_position=3):
 
         # 1. load file
-        file = os.path.join(os.path.dirname(__file__), 'samples/'+filename)
+        file = os.path.join(os.path.dirname(__file__), 'samples/' + filename)
         text = open(file).read()
         self.setText(text)
 
@@ -80,7 +84,6 @@ class test_markdownTOC(TestCase):
         toc_txt = self.commonSetup('insert_position.md', 13)
         self.assert_NotIn('Heading 0', toc_txt)
 
-
     def test_after_than_TOC_should_be_included(self):
         toc_txt = self.commonSetup('insert_position.md', 13)
         self.assert_In('Heading 1', toc_txt)
@@ -99,4 +102,3 @@ class test_markdownTOC(TestCase):
     def test_escape_link(self):
         toc_txt = self.commonSetup('link.md')
         self.assert_In('This link is cool', toc_txt)
-
