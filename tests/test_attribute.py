@@ -4,6 +4,10 @@ from superclass import MarkdownTocTest
 class MarkdownTocTestAttribute(MarkdownTocTest):
     """ Test about attributes"""
 
+    # for debug
+    # def tearDown(self):
+    #     pass
+
     # -----------------
     # bracket
 

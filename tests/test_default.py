@@ -2,7 +2,11 @@
 from superclass import MarkdownTocTest
 
 class MarkdownTocTestDefault(MarkdownTocTest):
-    """Default Tests"""
+    """Default tests."""
+
+    # for debug
+    # def tearDown(self):
+    #     pass
 
     insert_position_text = \
 """

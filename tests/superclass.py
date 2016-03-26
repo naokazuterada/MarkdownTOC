@@ -9,7 +9,7 @@ VERSION = sublime.version()
 
 
 class MarkdownTocTest(TestCase):
-    """Super class includes common settings and functions"""
+    """Super class includes common settings and functions. This class doesn't include any tests."""
 
     def setUp(self):
         self.view = sublime.active_window().new_file()
