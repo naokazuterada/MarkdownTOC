@@ -229,7 +229,7 @@ You can control TOC depth.
 You can add an HTML anchor (`<a name="xxx"></a>`) before the heading automaticaly.
 
 ```
-<!-- MarkdownTOC autolink=true autoanchor=true brackets=round -->
+<!-- MarkdownTOC autolink=true autoanchor=true bracket=round -->
 
 - [Changelog](#changelog)
 - [Glossary](#glossary)
