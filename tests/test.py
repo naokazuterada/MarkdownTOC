@@ -44,13 +44,13 @@ class MarkdownTocTest(TestCase):
         toc_all = self.view.substr(toc_region)
 
         # pick toc contents
-        toc_contents = re.sub(r'<!-- MarkdownTOC .*-->', '', toc_all)
+        toc_contents = re.sub(r'<!-- MarkdownTOC .* -->', '', toc_all)
         toc_contents = re.sub(r'<!-- /MarkdownTOC -->', '', toc_contents)
         toc_contents = toc_contents.rstrip()
 
         return toc_contents
 
-    def commonSetupText(self, text, insert_position=3):
+    def commonSetup(self, text, insert_position=3):
         # 1. load text
         self.setText(text)
 
@@ -62,12 +62,22 @@ class MarkdownTocTest(TestCase):
         # 3. return TOC
         return self.getTOC_text()
 
-    def commonSetupFile(self, filename, insert_position=3):
-        # 1. load file
-        file = os.path.join(os.path.dirname(__file__), 'samples/' + filename)
-        text = open(file).read()
+    # def commonSetupFile(self, filename, insert_position=3):
+    #     # 1. load file
+    #     file = os.path.join(os.path.dirname(__file__), 'samples/' + filename)
+    #     text = open(file).read()
+    #
+    #     return self.commonSetup(text, insert_position)
 
-        return self.commonSetupText(text, insert_position)
+    def commonSetupAndUpdate(self, text, insert_position=3):
+        # 1. load text
+        self.setText(text)
+
+        # 2. update TOC
+        self.view.run_command('markdowntoc_update')
+
+        # 3. return TOC
+        return self.getTOC_text()
 
     # -----
 
@@ -85,7 +95,7 @@ class MarkdownTocTest(TestCase):
         else:
             self.assertIn(txt, toc_txt)
 
-    # =====
+    # ==========================================================
 
     insert_position_text = \
 """
@@ -113,11 +123,11 @@ class MarkdownTocTest(TestCase):
 ...
 """
     def test_before_than_TOC_should_be_ignored(self):
-        toc_txt = self.commonSetupText(self.insert_position_text, 13)
+        toc_txt = self.commonSetup(self.insert_position_text, 13)
         self.assert_NotIn('Heading 0', toc_txt)
 
     def test_after_than_TOC_should_be_included(self):
-        toc_txt = self.commonSetupText(self.insert_position_text, 13)
+        toc_txt = self.commonSetup(self.insert_position_text, 13)
         self.assert_In('Heading 1', toc_txt)
         self.assert_In('Heading 2', toc_txt)
         self.assert_In('Heading 3', toc_txt)
@@ -143,7 +153,7 @@ class MarkdownTocTest(TestCase):
 
 ```
 """
-        toc_txt = self.commonSetupText(text)
+        toc_txt = self.commonSetup(text)
         self.assert_In('Outside1', toc_txt)
         self.assert_In('Outside2', toc_txt)
         self.assert_NotIn('Inside1', toc_txt)
@@ -157,7 +167,7 @@ class MarkdownTocTest(TestCase):
 
 # This [link](http://sample.com/) is cool
 """
-        toc_txt = self.commonSetupText(text)
+        toc_txt = self.commonSetup(text)
         self.assert_In('This link is cool', toc_txt)
 
     def test_escape_brackets(self):
@@ -170,5 +180,45 @@ class MarkdownTocTest(TestCase):
 
 # function(foo[, bar])
 """
-        toc_txt = self.commonSetupText(text)
+        toc_txt = self.commonSetup(text)
         self.assert_In('function\(foo\[, bar\]\)', toc_txt)
+
+    # ====
+    # attributes
+
+    # bracket
+    def test_attribute_bracket_default(self):
+        text = \
+"""
+
+
+# foo bar
+"""
+        toc_txt = self.commonSetup(text)
+        self.assert_In('- [foo bar][foo-bar]', toc_txt)
+
+    def test_attribute_bracket_square(self):
+        text = \
+"""
+
+<!-- MarkdownTOC bracket=square -->
+
+<!-- /MarkdownTOC -->
+
+# foo bar
+"""
+        toc_txt = self.commonSetup(text)
+        self.assert_In('- [foo bar][foo-bar]', toc_txt)
+
+    def test_attribute_bracket_round(self):
+        text = \
+"""
+
+<!-- MarkdownTOC bracket=round -->
+
+<!-- /MarkdownTOC -->
+
+# foo bar
+"""
+        toc_txt = self.commonSetupAndUpdate(text)
+        self.assert_In('- [foo bar](#foo-bar)', toc_txt)
