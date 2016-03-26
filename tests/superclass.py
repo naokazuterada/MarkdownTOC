@@ -80,6 +80,16 @@ class MarkdownTocTest(TestCase):
         # 3. return TOC
         return self.getTOC_text()
 
+    def commonSetupAndUpdateGetBody(self, text, insert_position=3):
+        # 1. load text
+        self.setText(text)
+
+        # 2. update TOC
+        self.view.run_command('markdowntoc_update')
+
+        # 3. return Body Text
+        return self.view.substr(sublime.Region(0, self.view.size()))
+
     # -----
 
     def assert_NotIn(self, txt, toc_txt):
