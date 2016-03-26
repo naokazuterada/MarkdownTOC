@@ -1,8 +1,8 @@
 # coding:utf-8
-from superclass import MarkdownTocTest
+from base import TestBase
 
-class MarkdownTocTestDefault(MarkdownTocTest):
-    """Default tests."""
+class TestDefault(TestBase):
+    """Default tests"""
 
     # for debug
     # def tearDown(self):

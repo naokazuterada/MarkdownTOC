@@ -1,8 +1,8 @@
 # coding:utf-8
-from superclass import MarkdownTocTest
+from base import TestBase
 
-class MarkdownTocTestAttribute(MarkdownTocTest):
-    """ Test about attributes"""
+class TestAttribute(TestBase):
+    """Test of attributes"""
 
     # for debug
     # def tearDown(self):

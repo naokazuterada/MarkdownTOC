@@ -8,7 +8,7 @@ from unittest import TestCase
 VERSION = sublime.version()
 
 
-class MarkdownTocTest(TestCase):
+class TestBase(TestCase):
     """Super class includes common settings and functions. This class doesn't include any tests."""
 
     def setUp(self):
