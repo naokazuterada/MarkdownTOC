@@ -1,4 +1,4 @@
-MarkdownTOC - 1.6.0
+MarkdownTOC - 1.7.0
 
 CHANGES
 

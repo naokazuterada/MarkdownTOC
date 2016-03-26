@@ -1,4 +1,4 @@
-# coding=utf-8
+# coding:utf-8
 import os
 import re
 import sys
@@ -8,7 +8,7 @@ from unittest import TestCase
 VERSION = sublime.version()
 
 
-class test_markdownTOC(TestCase):
+class MarkdownTocTest(TestCase):
 
     def setUp(self):
         self.view = sublime.active_window().new_file()
@@ -31,12 +31,13 @@ class test_markdownTOC(TestCase):
     def getRow(self, row):
         return self.view.substr(self.view.line(self.view.text_point(row, 0)))
 
-    # move cursor to
     def moveTo(self, pos):
+        """Move cursor to pos."""
         self.view.sel().clear()
         self.view.sel().add(sublime.Region(pos))
 
     def getTOC_text(self):
+        """Find TOC in the document, and return the list texts in it."""
         toc_region = self.view.find(
             "<!-- MarkdownTOC .*-->(.|\n)+?<!-- /MarkdownTOC -->",
             sublime.IGNORECASE)
@@ -49,11 +50,8 @@ class test_markdownTOC(TestCase):
 
         return toc_contents
 
-    def commonSetup(self, filename, insert_position=3):
-
-        # 1. load file
-        file = os.path.join(os.path.dirname(__file__), 'samples/' + filename)
-        text = open(file).read()
+    def commonSetupText(self, text, insert_position=3):
+        # 1. load text
         self.setText(text)
 
         # 2. insert TOC
@@ -64,15 +62,24 @@ class test_markdownTOC(TestCase):
         # 3. return TOC
         return self.getTOC_text()
 
+    def commonSetupFile(self, filename, insert_position=3):
+        # 1. load file
+        file = os.path.join(os.path.dirname(__file__), 'samples/' + filename)
+        text = open(file).read()
+
+        return self.commonSetupText(text, insert_position)
+
     # -----
 
     def assert_NotIn(self, txt, toc_txt):
+        """Adapt assertNotIn to SublimeText2."""
         if VERSION < '3000':
             self.assertFalse(txt in toc_txt)
         else:
             self.assertNotIn(txt, toc_txt)
 
     def assert_In(self, txt, toc_txt):
+        """Adapt assertIn to SublimeText2."""
         if VERSION < '3000':
             self.assertTrue(txt in toc_txt)
         else:
@@ -80,19 +87,63 @@ class test_markdownTOC(TestCase):
 
     # =====
 
+    insert_position_text = \
+"""
+# Heading 0
+
+
+
+# Heading 1
+
+...
+
+
+## Heading 2
+
+...
+
+
+## Heading 3
+
+...
+
+
+# Heading with anchor [with-anchor]
+
+...
+"""
     def test_before_than_TOC_should_be_ignored(self):
-        toc_txt = self.commonSetup('insert_position.md', 13)
+        toc_txt = self.commonSetupText(self.insert_position_text, 13)
         self.assert_NotIn('Heading 0', toc_txt)
 
     def test_after_than_TOC_should_be_included(self):
-        toc_txt = self.commonSetup('insert_position.md', 13)
+        toc_txt = self.commonSetupText(self.insert_position_text, 13)
         self.assert_In('Heading 1', toc_txt)
         self.assert_In('Heading 2', toc_txt)
         self.assert_In('Heading 3', toc_txt)
         self.assert_In('Heading with anchor', toc_txt)
 
     def test_ignore_inside_codeblock(self):
-        toc_txt = self.commonSetup('codeblock.md')
+        text = \
+"""
+
+
+# Outside1
+
+```
+# Inseide
+```
+
+# Outside2
+
+```
+
+# Inseide2
+# Inseide3
+
+```
+"""
+        toc_txt = self.commonSetupText(text)
         self.assert_In('Outside1', toc_txt)
         self.assert_In('Outside2', toc_txt)
         self.assert_NotIn('Inside1', toc_txt)
@@ -100,5 +151,24 @@ class test_markdownTOC(TestCase):
         self.assert_NotIn('Inside3', toc_txt)
 
     def test_escape_link(self):
-        toc_txt = self.commonSetup('link.md')
+        text = \
+"""
+
+
+# This [link](http://sample.com/) is cool
+"""
+        toc_txt = self.commonSetupText(text)
         self.assert_In('This link is cool', toc_txt)
+
+    def test_escape_brackets(self):
+        """Broken reference when header has square brackets
+        https://github.com/naokazuterada/MarkdownTOC/issues/57
+        """
+        text = \
+"""
+
+
+# function(foo[, bar])
+"""
+        toc_txt = self.commonSetupText(text)
+        self.assert_In('function\(foo\[, bar\]\)', toc_txt)

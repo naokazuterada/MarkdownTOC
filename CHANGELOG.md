@@ -1,6 +1,10 @@
 Changes in MarkdownTOC
 ===========================
 
+## 1.7.1
+
+- Fix issue about escaping brackets
+
 ## 1.7.0
 
 - Add 'style' feature

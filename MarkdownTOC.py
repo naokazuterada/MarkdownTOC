@@ -7,9 +7,9 @@ import pprint
 # for dbug
 pp = pprint.PrettyPrinter(indent=4)
 
-pattern_reference_link = re.compile(r'\[.+?\]') # [Heading][my-id]
+pattern_reference_link = re.compile(r'\[.+?\]$') # [Heading][my-id]
 pattern_link = re.compile(r'\[(.+?)\]\(.+?\)')  # [link](http://www.sample.com/)
-pattern_ex_id = re.compile(r'\{#.+?\}')         # [Heading]{#my-id}
+pattern_ex_id = re.compile(r'\{#.+?\}$')         # [Heading]{#my-id}
 pattern_tag = re.compile(r'<.*?>')
 pattern_anchor = re.compile(r'<a\s+name="[^"]+"\s*>\s*</a>')
 
@@ -198,8 +198,7 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
                 _text = _text[0:match.start()].replace('[','').replace(']','').rstrip()
                 _id = match.group().replace('[','').replace(']','')
             elif match_ex_id:
-                _text = _text[0:match_ex_id.start()]
-                _text = _text.rstrip()
+                _text = _text[0:match_ex_id.start()].rstrip()
                 _id = match_ex_id.group().replace('{#','').replace('}','')
             elif attrs['autolink']:
                 _id = self.replace_chars_in_id(_text.lower())
@@ -219,6 +218,14 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
                 elif len(level_counters) < item[0]:
                     level_counters.append(1)
                 list_prefix = "%d. " % level_counters[-1]
+
+
+            # escape brackets
+            _text = _text\
+                        .replace('(','\(')\
+                        .replace(')','\)')\
+                        .replace('[','\[')\
+                        .replace(']','\]')
 
             if _id == None:
                 toc += list_prefix + _text + '\n'
