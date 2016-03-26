@@ -160,7 +160,10 @@ class MarkdownTocTest(TestCase):
         toc_txt = self.commonSetupText(text)
         self.assert_In('This link is cool', toc_txt)
 
-    def test_escape_square_bracket(self):
+    def test_escape_brackets(self):
+        """Broken reference when header has square brackets
+        https://github.com/naokazuterada/MarkdownTOC/issues/57
+        """
         text = \
 """
 
@@ -168,4 +171,4 @@ class MarkdownTocTest(TestCase):
 # function(foo[, bar])
 """
         toc_txt = self.commonSetupText(text)
-        self.assert_In('function(foo\[, bar\])', toc_txt)
+        self.assert_In('function\(foo\[, bar\]\)', toc_txt)
