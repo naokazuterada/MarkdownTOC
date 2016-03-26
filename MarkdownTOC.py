@@ -249,10 +249,10 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
             is_update = pattern_anchor.match(v.substr(anchor_region))
             if autoanchor:
                 if is_update:
-                    new_anchor = '<a name="{}"></a>'.format(item[3])
+                    new_anchor = '<a name="{0}"></a>'.format(item[3])
                     v.replace(edit, anchor_region, new_anchor)
                 else:
-                    new_anchor = '\n<a name="{}"></a>'.format(item[3])
+                    new_anchor = '\n<a name="{0}"></a>'.format(item[3])
                     v.insert(edit, anchor_region.end(), new_anchor)
 
             else:
