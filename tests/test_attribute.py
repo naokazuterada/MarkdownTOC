@@ -147,9 +147,7 @@ class TestAttribute(TestBase):
 <!-- /MarkdownTOC -->
 
 # Changelog
-
 # Glossary
-
 # API Specification
 """
     def get_body_text():
