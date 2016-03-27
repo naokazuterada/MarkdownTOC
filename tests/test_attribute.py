@@ -150,9 +150,6 @@ class TestAttribute(TestBase):
 # Glossary
 # API Specification
 """
-    def get_body_text():
-        pass
-
     def test_autoanchor_false(self):
         """Default Auto Anchor is false"""
         body_txt = self.commonSetupAndUpdateGetBody(self.autoanchor_text.format(''))
