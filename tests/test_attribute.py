@@ -200,8 +200,7 @@ class TestAttribute(TestBase):
         self.assert_In('2. buz', toc_txt)
         self.assert_In('2. qux', toc_txt)
 
-    def test_style_default(self):
-        """Default Style is unordered"""
+    def test_style_unordered(self):
         toc_txt = self.commonSetup(self.style_text.format('style=unordered'))
         self.assert_In('- foo', toc_txt)
         self.assert_In('- bar', toc_txt)
