@@ -185,7 +185,7 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
 
             # Add indent
             for i in range(_indent):
-                toc += '\t'
+                toc += '    '
 
             # Reference-style links: e.g. '# heading [my-anchor]'
             list_reference_link = list(pattern_reference_link.finditer(_text))
