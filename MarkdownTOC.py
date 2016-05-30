@@ -32,7 +32,8 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
                     "autolink":   self.get_setting('default_autolink'),
                     "bracket":    self.get_setting('default_bracket'),
                     "autoanchor": self.get_setting('default_autoanchor'),
-                    "style":      self.get_setting('default_style')
+                    "style":      self.get_setting('default_style'),
+                    "indent":     self.get_setting('default_indent')
                     }
                 # add TOCTAG
                 toc = TOCTAG_START + "\n"
@@ -83,13 +84,21 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
                 if style_search != None:
                     style_val = str(style_search.group(1))
 
+                indent_val = self.get_setting('default_indent')
+                indent_search = re.search(" indent=\"(.+)\" ", tag_str)
+                if indent_search == None:
+                    indent_search = re.search(" indent=\'(.+)\' ", tag_str)
+                if indent_search != None:
+                    indent_val = str(indent_search.group(1))
+
                 toc_open_tag = {
                     "region":     toc_open,
                     "depth":      depth_val,
                     "autolink":   autolink_val,
                     "bracket":    bracket_val,
                     "autoanchor": autoanchor_val,
-                    "style":      style_val
+                    "style":      style_val,
+                    "indent":     indent_val
                 }
                 toc_open_tags.append(toc_open_tag)
 
@@ -185,7 +194,7 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
 
             # Add indent
             for i in range(_indent):
-                toc += '\t'
+                toc += attrs['indent']
 
             # Reference-style links: e.g. '# heading [my-anchor]'
             list_reference_link = list(pattern_reference_link.finditer(_text))
