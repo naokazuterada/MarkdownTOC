@@ -1,6 +1,10 @@
 Changes in MarkdownTOC
 ===========================
 
+## 1.8.0
+
+- Enable to change indent prefix. ('Indent' feature)
+
 ## 1.7.1
 
 - Fix issue about escaping brackets
