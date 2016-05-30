@@ -149,6 +149,8 @@ This will be useful on Github.
 <!-- /MarkdownTOC -->
 ```
 
+You can also set this in sublime-settings with key `default_autolink`.
+
 #### Replecements for id characters
 
 You can also edit replecements when using 'Auto link' feature like following settings.
@@ -200,6 +202,8 @@ This heading changes to link with following id.
 <!-- /MarkdownTOC -->
 ```
 
+You can also set this in sublime-settings with key `default_bracket`.
+
 
 ### Depth
 
@@ -228,6 +232,8 @@ You can control TOC depth.
 <!-- /MarkdownTOC -->
 ```
 
+You can also set this in sublime-settings with key `default_depth`.
+
 ### Auto anchor
 
 You can add an HTML anchor (`<a name="xxx"></a>`) before the heading automaticaly.
@@ -253,6 +259,8 @@ Lorem ipsum...
 # API Specification
 Lorem ipsum...
 ```
+
+You can also set this in sublime-settings with key `default_autoanchor`.
 
 ### Style
 
@@ -283,6 +291,8 @@ You can control the type of list representing the TOC:
 <!-- /MarkdownTOC -->
 ```
 
+You can also set this in sublime-settings with key `default_style`.
+
 ### Indent
 
 You can set indent prefix.
@@ -297,6 +307,8 @@ You can set indent prefix.
 
 <!-- /MarkdownTOC -->
 ```
+
+You can also set this in sublime-settings with key `default_indent`.
 
 ## Install
 
