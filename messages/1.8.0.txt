@@ -1,0 +1,19 @@
+MarkdownTOC - 1.8.0
+
+CHANGES
+
+- Enable to change indent prefix. ('Indent' feature)
+
+
+You can set indent prefix.
+
+```
+4 spaces
+<!-- MarkdownTOC indent="    " -->
+
+- foo
+    - bar
+        - buz
+
+<!-- /MarkdownTOC -->
+```
