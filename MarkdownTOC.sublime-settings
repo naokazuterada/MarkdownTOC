@@ -7,5 +7,6 @@
     "" : ["!","#","$","&","'","(",")","*","+",",","/",":",";","=","?","@","[","]","`","\"", ".","<",">","{","}","™","®","©"]
   },
   "default_autoanchor": false,
-  "default_style": "unordered"
+  "default_style": "unordered",
+  "default_indent": "\t"
 }

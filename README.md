@@ -23,6 +23,7 @@ This plugin search headings in document and insert TOC(Table Of Contents) to it.
   - [Depth](#depth)
   - [Auto anchor](#auto-anchor)
   - [Style](#style)
+  - [Indent](#indent)
 - [Install](#install)
 - [Contribution](#contribution)
 - [Licence](#licence)
@@ -40,6 +41,7 @@ This plugin search headings in document and insert TOC(Table Of Contents) to it.
 - Depth control
 - Auto link (useful on Github etc.)
 - Ordered or unordered list
+- Indent prefix
 
 ## Sample
 
@@ -90,13 +92,14 @@ TOC tag is able to having attributes.
 
 ## Attributes
 
-| attributes                | values                      | defaults    | keys in settings     |
-|:------------------------- |:--------------------------- |:----------- |:-------------------- |
-| [autolink](#auto-link)    | `true`or`false`             | `false`     | `default_autolink`   |
-| [bracket](#bracket)       | `square`or`round`           | `square`    | `default_bracket`    |
-| [depth](#depth)           | uint (`0` means "no limit") | `2`         | `default_depth`      |
-| [autoanchor](#autoanchor) | `true`or`false`             | `false`     | `default_autoanchor` |
-| [style](#style)           | `ordered` or `unordered`    | `unordered` | `default_style`    |
+| attributes                | values                      | defaults      | keys in settings     |
+|:------------------------- |:--------------------------- |:------------- |:-------------------- |
+| [autolink](#auto-link)    | `true`or`false`             | `false`       | `default_autolink`   |
+| [bracket](#bracket)       | `square`or`round`           | `'square'`    | `default_bracket`    |
+| [depth](#depth)           | uint (`0` means "no limit") | `2`           | `default_depth`      |
+| [autoanchor](#autoanchor) | `true`or`false`             | `false`       | `default_autoanchor` |
+| [style](#style)           | `ordered` or `unordered`    | `'unordered'` | `default_style`      |
+| [indent](#indent)         | string                      | `'\t'`        | `default_indent`     |
 
 You can set default values. Preference > Package Settings > MarkdownTOC > Settings - User
 
@@ -108,14 +111,15 @@ You can set default values. Preference > Package Settings > MarkdownTOC > Settin
   "default_bracket": "square",
   "default_depth": 2,
   "default_autoanchor": false,
-  "default_style": "unordered"
+  "default_style": "unordered",
+  "default_indent": "\t"
 }
 ```
 
 All attributes can be overridden in each TOC open tags like...
 
 ```
-<!-- MarkdownTOC depth=2 autolink=true bracket=round autoanchor=true style=ordered -->
+<!-- MarkdownTOC depth=2 autolink=true bracket=round autoanchor=true style=ordered indent="    " -->
 ```
 
 
@@ -275,6 +279,21 @@ You can control the type of list representing the TOC:
     2. quux
   2. buz
 2. qux
+
+<!-- /MarkdownTOC -->
+```
+
+### Indent
+
+You can set indent prefix.
+
+```
+4 spaces
+<!-- MarkdownTOC indent="    " -->
+
+- foo
+    - bar
+        - buz
 
 <!-- /MarkdownTOC -->
 ```
