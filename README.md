@@ -17,13 +17,13 @@ This plugin search headings in document and insert TOC(Table Of Contents) to it.
 - [Sample](#sample)
 - [Usage](#usage)
 - [Attributes](#attributes)
-	- [Auto link](#auto-link)
-		- [Replecements for id characters](#replecements-for-id-characters)
-	- [Bracket](#bracket)
-	- [Depth](#depth)
-	- [Auto anchor](#auto-anchor)
-	- [Style](#style)
-	- [Indent](#indent)
+  - [Auto link](#auto-link)
+    - [Replecements for id characters](#replecements-for-id-characters)
+  - [Bracket](#bracket)
+  - [Depth](#depth)
+  - [Auto anchor](#auto-anchor)
+  - [Style](#style)
+  - [Indent](#indent)
 - [Install](#install)
 - [Contribution](#contribution)
 - [Licence](#licence)
@@ -41,6 +41,7 @@ This plugin search headings in document and insert TOC(Table Of Contents) to it.
 - Depth control
 - Auto link (useful on Github etc.)
 - Ordered or unordered list
+- Indent prefix
 
 ## Sample
 
@@ -118,7 +119,7 @@ You can set default values. Preference > Package Settings > MarkdownTOC > Settin
 All attributes can be overridden in each TOC open tags like...
 
 ```
-<!-- MarkdownTOC depth=2 autolink=true bracket=round autoanchor=true style=ordered -->
+<!-- MarkdownTOC depth=2 autolink=true bracket=round autoanchor=true style=ordered indent="    " -->
 ```
 
 
@@ -284,10 +285,10 @@ You can control the type of list representing the TOC:
 
 ### Indent
 
-You can set tabs or spaces for indentation.
+You can set indent prefix.
 
 ```
-# 4 spaces
+4 spaces
 <!-- MarkdownTOC indent="    " -->
 
 - foo
