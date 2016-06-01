@@ -197,8 +197,8 @@ class TestAttribute(TestBase):
         toc_txt = self.commonSetup(self.style_text.format('style=ordered'))
         self.assert_In('1. foo', toc_txt)
         self.assert_In('1. bar', toc_txt)
-        self.assert_In('2. buz', toc_txt)
-        self.assert_In('2. qux', toc_txt)
+        self.assert_In('1. buz', toc_txt)
+        self.assert_In('1. qux', toc_txt)
 
     def test_style_unordered(self):
         toc_txt = self.commonSetup(self.style_text.format('style=unordered'))
