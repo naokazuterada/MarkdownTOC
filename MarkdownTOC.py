@@ -243,35 +243,14 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
     def get_attibutes_from(self, tag_str):
         """return dict of settings from tag_str"""
 
-        res = {}
+        # change toc tag to a tag
+        tag_str_html = tag_str\
+            .replace('<!-- MarkdownTOC', '<a')\
+            .replace('-->', '>')
 
-        depth_search = re.search(" depth=(\w+) ", tag_str)
-        if depth_search != None:
-            res['depth'] = int(depth_search.group(1))
+        soup = BeautifulSoup(tag_str_html)
 
-        autolink_search = re.search(" autolink=(\w+) ", tag_str)
-        if autolink_search != None:
-            res['autolink'] = strtobool(autolink_search.group(1)) # cast to bool
-
-        bracket_search = re.search(" bracket=(\w+) ", tag_str)
-        if bracket_search != None:
-            res['bracket'] = str(bracket_search.group(1))
-
-        autoanchor_search = re.search(" autoanchor=(\w+) ", tag_str)
-        if autoanchor_search != None:
-            res['autoanchor'] = strtobool(autoanchor_search.group(1)) # cast to bool
-
-        style_search = re.search(" style=(\w+) ", tag_str)
-        if style_search != None:
-            res['style'] = str(style_search.group(1))
-
-        indent_search = re.search(" indent=\"(.+)\" ", tag_str)
-        if indent_search == None:
-            indent_search = re.search(" indent=\'(.+)\' ", tag_str)
-        if indent_search != None:
-            res['indent'] = str(indent_search.group(1))
-
-        return res
+        return soup.find('a').attrs
 
     def remove_items_in_codeblock(self, items):
 
