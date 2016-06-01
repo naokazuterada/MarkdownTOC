@@ -309,27 +309,17 @@ def format(items):
     headings = []
     for item in items:
         headings.append(item[0])
-    # ----------
+    # --------------------------
 
-    # set root to 1
-    min_heading = min(headings)
-    if 1 < min_heading:
-        for i, item in enumerate(headings):
-            headings[i] -= min_heading - 1
-
-    # minimize "jump width"
+    # minimize diff between headings -----
+    _depths = headings
+    _depths = list(set(_depths)) # sort and unique
+    # replace with depth rank
     for i, item in enumerate(headings):
-        if 0 < i and 1 < item - headings[i - 1]:
-            before = headings[i]
-            after = headings[i - 1] + 1
-            headings[i] = after
-            for n in range(i + 1, len(headings)):
-                if(headings[n] == before):
-                    headings[n] = after
-                else:
-                    break
+        headings[i] = _depths.index(headings[i])+1
+    # ----- /minimize diff between headings
 
-    # ----------
+    # --------------------------
     for i, item in enumerate(items):
         item[0] = headings[i]
     return items
