@@ -34,7 +34,7 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
                     "autoanchor": self.get_setting('default_autoanchor'),
                     "style":      self.get_setting('default_style'),
                     "indent":     self.get_setting('default_indent')
-                    }
+                }
                 # add TOCTAG
                 toc = TOCTAG_START + "\n"
                 toc += "\n"
