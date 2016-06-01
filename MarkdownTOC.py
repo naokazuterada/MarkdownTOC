@@ -111,8 +111,8 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
             if start < close_tag.begin():
                 return close_tag
 
-    # Search MarkdownTOC comments in document
     def find_tag_and_insert(self, edit):
+        """Search MarkdownTOC comments in document"""
         toc_starts = self.get_toc_open_tag()
         for dic in toc_starts:
 
@@ -328,8 +328,8 @@ def log(arg):
     sublime.status_message(arg)
     pp.pprint(arg)
 
-# pick out from 'distutils.util' module
 def strtobool(val):
+    """pick out from 'distutils.util' module"""
     val = val.lower()
     if val in ('y', 'yes', 't', 'true', 'on', '1'):
         return 1
