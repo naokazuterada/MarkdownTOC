@@ -105,7 +105,7 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
     def get_toc(self, attrs, begin, edit):
 
         # Search headings in docment
-        if attrs['depth'] == 0:
+        if int(attrs['depth']) == 0:
             pattern_hash = "^#+?[^#]"
         else:
             pattern_hash = "^#{1," + str(attrs['depth']) + "}[^#]"
@@ -174,7 +174,7 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
             elif match_ex_id:
                 _text = _text[0:match_ex_id.start()].rstrip()
                 _id = match_ex_id.group().replace('{#','').replace('}','')
-            elif attrs['autolink']:
+            elif strtobool(attrs['autolink']):
                 _id = self.replace_chars_in_id(_text.lower())
                 _ids.append(_id)
                 n = _ids.count(_id)
@@ -202,7 +202,7 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
 
             item.append(_id)
 
-        self.update_anchors(edit, items, bool(attrs['autoanchor']))
+        self.update_anchors(edit, items, strtobool(attrs['autoanchor']))
 
         return toc
 
@@ -310,13 +310,16 @@ def log(arg):
 
 def strtobool(val):
     """pick out from 'distutils.util' module"""
-    val = val.lower()
-    if val in ('y', 'yes', 't', 'true', 'on', '1'):
-        return 1
-    elif val in ('n', 'no', 'f', 'false', 'off', '0'):
-        return 0
+    if isinstance(val, str):
+        val = val.lower()
+        if val in ('y', 'yes', 't', 'true', 'on', '1'):
+            return 1
+        elif val in ('n', 'no', 'f', 'false', 'off', '0'):
+            return 0
+        else:
+            raise ValueError("invalid truth value %r" % (val,))
     else:
-        raise ValueError("invalid truth value %r" % (val,))
+        return bool(val)
 
 
 # Search and refresh if it's exist
