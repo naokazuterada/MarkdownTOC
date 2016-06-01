@@ -1,6 +1,10 @@
 Changes in MarkdownTOC
 ===========================
 
+## 1.9.0
+
+- Enable HTML-like attribute style
+
 ## 1.8.0
 
 - Enable to change indent prefix. ('Indent' feature)

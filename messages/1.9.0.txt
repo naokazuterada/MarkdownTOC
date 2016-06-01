@@ -1,0 +1,26 @@
+MarkdownTOC - 1.9.0
+
+CHANGES
+
+- Enable HTML-like attribute style
+
+
+Until 1.8.0, you have to write like below.
+
+```
+<!-- MarkdownTOC depth=5 -->
+<!-- /MarkdownTOC -->
+```
+
+Now you can write something like below.
+
+```
+<!-- MarkdownTOC depth=5 -->
+<!-- /MarkdownTOC -->
+
+<!-- MarkdownTOC depth="5" -->
+<!-- /MarkdownTOC -->
+
+<!-- MarkdownTOC depth='5' -->
+<!-- /MarkdownTOC -->
+```
