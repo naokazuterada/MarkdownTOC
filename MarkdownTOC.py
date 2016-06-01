@@ -27,14 +27,8 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
         if not self.find_tag_and_insert(edit):
             sels = self.view.sel()
             for sel in sels:
-                attrs = {
-                    "depth":      self.get_setting('default_depth'),
-                    "autolink":   self.get_setting('default_autolink'),
-                    "bracket":    self.get_setting('default_bracket'),
-                    "autoanchor": self.get_setting('default_autoanchor'),
-                    "style":      self.get_setting('default_style'),
-                    "indent":     self.get_setting('default_indent')
-                }
+                attrs = self.get_settings()
+
                 # add TOCTAG
                 toc = TOCTAG_START + "\n"
                 toc += "\n"
