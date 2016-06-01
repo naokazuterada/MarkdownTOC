@@ -3,6 +3,7 @@ import sublime_plugin
 import re
 import os.path
 import pprint
+from .bs4 import BeautifulSoup
 
 # for dbug
 pp = pprint.PrettyPrinter(indent=4)
@@ -104,7 +105,7 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
     def get_toc(self, attrs, begin, edit):
 
         # Search headings in docment
-        if attrs['depth'] == 0:
+        if int(attrs['depth']) == 0:
             pattern_hash = "^#+?[^#]"
         else:
             pattern_hash = "^#{1," + str(attrs['depth']) + "}[^#]"
@@ -173,7 +174,7 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
             elif match_ex_id:
                 _text = _text[0:match_ex_id.start()].rstrip()
                 _id = match_ex_id.group().replace('{#','').replace('}','')
-            elif attrs['autolink']:
+            elif strtobool(attrs['autolink']):
                 _id = self.replace_chars_in_id(_text.lower())
                 _ids.append(_id)
                 n = _ids.count(_id)
@@ -201,7 +202,7 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
 
             item.append(_id)
 
-        self.update_anchors(edit, items, bool(attrs['autoanchor']))
+        self.update_anchors(edit, items, strtobool(attrs['autoanchor']))
 
         return toc
 
@@ -242,35 +243,14 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
     def get_attibutes_from(self, tag_str):
         """return dict of settings from tag_str"""
 
-        res = {}
+        # change toc tag to a tag
+        tag_str_html = tag_str\
+            .replace('<!-- MarkdownTOC', '<a')\
+            .replace('-->', '>')
 
-        depth_search = re.search(" depth=(\w+) ", tag_str)
-        if depth_search != None:
-            res['depth'] = int(depth_search.group(1))
+        soup = BeautifulSoup(tag_str_html)
 
-        autolink_search = re.search(" autolink=(\w+) ", tag_str)
-        if autolink_search != None:
-            res['autolink'] = strtobool(autolink_search.group(1)) # cast to bool
-
-        bracket_search = re.search(" bracket=(\w+) ", tag_str)
-        if bracket_search != None:
-            res['bracket'] = str(bracket_search.group(1))
-
-        autoanchor_search = re.search(" autoanchor=(\w+) ", tag_str)
-        if autoanchor_search != None:
-            res['autoanchor'] = strtobool(autoanchor_search.group(1)) # cast to bool
-
-        style_search = re.search(" style=(\w+) ", tag_str)
-        if style_search != None:
-            res['style'] = str(style_search.group(1))
-
-        indent_search = re.search(" indent=\"(.+)\" ", tag_str)
-        if indent_search == None:
-            indent_search = re.search(" indent=\'(.+)\' ", tag_str)
-        if indent_search != None:
-            res['indent'] = str(indent_search.group(1))
-
-        return res
+        return soup.find('a').attrs
 
     def remove_items_in_codeblock(self, items):
 
@@ -330,13 +310,16 @@ def log(arg):
 
 def strtobool(val):
     """pick out from 'distutils.util' module"""
-    val = val.lower()
-    if val in ('y', 'yes', 't', 'true', 'on', '1'):
-        return 1
-    elif val in ('n', 'no', 'f', 'false', 'off', '0'):
-        return 0
+    if isinstance(val, str):
+        val = val.lower()
+        if val in ('y', 'yes', 't', 'true', 'on', '1'):
+            return 1
+        elif val in ('n', 'no', 'f', 'false', 'off', '0'):
+            return 0
+        else:
+            raise ValueError("invalid truth value %r" % (val,))
     else:
-        raise ValueError("invalid truth value %r" % (val,))
+        return bool(val)
 
 
 # Search and refresh if it's exist
