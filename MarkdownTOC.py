@@ -3,6 +3,7 @@ import sublime_plugin
 import re
 import os.path
 import pprint
+from .bs4 import BeautifulSoup
 
 # for dbug
 pp = pprint.PrettyPrinter(indent=4)
@@ -23,6 +24,13 @@ isST3 = 3000 < int(sublime.version())
 class MarkdowntocInsert(sublime_plugin.TextCommand):
 
     def run(self, edit):
+        html = """
+        <html>
+        <body><h1>hoge</h1></body>
+        </html>
+        """
+        soup = BeautifulSoup(html)
+        log('moge')
 
         if not self.find_tag_and_insert(edit):
             sels = self.view.sel()
