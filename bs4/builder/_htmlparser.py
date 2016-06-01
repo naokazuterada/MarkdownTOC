@@ -30,16 +30,16 @@ CONSTRUCTOR_STRICT_IS_DEPRECATED = major == 3 and minor == 3
 CONSTRUCTOR_TAKES_CONVERT_CHARREFS = major == 3 and minor >= 4
 
 
-from bs4.element import (
+from MarkdownTOC.bs4.element import (
     CData,
     Comment,
     Declaration,
     Doctype,
     ProcessingInstruction,
     )
-from bs4.dammit import EntitySubstitution, UnicodeDammit
+from MarkdownTOC.bs4.dammit import EntitySubstitution, UnicodeDammit
 
-from bs4.builder import (
+from MarkdownTOC.bs4.builder import (
     HTML,
     HTMLTreeBuilder,
     STRICT,
