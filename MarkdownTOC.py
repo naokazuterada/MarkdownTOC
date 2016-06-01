@@ -57,49 +57,19 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
         for toc_open in search_results:
             if 0 < len(toc_open):
 
+                toc_open_tag = {"region": toc_open}
+
+                # settings in user settings
+                settings_user = self.get_settings()
+
+                # settings in tag
                 tag_str = self.view.substr(toc_open)
+                settings_tag = self.get_attibutes_from(tag_str)
 
-                depth_val = self.get_setting('default_depth')
-                depth_search = re.search(" depth=(\w+) ", tag_str)
-                if depth_search != None:
-                    depth_val = int(depth_search.group(1))
+                # merge
+                toc_open_tag.update(settings_user)
+                toc_open_tag.update(settings_tag)
 
-                autolink_val = self.get_setting('default_autolink')
-                autolink_search = re.search(" autolink=(\w+) ", tag_str)
-                if autolink_search != None:
-                    autolink_val = strtobool(autolink_search.group(1)) # cast to bool
-
-                bracket_val = self.get_setting('default_bracket')
-                bracket_search = re.search(" bracket=(\w+) ", tag_str)
-                if bracket_search != None:
-                    bracket_val = str(bracket_search.group(1))
-
-                autoanchor_val = self.get_setting('default_autoanchor')
-                autoanchor_search = re.search(" autoanchor=(\w+) ", tag_str)
-                if autoanchor_search != None:
-                    autoanchor_val = strtobool(autoanchor_search.group(1)) # cast to bool
-
-                style_val = self.get_setting('default_style')
-                style_search = re.search(" style=(\w+) ", tag_str)
-                if style_search != None:
-                    style_val = str(style_search.group(1))
-
-                indent_val = self.get_setting('default_indent')
-                indent_search = re.search(" indent=\"(.+)\" ", tag_str)
-                if indent_search == None:
-                    indent_search = re.search(" indent=\'(.+)\' ", tag_str)
-                if indent_search != None:
-                    indent_val = str(indent_search.group(1))
-
-                toc_open_tag = {
-                    "region":     toc_open,
-                    "depth":      depth_val,
-                    "autolink":   autolink_val,
-                    "bracket":    bracket_val,
-                    "autoanchor": autoanchor_val,
-                    "style":      style_val,
-                    "indent":     indent_val
-                }
                 toc_open_tags.append(toc_open_tag)
 
         return toc_open_tags
@@ -263,6 +233,50 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
     def get_setting(self, attr):
         settings = sublime.load_settings('MarkdownTOC.sublime-settings')
         return settings.get(attr)
+
+    def get_settings(self):
+        """return dict of settings"""
+        return {
+            "depth":      self.get_setting('default_depth'),
+            "autolink":   self.get_setting('default_autolink'),
+            "bracket":    self.get_setting('default_bracket'),
+            "autoanchor": self.get_setting('default_autoanchor'),
+            "style":      self.get_setting('default_style'),
+            "indent":     self.get_setting('default_indent')
+        }
+
+    def get_attibutes_from(self, tag_str):
+        """return dict of settings from tag_str"""
+
+        res = {}
+
+        depth_search = re.search(" depth=(\w+) ", tag_str)
+        if depth_search != None:
+            res['depth'] = int(depth_search.group(1))
+
+        autolink_search = re.search(" autolink=(\w+) ", tag_str)
+        if autolink_search != None:
+            res['autolink'] = strtobool(autolink_search.group(1)) # cast to bool
+
+        bracket_search = re.search(" bracket=(\w+) ", tag_str)
+        if bracket_search != None:
+            res['bracket'] = str(bracket_search.group(1))
+
+        autoanchor_search = re.search(" autoanchor=(\w+) ", tag_str)
+        if autoanchor_search != None:
+            res['autoanchor'] = strtobool(autoanchor_search.group(1)) # cast to bool
+
+        style_search = re.search(" style=(\w+) ", tag_str)
+        if style_search != None:
+            res['style'] = str(style_search.group(1))
+
+        indent_search = re.search(" indent=\"(.+)\" ", tag_str)
+        if indent_search == None:
+            indent_search = re.search(" indent=\'(.+)\' ", tag_str)
+        if indent_search != None:
+            res['indent'] = str(indent_search.group(1))
+
+        return res
 
     def remove_items_in_codeblock(self, items):
 
