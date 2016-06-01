@@ -24,13 +24,6 @@ isST3 = 3000 < int(sublime.version())
 class MarkdowntocInsert(sublime_plugin.TextCommand):
 
     def run(self, edit):
-        html = """
-        <html>
-        <body><h1>hoge</h1></body>
-        </html>
-        """
-        soup = BeautifulSoup(html)
-        log('moge')
 
         if not self.find_tag_and_insert(edit):
             sels = self.view.sel()
