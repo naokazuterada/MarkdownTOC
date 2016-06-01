@@ -284,9 +284,9 @@ You can control the type of list representing the TOC:
 1. foo
   1. bar
     1. qux
-    2. quux
-  2. buz
-2. qux
+    1. quux
+  1. buz
+1. qux
 
 <!-- /MarkdownTOC -->
 ```
