@@ -335,6 +335,7 @@ def format(items):
     return items
 
 def log(arg):
+    arg = str(arg)
     sublime.status_message(arg)
     pp.pprint(arg)
 
