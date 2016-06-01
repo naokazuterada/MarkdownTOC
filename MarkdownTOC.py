@@ -219,15 +219,7 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
             if attrs['style'] == 'unordered':
                 list_prefix = '- '
             elif attrs['style'] == 'ordered':
-                if len(level_counters) == item[0]:
-                    level_counters[-1] = level_counters[-1] + 1
-                elif len(level_counters) > item[0]:
-                    level_counters.pop()
-                    level_counters[-1] = level_counters[-1] + 1
-                elif len(level_counters) < item[0]:
-                    level_counters.append(1)
-                list_prefix = "%d. " % level_counters[-1]
-
+                list_prefix = '1. '
 
             # escape brackets
             _text = _text\
