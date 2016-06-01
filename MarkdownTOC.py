@@ -312,8 +312,7 @@ def format(items):
     # --------------------------
 
     # minimize diff between headings -----
-    _depths = headings
-    _depths = list(set(_depths)) # sort and unique
+    _depths = list(set(headings)) # sort and unique
     # replace with depth rank
     for i, item in enumerate(headings):
         headings[i] = _depths.index(headings[i])+1
