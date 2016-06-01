@@ -7,7 +7,7 @@ try:
     import lxml.etree
     LXML_PRESENT = True
     LXML_VERSION = lxml.etree.LXML_VERSION
-except ImportError, e:
+except ImportError as e:
     LXML_PRESENT = False
     LXML_VERSION = (0,)
 
@@ -62,7 +62,7 @@ class LXMLTreeBuilderSmokeTest(SoupTest, HTMLTreeBuilderSmokeTest):
         # if one is installed.
         with warnings.catch_warnings(record=True) as w:
             soup = BeautifulStoneSoup("<b />")
-        self.assertEqual(u"<b/>", unicode(soup.b))
+        self.assertEqual("<b/>", str(soup.b))
         self.assertTrue("BeautifulStoneSoup class is deprecated" in str(w[0].message))
 
 @skipIf(
