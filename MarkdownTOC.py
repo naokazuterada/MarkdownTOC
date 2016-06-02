@@ -13,6 +13,8 @@ pattern_link = re.compile(r'\[(.+?)\]\(.+?\)')  # [link](http://www.sample.com/)
 pattern_ex_id = re.compile(r'\{#.+?\}$')         # [Heading]{#my-id}
 pattern_tag = re.compile(r'<.*?>')
 pattern_anchor = re.compile(r'<a\s+name="[^"]+"\s*>\s*</a>')
+pattern_toc_tag_start = re.compile(r'<!-- *')
+pattern_toc_tag_end = re.compile(r'-->')
 
 pattern_h1_h2_equal_dash = "^.*?(?:(?:\r\n)|\n|\r)(?:-+|=+)$"
 
@@ -243,14 +245,12 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
     def get_attibutes_from(self, tag_str):
         """return dict of settings from tag_str"""
 
-        # change toc tag to a tag
-        tag_str_html = tag_str\
-            .replace('<!-- MarkdownTOC', '<a')\
-            .replace('-->', '>')
+        tag_str_html = pattern_toc_tag_start.sub("<", tag_str)
+        tag_str_html = pattern_toc_tag_start.sub(">", tag_str_html)
 
         soup = BeautifulSoup(tag_str_html)
 
-        return soup.find('a').attrs
+        return soup.find('markdowntoc').attrs
 
     def remove_items_in_codeblock(self, items):
 
