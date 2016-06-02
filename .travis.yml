@@ -8,7 +8,6 @@ env:
     global:
         - PACKAGE="MarkdownTOC"
     matrix:
-        - SUBLIME_TEXT_VERSION="2"
         - SUBLIME_TEXT_VERSION="3"
 
 before_install:

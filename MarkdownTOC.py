@@ -21,8 +21,6 @@ pattern_h1_h2_equal_dash = "^.*?(?:(?:\r\n)|\n|\r)(?:-+|=+)$"
 TOCTAG_START = "<!-- MarkdownTOC -->"
 TOCTAG_END = "<!-- /MarkdownTOC -->"
 
-isST3 = 3000 < int(sublime.version())
-
 class MarkdowntocInsert(sublime_plugin.TextCommand):
 
     def run(self, edit):
@@ -271,7 +269,7 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
         replacements = self.get_setting('id_replacements')
         # log(replacements)
         for _key in replacements:
-            _substitute = _key if isST3 else unicode(_key)
+            _substitute = _key
             _target_chars = replacements[_key]
             table = {}
             for char in _target_chars:
