@@ -1,9 +1,10 @@
 Changes in MarkdownTOC
 ===========================
 
-## 1.9.0
+## 2.0.0
 
 - Enable HTML-like attribute style
+- Remove compatibility to SublimeText2
 
 ## 1.8.0
 
