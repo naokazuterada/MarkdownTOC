@@ -1,6 +1,6 @@
 # MarkdownTOC Plugin for Sublime Text
 
-This Sublime Text plugin for generating a Table of Contents (TOC) in a Markdown document.
+Sublime Text plugin for generating a Table of Contents (TOC) in a Markdown document.
 
 | Linux & OSX | Windows     |
 |:------------|:------------|
@@ -18,18 +18,12 @@ This Sublime Text plugin for generating a Table of Contents (TOC) in a Markdown 
   - [Automatic refresh of TOC when Markdown document is saved](#automatic-refresh-of-toc-when-markdown-document-is-saved)
   - [Auto anchor when heading has anchor defined](#auto-anchor-when-heading-has-anchor-defined)
   - [Auto linking](#auto-linking)
+    - [Replacements for id characters](#replacements-for-id-characters)
   - [Control of depth listed in TOC](#control-of-depth-listed-in-toc)
   - [Ordered or unordered style for elements](#ordered-or-unordered-style-for-elements)
   - [Indentation prefix](#indentation-prefix)
 - [Usage](#usage)
 - [Attributes](#attributes)
-  - [Auto link](#auto-link)
-    - [Replacements for id characters](#replacements-for-id-characters)
-  - [Bracket](#bracket)
-  - [Depth](#depth)
-  - [Auto anchor](#auto-anchor)
-  - [Style](#style)
-  - [Indent](#indent)
 - [Installation](#installation)
   - [Using Package Control](#using-package-control)
   - [From Git](#from-git)
@@ -40,12 +34,13 @@ This Sublime Text plugin for generating a Table of Contents (TOC) in a Markdown 
 - [Contributing](#contributing)
 - [License](#license)
 - [Author](#author)
+- [References](#references)
 
 <!-- /MarkdownTOC -->
 
 ## Quick-start
 
-1. Open your Markdown file
+1. Open your [Markdown][markdowns] file
 2. Place cursor to position where you want to insert the TOC
 3. Press `<ctrl>` + `<shift>` + `p`
 4. TOC is inserted in document
@@ -90,7 +85,7 @@ For the following sample Markdown document:
 ...
 ```
 
-The plugin would render:
+The plugin will render:
 
 ```
 # Heading 0
@@ -170,9 +165,36 @@ The TOC generation can be specified to respect this and a TOC element of the fol
 
 Please note that the default for the attribute: [autoanchor](#autoanchor) is `false`.
 
+You can add an HTML anchor (`<a name="xxx"></a>`) before the heading automaticaly.
+
+```
+<!-- MarkdownTOC autolink=true autoanchor=true bracket=round -->
+
+- [Changelog](#changelog)
+- [Glossary](#glossary)
+- [API Specification](#api-specification)
+
+<!-- /MarkdownTOC -->
+
+<a name="changelog"></a>
+# Changelog
+Lorem ipsum...
+
+<a name="glossary"></a>
+# Glossary
+Lorem ipsum...
+
+<a name="api-specification"></a>
+# API Specification
+Lorem ipsum...
+```
+
+You can also set this in sublime-settings with key `default_autoanchor`.
+
+
 ### Auto linking
 
-The plugin can be specified to auto link heading so you get a TOC with clickable elements.  
+The plugin can be specified to auto link heading so you get a TOC with _clickable_ hyperlink elements.  
 
 The following sample document:
 
@@ -208,6 +230,79 @@ The auto link markup style can be one of:
 - `round`, the style supported on Github
 
 Please note that the default for the attribute: [autolink](#autolink) is `false`.
+
+```
+<!-- MarkdownTOC autolink=false -->
+
+- MarkdownTOC Plugin for Sublime Text
+  - Feature
+  - Feature
+  - Feature
+
+<!-- /MarkdownTOC -->
+```
+```
+<!-- MarkdownTOC autolink=true -->
+
+- [MarkdownTOC Plugin for Sublime Text](#markdowntoc-plugin-for-sublime-text)
+  - [Feature](#feature)
+  - [Feature](#feature-1)
+  - [Feature](#feature-2)
+
+<!-- /MarkdownTOC -->
+```
+
+You can also set this in sublime-settings with key `default_autolink`.
+
+**square**: according to ["Reference-style links"](http://daringfireball.net/projects/markdown/syntax#link).
+```
+<!-- MarkdownTOC bracket=square -->
+
+- [Heading][heading]
+
+<!-- /MarkdownTOC -->
+```
+
+**round**: according to Github style.
+```
+<!-- MarkdownTOC bracket=round -->
+
+- [Heading](#heading)
+
+<!-- /MarkdownTOC -->
+```
+
+You can also set this in sublime-settings with key `default_bracket`.
+
+#### Replacements for id characters
+
+You can also edit replacements when using 'Auto link' feature like following settings.
+
+`MarkdownTOC.sublime-settings`
+
+```json
+{
+  "id_replacements": {
+    "-": " ",
+    "" : ["!","#","$","&","'","(",")","*","+",",","/",":",";","=","?","@","[","]","`","\"", ".","<",">","{","}","™","®","©"]
+  }
+}
+```
+
+example:
+
+```
+# Super Product™
+```
+
+This heading changes to link with following id.
+
+```
+#super-product
+```
+
+- The value character(s) will be replaced to the key character.
+- Replace sequence will execute from top to bottom.
 
 ### Control of depth listed in TOC
 
@@ -251,7 +346,9 @@ With depth set to 4:
 <!-- /MarkdownTOC -->
 ```
 
-Please note that the default for the attribute: [depth](#depth) is `2`.
+Please note that the default for the attribute: [depth](#depth) is `2` and the maximum is `6` according to the [Markdown specification]. Specifying `0` means indefinite and means all heading sizes will be included.
+
+You can also set this in sublime-settings with key `default_depth`.
 
 ### Ordered or unordered style for elements
 
@@ -274,10 +371,12 @@ Unordered:
 ```
 <!-- MarkdownTOC style=unordered -->
 
-- [Heading 1]
-  - [Heading 2]
-  - [Heading 3]
-  - [Heading 4]
+- foo
+  - bar
+    - qux
+    - quux
+  - buz
+- qux
 
 <!-- /MarkdownTOC -->
 ```
@@ -285,17 +384,21 @@ Unordered:
 Ordered:
 
 ```
-<!-- MarkdownTOC bracket=ordered -->
+<!-- MarkdownTOC style=ordered -->
 
-1. [Heading 1]
-  1. [Heading 2]
-  1. [Heading 3]
-  1. [Heading 4]
+1. foo
+  1. bar
+    1. qux
+    1. quux
+  1. buz
+1. qux
 
 <!-- /MarkdownTOC -->
 ```
 
 Please note that the default for the attribute: [style](#style) is `unordered`.
+
+You can also set this in sublime-settings with key `default_style`.
 
 ### Indentation prefix
 
@@ -323,6 +426,21 @@ Rendering as follows:
 
 Please note that the default for the attribute: [indent](#indent) is `'\t'`.
 
+You can set indent prefix.
+
+```
+4 spaces
+<!-- MarkdownTOC indent="    " -->
+
+- foo
+    - bar
+        - buz
+
+<!-- /MarkdownTOC -->
+```
+
+You can also set this in sublime-settings with key `default_indent`.
+
 ## Usage
 
 1. Open your Markdown file
@@ -338,7 +456,7 @@ Please note that the default for the attribute: [indent](#indent) is `'\t'`.
 
 The following attributes can be used to control the generation of the TOC.
 
-| attribute                | values                      | default      | keys in settings     |
+| attribute                | values                      | default      | key in settings     |
 |:------------------------- |:--------------------------- |:------------- |:-------------------- |
 | [autolink](#auto-link)    | `true`or`false`             | `false`       | `default_autolink`   |
 | [bracket](#bracket)       | `square`or`round`           | `'square'`    | `default_bracket`    |
@@ -347,208 +465,7 @@ The following attributes can be used to control the generation of the TOC.
 | [style](#style)           | `ordered` or `unordered`    | `'unordered'` | `default_style`      |
 | [indent](#indent)         | string                      | `'\t'`        | `default_indent`     |
 
-You can define your own default values via the Sublime Text menu. Pick Preference > Package Settings > MarkdownTOC > Settings - User
-
-`MarkdownTOC.sublime-settings`
-
-```json
-{
-  "default_autolink": false,
-  "default_bracket": "square",
-  "default_depth": 2,
-  "default_autoanchor": false,
-  "default_style": "unordered",
-  "default_indent": "\t"
-}
-```
-
-All attributes can be overridden in each TOC open tags like...
-
-```
-<!-- MarkdownTOC depth=2 autolink=true bracket=round autoanchor=true style=ordered indent="    " -->
-```
-
-### Auto link
-
-```
-<!-- MarkdownTOC autolink=false -->
-
-- MarkdownTOC Plugin for Sublime Text
-  - Feature
-  - Feature
-  - Feature
-
-<!-- /MarkdownTOC -->
-```
-```
-<!-- MarkdownTOC autolink=true -->
-
-- [MarkdownTOC Plugin for Sublime Text](#markdowntoc-plugin-for-sublime-text)
-  - [Feature](#feature)
-  - [Feature](#feature-1)
-  - [Feature](#feature-2)
-
-<!-- /MarkdownTOC -->
-```
-
-You can also set this in sublime-settings with key `default_autolink`.
-
-#### Replacements for id characters
-
-You can also edit replacements when using 'Auto link' feature like following settings.
-
-`MarkdownTOC.sublime-settings`
-
-```json
-{
-  "id_replacements": {
-    "-": " ",
-    "" : ["!","#","$","&","'","(",")","*","+",",","/",":",";","=","?","@","[","]","`","\"", ".","<",">","{","}","™","®","©"]
-  }
-}
-```
-
-example:
-
-```
-# Super Product™
-```
-
-This heading changes to link with following id.
-
-```
-#super-product
-```
-
-- The value character(s) will be replaced to the key character.
-- Replece sequence will execute from top to bottom.
-
-### Bracket
-
-**square**: according to ["Reference-style links"](http://daringfireball.net/projects/markdown/syntax#link).
-```
-<!-- MarkdownTOC bracket=square -->
-
-- [Heading][heading]
-
-<!-- /MarkdownTOC -->
-```
-
-**round**: according to Github style.
-```
-<!-- MarkdownTOC bracket=round -->
-
-- [Heading](#heading)
-
-<!-- /MarkdownTOC -->
-```
-
-You can also set this in sublime-settings with key `default_bracket`.
-
-### Depth
-
-You can control TOC depth.
-
-```
-<!-- MarkdownTOC depth=2 -->
-
-- foo
-  - bar
-  - buz
-- qux
-
-<!-- /MarkdownTOC -->
-```
-```
-<!-- MarkdownTOC depth=3 -->
-
-- foo
-  - bar
-    - qux
-    - quux
-  - buz
-- qux
-
-<!-- /MarkdownTOC -->
-```
-
-You can also set this in sublime-settings with key `default_depth`.
-
-### Auto anchor
-
-You can add an HTML anchor (`<a name="xxx"></a>`) before the heading automaticaly.
-
-```
-<!-- MarkdownTOC autolink=true autoanchor=true bracket=round -->
-
-- [Changelog](#changelog)
-- [Glossary](#glossary)
-- [API Specification](#api-specification)
-
-<!-- /MarkdownTOC -->
-
-<a name="changelog"></a>
-# Changelog
-Lorem ipsum...
-
-<a name="glossary"></a>
-# Glossary
-Lorem ipsum...
-
-<a name="api-specification"></a>
-# API Specification
-Lorem ipsum...
-```
-
-You can also set this in sublime-settings with key `default_autoanchor`.
-
-### Style
-
-You can control the type of list representing the TOC:
-
-```
-<!-- MarkdownTOC style=unordered -->
-
-- foo
-  - bar
-    - qux
-    - quux
-  - buz
-- qux
-
-<!-- /MarkdownTOC -->
-```
-```
-<!-- MarkdownTOC style=ordered -->
-
-1. foo
-  1. bar
-    1. qux
-    1. quux
-  1. buz
-1. qux
-
-<!-- /MarkdownTOC -->
-```
-
-You can also set this in sublime-settings with key `default_style`.
-
-### Indent
-
-You can set indent prefix.
-
-```
-4 spaces
-<!-- MarkdownTOC indent="    " -->
-
-- foo
-    - bar
-        - buz
-
-<!-- /MarkdownTOC -->
-```
-
-You can also set this in sublime-settings with key `default_indent`.
+You can define your own default values via package preferences, Sublime Texts way of letting user settings overwrite package defaults. Please see the [Section on Configuration](#Configuration).
 
 ## Installation
 
@@ -581,7 +498,29 @@ git clone git@github.com:naokazuterada/MarkdownTOC.git ~/Library/Application\ Su
 
 ## Configuration
 
+You can set default values. Preference > Package Settings > MarkdownTOC > Settings - User
 
+Pick: Sublime Text > Preferences > Package Settings > MarkdownTOC > Settings - User
+
+Alternative you can create the file `~/Library/Application Support/Sublime Text 3/Packages/UserMarkdownTOC.sublime-settings`
+
+
+`MarkdownTOC.sublime-settings`
+
+```json
+{
+  "default_autolink": false,
+  "default_bracket": "square",
+  "default_depth": 2,
+  "default_autoanchor": false,
+  "default_style": "unordered",
+  "default_indent": "\t"
+}
+```
+
+```
+<!-- MarkdownTOC depth=2 autolink=true bracket=round autoanchor=true style=ordered indent="    " -->
+```
 
 ## Contributing
 
@@ -594,3 +533,15 @@ Contributions are most welcome, please see the [guidelines on contributing](http
 ## Author
 
 [Naokazu Terada](https://github.com/naokazuterada)
+
+## References
+
+- [Daring Fireballs Markdown Syntax Specification](http://daringfireball.net/projects/markdown/syntax)
+- [Sublime Text][sublimetext]
+- [Sublime Text: Package Control][packagecontrol]
+- [Emoji cheatsheet](http://www.emoji-cheat-sheet.com/)
+- [Github flavoured markdown](https://help.github.com/articles/basic-writing-and-formatting-syntax/)
+
+[markdown][http://daringfireball.net/projects/markdown/syntax]
+[sublimetext][http://www.sublimetext.com/]
+[packagecontrol][http://wbond.net/sublime_packages/package_control]
