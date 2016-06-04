@@ -1,7 +1,6 @@
 # MarkdownTOC Plugin for Sublime Text
 
-This plugin search headings in document and insert TOC(Table Of Contents) to it.
-
+This Sublime Text plugin for generating a Table of Contents (TOC) in a Markdown document.
 
 | Linux & OSX | Windows     |
 |:------------|:------------|
@@ -9,12 +8,19 @@ This plugin search headings in document and insert TOC(Table Of Contents) to it.
 
 ![](./demo.gif)
 
-## Table Of Contents
+## Table of Contents
 
 <!-- MarkdownTOC bracket=round -->
 
-- [Feature](#feature)
-- [Sample](#sample)
+- [Quick-start](#quick-start)
+- [Features](#features)
+  - [Insertion of TOC based on headings in document](#insertion-of-toc-based-on-headings-in-document)
+  - [Automatic refresh of TOC when Markdown document is saved](#automatic-refresh-of-toc-when-markdown-document-is-saved)
+  - [Auto anchor when heading has anchor defined](#auto-anchor-when-heading-has-anchor-defined)
+  - [Auto linking](#auto-linking)
+  - [Control of depth listed in TOC](#control-of-depth-listed-in-toc)
+  - [Ordered or unordered style for elements](#ordered-or-unordered-style-for-elements)
+  - [Indentation prefix](#indentation-prefix)
 - [Usage](#usage)
 - [Attributes](#attributes)
   - [Auto link](#auto-link)
@@ -24,26 +30,67 @@ This plugin search headings in document and insert TOC(Table Of Contents) to it.
   - [Auto anchor](#auto-anchor)
   - [Style](#style)
   - [Indent](#indent)
-- [Install](#install)
-- [Contribution](#contribution)
-- [Licence](#licence)
+- [Installation](#installation)
+  - [Using Package Control](#using-package-control)
+  - [From Git](#from-git)
+    - [SublimeText 2 \(Mac\)](#sublimetext-2-mac)
+    - [SublimeText 3 \(Mac\)](#sublimetext-3-mac)
+  - [From downloadable file](#from-downloadable-file)
+- [Configuration](#configuration)
+- [Contributing](#contributing)
+- [License](#license)
 - [Author](#author)
 
 <!-- /MarkdownTOC -->
 
+## Quick-start
 
-## Feature
+1. Open your Markdown file
+2. Place cursor to position where you want to insert the TOC
+3. Press `<ctrl>` + `<shift>` + `p`
+4. TOC is inserted in document
+5. Save the document and you are done
 
-- Insert TOC depending on headings in document
-- TOC reflects contents from below its position or cursor (when you select "Insert TOC" menu)
-- Auto linking when heading has anchor
-- Refresh contents when file is saving
-- Depth control
-- Auto link (useful on Github etc.)
-- Ordered or unordered list
-- Indent prefix
+## Features
 
-## Sample
+- Insertion of TOC based on headings in document
+- Automatic refresh of TOC when Markdown document is saved
+- Auto link when heading has anchor defined
+- Auto linking for _clickable_ TOC
+- Control of depth listed in TOC
+- Ordered or unordered style for elements
+- Indentation prefix
+
+### Insertion of TOC based on headings in document
+
+When you have completed [installation](#installation) of the plugin, you can insert an automatically generated TOC based on you Markdown headings. See the [Usage](#usage) for details on how to get started.
+
+For the following sample Markdown document:
+
+```
+
+# Heading 0
+
+...
+
+# Heading 1
+
+...
+
+## Heading 2
+
+...
+
+## Heading 3
+
+...
+
+# Heading with anchor [with-anchor]
+
+...
+```
+
+The plugin would render:
 
 ```
 # Heading 0
@@ -79,12 +126,209 @@ TOC tag is able to having attributes.
 ...
 ```
 
+As you can read from the sample above:
+
+1. Headings above the `MarkdownTOC` tag placement are ignored, only the rest of the document is considered in scope
+2. TOC tags can overwrite default attributes using local settings (see: [Configuration](#configuration))
+3. Heading can have anchors automatically linked (see: [auto anchor](#auto-anchor))
+
+### Automatic refresh of TOC when Markdown document is saved
+
+If we edit the Markdown document some more and add an additional heading:
+
+```
+## Heading 4
+```
+
+When we save the document, the TOC is automatically updated.
+
+```
+<!-- MarkdownTOC autolink=true bracket=round -->
+
+- [Heading 1](#heading-1)
+  - [Heading 2](#heading-2)
+  - [Heading 3](#heading-3)
+  - [Heading 4](#heading-4)  
+- [Heading with anchor](#with-anchor)
+
+<!-- /MarkdownTOC -->
+```
+
+### Auto anchor when heading has anchor defined
+
+If you specify and anchor for your heading:
+
+```
+# Heading with anchor [with-anchor]
+```
+
+The TOC generation can be specified to respect this and a TOC element of the following format is generated:
+
+```
+- [Heading with anchor](#with-anchor)
+```
+
+Please note that the default for the attribute: [autoanchor](#autoanchor) is `false`.
+
+### Auto linking
+
+The plugin can be specified to auto link heading so you get a TOC with clickable elements.  
+
+The following sample document:
+
+```
+# Heading 1
+
+...
+
+## Heading 2
+
+...
+
+## Heading 3
+```
+
+With `autolink` set to `true` will render the following:
+
+```
+<!-- MarkdownTOC autolink=true bracket=round -->
+
+- [Heading 1](#heading-1)
+  - [Heading 2](#heading-2)
+  - [Heading 3](#heading-3)
+  - [Heading 4](#heading-4)  
+- [Heading with anchor](#with-anchor)
+
+<!-- /MarkdownTOC -->
+```
+
+The auto link markup style can be one of:
+
+- `square`, the default
+- `round`, the style supported on Github
+
+Please note that the default for the attribute: [autolink](#autolink) is `false`.
+
+### Control of depth listed in TOC
+
+```
+# Heading 1
+
+...
+
+## Heading 2
+
+...
+
+### Heading 3
+
+...
+
+#### Heading 2
+```
+
+With default depth:
+
+```
+<!-- MarkdownTOC -->
+
+- [Heading 1]
+  - [Heading 2]
+
+<!-- /MarkdownTOC -->
+```
+
+With depth set to 4:
+
+```
+<!-- MarkdownTOC depth=4 -->
+
+- [Heading 1]
+  - [Heading 2]
+    - [Heading 3]
+      - [Heading 4]
+
+<!-- /MarkdownTOC -->
+```
+
+Please note that the default for the attribute: [depth](#depth) is `2`.
+
+### Ordered or unordered style for elements
+
+The plugin supports two styles of TOC element listing: unordered and ordered.
+
+```
+# Heading 1
+
+...
+
+## Heading 2
+
+...
+
+## Heading 3
+```
+
+Unordered:
+
+```
+<!-- MarkdownTOC style=unordered -->
+
+- [Heading 1]
+  - [Heading 2]
+  - [Heading 3]
+  - [Heading 4]
+
+<!-- /MarkdownTOC -->
+```
+
+Ordered:
+
+```
+<!-- MarkdownTOC bracket=ordered -->
+
+1. [Heading 1]
+  1. [Heading 2]
+  1. [Heading 3]
+  1. [Heading 4]
+
+<!-- /MarkdownTOC -->
+```
+
+Please note that the default for the attribute: [style](#style) is `unordered`.
+
+### Indentation prefix
+
+The indentation prefix is a specification of the string used to ident the TOC elements.
+
+An _ugly_ but demonstrative example could be to use an emoji.
+
+```
+<!-- MarkdownTOC autolink=true bracket=round indent=:point_right: -->
+
+- [Heading 1](#heading-1)
+:point_right:- [Heading 2](#heading-2)
+:point_right:- [Heading 3](#heading-3)
+:point_right:- [Heading 4](#heading-4)  
+
+<!-- /MarkdownTOC -->
+```
+
+Rendering as follows:
+
+- [Heading 1](#heading-1)
+:point_right:- [Heading 2](#heading-2)
+:point_right:- [Heading 3](#heading-3)
+:point_right:- [Heading 4](#heading-4)  
+
+Please note that the default for the attribute: [indent](#indent) is `'\t'`.
+
 ## Usage
 
-1. Open Markdown files.
-2. Move cursor to position where you want to insert TOC.
-3. Tools > MarkdownTOC > Insert TOC
-4. TOC has inserted into document!
+1. Open your Markdown file
+2. Move cursor to position where you want to insert a TOC
+3. Pick from menu: Tools > MarkdownTOC > Insert TOC
+4. TOC is inserted in document
 5. Update contents and save...
 6. TOC has been updated.
 
@@ -92,7 +336,9 @@ TOC tag is able to having attributes.
 
 ## Attributes
 
-| attributes                | values                      | defaults      | keys in settings     |
+The following attributes can be used to control the generation of the TOC.
+
+| attribute                | values                      | default      | keys in settings     |
 |:------------------------- |:--------------------------- |:------------- |:-------------------- |
 | [autolink](#auto-link)    | `true`or`false`             | `false`       | `default_autolink`   |
 | [bracket](#bracket)       | `square`or`round`           | `'square'`    | `default_bracket`    |
@@ -101,7 +347,7 @@ TOC tag is able to having attributes.
 | [style](#style)           | `ordered` or `unordered`    | `'unordered'` | `default_style`      |
 | [indent](#indent)         | string                      | `'\t'`        | `default_indent`     |
 
-You can set default values. Preference > Package Settings > MarkdownTOC > Settings - User
+You can define your own default values via the Sublime Text menu. Pick Preference > Package Settings > MarkdownTOC > Settings - User
 
 `MarkdownTOC.sublime-settings`
 
@@ -122,11 +368,7 @@ All attributes can be overridden in each TOC open tags like...
 <!-- MarkdownTOC depth=2 autolink=true bracket=round autoanchor=true style=ordered indent="    " -->
 ```
 
-
-
 ### Auto link
-
-This will be useful on Github.
 
 ```
 <!-- MarkdownTOC autolink=false -->
@@ -181,7 +423,6 @@ This heading changes to link with following id.
 - The value character(s) will be replaced to the key character.
 - Replece sequence will execute from top to bottom.
 
-
 ### Bracket
 
 **square**: according to ["Reference-style links"](http://daringfireball.net/projects/markdown/syntax#link).
@@ -203,7 +444,6 @@ This heading changes to link with following id.
 ```
 
 You can also set this in sublime-settings with key `default_bracket`.
-
 
 ### Depth
 
@@ -310,46 +550,46 @@ You can set indent prefix.
 
 You can also set this in sublime-settings with key `default_indent`.
 
-## Install
+## Installation
 
-With Package Control:
-
+### Using Package Control
 
 1. Run “Package Control: Install Package” command, find and install `MarkdownTOC` plugin.
 2. Restart ST.
 
 > [Package Control](http://wbond.net/sublime_packages/package_control)
 
+### From Git
 
-With Git:
-
-for SublimeText 2 (Mac)
+#### SublimeText 2 (Mac)
 
 ```sh
 git clone git@github.com:naokazuterada/MarkdownTOC.git ~/Library/Application\ Support/Sublime\ Text\ 2/Packages/MarkdownTOC
 ```
 
-for SublimeText 3 (Mac)
+#### SublimeText 3 (Mac)
 
 ```sh
 git clone git@github.com:naokazuterada/MarkdownTOC.git ~/Library/Application\ Support/Sublime\ Text\ 3/Packages/MarkdownTOC
 ```
 
-Without any dependencies:
+### From downloadable file
 
 1. [Download zip](https://github.com/naokazuterada/MarkdownTOC/archive/master.zip) and expand it.
 2. Open ST's "Packges" directory (Sublime Text > Preference > Browse Packages...).
 3. Move "MarkdownTOC" directory into "Packages" directory.
 
-
-## Contribution
-
-[CONTRIBUTING.md](https://github.com/naokazuterada/MarkdownTOC/blob/master/CONTRIBUTING.md)
+## Configuration
 
 
-## Licence
 
-[MIT](https://github.com/naokazuterada/MarkdownTOC/blob/master/LICENCE-MIT)
+## Contributing
+
+Contributions are most welcome, please see the [guidelines on contributing](https://github.com/naokazuterada/MarkdownTOC/blob/master/CONTRIBUTING.md).
+
+## License
+
+[MIT](https://github.com/naokazuterada/MarkdownTOC/blob/master/LICENSE-MIT)
 
 ## Author
 
