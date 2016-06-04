@@ -17,13 +17,6 @@ This plugin search headings in document and insert TOC(Table Of Contents) to it.
 - [Sample](#sample)
 - [Usage](#usage)
 - [Attributes](#attributes)
-  - [Auto link](#auto-link)
-    - [Replecements for id characters](#replecements-for-id-characters)
-  - [Bracket](#bracket)
-  - [Depth](#depth)
-  - [Auto anchor](#auto-anchor)
-  - [Style](#style)
-  - [Indent](#indent)
 - [Install](#install)
 - [Contribution](#contribution)
 - [Licence](#licence)
@@ -151,9 +144,9 @@ This will be useful on Github.
 
 You can also set this in sublime-settings with key `default_autolink`.
 
-#### Replecements for id characters
+#### Replacements for id characters
 
-You can also edit replecements when using 'Auto link' feature like following settings.
+You can also edit replacements when using 'Auto link' feature like following settings.
 
 `MarkdownTOC.sublime-settings`
 
