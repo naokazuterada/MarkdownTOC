@@ -12,7 +12,7 @@ Sublime Text plugin for generating a Table of Contents (TOC) in a Markdown docum
 
 <!-- MarkdownTOC bracket=round -->
 
-- [Quick-start](#quick-start)
+- [Quick Start](#quick-start)
 - [Features](#features)
   - [Insertion of TOC based on headings in document](#insertion-of-toc-based-on-headings-in-document)
   - [Automatic refresh of TOC when Markdown document is saved](#automatic-refresh-of-toc-when-markdown-document-is-saved)
@@ -38,27 +38,29 @@ Sublime Text plugin for generating a Table of Contents (TOC) in a Markdown docum
 
 <!-- /MarkdownTOC -->
 
-## Quick-start
+## Quick Start
 
-1. Open your [Markdown][markdowns] file
-2. Place cursor to position where you want to insert the TOC
+1. Open your [Markdown][markdown] file
+2. Place the cursor at the position where you want to insert the TOC
 3. Press `<ctrl>` + `<shift>` + `p`
-4. TOC is inserted in document
+4. And the TOC is inserted in the document
 5. Save the document and you are done
 
 ## Features
 
-- Insertion of TOC based on headings in document
+The MarkdownTOC plugin is rich on features and customization, useful for both work on a single Markdown document or if you have several Markdown documents which require special TOC generation.
+
+- Insertion of TOC based on headings in Markdown document
 - Automatic refresh of TOC when Markdown document is saved
-- Auto link when heading has anchor defined
 - Auto linking for _clickable_ TOC
 - Control of depth listed in TOC
-- Ordered or unordered style for elements
+- Ordered or unordered style for TOC elements
+- Auto link when heading has anchor defined
 - Indentation prefix
 
 ### Insertion of TOC based on headings in document
 
-When you have completed [installation](#installation) of the plugin, you can insert an automatically generated TOC based on you Markdown headings. See the [Usage](#usage) for details on how to get started.
+When you have completed the [installation](#installation) of the plugin, you can insert an automatically generated TOC based on your [Markdown][markdown] headings. See the [Quick Start](#quick-start) to get going or the [Usage section](#usage) for details on how to utilize customization and [configuration](#configuration).
 
 For the following sample Markdown document:
 
@@ -123,9 +125,10 @@ TOC tag is able to having attributes.
 
 As you can read from the sample above:
 
-1. Headings above the `MarkdownTOC` tag placement are ignored, only the rest of the document is considered in scope
-2. TOC tags can overwrite default attributes using local settings (see: [Configuration](#configuration))
-3. Heading can have anchors automatically linked (see: [auto anchor](#auto-anchor))
+1. Headings above the `MarkdownTOC` tag section are ignored, only the rest of the document is considered _in scope_
+1. TOC tags can overwrite default attributes using local settings and influence the rendering of the TOC. See: [Configuration](#configuration) on how to set your own defaults for the plugin
+1. Headings can be automatically linked (see: [auto link](#auto-link))
+1. Headings can have anchors automatically linked (see: [auto link](#auto-link))
 
 ### Automatic refresh of TOC when Markdown document is saved
 
@@ -148,6 +151,8 @@ When we save the document, the TOC is automatically updated.
 
 <!-- /MarkdownTOC -->
 ```
+
+Same goes for deleting headings no longer included, these are cleared out.
 
 ### Auto anchor when heading has anchor defined
 
@@ -190,7 +195,6 @@ Lorem ipsum...
 ```
 
 You can also set this in sublime-settings with key `default_autoanchor`.
-
 
 ### Auto linking
 
