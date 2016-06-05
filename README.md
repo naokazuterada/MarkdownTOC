@@ -468,15 +468,6 @@ An _ugly_ but demonstrative example could be to use an [emoji][emoji].
 <!-- /MarkdownTOC -->
 ```
 
-Generated as follows:
-
-- [Heading 1](#heading-1)
-:point_right: - [Heading 2](#heading-2)
-:point_right: :point_right: - [Heading 3](#heading-3)
-:point_right: :point_right: - [Heading 4](#heading-4)
-:point_right: - [Heading 5](#heading-5)
-- [Heading 6](#heading-6)
-
 Please note that the default for the [attribute](#attributes) is: `'\t'`.
 
 You can set your default indentation in your [configuration](#configuration) with the key `default_indent`.
