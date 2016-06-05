@@ -31,7 +31,7 @@ Sublime Text plugin for generating a Table of Contents (TOC) in a Markdown docum
   - [From downloadable archive](#from-downloadable-archive)
 - [Configuration](#configuration)
   - [Github Configuration](#github-configuration)
-    - [Word of _Warning_ on Configuration](#word-of-_warning_-on-configuration)
+  - [Configuration and Collaboration](#configuration-and-collaboration)
 - [Contributing](#contributing)
 - [License](#license)
 - [Author](#author)
@@ -41,6 +41,7 @@ Sublime Text plugin for generating a Table of Contents (TOC) in a Markdown docum
 
 ___
 
+<a name="quick-start"></a>
 ## Quick Start
 
 1. [Install](#installation) the **MarkdownTOC** plugin
@@ -54,6 +55,7 @@ Now you can go on and edit your document further or you can customize you TOC, p
 
 ___
 
+<a name="features"></a>
 ## Features
 
 The **MarkdownTOC** plugin is rich on features and customization, useful for both work on a single [Markdown] document or if you have several [Markdown] documents that require _special_ TOC generation.
@@ -68,6 +70,7 @@ The **MarkdownTOC** plugin is rich on features and customization, useful for bot
 - Ordered or unordered style for TOC elements
 - Specify custom indentation prefix
 
+<a name="insertion-of-toc-based-on-headings-in-markdown-document"></a>
 ### Insertion of TOC based on headings in Markdown document
 
 When you have completed the [installation](#installation) of the plugin, you can insert an automatically generated TOC based on your [Markdown] headings. See the [Quick Start](#quick-start) to get going or the [Usage section](#usage) for details on how to utilize customization and [configuration](#configuration).
@@ -123,6 +126,7 @@ As you can read from the sample above:
 
 1. Headings above the `MarkdownTOC` tag section are ignored, only the rest of the document is considered _in scope_
 
+<a name="automatic-refresh-of-toc-when-markdown-document-is-saved"></a>
 ### Automatic refresh of TOC when Markdown document is saved
 
 If we edit the [Markdown] document some more and add an additional heading:
@@ -149,6 +153,7 @@ Same goes for deleted headings, these are cleared out.
 
 Updating the TOC can also be accomplished without saving by picking from the menu: Tools > MarkdownTOC > Update TOC
 
+<a name="customizing-generation-of-toc-using-attributes"></a>
 ### Customizing generation of TOC using attributes
 
 ```
@@ -175,6 +180,7 @@ The default behaviour could also be described as:
 
 Please see: [Github Configuration](#github-configuration) for a guideline to configuring **MarkdownTOC** for [Github] use.
 
+<a name="auto-anchoring-when-heading-has-anchor-defined"></a>
 ### Auto anchoring when heading has anchor defined
 
 You can add an HTML anchor (`<a name="xxx"></a>`) before your heading automatically.
@@ -215,6 +221,7 @@ Lorem ipsum...
 
 Please note that the default for autolink is `false` defined by the [attribute](#attributes) `default_autoanchor`.
 
+<a name="auto-linking-for-_clickable_-toc"></a>
 ### Auto linking for _clickable_ TOC
 
 The plugin can be specified to auto link heading so you get a TOC with _clickable_ hyperlink elements.  
@@ -296,6 +303,7 @@ Please note that the default for autolink is `false` defined by the [attribute](
 
 Please note that the default for bracket is `square` defined by the [attribute](#attributes) `default_bracket`.
 
+<a name="manipulation-of-auto-link-ids"></a>
 #### Manipulation of auto link ids
 
 You can manipulate your link ids in your [configuration](#configuration) using the key `id_replacements`.
@@ -327,6 +335,7 @@ This heading link of this heading is changed to following id
 - The `' '` (space) is replaced with `-` (dash), since `' '` is included in the first set
 - The '™' is replaced with _nothing_, since '™' is included in the second set
 
+<a name="control-of-depth-listed-in-toc"></a>
 ### Control of depth listed in TOC
 
 ```
@@ -375,6 +384,7 @@ You can also specify this in your [configuration](#configuration) with key `defa
 
 The maximum size for headings is `6` according to the [Markdown specification][Markdown]
 
+<a name="ordered-or-unordered-style-for-toc-elements"></a>
 ### Ordered or unordered style for TOC elements
 
 The plugin supports two styles of TOC element listing: 
@@ -438,6 +448,7 @@ Please note that the default for the [attribute](#attributes) is: `unordered`.
 
 You can set your default style in your [configuration](#configuration) with the key `default_style`.
 
+<a name="specify-custom-indentation-prefix"></a>
 ### Specify custom indentation prefix
 
 The indentation prefix is a specification of the string used to indent the TOC elements.
@@ -470,6 +481,7 @@ Please note that the default for the [attribute](#attributes) is: `'\t'`.
 
 You can set your default indentation in your [configuration](#configuration) with the key `default_indent`.
 
+<a name="usage"></a>
 ## Usage
 
 1. Open your [Markdown] file
@@ -482,6 +494,7 @@ You can set your default indentation in your [configuration](#configuration) wit
 
 ***Don't remove the comment tags if you want to update every time saving.***
 
+<a name="attributes"></a>
 ## Attributes
 
 The following attributes can be used to control the generation of the TOC.
@@ -497,8 +510,10 @@ The following attributes can be used to control the generation of the TOC.
 
 You can define your own default values via package preferences, [Sublime Text][SublimeText]s way of letting users customize [package settings](https://docs.sublimetext.info/en/latest/customization/settings.html). Please see the [Section on Configuration](#Configuration) for more details for **MarkdownTOC**.
 
+<a name="installation"></a>
 ## Installation
 
+<a name="using-package-control"></a>
 ### Using Package Control
 
 1. Run “Package Control: Install Package” command, find and install `MarkdownTOC` plugin.
@@ -506,18 +521,21 @@ You can define your own default values via package preferences, [Sublime Text][S
 
 > [Package Control][PackageControl]
 
+<a name="from-git"></a>
 ### From Git
 
 ```sh
 git clone git@github.com:naokazuterada/MarkdownTOC.git ~/Library/Application\ Support/Sublime\ Text\ 3/Packages/MarkdownTOC
 ```
 
+<a name="from-downloadable-archive"></a>
 ### From downloadable archive
 
 1. [Download zip-file](https://github.com/naokazuterada/MarkdownTOC/archive/master.zip) and unpack it.
 2. Open the [Sublime Text][sublimetext] `Packages/` directory (pick menu: Sublime Text > Preferences > Browse Packages).
 3. Move the `MarkdownTOC/` directory into the `Packages/` directory.
 
+<a name="configuration"></a>
 ## Configuration
 
 You can use [attributes](#attributes) to customize a TOC in a single [Markdown] document, but if you want to keep the same TOC configuration accross multiple [Markdown] documents, you can configure your own defaults.
@@ -545,6 +563,12 @@ Example: `MarkdownTOC.sublime-settings`
 
 Please see the section on [attributes](#attributes) for an overview of values and the [section on customization](#customizing-generation-of-toc-using-attributes).
 
+Configuration precendence is as follows:
+
+1. Attributes specified in **MarkdownTOC** begin tag (see: [Customizing generation of TOC using attributes](#customizing-generation-of-toc-using-attributes))
+1. **MarkdownTOC** Settings - user (this section)
+1. **MarkdownTOC** Settings - default (see: [Attributes](#attributes))
+
 For an overview of the specific behaviour behind an attribute, please refer to the below list.
 
 - `default_autolink`, (see: [Auto linking for _clickable_ TOC](#auto-linking-for-_clickable_-toc))
@@ -555,9 +579,10 @@ For an overview of the specific behaviour behind an attribute, please refer to t
 - `default_indent`, (see: [Specify custom indentation prefix](#specify-custom-indentation-prefix))
 - `id_replacements`, (see: [Manipulation of auto link ids](#manipulation-of-auto-link-ids))
 
+<a name="github-configuration"></a>
 ### Github Configuration
 
-A configuration for writing Markdown primaily for use on [Github] could look like the following:
+A configuration for writing Markdown primaily for use on [Github] _could_ look like the following:
 
 ```json
 {
@@ -567,7 +592,8 @@ A configuration for writing Markdown primaily for use on [Github] could look lik
 }
 ```
 
-#### Word of _Warning_ on Configuration
+<a name="configuration-and-collaboration"></a>
+### Configuration and Collaboration
 
 You should be aware that if you collaborate with other [Markdown] writers and users of **MarkdownTOC**, you might have changes going back and forth simply due to differing configurations.
 
@@ -579,18 +605,22 @@ Example of attribute configuration for the above configuration settings in file:
 <!-- MarkdownTOC autolink=true bracket=round autoanchor=true -->
 ```
 
+<a name="contributing"></a>
 ## Contributing
 
 Contributions are most welcome, please see the [guidelines on contributing](https://github.com/naokazuterada/MarkdownTOC/blob/master/CONTRIBUTING.md).
 
+<a name="license"></a>
 ## License
 
 - **MarkdownTOC** is licensed under the [MIT License](https://github.com/naokazuterada/MarkdownTOC/blob/master/LICENSE-MIT)
 
+<a name="author"></a>
 ## Author
 
 - [Naokazu Terada](https://github.com/naokazuterada)
 
+<a name="references"></a>
 ## References
 
 - [Daring Fireballs Markdown Syntax Specification][Markdown]
