@@ -17,7 +17,7 @@ Sublime Text plugin for generating a Table of Contents (TOC) in a Markdown docum
   - [Insertion of TOC based on headings in Markdown document](#insertion-of-toc-based-on-headings-in-markdown-document)
   - [Automatic refresh of TOC when Markdown document is saved](#automatic-refresh-of-toc-when-markdown-document-is-saved)
   - [Customizing generation of TOC using attributes](#customizing-generation-of-toc-using-attributes)
-  - [Auto anchor when heading has anchor defined](#auto-anchor-when-heading-has-anchor-defined)
+  - [Auto anchoring when heading has anchor defined](#auto-anchoring-when-heading-has-anchor-defined)
   - [Auto linking](#auto-linking)
     - [Manipulation of auto link ids](#manipulation-of-auto-link-ids)
   - [Control of depth listed in TOC](#control-of-depth-listed-in-toc)
@@ -46,7 +46,7 @@ ___
 1. [Install](#installation) the **MarkdownTOC** plugin
 1. Open your [Markdown] file
 1. Place the cursor at the position where you want to insert the TOC
-1. Press `<ctrl>` + `<shift>` + `p`
+1. Pick from menu: Tools > MarkdownTOC > Insert TOC - alternatively press `<ctrl>` + `<shift>` + `p`
 1. And the TOC is inserted in the document
 1. Save the document and you are done
 
@@ -163,9 +163,9 @@ Same goes for deleted headings, these are cleared out.
 
 1. TOC tags can overwrite default [attributes](#Attributes) using local settings and influence the rendering of the TOC. See: [Configuration](#configuration) on how to set your own defaults for the plugin
 1. Headings can be automatically linked (see: [auto link](#auto-link))
-1. Headings can have anchors automatically linked (see: [auto anchor](#auto-anchor))
+1. Headings can have anchors automatically linked (see: [Auto anchoring when heading has anchor defined](#auto-anchoring-when-heading-has-anchor-defined))
 
-### Auto anchor when heading has anchor defined
+### Auto anchoring when heading has anchor defined
 
 You can add an HTML anchor (`<a name="xxx"></a>`) before your heading automatically.
 
@@ -203,7 +203,7 @@ Lorem ipsum...
 Lorem ipsum...
 ```
 
-You can also set this in sublime-settings with key `default_autoanchor`.
+Please note that the default for autolink is `false` defined by the [attribute](#attributes) `default_autoanchor`.
 
 ### Auto linking
 
@@ -242,7 +242,7 @@ The auto link markup style can be one of:
 - `square`, the default
 - `round`, the style supported on Github
 
-Please note that the default for autolink is `false` the [attribute](#attributes) `default_autolink`.
+Please note that the default for autolink is `false` defined by the [attribute](#attributes) `default_autolink`.
 
 ```
 <!-- MarkdownTOC autolink=false -->
@@ -285,7 +285,7 @@ Please note that the default for autolink is `false` the [attribute](#attributes
 <!-- /MarkdownTOC -->
 ```
 
-You can also set this in sublime-settings with key `default_bracket`.
+Please note that the default for bracket is `square` defined by the [attribute](#attributes) `default_bracket`.
 
 #### Manipulation of auto link ids
 
@@ -445,6 +445,7 @@ An _ugly_ but demonstrative example could be to use an [emoji][emoji].
 :point_right::point_right:- [Heading 4](#heading-4)
 :point_right:- [Heading 5](#heading-5)
 - [Heading 6](#heading-6)
+
 <!-- /MarkdownTOC -->
 ```
 
