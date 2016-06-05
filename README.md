@@ -436,14 +436,13 @@ The indentation prefix is a specification of the string used to indent the TOC e
 An _ugly_ but demonstrative example could be to use an [emoji][emoji].
 
 ```
-<!-- MarkdownTOC autolink=true bracket=round indent=:point_right: -->
+<!-- MarkdownTOC autolink=true bracket=round indent=":point_right: " -->
 
 - [Heading 1](#heading-1)
-- [Heading 1](#heading-1)
-:point_right:- [Heading 2](#heading-2)
-:point_right::point_right:- [Heading 3](#heading-3)
-:point_right::point_right:- [Heading 4](#heading-4)
-:point_right:- [Heading 5](#heading-5)
+:point_right: - [Heading 2](#heading-2)
+:point_right: :point_right: - [Heading 3](#heading-3)
+:point_right: :point_right: - [Heading 4](#heading-4)
+:point_right: - [Heading 5](#heading-5)
 - [Heading 6](#heading-6)
 
 <!-- /MarkdownTOC -->
@@ -452,10 +451,10 @@ An _ugly_ but demonstrative example could be to use an [emoji][emoji].
 Generated as follows:
 
 - [Heading 1](#heading-1)
-:point_right:- [Heading 2](#heading-2)
-:point_right::point_right:- [Heading 3](#heading-3)
-:point_right::point_right:- [Heading 4](#heading-4)
-:point_right:- [Heading 5](#heading-5)
+:point_right: - [Heading 2](#heading-2)
+:point_right: :point_right: - [Heading 3](#heading-3)
+:point_right: :point_right: - [Heading 4](#heading-4)
+:point_right: - [Heading 5](#heading-5)
 - [Heading 6](#heading-6)
 
 Please note that the default for the [attribute](#attributes) is: `'\t'`.
