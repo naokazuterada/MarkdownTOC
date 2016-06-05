@@ -10,7 +10,7 @@ Sublime Text plugin for generating a Table of Contents (TOC) in a Markdown docum
 
 ## Table of Contents
 
-<!-- MarkdownTOC bracket=round -->
+<!-- MarkdownTOC autolink="true" bracket="round" depth="0" style="unordered" indent="  " -->
 
 - [Quick Start](#quick-start)
 - [Features](#features)
