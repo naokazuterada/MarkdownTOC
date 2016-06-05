@@ -28,8 +28,6 @@ Sublime Text plugin for generating a Table of Contents (TOC) in a Markdown docum
 - [Installation](#installation)
   - [Using Package Control](#using-package-control)
   - [From Git](#from-git)
-    - [SublimeText 2 \(Mac\)](#sublimetext-2-mac)
-    - [SublimeText 3 \(Mac\)](#sublimetext-3-mac)
   - [From downloadable file](#from-downloadable-file)
 - [Configuration](#configuration)
 - [Contributing](#contributing)
@@ -497,14 +495,6 @@ You can define your own default values via package preferences, [Sublime Text][S
 > [Package Control][PackageControl]
 
 ### From Git
-
-#### SublimeText 2 (Mac)
-
-```sh
-git clone git@github.com:naokazuterada/MarkdownTOC.git ~/Library/Application\ Support/Sublime\ Text\ 2/Packages/MarkdownTOC
-```
-
-#### SublimeText 3 (Mac)
 
 ```sh
 git clone git@github.com:naokazuterada/MarkdownTOC.git ~/Library/Application\ Support/Sublime\ Text\ 3/Packages/MarkdownTOC
