@@ -323,12 +323,6 @@ With Package Control:
 
 With Git:
 
-for SublimeText 2 (Mac)
-
-```sh
-git clone git@github.com:naokazuterada/MarkdownTOC.git ~/Library/Application\ Support/Sublime\ Text\ 2/Packages/MarkdownTOC
-```
-
 for SublimeText 3 (Mac)
 
 ```sh
