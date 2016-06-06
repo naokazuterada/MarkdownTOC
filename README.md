@@ -61,7 +61,7 @@ The **MarkdownTOC** plugin is rich on features and customization, useful for bot
 - Insertion of TOC based on headings in [Markdown] document
 - Automatic refresh of TOC when [Markdown] document is saved
 - Customizing generation of TOC using attributes
-- Auto link when heading has anchor defined 
+- Auto link when heading has anchor defined
 - Auto linking for _clickable_ TOC
 - Manipulation of auto link ids
 - Control of depth listed in TOC
@@ -217,7 +217,7 @@ Please note that the default for autolink is `false` defined by the [attribute](
 
 ### Auto linking for _clickable_ TOC
 
-The plugin can be specified to auto link heading so you get a TOC with _clickable_ hyperlink elements.  
+The plugin can be specified to auto link heading so you get a TOC with _clickable_ hyperlink elements.
 
 The following sample document:
 
@@ -240,7 +240,7 @@ With `autolink` set to `true` will render the following:
 - [Heading 1](#heading-1)
   - [Heading 2](#heading-2)
   - [Heading 3](#heading-3)
-  - [Heading 4](#heading-4)  
+  - [Heading 4](#heading-4)
 - [Heading with anchor](#with-anchor)
 
 <!-- /MarkdownTOC -->
@@ -377,7 +377,7 @@ The maximum size for headings is `6` according to the [Markdown specification][M
 
 ### Ordered or unordered style for TOC elements
 
-The plugin supports two styles of TOC element listing: 
+The plugin supports two styles of TOC element listing:
 
 - `unordered`
 - `ordered`
