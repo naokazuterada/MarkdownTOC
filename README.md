@@ -557,7 +557,7 @@ For an overview of the specific behaviour behind an attribute, please refer to t
 A configuration for writing Markdown primaily for use on [Github] _could_ look like the following:
 
 ```json
-{ott
+{
   "default_autolink": true,
   "default_bracket": "round"
 }
