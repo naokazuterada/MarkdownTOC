@@ -486,7 +486,7 @@ The following attributes can be used to control the generation of the TOC.
 | [style](#style)           | `ordered` or `unordered`    | `'unordered'` | `default_style`      |
 | [indent](#indent)         | string                      | `'\t'`        | `default_indent`     |
 
-You can define your own default values via package preferences, [Sublime Text][SublimeText]s way of letting users customize [package settings](https://docs.sublimetext.info/en/latest/customization/settings.html). Please see the [Section on Configuration](#Configuration) for more details for **MarkdownTOC**.
+You can define your own default values via package preferences, [Sublime Text][SublimeText]s way of letting users customize [package settings][SublimeTextSettings]. Please see the [Section on Configuration](#Configuration) for more details for **MarkdownTOC**.
 
 ## Installation
 
@@ -598,6 +598,7 @@ Contributions are most welcome, please see the [guidelines on contributing](http
 [Markdown]: http://daringfireball.net/projects/markdown/syntax
 [MarkdownLinks]: http://daringfireball.net/projects/markdown/syntax#link
 [SublimeText]: http://www.sublimetext.com/
+[SublimeTextSettings]: https://docs.sublimetext.info/en/latest/customization/settings.html
 [PackageControl]: http://wbond.net/sublime_packages/package_control
 [emoji]: http://www.emoji-cheat-sheet.com/
 [Github]: https://help.github.com/articles/basic-writing-and-formatting-syntax/
