@@ -526,7 +526,7 @@ Example: `MarkdownTOC.sublime-settings`
   "default_depth": 2,
   "default_autoanchor": false,
   "default_style": "unordered",
-  "default_indent": "\t"
+  "default_indent": "\t",
   "id_replacements": {
     "-": " ",
     "" : ["!","#","$","&","'","(",")","*","+",",","/",":",";","=","?","@","[","]","`","\"", ".","<",">","{","}","™","®","©"]
