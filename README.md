@@ -11,7 +11,7 @@ This plugin search headings in document and insert TOC(Table Of Contents) to it.
 
 ## Table Of Contents
 
-<!-- MarkdownTOC autolink="true" bracket="round" depth="0" style="unordered" indent="  " -->
+<!-- MarkdownTOC autolink="true" bracket="round" depth="0" style="unordered" indent="  " autoanchor="false" -->
 
 - [Feature](#feature)
 - [Sample](#sample)
