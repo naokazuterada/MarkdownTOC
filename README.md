@@ -599,4 +599,4 @@ Contributions are most welcome, please see the [guidelines on contributing](http
 [SublimeText]: http://www.sublimetext.com/
 [PackageControl]: http://wbond.net/sublime_packages/package_control
 [emoji]: http://www.emoji-cheat-sheet.com/
-[Github]: (https://help.github.com/articles/basic-writing-and-formatting-syntax/)
+[Github]: https://help.github.com/articles/basic-writing-and-formatting-syntax/
