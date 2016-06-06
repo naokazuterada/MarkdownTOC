@@ -559,8 +559,7 @@ A configuration for writing Markdown primaily for use on [Github] _could_ look l
 ```json
 {
   "default_autolink": true,
-  "default_bracket": "round",
-  "default_autoanchor": true
+  "default_bracket": "round"
 }
 ```
 
