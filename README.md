@@ -274,7 +274,7 @@ Please note that the default for autolink is `false` defined by the [attribute](
 <!-- /MarkdownTOC -->
 ```
 
-**square**: according to ["Reference-style links"](http://daringfireball.net/projects/markdown/syntax#link).
+**square**: according to ["Markdown standard reference-style links"][MarkdownLinks].
 
 ```
 <!-- MarkdownTOC bracket="square" -->
@@ -557,7 +557,7 @@ For an overview of the specific behaviour behind an attribute, please refer to t
 A configuration for writing Markdown primaily for use on [Github] _could_ look like the following:
 
 ```json
-{
+{ott
   "default_autolink": true,
   "default_bracket": "round"
 }
@@ -596,6 +596,7 @@ Contributions are most welcome, please see the [guidelines on contributing](http
 - [Github flavoured markdown][Github]
 
 [Markdown]: http://daringfireball.net/projects/markdown/syntax
+[MarkdownLinks]: http://daringfireball.net/projects/markdown/syntax#link
 [SublimeText]: http://www.sublimetext.com/
 [PackageControl]: http://wbond.net/sublime_packages/package_control
 [emoji]: http://www.emoji-cheat-sheet.com/
