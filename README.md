@@ -152,7 +152,7 @@ Updating the TOC can also be accomplished without saving by picking from the men
 ### Customizing generation of TOC using attributes
 
 ```
-<!-- MarkdownTOC style="round" autolink=true -->
+<!-- MarkdownTOC style="round" autolink="true" -->
 
 - [Heading 1]
   - [Heading 2]
@@ -170,7 +170,7 @@ Updating the TOC can also be accomplished without saving by picking from the men
 The default behaviour could also be described as:
 
 ```
-<!-- MarkdownTOC depth=2 autolink=false bracket=square autoanchor=false style=unordered indent="\t" -->
+<!-- MarkdownTOC depth="2" autolink="false" bracket="square" autoanchor="false" style="unordered" indent="\t" -->
 ```
 
 Please see: [Github Configuration](#github-configuration) for a guideline to configuring **MarkdownTOC** for [Github] use.
@@ -192,7 +192,7 @@ The TOC generation can be specified to respect this and a TOC element of the fol
 Please note that the default for the attribute: [autoanchor](#autoanchor) is `false`.You can add an HTML anchor (`<a name="xxx"></a>`) before the heading automatically.
 
 ```
-<!-- MarkdownTOC autolink=true autoanchor=true bracket=round -->
+<!-- MarkdownTOC autolink="true" autoanchor="true" bracket="round" -->
 
 - [Changelog](#changelog)
 - [Glossary](#glossary)
@@ -235,7 +235,7 @@ Lorem ipsum...
 With `autolink` set to `true` will render the following:
 
 ```
-<!-- MarkdownTOC autolink=true bracket=round -->
+<!-- MarkdownTOC autolink="true" bracket="round" -->
 
 - [Heading 1](#heading-1)
   - [Heading 2](#heading-2)
@@ -254,7 +254,7 @@ The auto link markup style can be one of:
 Please note that the default for autolink is `false` defined by the [attribute](#attributes) `default_autolink`.
 
 ```
-<!-- MarkdownTOC autolink=false -->
+<!-- MarkdownTOC autolink="false" -->
 
 - MarkdownTOC Plugin for Sublime Text
   - Feature
@@ -264,7 +264,7 @@ Please note that the default for autolink is `false` defined by the [attribute](
 <!-- /MarkdownTOC -->
 ```
 ```
-<!-- MarkdownTOC autolink=true -->
+<!-- MarkdownTOC autolink="true" -->
 
 - [MarkdownTOC Plugin for Sublime Text](#markdowntoc-plugin-for-sublime-text)
   - [Feature](#feature)
@@ -277,7 +277,7 @@ Please note that the default for autolink is `false` defined by the [attribute](
 **square**: according to ["Reference-style links"](http://daringfireball.net/projects/markdown/syntax#link).
 
 ```
-<!-- MarkdownTOC bracket=square -->
+<!-- MarkdownTOC bracket="square" -->
 
 - [Heading][heading]
 
@@ -287,7 +287,7 @@ Please note that the default for autolink is `false` defined by the [attribute](
 **round**: according to [Github] style.
 
 ```
-<!-- MarkdownTOC bracket=round -->
+<!-- MarkdownTOC bracket="round" -->
 
 - [Heading](#heading)
 
@@ -359,7 +359,7 @@ With default depth:
 With depth set to 4:
 
 ```
-<!-- MarkdownTOC depth=4 -->
+<!-- MarkdownTOC depth="4" -->
 
 - [Heading 1]
   - [Heading 2]
@@ -407,7 +407,7 @@ Lorem ipsum...
 Will with style `unordered`:
 
 ```
-<!-- MarkdownTOC style=unordered -->
+<!-- MarkdownTOC style="unordered" -->
 
 - Heading 1
   - Heading 2
@@ -422,7 +422,7 @@ Will with style `unordered`:
 And with style `ordered`:
 
 ```
-<!-- MarkdownTOC style=ordered -->
+<!-- MarkdownTOC style="ordered" -->
 
 1. Heading 1
   1. Heading 2
@@ -445,7 +445,7 @@ The indentation prefix is a specification of the string used to indent the TOC e
 An _ugly_ but demonstrative example could be to use an [emoji][emoji].
 
 ```
-<!-- MarkdownTOC autolink=true bracket=round indent=":point_right: " -->
+<!-- MarkdownTOC autolink="true" bracket="round" indent=":point_right: " -->
 
 - [Heading 1](#heading-1)
 :point_right: - [Heading 2](#heading-2)
@@ -573,7 +573,7 @@ If that is the case and you cannot agree on a configuration, choose configuratio
 Example of attribute configuration for the above configuration settings in file:
 
 ```
-<!-- MarkdownTOC autolink=true bracket=round autoanchor=true -->
+<!-- MarkdownTOC autolink="true" bracket="round" autoanchor="true" -->
 ```
 
 ## Contributing
