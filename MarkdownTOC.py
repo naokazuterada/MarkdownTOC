@@ -178,7 +178,12 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
                 _text = _text[0:match_ex_id.start()].rstrip()
                 _id = match_ex_id.group().replace('{#','').replace('}','')
             elif strtobool(attrs['autolink']):
-                _id = self.replace_chars_in_id(_text.lower())
+                if strtobool(attrs['lowercase_only_ascii']):
+                    # only ascii
+                    _lower_text = ''.join(chr(ord(x)+('A'<=x<='Z')*32) for x in _text)
+                else:
+                    _lower_text = _text.lower()
+                _id = self.replace_chars_in_id(_lower_text)
                 _ids.append(_id)
                 n = _ids.count(_id)
                 if 1 < n:
@@ -235,12 +240,13 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
     def get_settings(self):
         """return dict of settings"""
         return {
-            "depth":      self.get_setting('default_depth'),
-            "autolink":   self.get_setting('default_autolink'),
-            "bracket":    self.get_setting('default_bracket'),
-            "autoanchor": self.get_setting('default_autoanchor'),
-            "style":      self.get_setting('default_style'),
-            "indent":     self.get_setting('default_indent')
+            "autoanchor":           self.get_setting('default_autoanchor'),
+            "autolink":             self.get_setting('default_autolink'),
+            "bracket":              self.get_setting('default_bracket'),
+            "depth":                self.get_setting('default_depth'),
+            "indent":               self.get_setting('default_indent'),
+            "lowercase_only_ascii": self.get_setting('default_lowercase_only_ascii'),
+            "style":                self.get_setting('default_style')
         }
 
     def get_attibutes_from(self, tag_str):
