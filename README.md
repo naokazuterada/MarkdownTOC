@@ -19,6 +19,7 @@ Sublime Text plugin for generating a Table of Contents (TOC) in a Markdown docum
   - [Customizing generation of TOC using attributes](#customizing-generation-of-toc-using-attributes)
   - [Auto anchoring when heading has anchor defined](#auto-anchoring-when-heading-has-anchor-defined)
   - [Auto linking for _clickable_ TOC](#auto-linking-for-_clickable_-toc)
+    - [Lowercase only ASCII characters in auto link ids](#lowercase-only-ascii-characters-in-auto-link-ids)
     - [Manipulation of auto link ids](#manipulation-of-auto-link-ids)
   - [Control of depth listed in TOC](#control-of-depth-listed-in-toc)
   - [Ordered or unordered style for TOC elements](#ordered-or-unordered-style-for-toc-elements)
@@ -296,6 +297,32 @@ Please note that the default for autolink is `false` defined by the [attribute](
 
 Please note that the default for bracket is `square` defined by the [attribute](#attributes) `default_bracket`.
 
+#### Lowercase only ASCII characters in auto link ids
+
+The plugin lowercase all alphabets within auto link ids default.
+
+```
+<!-- MarkdownTOC autolink=true -->
+
+- [ПРИМЕР EXAMPLE][пример-example]
+
+<!-- /MarkdownTOC -->
+
+# ПРИМЕР EXAMPLE
+```
+
+But you can also squeeze its target **only ascii alphabets**(`a` to `z`) with `lowercase_only_ascii=true` attribute.
+
+```
+<!-- MarkdownTOC autolink=true lowercase_only_ascii=true -->
+
+- [ПРИМЕР EXAMPLE][ПРИМЕР-example]
+
+<!-- /MarkdownTOC -->
+
+# ПРИМЕР EXAMPLE
+```
+
 #### Manipulation of auto link ids
 
 You can manipulate your link ids in your [configuration](#configuration) using the key `id_replacements`.
@@ -374,6 +401,7 @@ Please note that the default for the [attribute](#attributes) depth is `2`. Spec
 You can also specify this in your [configuration](#configuration) with key `default_depth`.
 
 The maximum size for headings is `6` according to the [Markdown specification][Markdown]
+
 
 ### Ordered or unordered style for TOC elements
 
@@ -477,14 +505,15 @@ You can set your default indentation in your [configuration](#configuration) wit
 
 The following attributes can be used to control the generation of the TOC.
 
-| attribute                | values                      | default      | key in configuration/settings     |
-|:------------------------- |:--------------------------- |:------------- |:-------------------- |
-| [autolink](#auto-link)    | `true`or`false`             | `false`       | `default_autolink`   |
-| [bracket](#bracket)       | `square`or`round`           | `'square'`    | `default_bracket`    |
-| [depth](#depth)           | integer (`0` means _no limit_) | `2`           | `default_depth`      |
-| [autoanchor](#autoanchor) | `true`or`false`             | `false`       | `default_autoanchor` |
-| [style](#style)           | `ordered` or `unordered`    | `'unordered'` | `default_style`      |
-| [indent](#indent)         | string                      | `'\t'`        | `default_indent`     |
+| attribute                                     | values                         | default       | key in configuration/settings  |
+|:--------------------------------------------- |:------------------------------ |:------------- |:------------------------------ |
+| [autoanchor](#autoanchor)                     | `true`or`false`                | `false`       | `default_autoanchor`           |
+| [autolink](#auto-link)                        | `true`or`false`                | `false`       | `default_autolink`             |
+| [bracket](#bracket)                           | `square`or`round`              | `'square'`    | `default_bracket`              |
+| [depth](#depth)                               | integer (`0` means _no limit_) | `2`           | `default_depth`                |
+| [indent](#indent)                             | string                         | `'\t'`        | `default_indent`               |
+| [lowercase_only_ascii](#lowercase_only_ascii) | `true`or`false`                | `false`       | `default_lowercase_only_ascii` |
+| [style](#style)                               | `ordered` or `unordered`       | `'unordered'` | `default_style`                |
 
 You can define your own default values via package preferences, [Sublime Text][SublimeText]s way of letting users customize [package settings][SublimeTextSettings]. Please see the [Section on Configuration](#Configuration) for more details for **MarkdownTOC**.
 
@@ -521,12 +550,13 @@ Example: `MarkdownTOC.sublime-settings`
 
 ```json
 {
+  "default_autoanchor": false,
   "default_autolink": false,
   "default_bracket": "square",
   "default_depth": 2,
-  "default_autoanchor": false,
-  "default_style": "unordered",
   "default_indent": "\t",
+  "default_lowercase_only_ascii": false,
+  "default_style": "unordered",
   "id_replacements": {
     "-": " ",
     "" : ["!","#","$","&","'","(",")","*","+",",","/",":",";","=","?","@","[","]","`","\"", ".","<",">","{","}","™","®","©"]
@@ -545,11 +575,12 @@ Configuration precendence is as follows:
 For an overview of the specific behaviour behind an attribute, please refer to the below list.
 
 - `default_autolink`, (see: [Auto linking for _clickable_ TOC](#auto-linking-for-_clickable_-toc))
+- `default_autoanchor`, (see: [Auto anchoring when heading has anchor defined](#auto-anchoring-when-heading-has-anchor-defined))
 - `default_bracket`, (see: [Auto linking for _clickable_ TOC](#auto-linking-for-_clickable_-toc))
 - `default_depth`, (see: [Control of depth listed in TOC](#control-of-depth-listed-in-toc))
-- `default_autoanchor`, (see: [Auto anchoring when heading has anchor defined](#auto-anchoring-when-heading-has-anchor-defined))
-- `default_style`, (see: [Ordered or unordered style for TOC elements](#ordered-or-unordered-style-for-toc-elements))
 - `default_indent`, (see: [Specify custom indentation prefix](#specify-custom-indentation-prefix))
+- `default_lowercase_only_ascii`, (see: [Lowercase only ASCII characters in anchor](#lowercase-only-ascii-characters-in-anchor))
+- `default_style`, (see: [Ordered or unordered style for TOC elements](#ordered-or-unordered-style-for-toc-elements))
 - `id_replacements`, (see: [Manipulation of auto link ids](#manipulation-of-auto-link-ids))
 
 ### Github Configuration
@@ -559,7 +590,8 @@ A configuration for writing Markdown primaily for use on [Github] _could_ look l
 ```json
 {
   "default_autolink": true,
-  "default_bracket": "round"
+  "default_bracket": "round",
+  "default_lowercase_only_ascii": true
 }
 ```
 
