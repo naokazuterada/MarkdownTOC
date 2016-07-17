@@ -1,0 +1,30 @@
+MarkdownTOC - 2.1.0
+
+CHANGES
+
+- Add `lowercase_only_ascii` feature
+
+
+The plugin lowercase all alphabets within auto link ids default.
+
+```
+<!-- MarkdownTOC autolink=true -->
+
+- [ПРИМЕР EXAMPLE][пример-example]
+
+<!-- /MarkdownTOC -->
+
+# ПРИМЕР EXAMPLE
+```
+
+But you can also squeeze its target **only ascii alphabets**(`a` to `z`) with `lowercase_only_ascii=true` attribute.
+
+```
+<!-- MarkdownTOC autolink=true lowercase_only_ascii=true -->
+
+- [ПРИМЕР EXAMPLE][ПРИМЕР-example]
+
+<!-- /MarkdownTOC -->
+
+# ПРИМЕР EXAMPLE
+```
