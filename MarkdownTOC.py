@@ -124,8 +124,8 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
                 if len(lines) == 1:
                     # handle hash headings, ### chapter 1
                     r = sublime.Region(
-                        heading.end(), self.view.line(heading).end())
-                    text = self.view.substr(r)
+                        heading.end() - 1, self.view.line(heading).end())
+                    text = self.view.substr(r).strip().rstrip('#')
                     indent = heading.size() - 1
                     items.append([indent, text, heading.begin()])
                 elif len(lines) == 2:

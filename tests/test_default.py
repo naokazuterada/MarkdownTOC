@@ -93,3 +93,39 @@ class TestDefault(TestBase):
 """
         toc_txt = self.commonSetup(text)
         self.assert_In('function\(foo\[, bar\]\)', toc_txt)
+
+    def test_spaces_in_atx_heading(self):
+        text = \
+"""
+
+
+#Heading 0
+
+#       Heading 1
+"""
+        toc_txt = self.commonSetup(text)
+        self.assert_In('- Heading 0', toc_txt)
+        self.assert_In('- Heading 1', toc_txt)
+
+    def test_remove_atx_closing_seq(self):
+        """ Remove closing sequence of # characters
+        """
+        text = \
+"""
+
+
+# Heading 0 #
+
+
+## Heading 1       ###
+
+
+# Heading 2 ##########
+
+
+## Heading 3
+"""
+        toc_txt = self.commonSetup(text)
+        self.assert_In('Heading 0\n', toc_txt)
+        self.assert_In('Heading 1\n', toc_txt)
+        self.assert_In('Heading 2\n', toc_txt)
