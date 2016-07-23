@@ -131,7 +131,7 @@ class TestDefault(TestBase):
         self.assert_In('Heading 2\n', toc_txt)
 
     def test_id_replacement(self):
-        """ Reoplace chars in id_replacements object in id string
+        """ Reoplace chars(or string) in id_replacements object in id string
         """
         text = \
 """
@@ -144,12 +144,18 @@ class TestDefault(TestBase):
 
 # Heading # 1
 
-# Heading $$ 2
+# Heading !! 2
 
-# Heading &&&&& 3
+# Heading &and&and& 3
+
+# &lt;element1>
+
+# &#60;element2>
 """
         toc_txt = self.commonSetup(text)
         self.assert_In('- [Heading ! 0][heading--0]', toc_txt)
         self.assert_In('- [Heading # 1][heading--1]', toc_txt)
-        self.assert_In('- [Heading $$ 2][heading--2]', toc_txt)
-        self.assert_In('- [Heading &&&&& 3][heading--3]', toc_txt)
+        self.assert_In('- [Heading !! 2][heading--2]', toc_txt)
+        self.assert_In('- [Heading &and&and& 3][heading-andand-3]', toc_txt)
+        self.assert_In('- [&lt;element1>][element1]', toc_txt)
+        self.assert_In('- [&#60;element2>][element2]', toc_txt)

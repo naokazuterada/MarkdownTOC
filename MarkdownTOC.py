@@ -183,7 +183,7 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
                     _lower_text = ''.join(chr(ord(x)+('A'<=x<='Z')*32) for x in _text)
                 else:
                     _lower_text = _text.lower()
-                _id = self.replace_chars_in_id(_lower_text)
+                _id = self.replace_strings_in_id(_lower_text)
                 _ids.append(_id)
                 n = _ids.count(_id)
                 if 1 < n:
@@ -274,16 +274,13 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
         items = [h for h in items if is_out_of_areas(h.begin(), codeblockAreas)]
         return items
 
-    def replace_chars_in_id(self, _str):
+    def replace_strings_in_id(self, _str):
         replacements = self.get_setting('id_replacements')
-        # log(replacements)
         for _key in replacements:
             _substitute = _key
-            _target_chars = replacements[_key]
-            table = {}
-            for char in _target_chars:
-                table[ord(char)] = _substitute
-            _str = _str.translate(table)
+            _targets = replacements[_key]
+            for _target in _targets:
+                _str = _str.replace(_target, _substitute)
         return _str
 
 def is_out_of_areas(num, areas):
