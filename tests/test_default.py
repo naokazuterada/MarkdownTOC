@@ -129,3 +129,27 @@ class TestDefault(TestBase):
         self.assert_In('Heading 0\n', toc_txt)
         self.assert_In('Heading 1\n', toc_txt)
         self.assert_In('Heading 2\n', toc_txt)
+
+    def test_id_replacement(self):
+        """ Reoplace chars in id_replacements object in id string
+        """
+        text = \
+"""
+
+<!-- MarkdownTOC autolink=true -->
+
+<!-- /MarkdownTOC -->
+
+# Heading ! 0
+
+# Heading # 1
+
+# Heading $$ 2
+
+# Heading &&&&& 3
+"""
+        toc_txt = self.commonSetup(text)
+        self.assert_In('- [Heading ! 0][heading--0]', toc_txt)
+        self.assert_In('- [Heading # 1][heading--1]', toc_txt)
+        self.assert_In('- [Heading $$ 2][heading--2]', toc_txt)
+        self.assert_In('- [Heading &&&&& 3][heading--3]', toc_txt)
