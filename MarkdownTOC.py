@@ -115,7 +115,7 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
         headings = self.remove_items_in_codeblock(headings)
 
         if len(headings) < 1:
-            return False
+            return ''
 
         items = []  # [[headingNum,text,position,anchor_id],...]
         for heading in headings:
