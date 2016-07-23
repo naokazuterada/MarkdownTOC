@@ -331,13 +331,13 @@ You can manipulate your link ids in your [configuration](#configuration) using t
 {
   "id_replacements": {
     "-": " ",
-    "" : ["!","#","$","&","'","(",")","*","+",",","/",":",";","=","?","@","[","]","`","\"", ".","<",">","{","}","™","®","©"]
+    "" : ["&lt;","&#60;","!","#","$","&","'","(",")","*","+",",","/",":",";","=","?","@","[","]","`","\"", ".","<",">","{","}","™","®","©"]
   }
 }
 ```
 
-1. The set specified as values character(s) will be replaced with the key character.
-1. The replacement sequence executes from top to bottom
+1. The set specified as values string(s) will be replaced with the key string.
+1. The replacement sequence executes from top to bottom and left to right
 
 An example:
 
