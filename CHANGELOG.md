@@ -1,6 +1,17 @@
 Changes in MarkdownTOC
 ===========================
 
+## 2.1.1
+
+- Improved ATX headings
+    - Extra spaces processing in headings
+    - Removing of closing sequence of # characters
+- Allow not only chars but strings in id_replacement
+
+## 2.1.0
+
+- Add `lowercase_only_ascii` feature
+
 ## 2.0.0
 
 - Enable HTML-like attribute style
