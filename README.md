@@ -33,6 +33,7 @@ Sublime Text plugin for generating a Table of Contents (TOC) in a Markdown docum
 - [Configuration](#configuration)
   - [Github Configuration](#github-configuration)
   - [Configuration and Collaboration](#configuration-and-collaboration)
+- [Compatibility](#compatibility)
 - [Contributing](#contributing)
 - [License](#license)
 - [Author](#author)
@@ -606,6 +607,16 @@ Example of attribute configuration for the above configuration settings in file:
 ```
 <!-- MarkdownTOC autolink="true" bracket="round" autoanchor="true" -->
 ```
+
+## Compatibility
+
+This is by no means an exhaustive list and you are welcome to provide additional feedback. But here is listed what Markdown rendering platforms and tools that are known to be compatible and incompatible with the **MarkdownTOC** plugin.
+
+| Application  | Compatibility |
+| ------------ | ------------- |
+| [Github](https://github.com/) | Compatible |
+| [Gitblit](http://gitblit.com/) 1.6.x | Incompatible |
+| [Gitlab](https://about.gitlab.com/) 8.10.x| Compatible |
 
 ## Contributing
 
