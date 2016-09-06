@@ -1,6 +1,10 @@
 Changes in MarkdownTOC
 ===========================
 
+## 2.1.2
+
+- Fix anchoring problem with '_'
+
 ## 2.1.1
 
 - Improved ATX headings
