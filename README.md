@@ -610,7 +610,7 @@ Example of attribute configuration for the above configuration settings in file:
 
 ## Compatibility
 
-This is by no means an exhaustive list and you are welcome to provide additional feedback. But here is listed what Markdown rendering platforms and tools that are known to be compatible and incompatible with the **MarkdownTOC** plugin.
+This is by no means an exhaustive list and you are welcome to provide additional information and feedback. Here is listed what Markdown rendering platforms and tools where compatibility and incompatibily has been asserted with the **MarkdownTOC** plugin.
 
 | Application  | Compatibility |
 | ------------ | ------------- |
