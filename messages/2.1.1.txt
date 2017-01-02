@@ -1,4 +1,4 @@
-MarkdownTOC - 2.1.0
+MarkdownTOC - 2.1.1
 
 CHANGES
 

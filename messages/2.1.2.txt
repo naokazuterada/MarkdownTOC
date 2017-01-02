@@ -1,0 +1,5 @@
+MarkdownTOC - 2.1.2
+
+CHANGES
+
+- Fix anchoring problem with '_'

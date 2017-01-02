@@ -2,7 +2,7 @@
 
 Sublime Text plugin for generating a Table of Contents (TOC) in a Markdown document.
 
-| Linux & OSX | Windows     |
+| Linux & macOS | Windows     |
 |:------------|:------------|
 | [![Build Status](https://travis-ci.org/naokazuterada/MarkdownTOC.svg?branch=master)](https://travis-ci.org/naokazuterada/MarkdownTOC) | [![Build status](https://ci.appveyor.com/api/projects/status/vxj9jbihlrwfa6ui/branch/master?svg=true)](https://ci.appveyor.com/project/naokazuterada/markdowntoc/branch/master) |
 
@@ -18,7 +18,7 @@ Sublime Text plugin for generating a Table of Contents (TOC) in a Markdown docum
   - [Automatic refresh of TOC when Markdown document is saved](#automatic-refresh-of-toc-when-markdown-document-is-saved)
   - [Customizing generation of TOC using attributes](#customizing-generation-of-toc-using-attributes)
   - [Auto anchoring when heading has anchor defined](#auto-anchoring-when-heading-has-anchor-defined)
-  - [Auto linking for _clickable_ TOC](#auto-linking-for-_clickable_-toc)
+  - [Auto linking for _clickable_ TOC](#auto-linking-for-clickable-toc)
     - [Lowercase only ASCII characters in auto link ids](#lowercase-only-ascii-characters-in-auto-link-ids)
     - [Manipulation of auto link ids](#manipulation-of-auto-link-ids)
   - [Control of depth listed in TOC](#control-of-depth-listed-in-toc)
