@@ -519,7 +519,7 @@ If you want to remove the TOC again, you do not have to go through your complete
 
 Please see the below animation demonstrating the change
 
-![](images/how_to_remove_toc.gif)
+![](./images/how_to_remove_the_toc.gif)
 
 3. Now delete the TOC section from beginning to end and **MarkdownTOC** integration is gone
 
