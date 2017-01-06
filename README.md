@@ -620,7 +620,7 @@ This is by no means an exhaustive list and you are welcome to provide additional
 
 ## Contributing
 
-Contributions are most welcome, please see the [guidelines on contributing](https://github.com/naokazuterada/MarkdownTOC/blob/master/CONTRIBUTING.md).
+Contributions are most welcome, please see the [guidelines on contributing](https://github.com/naokazuterada/MarkdownTOC/blob/master/.github/CONTRIBUTING.md).
 
 ## License
 
