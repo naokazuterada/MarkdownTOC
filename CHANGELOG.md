@@ -1,6 +1,10 @@
 Changes in MarkdownTOC
 ===========================
 
+## 2.2.0
+
+- Add 'logging' option in 'Package Settings'
+
 ## 2.1.2
 
 - Fix anchoring problem with '_'

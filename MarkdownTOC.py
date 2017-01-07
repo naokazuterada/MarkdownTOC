@@ -38,7 +38,7 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
                 toc += TOCTAG_END + "\n"
 
                 self.view.insert(edit, sel.begin(), toc)
-                log('inserted TOC')
+                self.log('inserted TOC')
 
         # TODO: process to add another toc when tag exists
 
@@ -92,13 +92,13 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
                         toc_start.end(), toc_close.begin())
                     if toc:
                         self.view.replace(edit, tocRegion, "\n" + toc + "\n")
-                        log('refresh TOC content')
+                        self.log('refresh TOC content')
                         return True
                     else:
                         self.view.replace(edit, tocRegion, "\n")
-                        log('TOC is empty')
+                        self.log('TOC is empty')
                         return False
-        log('cannot find TOC tags')
+        self.log('cannot find TOC tags')
         return False
 
     # TODO: add "end" parameter
@@ -283,6 +283,12 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
                 _str = _str.replace(_target, _substitute)
         return _str
 
+    def log(self, arg):
+        if self.get_setting('logging') == True:
+            arg = str(arg)
+            sublime.status_message(arg)
+            pp.pprint(arg)
+
 def is_out_of_areas(num, areas):
     for area in areas:
         if area[0] < num and num < area[1]:
@@ -306,11 +312,6 @@ def format(items):
     for i, item in enumerate(items):
         item[0] = headings[i]
     return items
-
-def log(arg):
-    arg = str(arg)
-    sublime.status_message(arg)
-    pp.pprint(arg)
 
 def strtobool(val):
     """pick out from 'distutils.util' module"""
