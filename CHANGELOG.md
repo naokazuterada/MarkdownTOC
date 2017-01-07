@@ -1,6 +1,10 @@
 Changes in MarkdownTOC
 ===========================
 
+## 2.2.1
+
+- Improve heading detecting
+
 ## 2.2.0
 
 - Add 'logging' option in 'Package Settings'
