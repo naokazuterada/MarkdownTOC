@@ -105,10 +105,7 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
     def get_toc(self, attrs, begin, edit):
 
         # Search headings in docment
-        if int(attrs['depth']) == 0:
-            pattern_hash = "^#+?[^#]"
-        else:
-            pattern_hash = "^#{1," + str(attrs['depth']) + "}[^#]"
+        pattern_hash = "^#+?[^#]"
         headings = self.view.find_all(
             "%s|%s" % (pattern_h1_h2_equal_dash, pattern_hash))
 
@@ -141,6 +138,11 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
 
         # Shape TOC  ------------------
         items = format(items)
+
+        # Depth limit  ------------------
+        _depth = int(attrs['depth'])
+        if 0 < _depth:
+            items = list(filter((lambda i: i[0] <= _depth), items))
 
         # Create TOC  ------------------
         toc = ''
