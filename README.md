@@ -25,6 +25,9 @@ Sublime Text plugin for generating a Table of Contents (TOC) in a Markdown docum
   - [Ordered or unordered style for TOC elements](#ordered-or-unordered-style-for-toc-elements)
   - [Specify custom indentation prefix](#specify-custom-indentation-prefix)
 - [Usage](#usage)
+- [Tips](#tips)
+  - [How to remove anchors added by MarkdownTOC](#how-to-remove-anchors-added-by-markdowntoc)
+  - [Addressing issues with Github Pages](#addressing-issues-with-github-pages)
 - [Attributes](#attributes)
 - [Installation](#installation)
   - [Using Package Control](#using-package-control)
@@ -215,7 +218,7 @@ Lorem ipsum...
 Lorem ipsum...
 ```
 
-Please note that the default for autolink is `false` defined by the [attribute](#attributes) `default_autoanchor`.
+Please note that the default for autolink is `false` defined by the [attribute](#attributes) `default_autoanchor`. See also: [How to remove anchors added by MarkdownTOC](#how-to-remove-anchors-added-by-markdowntoc). 
 
 ### Auto linking for _clickable_ TOC
 
@@ -501,6 +504,49 @@ You can set your default indentation in your [configuration](#configuration) wit
 6. TOC has been updated
 
 ***Don't remove the comment tags if you want to update every time saving.***
+
+## Tips
+
+### How to remove anchors added by MarkdownTOC
+
+If you want to remove the TOC again, you do not have to go through your complete Markdown and remove all tags manually - just follow this simple guide (see also: [Auto anchoring when heading has anchor defined](#auto-anchoring-when-heading-has-anchor-defined)).
+
+1. Open your [Markdown] file
+2. Set the attribute `autoanchor` to `false`, this clears all anchors
+
+```
+<!-- MarkdownTOC autoanchor="false" -->
+```
+
+Please see the below animation demonstrating the change
+
+![](./images/how_to_remove_the_toc.gif)
+
+<ol><li value="3">Now delete the TOC section from beginning to end and **MarkdownTOC** integration is gone</li></ol>
+
+```
+<!-- MarkdownTOC autoanchor="false" -->
+
+...
+
+<!-- /MarkdownTOC -->
+```
+
+Ref: [Github issue #76](https://github.com/naokazuterada/MarkdownTOC/issues/76)
+
+### Addressing issues with Github Pages
+
+If you are using Github Pages you might experience that some themes do not render heading correctly.
+
+This can be addressed simply by setting `autoanchor` to `false`
+
+```
+<!-- MarkdownTOC autoanchor="false" -->
+```
+
+And when **Jekyll** is done, your headings should render correctly.
+
+Ref: [Github issue #81](https://github.com/naokazuterada/MarkdownTOC/issues/81)
 
 ## Attributes
 
