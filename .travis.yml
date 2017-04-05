@@ -12,7 +12,7 @@ env:
 
 before_install:
     - curl -OL https://raw.githubusercontent.com/randy3k/UnitTesting/master/sbin/travis.sh
-    - pip install codecov
+    - sudo pip install codecov
 
 install:
     - sh travis.sh bootstrap
