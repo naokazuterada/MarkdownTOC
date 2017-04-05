@@ -12,6 +12,7 @@ env:
 
 before_install:
     - curl -OL https://raw.githubusercontent.com/randy3k/UnitTesting/master/sbin/travis.sh
+    - pip install codecov
 
 install:
     - sh travis.sh bootstrap
@@ -20,6 +21,9 @@ script:
     - sh travis.sh run_tests
     # testing syntax_test files
     # - sh travis.sh run_syntax_tests
+
+after_success:
+    - codecov
 
 notifications:
     email: true
