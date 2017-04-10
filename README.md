@@ -10,37 +10,38 @@ Sublime Text 3 plugin for generating a Table of Contents (TOC) in a Markdown doc
 
 ## Table of Contents
 
-<!-- MarkdownTOC autolink="true" bracket="round" depth="0" style="unordered" indent="  " autoanchor="false" -->
+<!-- MarkdownTOC autolink="true" bracket="round" depth="0" style="unordered" indent="    " autoanchor="false" -->
 
 - [Quick Start](#quick-start)
 - [Features](#features)
-  - [Insertion of TOC based on headings in Markdown document](#insertion-of-toc-based-on-headings-in-markdown-document)
-  - [Automatic refresh of TOC when Markdown document is saved](#automatic-refresh-of-toc-when-markdown-document-is-saved)
-  - [Customizing generation of TOC using attributes](#customizing-generation-of-toc-using-attributes)
-  - [Auto anchoring when heading has anchor defined](#auto-anchoring-when-heading-has-anchor-defined)
-  - [Auto linking for _clickable_ TOC](#auto-linking-for-clickable-toc)
-    - [Lowercase only ASCII characters in auto link ids](#lowercase-only-ascii-characters-in-auto-link-ids)
-    - [Manipulation of auto link ids](#manipulation-of-auto-link-ids)
-  - [Control of depth listed in TOC](#control-of-depth-listed-in-toc)
-  - [Ordered or unordered style for TOC elements](#ordered-or-unordered-style-for-toc-elements)
-  - [Specify custom indentation prefix](#specify-custom-indentation-prefix)
+    - [Insertion of TOC based on headings in Markdown document](#insertion-of-toc-based-on-headings-in-markdown-document)
+    - [Automatic refresh of TOC when Markdown document is saved](#automatic-refresh-of-toc-when-markdown-document-is-saved)
+    - [Customizing generation of TOC using attributes](#customizing-generation-of-toc-using-attributes)
+    - [Auto anchoring when heading has anchor defined](#auto-anchoring-when-heading-has-anchor-defined)
+    - [Auto linking for _clickable_ TOC](#auto-linking-for-clickable-toc)
+        - [Lowercase only ASCII characters in auto link ids](#lowercase-only-ascii-characters-in-auto-link-ids)
+        - [Manipulation of auto link ids](#manipulation-of-auto-link-ids)
+    - [Control of depth listed in TOC](#control-of-depth-listed-in-toc)
+    - [Ordered or unordered style for TOC elements](#ordered-or-unordered-style-for-toc-elements)
+    - [Specify custom indentation prefix](#specify-custom-indentation-prefix)
 - [Usage](#usage)
 - [Tips](#tips)
-  - [How to remove anchors added by MarkdownTOC](#how-to-remove-anchors-added-by-markdowntoc)
-  - [Addressing issues with Github Pages](#addressing-issues-with-github-pages)
+    - [How to remove anchors added by MarkdownTOC](#how-to-remove-anchors-added-by-markdowntoc)
+    - [Addressing issues with Github Pages](#addressing-issues-with-github-pages)
 - [Attributes](#attributes)
 - [Installation](#installation)
-  - [Using Package Control](#using-package-control)
-  - [From Git](#from-git)
-  - [From downloadable archive](#from-downloadable-archive)
+    - [Using Package Control](#using-package-control)
+    - [From Git](#from-git)
+    - [From downloadable archive](#from-downloadable-archive)
 - [Configuration](#configuration)
-  - [Github Configuration](#github-configuration)
-  - [Configuration and Collaboration](#configuration-and-collaboration)
+    - [Github Configuration](#github-configuration)
+    - [Configuration and Collaboration](#configuration-and-collaboration)
 - [Compatibility](#compatibility)
 - [Contributing](#contributing)
 - [License](#license)
 - [Author](#author)
 - [References](#references)
+    - [Markdown Table of Contents Generators](#markdown-table-of-contents-generators)
 
 <!-- /MarkdownTOC -->
 
@@ -218,7 +219,7 @@ Lorem ipsum...
 Lorem ipsum...
 ```
 
-Please note that the default for autolink is `false` defined by the [attribute](#attributes) `default_autoanchor`. See also: [How to remove anchors added by MarkdownTOC](#how-to-remove-anchors-added-by-markdowntoc). 
+Please note that the default for autolink is `false` defined by the [attribute](#attributes) `default_autoanchor`. See also: [How to remove anchors added by MarkdownTOC](#how-to-remove-anchors-added-by-markdowntoc).
 
 ### Auto linking for _clickable_ TOC
 
@@ -683,6 +684,13 @@ Contributions are most welcome, please see the [guidelines on contributing](http
 - [Sublime Text: Package Control][PackageControl]
 - [Emoji cheatsheet][emoji]
 - [Github flavoured markdown][Github]
+
+### Markdown Table of Contents Generators
+
+Here follows a list of other Markdown Table of Contents generators, for inspiration and perhaps even use in the situation where the **MarkdownTOC** Sublime Text plugin is _not the right tool for the job_. Please note that the list is by no means authoritative or exhaustive and is not a list of recommendations, since we can only endorse **MarkdownTOC** our contribution to the Markdown Table of Content generators toolbox.
+
+- [doctoc](https://github.com/thlorenz/doctoc) Node (npm) implementation with CLI interface
+- [markdown-toclify](https://github.com/rasbt/markdown-toclify) Python implementation with CLI interface
 
 [Markdown]: http://daringfireball.net/projects/markdown/syntax
 [MarkdownLinks]: http://daringfireball.net/projects/markdown/syntax#link
