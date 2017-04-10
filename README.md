@@ -43,7 +43,6 @@ Sublime Text plugin for generating a Table of Contents (TOC) in a Markdown docum
 - [References](#references)
   - [Markdown Table of Contents Generators](#markdown-table-of-contents-generators)
 
-
 <!-- /MarkdownTOC -->
 
 ___
@@ -220,7 +219,7 @@ Lorem ipsum...
 Lorem ipsum...
 ```
 
-Please note that the default for autolink is `false` defined by the [attribute](#attributes) `default_autoanchor`. See also: [How to remove anchors added by MarkdownTOC](#how-to-remove-anchors-added-by-markdowntoc). 
+Please note that the default for autolink is `false` defined by the [attribute](#attributes) `default_autoanchor`. See also: [How to remove anchors added by MarkdownTOC](#how-to-remove-anchors-added-by-markdowntoc).
 
 ### Auto linking for _clickable_ TOC
 
