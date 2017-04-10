@@ -1,6 +1,6 @@
-# MarkdownTOC Plugin for Sublime Text
+# MarkdownTOC Plugin for Sublime Text 3
 
-Sublime Text plugin for generating a Table of Contents (TOC) in a Markdown document.
+Sublime Text 3 plugin for generating a Table of Contents (TOC) in a Markdown document.
 
 | Linux & macOS | Windows     |
 |:------------|:------------|
