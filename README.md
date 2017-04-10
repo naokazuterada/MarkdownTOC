@@ -690,6 +690,7 @@ Contributions are most welcome, please see the [guidelines on contributing](http
 Here follows a list of other Markdown Table of Contents generators, for inspiration and perhaps even use in the situation where the **MarkdownTOC** Sublime Text plugin is _not the right tool for the job_. Please note that the list is by no means authoritative or exhaustive and is not a list of recommendations, since we can only endorse **MarkdownTOC** our contribution to the Markdown Table of Content generators toolbox.
 
 - [doctoc](https://github.com/thlorenz/doctoc) Node (npm) implementation with CLI interface
+- [markdown-toclify](https://github.com/rasbt/markdown-toclify) Python implementation with CLI interface
 
 [Markdown]: http://daringfireball.net/projects/markdown/syntax
 [MarkdownLinks]: http://daringfireball.net/projects/markdown/syntax#link
