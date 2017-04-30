@@ -3,6 +3,7 @@ import sublime_plugin
 import re
 import os.path
 import pprint
+import urllib.parse
 from .bs4 import BeautifulSoup
 
 # for dbug
@@ -180,12 +181,17 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
                 _text = _text[0:match_ex_id.start()].rstrip()
                 _id = match_ex_id.group().replace('{#','').replace('}','')
             elif strtobool(attrs['autolink']):
+
                 if strtobool(attrs['lowercase_only_ascii']):
                     # only ascii
                     _lower_text = ''.join(chr(ord(x)+('A'<=x<='Z')*32) for x in _text)
                 else:
                     _lower_text = _text.lower()
                 _id = self.replace_strings_in_id(_lower_text)
+
+                if strtobool(attrs['uri_encode']):
+                    _id = urllib.parse.quote(_id)
+
                 _ids.append(_id)
                 n = _ids.count(_id)
                 if 1 < n:
@@ -248,7 +254,8 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
             "depth":                self.get_setting('default_depth'),
             "indent":               self.get_setting('default_indent'),
             "lowercase_only_ascii": self.get_setting('default_lowercase_only_ascii'),
-            "style":                self.get_setting('default_style')
+            "style":                self.get_setting('default_style'),
+            "uri_encode":           self.get_setting('default_uri_encode')
         }
 
     def get_attibutes_from(self, tag_str):
