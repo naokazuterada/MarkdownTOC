@@ -257,7 +257,7 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
         tag_str_html = pattern_toc_tag_start.sub("<", tag_str)
         tag_str_html = pattern_toc_tag_start.sub(">", tag_str_html)
 
-        soup = BeautifulSoup(tag_str_html)
+        soup = BeautifulSoup(tag_str_html, "html.parser")
 
         return soup.find('markdowntoc').attrs
 
