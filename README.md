@@ -304,24 +304,24 @@ Please note that the default for bracket is `square` defined by the [attribute](
 
 #### Lowercase only ASCII characters in auto link ids
 
-The plugin lowercase all alphabets within auto link ids default.
+The plugin lowercase **only ascii alphabets**(`a` to `z`) within auto link ids default.
 
 ```
-<!-- MarkdownTOC autolink=true -->
+<!-- MarkdownTOC autolink="true" -->
 
-- [ПРИМЕР EXAMPLE][пример-example]
+- [ПРИМЕР EXAMPLE][ПРИМЕР-example]
 
 <!-- /MarkdownTOC -->
 
 # ПРИМЕР EXAMPLE
 ```
 
-But you can also squeeze its target **only ascii alphabets**(`a` to `z`) with `lowercase_only_ascii=true` attribute.
+But you can also expand its target all alphabets with `lowercase_only_ascii="false"` attribute.
 
 ```
-<!-- MarkdownTOC autolink=true lowercase_only_ascii=true -->
+<!-- MarkdownTOC autolink="true" lowercase_only_ascii="false" -->
 
-- [ПРИМЕР EXAMPLE][ПРИМЕР-example]
+- [ПРИМЕР EXAMPLE][пример-example]
 
 <!-- /MarkdownTOC -->
 
@@ -560,7 +560,7 @@ The following attributes can be used to control the generation of the TOC.
 | [bracket](#bracket)                           | `square`or`round`              | `'square'`    | `default_bracket`              |
 | [depth](#depth)                               | integer (`0` means _no limit_) | `2`           | `default_depth`                |
 | [indent](#indent)                             | string                         | `'\t'`        | `default_indent`               |
-| [lowercase_only_ascii](#lowercase_only_ascii) | `true`or`false`                | `false`       | `default_lowercase_only_ascii` |
+| [lowercase_only_ascii](#lowercase_only_ascii) | `true`or`false`                | `true`        | `default_lowercase_only_ascii` |
 | [style](#style)                               | `ordered` or `unordered`       | `'unordered'` | `default_style`                |
 
 You can define your own default values via package preferences, [Sublime Text][SublimeText]s way of letting users customize [package settings][SublimeTextSettings]. Please see the [Section on Configuration](#Configuration) for more details for **MarkdownTOC**.
@@ -603,7 +603,7 @@ Example: `MarkdownTOC.sublime-settings`
   "default_bracket": "square",
   "default_depth": 2,
   "default_indent": "\t",
-  "default_lowercase_only_ascii": false,
+  "default_lowercase_only_ascii": true,
   "default_style": "unordered",
   "id_replacements": {
     "-": " ",
