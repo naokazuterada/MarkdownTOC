@@ -21,6 +21,7 @@ Sublime Text 3 plugin for generating a Table of Contents (TOC) in a Markdown doc
     - [Auto linking for _clickable_ TOC](#auto-linking-for-clickable-toc)
         - [Lowercase only ASCII characters in auto link ids](#lowercase-only-ascii-characters-in-auto-link-ids)
         - [Manipulation of auto link ids](#manipulation-of-auto-link-ids)
+        - [URI encoding](#uri-encoding)
     - [Control of depth listed in TOC](#control-of-depth-listed-in-toc)
     - [Ordered or unordered style for TOC elements](#ordered-or-unordered-style-for-toc-elements)
     - [Specify custom indentation prefix](#specify-custom-indentation-prefix)
@@ -359,6 +360,44 @@ This heading link of this heading is changed to following id
 - The `' '` (space) is replaced with `-` (dash), since `' '` is included in the first set
 - The '™' is replaced with _nothing_, since '™' is included in the second set
 
+#### URI encoding
+
+Non-ascii characters within link ids would be [URL encoded](https://en.wikipedia.org/wiki/Percent-encoding) default.
+
+```
+<!-- MarkdownTOC autolink="true" -->
+
+- [Ejemplos de español][ejemplos-de-espa%C3%B1ol]
+- [日本語の例][%E6%97%A5%E6%9C%AC%E8%AA%9E%E3%81%AE%E4%BE%8B]
+- [Примеры русского][%D0%9F%D1%80%D0%B8%D0%BC%D0%B5%D1%80%D1%8B-%D1%80%D1%83%D1%81%D1%81%D0%BA%D0%BE%D0%B3%D0%BE]
+- [中国的例子][%E4%B8%AD%E5%9B%BD%E7%9A%84%E4%BE%8B%E5%AD%90]
+
+<!-- /MarkdownTOC -->
+
+# Ejemplos de español
+# 日本語の例
+# Примеры русского
+# 中国的例子
+```
+
+But you can also disable this with `uri_encoding="false"` attribute.
+
+```
+<!-- MarkdownTOC autolink="true" uri_encoding="false" -->
+
+- [Ejemplos de español][ejemplos-de-español]
+- [日本語の例][日本語の例]
+- [Примеры русского][Примеры-русского]
+- [中国的例子][中国的例子]
+
+<!-- /MarkdownTOC -->
+
+# Ejemplos de español
+# 日本語の例
+# Примеры русского
+# 中国的例子
+```
+
 ### Control of depth listed in TOC
 
 ```
@@ -562,6 +601,7 @@ The following attributes can be used to control the generation of the TOC.
 | [indent](#indent)                             | string                         | `'\t'`        | `default_indent`               |
 | [lowercase_only_ascii](#lowercase_only_ascii) | `true`or`false`                | `true`        | `default_lowercase_only_ascii` |
 | [style](#style)                               | `ordered` or `unordered`       | `'unordered'` | `default_style`                |
+| [uri_encoding](#uri_encoding)                 | `true`or`false`                | `true`        | `default_uri_encoding`         |
 
 You can define your own default values via package preferences, [Sublime Text][SublimeText]s way of letting users customize [package settings][SublimeTextSettings]. Please see the [Section on Configuration](#Configuration) for more details for **MarkdownTOC**.
 
@@ -605,6 +645,7 @@ Example: `MarkdownTOC.sublime-settings`
   "default_indent": "\t",
   "default_lowercase_only_ascii": true,
   "default_style": "unordered",
+  "default_uri_encoding": true,
   "id_replacements": {
     "-": " ",
     "" : ["&lt;","&gt;","&amp;","&apos;","&quot;","&#60;","&#62;","&#38;","&#39;","&#34;","!","#","$","&","'","(",")","*","+",",","/",":",";","=","?","@","[","]","`","\"", ".","<",">","{","}","™","®","©"]
@@ -629,6 +670,7 @@ For an overview of the specific behaviour behind an attribute, please refer to t
 - `default_indent`, (see: [Specify custom indentation prefix](#specify-custom-indentation-prefix))
 - `default_lowercase_only_ascii`, (see: [Lowercase only ASCII characters in auto link ids](#lowercase-only-ascii-characters-in-auto-link-ids))
 - `default_style`, (see: [Ordered or unordered style for TOC elements](#ordered-or-unordered-style-for-toc-elements))
+- `default_uri_encoding`, (see: [URI encoding](#uri-encoding))
 - `id_replacements`, (see: [Manipulation of auto link ids](#manipulation-of-auto-link-ids))
 
 ### Github Configuration
