@@ -622,12 +622,12 @@ Configuration precendence is as follows:
 
 For an overview of the specific behaviour behind an attribute, please refer to the below list.
 
-- `default_autolink`, (see: [Auto linking for _clickable_ TOC](#auto-linking-for-_clickable_-toc))
+- `default_autolink`, (see: [Auto linking for _clickable_ TOC](#auto-linking-for-clickable-toc))
 - `default_autoanchor`, (see: [Auto anchoring when heading has anchor defined](#auto-anchoring-when-heading-has-anchor-defined))
-- `default_bracket`, (see: [Auto linking for _clickable_ TOC](#auto-linking-for-_clickable_-toc))
+- `default_bracket`, (see: [Auto linking for _clickable_ TOC](#auto-linking-for-clickable-toc))
 - `default_depth`, (see: [Control of depth listed in TOC](#control-of-depth-listed-in-toc))
 - `default_indent`, (see: [Specify custom indentation prefix](#specify-custom-indentation-prefix))
-- `default_lowercase_only_ascii`, (see: [Lowercase only ASCII characters in anchor](#lowercase-only-ascii-characters-in-anchor))
+- `default_lowercase_only_ascii`, (see: [Lowercase only ASCII characters in auto link ids](#lowercase-only-ascii-characters-in-auto-link-ids))
 - `default_style`, (see: [Ordered or unordered style for TOC elements](#ordered-or-unordered-style-for-toc-elements))
 - `id_replacements`, (see: [Manipulation of auto link ids](#manipulation-of-auto-link-ids))
 
