@@ -260,7 +260,7 @@ class TestAttribute(TestBase):
 
     def test_lowercase_only_ascii_default(self):
         toc_txt = self.commonSetup(self.lowercase_only_ascii_text.format('autolink=true'))
-        self.assert_In('- [ПРИМЕР EXAMPLE][пример-example]', toc_txt)
+        self.assert_In('- [ПРИМЕР EXAMPLE][ПРИМЕР-example]', toc_txt)
 
     def test_lowercase_only_ascii_true(self):
         toc_txt = self.commonSetup(self.lowercase_only_ascii_text.format('autolink=true lowercase_only_ascii=true'))
