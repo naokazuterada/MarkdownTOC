@@ -189,7 +189,7 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
                     _lower_text = _text.lower()
                 _id = self.replace_strings_in_id(_lower_text)
 
-                if strtobool(attrs['uri_encode']):
+                if strtobool(attrs['uri_encoding']):
                     _id = urllib.parse.quote(_id)
 
                 _ids.append(_id)
@@ -255,7 +255,7 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
             "indent":               self.get_setting('default_indent'),
             "lowercase_only_ascii": self.get_setting('default_lowercase_only_ascii'),
             "style":                self.get_setting('default_style'),
-            "uri_encode":           self.get_setting('default_uri_encode')
+            "uri_encoding":           self.get_setting('default_uri_encoding')
         }
 
     def get_attibutes_from(self, tag_str):
