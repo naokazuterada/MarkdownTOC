@@ -105,6 +105,26 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
     # TODO: add "end" parameter
     def get_toc(self, attrs, begin, edit):
 
+        def heading_to_id(heading):
+            if heading is None:
+                return ''
+            if strtobool(attrs['lowercase_only_ascii']):
+                # only ascii
+                _id = ''.join(chr(ord(x)+('A'<=x<='Z')*32) for x in heading)
+            else:
+                _id = heading.lower()
+            return replace_strings_in_id(_id)
+
+        def replace_strings_in_id(_str):
+            replacements = self.get_setting('id_replacements')
+            for _key in replacements:
+                _substitute = _key
+                _targets = replacements[_key]
+                for _target in _targets:
+                    _str = _str.replace(_target, _substitute)
+            return _str
+
+
         # Search headings in docment
         pattern_hash = "^#+?[^#]"
         headings = self.view.find_all(
@@ -181,14 +201,7 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
                 _text = _text[0:match_ex_id.start()].rstrip()
                 _id = match_ex_id.group().replace('{#','').replace('}','')
             elif strtobool(attrs['autolink']):
-
-                if strtobool(attrs['lowercase_only_ascii']):
-                    # only ascii
-                    _lower_text = ''.join(chr(ord(x)+('A'<=x<='Z')*32) for x in _text)
-                else:
-                    _lower_text = _text.lower()
-                _id = self.replace_strings_in_id(_lower_text)
-
+                _id = heading_to_id(_text)
                 if strtobool(attrs['uri_encoding']):
                     _id = quote(_id)
 
@@ -282,15 +295,6 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
 
         items = [h for h in items if is_out_of_areas(h.begin(), codeblockAreas)]
         return items
-
-    def replace_strings_in_id(self, _str):
-        replacements = self.get_setting('id_replacements')
-        for _key in replacements:
-            _substitute = _key
-            _targets = replacements[_key]
-            for _target in _targets:
-                _str = _str.replace(_target, _substitute)
-        return _str
 
     def log(self, arg):
         if self.get_setting('logging') == True:
