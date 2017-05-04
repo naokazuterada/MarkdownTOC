@@ -305,7 +305,7 @@ Please note that the default for bracket is `square` defined by the [attribute](
 
 #### Lowercase only ASCII characters in auto link ids
 
-By default the plugin lowercases **ASCII based alphabets only (`a` to `z`)** for auto links.
+By default the plugin lowercases ASCII based alphabets **only** (`a` to `z`) for auto links.
 
 ```
 <!-- MarkdownTOC autolink="true" -->
