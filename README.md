@@ -29,6 +29,8 @@ Sublime Text 3 plugin for generating a Table of Contents (TOC) in a Markdown doc
 - [Tips](#tips)
     - [How to remove anchors added by MarkdownTOC](#how-to-remove-anchors-added-by-markdowntoc)
     - [Addressing issues with Github Pages](#addressing-issues-with-github-pages)
+- [Limitations](#limitations)
+    - [Headings in lists are not included in the auto-generated table of contents](#headings-in-lists-are-not-included-in-the-auto-generated-table-of-contents)
 - [Attributes](#attributes)
 - [Installation](#installation)
     - [Using Package Control](#using-package-control)
@@ -587,6 +589,20 @@ This can be addressed simply by setting `autoanchor` to `false`
 And when **Jekyll** is done, your headings should render correctly.
 
 Ref: [Github issue #81](https://github.com/naokazuterada/MarkdownTOC/issues/81)
+
+## Limitations
+
+**MarkdownTOC** does come with some limitations.
+
+For more information on compatibility, please see [the dedicated section](#compatibility).
+
+### Headings in lists are not included in the auto-generated table of contents
+
+Example of [Markdown] heading in a [Markdown] listing, not being included in the auto-generated Table of Contents
+
+```markdown
+- # this is a heading
+```
 
 ## Attributes
 
