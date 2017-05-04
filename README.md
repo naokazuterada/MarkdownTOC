@@ -305,7 +305,7 @@ Please note that the default for bracket is `square` defined by the [attribute](
 
 #### Lowercase only ASCII characters in auto link ids
 
-The plugin lowercase **only ascii alphabets**(`a` to `z`) within auto link ids default.
+By default the plugin lowercases **ASCII based alphabets only (`a` to `z`)** for auto links.
 
 ```
 <!-- MarkdownTOC autolink="true" -->
@@ -317,7 +317,7 @@ The plugin lowercase **only ascii alphabets**(`a` to `z`) within auto link ids d
 # ПРИМЕР EXAMPLE
 ```
 
-But you can also expand its target all alphabets with `lowercase_only_ascii="false"` attribute.
+You can expand the lowercasing capability by setting the `lowecase_only_ascii` attribute to `false`.
 
 ```
 <!-- MarkdownTOC autolink="true" lowercase_only_ascii="false" -->
@@ -362,7 +362,7 @@ This heading link of this heading is changed to following id
 
 #### URI encoding
 
-Non-ascii characters within link ids would be [URL encoded](https://en.wikipedia.org/wiki/Percent-encoding) default.
+By default non-ASCII characters in link ids are [URL encoded](https://en.wikipedia.org/wiki/Percent-encoding).
 
 ```
 <!-- MarkdownTOC autolink="true" -->
@@ -380,7 +380,7 @@ Non-ascii characters within link ids would be [URL encoded](https://en.wikipedia
 # 中国的例子
 ```
 
-But you can also disable this with `uri_encoding="false"` attribute.
+As mentioned you can disable this by setting the `uri_encoding` attribute to `false`, like so: `uri_encoding="false"`.
 
 ```
 <!-- MarkdownTOC autolink="true" uri_encoding="false" -->
