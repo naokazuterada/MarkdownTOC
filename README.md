@@ -562,7 +562,7 @@ For more information on compatibility, please see [the dedicated section](#compa
 Example of [Markdown] heading in a [Markdown] listing, not being included in the auto-generated Table of Contents
 
 ```markdown
-+ # this is a heading
+- # this is a heading
 ```
 
 ## Attributes
