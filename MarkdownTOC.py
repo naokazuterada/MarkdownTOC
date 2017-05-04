@@ -3,7 +3,7 @@ import sublime_plugin
 import re
 import os.path
 import pprint
-import urllib.parse
+from urllib.parse import quote
 from .bs4 import BeautifulSoup
 
 # for dbug
@@ -190,7 +190,7 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
                 _id = self.replace_strings_in_id(_lower_text)
 
                 if strtobool(attrs['uri_encoding']):
-                    _id = urllib.parse.quote(_id)
+                    _id = quote(_id)
 
                 _ids.append(_id)
                 n = _ids.count(_id)
