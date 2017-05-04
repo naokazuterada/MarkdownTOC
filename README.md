@@ -553,7 +553,7 @@ Ref: [Github issue #81](https://github.com/naokazuterada/MarkdownTOC/issues/81)
 
 ## Limitations
 
-**MarkdownTOC** does come with some limitations. 
+**MarkdownTOC** does come with some limitations.
 
 For more information on compatibility, please see [the dedicated section](#compatibility).
 
