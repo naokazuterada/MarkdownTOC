@@ -3,11 +3,20 @@ import sublime_plugin
 import re
 import os.path
 import pprint
+import sys
 from urllib.parse import quote
 from .bs4 import BeautifulSoup
 
 # for dbug
 pp = pprint.PrettyPrinter(indent=4)
+
+# Load MarkdownPreview module
+mp_module_name = 'Markdown Preview.MarkdownPreview'
+try:
+    MarkdownPreview = sys.modules[mp_module_name]
+    GithubCompiler = MarkdownPreview.GithubCompiler()
+except KeyError:
+    print("Module not found: %s" % mp_module_name)
 
 pattern_reference_link = re.compile(r'\[.+?\]$') # [Heading][my-id]
 pattern_link = re.compile(r'\[(.+?)\]\(.+?\)')  # [link](http://www.sample.com/)
@@ -108,6 +117,13 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
         def heading_to_id(heading):
             if heading is None:
                 return ''
+
+            if True:
+                _h1 = GithubCompiler.postprocess_inject_header_id('<h1>%s</h1>' % heading)
+                pattern = r'<h1 id="(.*)">.*</h1>'
+                matchs = re.finditer(pattern, _h1)
+                for match in matchs:
+                    print(match.groups()[0])
             if strtobool(attrs['lowercase_only_ascii']):
                 # only ascii
                 _id = ''.join(chr(ord(x)+('A'<=x<='Z')*32) for x in heading)
