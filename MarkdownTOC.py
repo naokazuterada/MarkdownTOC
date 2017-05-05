@@ -284,7 +284,7 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
             "indent":               self.get_setting('default_indent'),
             "lowercase_only_ascii": self.get_setting('default_lowercase_only_ascii'),
             "style":                self.get_setting('default_style'),
-            "uri_encoding":           self.get_setting('default_uri_encoding')
+            "uri_encoding":         self.get_setting('default_uri_encoding')
         }
 
     def get_attibutes_from(self, tag_str):
