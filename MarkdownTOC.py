@@ -276,6 +276,17 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
 
     def get_settings(self):
         """return dict of settings"""
+        settings = sublime.load_settings("MarkdownTOC.sublime-settings")
+        files = sublime.find_resources("MarkdownTOC.sublime-settings")
+
+        for file in files:
+            try:
+                for key in sublime.decode_value(sublime.load_resource(file)):
+                    settings.erase(key)
+            except:
+                print("Error Loading settings file")
+        self.log('settings')
+        self.log(settings)
         return {
             "autoanchor":           self.get_setting('default_autoanchor'),
             "autolink":             self.get_setting('default_autolink'),
