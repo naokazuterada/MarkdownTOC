@@ -1,6 +1,10 @@
 Changes in MarkdownTOC
 ===========================
 
+## 2.3.1
+
+- Allow indentation of blockquates
+
 ## 2.3.0
 
 - Add 'URI encoding' feature
