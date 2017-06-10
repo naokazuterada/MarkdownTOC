@@ -11,6 +11,15 @@ File an issue if you think you've found a bug. Please describe
 3. What actually occurred
 4. What version of the involved component
 
+### Way of operation
+
+1. We close these issues
+    1. Not accepted feature request
+        - Add `wontfix` label
+    2. Not obvious and Not responding
+        - Not obvious: Problem is not obvious, or not reproduced.
+        - Not responding: Author doesn't respond in a week.
+
 ## Patches
 
 Patches for fixes, features, and improvements are accepted via pull requests.
