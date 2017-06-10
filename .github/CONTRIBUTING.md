@@ -26,6 +26,10 @@ You should use unit-tests for SublimeText by using [UnitTesting](https://github.
 
 All contributions are welcome
 
+## Useful Tools
+
+- [Gyazo](https://gyazo.com/en): Tool for making screen captures into animation GIF. Use it for showing how the function works.
+
 ## Licensing and copyright
 
 Please note that accepted contributions are included in the repository and hence under the same license as the repository contributed to.
