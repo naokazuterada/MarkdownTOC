@@ -753,7 +753,7 @@ Here follows a list of other Markdown Table of Contents generators, for inspirat
 
 ### Recommended plugins for use with **MarkdownTOC**
 
-- [Markdown Numbered Headers](https://packagecontrol.io/packages/Markdown%20Numbered%20Headers) Sublime Text 3 plugin for markdown, auto insert/update/remove header numbers
+- [Markdown Numbered Headers](https://packagecontrol.io/packages/Markdown%20Numbered%20Headers) Sublime Text 3 plugin for Markdown, auto insert/update/remove header numbers
 
 [Markdown]: http://daringfireball.net/projects/markdown/syntax
 [MarkdownLinks]: http://daringfireball.net/projects/markdown/syntax#link
