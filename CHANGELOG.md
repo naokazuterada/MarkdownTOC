@@ -1,11 +1,6 @@
 Changes in MarkdownTOC
 ===========================
 
-## 2.3.2
-
-- Fix the way of import dependencies
-- Add code coverage on redame
-
 ## 2.3.1
 
 - Allow indentation of blockquates
