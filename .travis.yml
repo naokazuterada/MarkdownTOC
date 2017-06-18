@@ -18,8 +18,7 @@ install:
     - sh travis.sh bootstrap
 
 script:
-    - sh travis.sh run_tests
-    - coverage run tests/base.py
+    - sh travis.sh run_tests --coverage
     # testing syntax_test files
     # - sh travis.sh run_syntax_tests
 
