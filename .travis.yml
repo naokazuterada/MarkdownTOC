@@ -13,6 +13,8 @@ env:
 before_install:
     - curl -OL https://raw.githubusercontent.com/randy3k/UnitTesting/master/sbin/travis.sh
     - sudo pip install codecov coverage
+    # dependencies
+    - sudo pip install bs4
 
 install:
     - sh travis.sh bootstrap
