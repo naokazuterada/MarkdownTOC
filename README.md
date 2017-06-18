@@ -1,6 +1,6 @@
-# MarkdownTOC Plugin for Sublime Text
+# MarkdownTOC Plugin for Sublime Text 3
 
-Sublime Text plugin for generating a Table of Contents (TOC) in a Markdown document.
+Sublime Text 3 plugin for generating a Table of Contents (TOC) in a Markdown document.
 
 | Linux & macOS | Windows     |
 |:------------|:------------|
@@ -10,37 +10,42 @@ Sublime Text plugin for generating a Table of Contents (TOC) in a Markdown docum
 
 ## Table of Contents
 
-<!-- MarkdownTOC autolink="true" bracket="round" depth="0" style="unordered" indent="  " autoanchor="false" -->
+<!-- MarkdownTOC autolink="true" bracket="round" depth="0" style="unordered" indent="    " autoanchor="false" -->
 
 - [Quick Start](#quick-start)
 - [Features](#features)
-  - [Insertion of TOC based on headings in Markdown document](#insertion-of-toc-based-on-headings-in-markdown-document)
-  - [Automatic refresh of TOC when Markdown document is saved](#automatic-refresh-of-toc-when-markdown-document-is-saved)
-  - [Customizing generation of TOC using attributes](#customizing-generation-of-toc-using-attributes)
-  - [Auto anchoring when heading has anchor defined](#auto-anchoring-when-heading-has-anchor-defined)
-  - [Auto linking for _clickable_ TOC](#auto-linking-for-clickable-toc)
-    - [Lowercase only ASCII characters in auto link ids](#lowercase-only-ascii-characters-in-auto-link-ids)
-    - [Manipulation of auto link ids](#manipulation-of-auto-link-ids)
-  - [Control of depth listed in TOC](#control-of-depth-listed-in-toc)
-  - [Ordered or unordered style for TOC elements](#ordered-or-unordered-style-for-toc-elements)
-  - [Specify custom indentation prefix](#specify-custom-indentation-prefix)
+    - [Insertion of TOC based on headings in Markdown document](#insertion-of-toc-based-on-headings-in-markdown-document)
+    - [Automatic refresh of TOC when Markdown document is saved](#automatic-refresh-of-toc-when-markdown-document-is-saved)
+    - [Customizing generation of TOC using attributes](#customizing-generation-of-toc-using-attributes)
+    - [Auto anchoring when heading has anchor defined](#auto-anchoring-when-heading-has-anchor-defined)
+    - [Auto linking for _clickable_ TOC](#auto-linking-for-clickable-toc)
+        - [Lowercase only ASCII characters in auto link ids](#lowercase-only-ascii-characters-in-auto-link-ids)
+        - [Manipulation of auto link ids](#manipulation-of-auto-link-ids)
+        - [URI encoding](#uri-encoding)
+    - [Control of depth listed in TOC](#control-of-depth-listed-in-toc)
+    - [Ordered or unordered style for TOC elements](#ordered-or-unordered-style-for-toc-elements)
+    - [Specify custom indentation prefix](#specify-custom-indentation-prefix)
 - [Usage](#usage)
 - [Tips](#tips)
-  - [How to remove anchors added by MarkdownTOC](#how-to-remove-anchors-added-by-markdowntoc)
-  - [Addressing issues with Github Pages](#addressing-issues-with-github-pages)
+    - [How to remove anchors added by MarkdownTOC](#how-to-remove-anchors-added-by-markdowntoc)
+    - [Addressing issues with Github Pages](#addressing-issues-with-github-pages)
+- [Limitations](#limitations)
+    - [Headings in lists are not included in the auto-generated table of contents](#headings-in-lists-are-not-included-in-the-auto-generated-table-of-contents)
 - [Attributes](#attributes)
 - [Installation](#installation)
-  - [Using Package Control](#using-package-control)
-  - [From Git](#from-git)
-  - [From downloadable archive](#from-downloadable-archive)
+    - [Using Package Control](#using-package-control)
+    - [From Git](#from-git)
+    - [From downloadable archive](#from-downloadable-archive)
 - [Configuration](#configuration)
-  - [Github Configuration](#github-configuration)
-  - [Configuration and Collaboration](#configuration-and-collaboration)
+    - [Github Configuration](#github-configuration)
+    - [Configuration and Collaboration](#configuration-and-collaboration)
 - [Compatibility](#compatibility)
 - [Contributing](#contributing)
 - [License](#license)
 - [Author](#author)
 - [References](#references)
+    - [Markdown Table of Contents Generators](#markdown-table-of-contents-generators)
+    - [Recommended plugins for use with **MarkdownTOC**](#recommended-plugins-for-use-with-markdowntoc)
 
 <!-- /MarkdownTOC -->
 
@@ -218,7 +223,7 @@ Lorem ipsum...
 Lorem ipsum...
 ```
 
-Please note that the default for autolink is `false` defined by the [attribute](#attributes) `default_autoanchor`. See also: [How to remove anchors added by MarkdownTOC](#how-to-remove-anchors-added-by-markdowntoc). 
+Please note that the default for autolink is `false` defined by the [attribute](#attributes) `default_autoanchor`. See also: [How to remove anchors added by MarkdownTOC](#how-to-remove-anchors-added-by-markdowntoc).
 
 ### Auto linking for _clickable_ TOC
 
@@ -303,24 +308,24 @@ Please note that the default for bracket is `square` defined by the [attribute](
 
 #### Lowercase only ASCII characters in auto link ids
 
-The plugin lowercase all alphabets within auto link ids default.
+By default the plugin lowercases ASCII based alphabets **only** (`a` to `z`) for auto links.
 
 ```
-<!-- MarkdownTOC autolink=true -->
+<!-- MarkdownTOC autolink="true" -->
 
-- [ПРИМЕР EXAMPLE][пример-example]
+- [ПРИМЕР EXAMPLE][ПРИМЕР-example]
 
 <!-- /MarkdownTOC -->
 
 # ПРИМЕР EXAMPLE
 ```
 
-But you can also squeeze its target **only ascii alphabets**(`a` to `z`) with `lowercase_only_ascii=true` attribute.
+You can expand the lowercasing capability by setting the `lowecase_only_ascii` attribute to `false`.
 
 ```
-<!-- MarkdownTOC autolink=true lowercase_only_ascii=true -->
+<!-- MarkdownTOC autolink="true" lowercase_only_ascii="false" -->
 
-- [ПРИМЕР EXAMPLE][ПРИМЕР-example]
+- [ПРИМЕР EXAMPLE][пример-example]
 
 <!-- /MarkdownTOC -->
 
@@ -357,6 +362,44 @@ This heading link of this heading is changed to following id
 
 - The `' '` (space) is replaced with `-` (dash), since `' '` is included in the first set
 - The '™' is replaced with _nothing_, since '™' is included in the second set
+
+#### URI encoding
+
+By default non-ASCII characters in link ids are [URL encoded](https://en.wikipedia.org/wiki/Percent-encoding).
+
+```
+<!-- MarkdownTOC autolink="true" -->
+
+- [Ejemplos de español][ejemplos-de-espa%C3%B1ol]
+- [日本語の例][%E6%97%A5%E6%9C%AC%E8%AA%9E%E3%81%AE%E4%BE%8B]
+- [Примеры русского][%D0%9F%D1%80%D0%B8%D0%BC%D0%B5%D1%80%D1%8B-%D1%80%D1%83%D1%81%D1%81%D0%BA%D0%BE%D0%B3%D0%BE]
+- [中国的例子][%E4%B8%AD%E5%9B%BD%E7%9A%84%E4%BE%8B%E5%AD%90]
+
+<!-- /MarkdownTOC -->
+
+# Ejemplos de español
+# 日本語の例
+# Примеры русского
+# 中国的例子
+```
+
+As mentioned you can disable this by setting the `uri_encoding` attribute to `false`, like so: `uri_encoding="false"`.
+
+```
+<!-- MarkdownTOC autolink="true" uri_encoding="false" -->
+
+- [Ejemplos de español][ejemplos-de-español]
+- [日本語の例][日本語の例]
+- [Примеры русского][Примеры-русского]
+- [中国的例子][中国的例子]
+
+<!-- /MarkdownTOC -->
+
+# Ejemplos de español
+# 日本語の例
+# Примеры русского
+# 中国的例子
+```
 
 ### Control of depth listed in TOC
 
@@ -548,6 +591,20 @@ And when **Jekyll** is done, your headings should render correctly.
 
 Ref: [Github issue #81](https://github.com/naokazuterada/MarkdownTOC/issues/81)
 
+## Limitations
+
+**MarkdownTOC** does come with some limitations.
+
+For more information on compatibility, please see [the dedicated section](#compatibility).
+
+### Headings in lists are not included in the auto-generated table of contents
+
+Example of [Markdown] heading in a [Markdown] listing, not being included in the auto-generated Table of Contents
+
+```markdown
+- # this is a heading
+```
+
 ## Attributes
 
 The following attributes can be used to control the generation of the TOC.
@@ -559,8 +616,9 @@ The following attributes can be used to control the generation of the TOC.
 | [bracket](#bracket)                           | `square`or`round`              | `'square'`    | `default_bracket`              |
 | [depth](#depth)                               | integer (`0` means _no limit_) | `2`           | `default_depth`                |
 | [indent](#indent)                             | string                         | `'\t'`        | `default_indent`               |
-| [lowercase_only_ascii](#lowercase_only_ascii) | `true`or`false`                | `false`       | `default_lowercase_only_ascii` |
+| [lowercase_only_ascii](#lowercase_only_ascii) | `true`or`false`                | `true`        | `default_lowercase_only_ascii` |
 | [style](#style)                               | `ordered` or `unordered`       | `'unordered'` | `default_style`                |
+| [uri_encoding](#uri_encoding)                 | `true`or`false`                | `true`        | `default_uri_encoding`         |
 
 You can define your own default values via package preferences, [Sublime Text][SublimeText]s way of letting users customize [package settings][SublimeTextSettings]. Please see the [Section on Configuration](#Configuration) for more details for **MarkdownTOC**.
 
@@ -602,8 +660,9 @@ Example: `MarkdownTOC.sublime-settings`
   "default_bracket": "square",
   "default_depth": 2,
   "default_indent": "\t",
-  "default_lowercase_only_ascii": false,
+  "default_lowercase_only_ascii": true,
   "default_style": "unordered",
+  "default_uri_encoding": true,
   "id_replacements": {
     "-": " ",
     "" : ["&lt;","&gt;","&amp;","&apos;","&quot;","&#60;","&#62;","&#38;","&#39;","&#34;","!","#","$","&","'","(",")","*","+",",","/",":",";","=","?","@","[","]","`","\"", ".","<",">","{","}","™","®","©"]
@@ -621,13 +680,14 @@ Configuration precendence is as follows:
 
 For an overview of the specific behaviour behind an attribute, please refer to the below list.
 
-- `default_autolink`, (see: [Auto linking for _clickable_ TOC](#auto-linking-for-_clickable_-toc))
+- `default_autolink`, (see: [Auto linking for _clickable_ TOC](#auto-linking-for-clickable-toc))
 - `default_autoanchor`, (see: [Auto anchoring when heading has anchor defined](#auto-anchoring-when-heading-has-anchor-defined))
-- `default_bracket`, (see: [Auto linking for _clickable_ TOC](#auto-linking-for-_clickable_-toc))
+- `default_bracket`, (see: [Auto linking for _clickable_ TOC](#auto-linking-for-clickable-toc))
 - `default_depth`, (see: [Control of depth listed in TOC](#control-of-depth-listed-in-toc))
 - `default_indent`, (see: [Specify custom indentation prefix](#specify-custom-indentation-prefix))
-- `default_lowercase_only_ascii`, (see: [Lowercase only ASCII characters in anchor](#lowercase-only-ascii-characters-in-anchor))
+- `default_lowercase_only_ascii`, (see: [Lowercase only ASCII characters in auto link ids](#lowercase-only-ascii-characters-in-auto-link-ids))
 - `default_style`, (see: [Ordered or unordered style for TOC elements](#ordered-or-unordered-style-for-toc-elements))
+- `default_uri_encoding`, (see: [URI encoding](#uri-encoding))
 - `id_replacements`, (see: [Manipulation of auto link ids](#manipulation-of-auto-link-ids))
 
 ### Github Configuration
@@ -683,6 +743,17 @@ Contributions are most welcome, please see the [guidelines on contributing](http
 - [Sublime Text: Package Control][PackageControl]
 - [Emoji cheatsheet][emoji]
 - [Github flavoured markdown][Github]
+
+### Markdown Table of Contents Generators
+
+Here follows a list of other Markdown Table of Contents generators, for inspiration and perhaps even use in the situation where the **MarkdownTOC** Sublime Text plugin is _not the right tool for the job_. Please note that the list is by no means authoritative or exhaustive and is not a list of recommendations, since we can only endorse **MarkdownTOC** our contribution to the Markdown Table of Content generators toolbox.
+
+- [doctoc](https://github.com/thlorenz/doctoc) Node (npm) implementation with CLI interface
+- [markdown-toclify](https://github.com/rasbt/markdown-toclify) Python implementation with CLI interface
+
+### Recommended plugins for use with **MarkdownTOC**
+
+- [Markdown Numbered Headers](https://packagecontrol.io/packages/Markdown%20Numbered%20Headers) Sublime Text 3 plugin for Markdown, auto insert/update/remove header numbers
 
 [Markdown]: http://daringfireball.net/projects/markdown/syntax
 [MarkdownLinks]: http://daringfireball.net/projects/markdown/syntax#link

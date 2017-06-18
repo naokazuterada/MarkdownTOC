@@ -1,6 +1,15 @@
 Changes in MarkdownTOC
 ===========================
 
+## 2.3.1
+
+- Allow indentation of blockquates
+
+## 2.3.0
+
+- Add 'URI encoding' feature
+- Change 'default_lowercase_only_ascii' default value ('false' to 'true') because it breaks link in Russian
+
 ## 2.2.1
 
 - Improve heading detecting

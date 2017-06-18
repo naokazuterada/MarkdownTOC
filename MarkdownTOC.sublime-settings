@@ -4,8 +4,9 @@
   "default_bracket": "square",
   "default_depth": 2,
   "default_indent": "\t",
-  "default_lowercase_only_ascii": false,
+  "default_lowercase_only_ascii": true,
   "default_style": "unordered",
+  "default_uri_encoding": true,
   "id_replacements": {
     "-": " ",
     "" : ["&lt;","&gt;","&amp;","&apos;","&quot;","&#60;","&#62;","&#38;","&#39;","&#34;","!","#","$","&","'","(",")","*","+",",","/",":",";","=","_","?","@","[","]","`","\"", ".","<",">","{","}","™","®","©"]
