@@ -3,4 +3,4 @@ MarkdownTOC - 2.3.2
 CHANGES
 
 - Fix the way of import dependencies
-- Add code coverage on redame
+- Add code coverage on README
