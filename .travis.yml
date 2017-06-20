@@ -14,7 +14,7 @@ before_install:
     - curl -OL https://raw.githubusercontent.com/randy3k/UnitTesting/master/sbin/travis.sh
 
 install:
-    - pip install coveralls coverage
+    - sudo pip install coveralls coverage
     - sh travis.sh bootstrap
 
 script:
