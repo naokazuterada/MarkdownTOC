@@ -14,10 +14,14 @@ before_install:
     - curl -OL https://raw.githubusercontent.com/randy3k/UnitTesting/master/sbin/travis.sh
 
 install:
+    - pip install coverage
+    - pip install coveralls
     - sh travis.sh bootstrap
 
+after_success: coveralls
+
 script:
-    - sh travis.sh run_tests
+    - sh travis.sh run_tests --coverage
     # testing syntax_test files
     # - sh travis.sh run_syntax_tests
 
