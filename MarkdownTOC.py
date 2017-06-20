@@ -4,7 +4,7 @@ import re
 import os.path
 import pprint
 from urllib.parse import quote
-from .bs4 import BeautifulSoup
+from bs4 import BeautifulSoup
 
 # for dbug
 pp = pprint.PrettyPrinter(indent=4)
