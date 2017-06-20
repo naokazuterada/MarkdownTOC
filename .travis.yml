@@ -14,10 +14,6 @@ before_install:
     - curl -OL https://raw.githubusercontent.com/randy3k/UnitTesting/master/sbin/travis.sh
 
 install:
-    # for InsecurePlatformWarning (http://qiita.com/testnin2/items/97ddb749879415b23e18)
-    - sudo apt-get install openssl-devel python-devel libffi-devel
-    - pip install 'requests[security]'
-    #
     - pip install coveralls coverage
     - sh travis.sh bootstrap
 
