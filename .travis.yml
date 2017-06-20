@@ -14,7 +14,7 @@ before_install:
     - curl -OL https://raw.githubusercontent.com/randy3k/UnitTesting/master/sbin/travis.sh
 
 install:
-    - sudo pip install coveralls coverage
+    - sudo pip install coveralls coverage codecov
     - sh travis.sh bootstrap
     - sh travis.sh install_package_control
 
@@ -23,7 +23,9 @@ script:
     # testing syntax_test files
     # - sh travis.sh run_syntax_tests
 
-after_success: coveralls
+after_success:
+    - coveralls
+    - codecov -t e41883b8-547a-4728-a703-d8e1bbedfcf8
 
 notifications:
     email: true
