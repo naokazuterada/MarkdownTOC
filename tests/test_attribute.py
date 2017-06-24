@@ -257,7 +257,6 @@ class TestAttribute(TestBase):
 
 # ПРИМЕР EXAMPLE
 """
-
     def test_lowercase_only_ascii_default(self):
         toc_txt = self.commonSetup(self.lowercase_only_ascii_text.format('autolink=true'))
         self.assert_In('- [ПРИМЕР EXAMPLE][ПРИМЕР-example]', toc_txt)
@@ -286,7 +285,7 @@ class TestAttribute(TestBase):
 # Пример Example
 # 一个标题
 """
-
+    # default: uri_encoding=true
     def test_uri_encoding_default(self):
         toc_txt = self.commonSetup(self.uri_encoding_text.format(''))
         self.assert_In('- [Camión, último][cami%C3%B3n-%C3%BAltimo]', toc_txt)
@@ -310,3 +309,58 @@ class TestAttribute(TestBase):
         self.assert_In('- [こんにちわ 世界][こんにちわ-世界]', toc_txt)
         self.assert_In('- [Пример Example][Пример-example]', toc_txt)
         self.assert_In('- [一个标题][一个标题]', toc_txt)
+
+    # -----------------
+    # Delegate to Markdown Preview
+
+    delegate_to_markdown_preview_text = \
+"""
+
+<!-- MarkdownTOC autolink=true lowercase_only_ascii=true uri_encoding=false {0} -->
+
+<!-- /MarkdownTOC -->
+
+# Hello 世界 World
+# Camión, último
+# España
+# こんにちわ 世界
+# This is こんにちわ 世界 Japanese
+# Пример Russian
+# This is Пример Russian
+# 一个标题
+# This is 一个标题 Chinese
+"""
+    # common result
+    def test_common_delegate_to_markdown_preview(self, toc_txt):
+        self.assert_In('- [Hello 世界 World][hello-世界-world]', toc_txt)
+        self.assert_In('- [Camión, último][camión-último]', toc_txt)
+        self.assert_In('- [España][españa]', toc_txt)
+        self.assert_In('- [こんにちわ 世界][こんにちわ-世界]', toc_txt)
+        self.assert_In('- [This is こんにちわ 世界 Japanese][this-is-こんにちわ-世界-japanese]', toc_txt)
+        self.assert_In('- [Пример Russian][Пример-russian]', toc_txt)
+        self.assert_In('- [This is Пример Russian][this-is-Пример-russian]', toc_txt)
+        self.assert_In('- [一个标题][一个标题]', toc_txt)
+        self.assert_In('- [This is 一个标题 Chinese][this-is-一个标题-chinese]', toc_txt)
+
+    # default
+    def test_delegate_to_markdown_preview_default(self):
+        toc_txt = self.commonSetup(self.delegate_to_markdown_preview_text.format(''))
+        self.test_common_delegate_to_markdown_preview(toc_txt)
+
+    # true
+    def test_delegate_to_markdown_preview_true(self):
+        toc_txt = self.commonSetup(self.delegate_to_markdown_preview_text.format('delegate_to_markdown_preview=true'))
+        self.assert_In('- [Hello 世界 World][hello-world]', toc_txt)
+        self.assert_In('- [Camión, último][camion-ultimo]', toc_txt)
+        self.assert_In('- [España][espana]', toc_txt)
+        self.assert_In('- [こんにちわ 世界][_1]', toc_txt)
+        self.assert_In('- [This is こんにちわ 世界 Japanese][this-is-japanese]', toc_txt)
+        self.assert_In('- [Пример Russian][russian]', toc_txt)
+        self.assert_In('- [This is Пример Russian][this-is-russian]', toc_txt)
+        self.assert_In('- [一个标题][_2]', toc_txt)
+        self.assert_In('- [This is 一个标题 Chinese][this-is-chinese]', toc_txt)
+
+    # false
+    def test_delegate_to_markdown_preview_false(self):
+        toc_txt = self.commonSetup(self.delegate_to_markdown_preview_text.format('delegate_to_markdown_preview=false'))
+        self.test_common_delegate_to_markdown_preview(toc_txt)
