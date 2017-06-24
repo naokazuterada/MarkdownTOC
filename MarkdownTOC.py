@@ -14,7 +14,6 @@ pp = pprint.PrettyPrinter(indent=4)
 mp_module_name = 'Markdown Preview.MarkdownPreview'
 try:
     MarkdownPreview = sys.modules[mp_module_name]
-    GithubCompiler = MarkdownPreview.GithubCompiler()
 except KeyError:
     print("Module not found: %s" % mp_module_name)
 
@@ -118,7 +117,7 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
             if heading is None:
                 return ''
             if strtobool(attrs['delegate_to_markdown_preview']):
-                _h1 = GithubCompiler.postprocess_inject_header_id('<h1>%s</h1>' % heading)
+                _h1 = MarkdownPreview.GithubCompiler().postprocess_inject_header_id('<h1>%s</h1>' % heading)
                 pattern = r'<h1 id="(.*)">.*</h1>'
                 matchs = re.finditer(pattern, _h1)
                 for match in matchs:
