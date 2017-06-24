@@ -121,7 +121,6 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
                 pattern = r'<h1 id="(.*)">.*</h1>'
                 matchs = re.finditer(pattern, _h1)
                 for match in matchs:
-                    print(match.groups()[0])
                     _id = match.groups()[0]
             else:
                 if strtobool(attrs['lowercase_only_ascii']):
