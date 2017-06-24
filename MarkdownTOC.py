@@ -117,18 +117,19 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
         def heading_to_id(heading):
             if heading is None:
                 return ''
-
-            if True:
+            if strtobool(attrs['delegate_to_markdown_preview']):
                 _h1 = GithubCompiler.postprocess_inject_header_id('<h1>%s</h1>' % heading)
                 pattern = r'<h1 id="(.*)">.*</h1>'
                 matchs = re.finditer(pattern, _h1)
                 for match in matchs:
                     print(match.groups()[0])
-            if strtobool(attrs['lowercase_only_ascii']):
-                # only ascii
-                _id = ''.join(chr(ord(x)+('A'<=x<='Z')*32) for x in heading)
+                    _id = match.groups()[0]
             else:
-                _id = heading.lower()
+                if strtobool(attrs['lowercase_only_ascii']):
+                    # only ascii
+                    _id = ''.join(chr(ord(x)+('A'<=x<='Z')*32) for x in heading)
+                else:
+                    _id = heading.lower()
             return replace_strings_in_id(_id)
 
         def replace_strings_in_id(_str):
@@ -288,14 +289,15 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
         self.log('settings')
         self.log(settings)
         return {
-            "autoanchor":           self.get_setting('default_autoanchor'),
-            "autolink":             self.get_setting('default_autolink'),
-            "bracket":              self.get_setting('default_bracket'),
-            "depth":                self.get_setting('default_depth'),
-            "indent":               self.get_setting('default_indent'),
-            "lowercase_only_ascii": self.get_setting('default_lowercase_only_ascii'),
-            "style":                self.get_setting('default_style'),
-            "uri_encoding":         self.get_setting('default_uri_encoding')
+            "autoanchor":                   self.get_setting('default_autoanchor'),
+            "autolink":                     self.get_setting('default_autolink'),
+            "bracket":                      self.get_setting('default_bracket'),
+            "depth":                        self.get_setting('default_depth'),
+            "indent":                       self.get_setting('default_indent'),
+            "lowercase_only_ascii":         self.get_setting('default_lowercase_only_ascii'),
+            "style":                        self.get_setting('default_style'),
+            "uri_encoding":                 self.get_setting('default_uri_encoding'),
+            "delegate_to_markdown_preview": self.get_setting('default_delegate_to_markdown_preview')
         }
 
     def get_attibutes_from(self, tag_str):
