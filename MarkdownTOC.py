@@ -116,12 +116,19 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
         def heading_to_id(heading):
             if heading is None:
                 return ''
-            if strtobool(attrs['delegate_to_markdown_preview']):
+            if attrs['delegate_to_markdown_preview'] == 'github':
                 _h1 = MarkdownPreview.GithubCompiler().postprocess_inject_header_id('<h1>%s</h1>' % heading)
                 pattern = r'<h1 id="(.*)">.*</h1>'
                 matchs = re.finditer(pattern, _h1)
                 for match in matchs:
                     _id = match.groups()[0]
+            elif attrs['delegate_to_markdown_preview'] == 'markdown':
+                # self.log('converting markdown with Python markdown...')
+                # # config_extensions = self.get_config_extensions(DEFAULT_EXT)
+                # # md = Markdown()
+                # html_text = self.convert(heading)
+                print('----- html_text -----')
+                # print(html_text)
             else:
                 if strtobool(attrs['lowercase_only_ascii']):
                     # only ascii
