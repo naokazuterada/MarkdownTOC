@@ -6,6 +6,7 @@ import pprint
 import sys
 from urllib.parse import quote
 from bs4 import BeautifulSoup
+import unicodedata
 
 # for dbug
 pp = pprint.PrettyPrinter(indent=4)
@@ -113,6 +114,25 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
     # TODO: add "end" parameter
     def get_toc(self, attrs, begin, edit):
 
+
+        def slugify(value, separator):
+            """ Slugify a string, to make it URL friendly. """
+            value = unicodedata.normalize('NFKD', value).encode('ascii', 'ignore')
+            value = re.sub('[^\w\s-]', '', value.decode('ascii')).strip().lower()
+            return re.sub('[%s\s]+' % separator, separator, value)
+
+        IDCOUNT_RE = re.compile(r'^(.*)_([0-9]+)$')
+        def unique(id, ids):
+            """ Ensure id is unique in set of ids. Append '_1', '_2'... if not """
+            while id in ids or not id:
+                m = IDCOUNT_RE.match(id)
+                if m:
+                    id = '%s_%d' % (m.group(1), int(m.group(2))+1)
+                else:
+                    id = '%s_%d' % (id, 1)
+            ids.add(id)
+            return id
+
         def heading_to_id(heading):
             if heading is None:
                 return ''
@@ -123,12 +143,7 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
                 for match in matchs:
                     _id = match.groups()[0]
             elif attrs['delegate_to_markdown_preview'] == 'markdown':
-                # self.log('converting markdown with Python markdown...')
-                # # config_extensions = self.get_config_extensions(DEFAULT_EXT)
-                # # md = Markdown()
-                # html_text = self.convert(heading)
-                print('----- html_text -----')
-                # print(html_text)
+                _id = slugify(heading, '-')
             else:
                 if strtobool(attrs['lowercase_only_ascii']):
                     # only ascii
