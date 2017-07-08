@@ -367,6 +367,7 @@ class TestAttribute(TestBase):
         self.assert_In('- [ПРИМЕР RUSSIAN upper][russian-upper]', toc_txt)
 
     # github
+    # *Please run this test in both environments in which MarkdownPreview installed and not
     def test_delegate_to_markdown_preview_github(self):
         toc_txt = self.commonSetup(self.delegate_to_markdown_preview_text.format('delegate_to_markdown_preview=github'))
         if MarkdownPreview is None:
