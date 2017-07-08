@@ -315,7 +315,7 @@ class TestAttribute(TestBase):
     # -----------------
     # Delegate to Markdown Preview
 
-    delegate_to_markdown_preview_text = \
+    markdown_preview_text = \
 """
 
 <!-- MarkdownTOC autolink=true uri_encoding=false {0} -->
@@ -333,7 +333,7 @@ class TestAttribute(TestBase):
     # TODO: Check MarkdownPreview installed or not
 
     # common result (not test, call inside test)
-    def common_delegate_to_markdown_preview(self, toc_txt):
+    def common_markdown_preview(self, toc_txt):
         self.assert_In('- [Hello 世界 World][hello-世界-world]', toc_txt)
         self.assert_In('- [camión, último lower][camión-último-lower]', toc_txt)
         self.assert_In('- [CAMIÓN, ÚLTIMO upper][camiÓn-Último-upper]', toc_txt)
@@ -343,13 +343,13 @@ class TestAttribute(TestBase):
         self.assert_In('- [ПРИМЕР RUSSIAN upper][ПРИМЕР-russian-upper]', toc_txt)
 
     # default
-    def test_delegate_to_markdown_preview_default(self):
-        toc_txt = self.commonSetup(self.delegate_to_markdown_preview_text.format(''))
-        self.common_delegate_to_markdown_preview(toc_txt)
+    def test_markdown_preview_default(self):
+        toc_txt = self.commonSetup(self.markdown_preview_text.format(''))
+        self.common_markdown_preview(toc_txt)
 
     # markdown
-    def test_delegate_to_markdown_preview_markdown(self):
-        toc_txt = self.commonSetup(self.delegate_to_markdown_preview_text.format('delegate_to_markdown_preview=markdown'))
+    def test_markdown_preview_markdown(self):
+        toc_txt = self.commonSetup(self.markdown_preview_text.format('markdown_preview=markdown'))
         self.assert_In('- [Hello 世界 World][hello-world]', toc_txt)
         self.assert_In('- [camión, último lower][camion-ultimo-lower]', toc_txt)
         self.assert_In('- [CAMIÓN, ÚLTIMO upper][camion-ultimo-upper]', toc_txt)
@@ -359,8 +359,8 @@ class TestAttribute(TestBase):
         self.assert_In('- [ПРИМЕР RUSSIAN upper][russian-upper]', toc_txt)
 
     # github
-    def test_delegate_to_markdown_preview_github(self):
-        toc_txt = self.commonSetup(self.delegate_to_markdown_preview_text.format('delegate_to_markdown_preview=github'))
+    def test_markdown_preview_github(self):
+        toc_txt = self.commonSetup(self.markdown_preview_text.format('markdown_preview=github'))
         self.assert_In('- [Hello 世界 World][hello-%E4%B8%96%E7%95%8C-world]', toc_txt)
         self.assert_In('- [camión, último lower][cami%C3%B3n-%C3%BAltimo-lower]', toc_txt)
         self.assert_In('- [CAMIÓN, ÚLTIMO upper][cami%C3%B3n-%C3%BAltimo-upper]', toc_txt)
@@ -370,6 +370,6 @@ class TestAttribute(TestBase):
         self.assert_In('- [ПРИМЕР RUSSIAN upper][%D0%BF%D1%80%D0%B8%D0%BC%D0%B5%D1%80-russian-upper]', toc_txt)
 
     # the other values...
-    def test_delegate_to_markdown_preview_othervalues(self):
-        toc_txt = self.commonSetup(self.delegate_to_markdown_preview_text.format('delegate_to_markdown_preview=othervalues'))
-        self.common_delegate_to_markdown_preview(toc_txt)
+    def test_markdown_preview_othervalues(self):
+        toc_txt = self.commonSetup(self.markdown_preview_text.format('markdown_preview=othervalues'))
+        self.common_markdown_preview(toc_txt)

@@ -7,7 +7,7 @@
   "default_lowercase_only_ascii": true,
   "default_style": "unordered",
   "default_uri_encoding": true,
-  "default_delegate_to_markdown_preview": false,
+  "default_markdown_preview": false,
   "id_replacements": {
     "-": " ",
     "" : ["&lt;","&gt;","&amp;","&apos;","&quot;","&#60;","&#62;","&#38;","&#39;","&#34;","!","#","$","&","'","(",")","*","+",",","/",":",";","=","_","?","@","[","]","`","\"", ".","<",">","{","}","™","®","©"]

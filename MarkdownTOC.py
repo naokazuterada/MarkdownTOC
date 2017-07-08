@@ -164,13 +164,13 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
         def heading_to_id(heading):
             if heading is None:
                 return ''
-            if attrs['delegate_to_markdown_preview'] == 'github':
+            if attrs['markdown_preview'] == 'github':
                 _h1 = postprocess_inject_header_id('<h1>%s</h1>' % heading)
                 pattern = r'<h1 id="(.*)">.*</h1>'
                 matchs = re.finditer(pattern, _h1)
                 for match in matchs:
                     _id = match.groups()[0]
-            elif attrs['delegate_to_markdown_preview'] == 'markdown':
+            elif attrs['markdown_preview'] == 'markdown':
                 _id = slugify(heading, '-')
             else:
                 if strtobool(attrs['lowercase_only_ascii']):
@@ -337,15 +337,15 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
         self.log('settings')
         self.log(settings)
         return {
-            "autoanchor":                   self.get_setting('default_autoanchor'),
-            "autolink":                     self.get_setting('default_autolink'),
-            "bracket":                      self.get_setting('default_bracket'),
-            "depth":                        self.get_setting('default_depth'),
-            "indent":                       self.get_setting('default_indent'),
-            "lowercase_only_ascii":         self.get_setting('default_lowercase_only_ascii'),
-            "style":                        self.get_setting('default_style'),
-            "uri_encoding":                 self.get_setting('default_uri_encoding'),
-            "delegate_to_markdown_preview": self.get_setting('default_delegate_to_markdown_preview')
+            "autoanchor":           self.get_setting('default_autoanchor'),
+            "autolink":             self.get_setting('default_autolink'),
+            "bracket":              self.get_setting('default_bracket'),
+            "depth":                self.get_setting('default_depth'),
+            "indent":               self.get_setting('default_indent'),
+            "lowercase_only_ascii": self.get_setting('default_lowercase_only_ascii'),
+            "style":                self.get_setting('default_style'),
+            "uri_encoding":         self.get_setting('default_uri_encoding'),
+            "markdown_preview":     self.get_setting('default_markdown_preview')
         }
 
     def get_attibutes_from(self, tag_str):
