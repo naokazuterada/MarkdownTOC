@@ -4,6 +4,6 @@
   "async": false,
   "deferred": false,
   "verbosity": 2,
-  "capture_console": false,
+  "capture_console": false, // Set true if you want to enable print
   "output": "<panel>"
 }

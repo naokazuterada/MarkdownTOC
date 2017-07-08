@@ -11,14 +11,6 @@ import unicodedata
 # for dbug
 pp = pprint.PrettyPrinter(indent=4)
 
-# Load MarkdownPreview module
-mp_module_name = 'Markdown Preview.MarkdownPreview'
-MarkdownPreview = None
-try:
-    MarkdownPreview = sys.modules[mp_module_name]
-except KeyError:
-    print("Module not found: %s" % mp_module_name)
-
 pattern_reference_link = re.compile(r'\[.+?\]$') # [Heading][my-id]
 pattern_link = re.compile(r'\[(.+?)\]\(.+?\)')  # [link](http://www.sample.com/)
 pattern_ex_id = re.compile(r'\{#.+?\}$')         # [Heading]{#my-id}
@@ -115,17 +107,47 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
     # TODO: add "end" parameter
     def get_toc(self, attrs, begin, edit):
 
-        if attrs['delegate_to_markdown_preview'] == 'github' and MarkdownPreview is None:
-            error  = "[ Warning ]\n"
-            error += "You can't set 'delegate_to_markdown_preview' to 'github'.\n"
-            error += "Please install 'Markdown Preview' package at first.\n"
-            return error
-
+        # from MarkdownPreview
         def slugify(value, separator):
             """ Slugify a string, to make it URL friendly. """
             value = unicodedata.normalize('NFKD', value).encode('ascii', 'ignore')
             value = re.sub('[^\w\s-]', '', value.decode('ascii')).strip().lower()
             return re.sub('[%s\s]+' % separator, separator, value)
+
+        # from MarkdownPreview
+        def postprocess_inject_header_id(html):
+            """ Insert header ids when no anchors are present """
+            unique = {}
+
+            def header_to_id(text):
+                if text is None:
+                    return ''
+                # Strip html tags and lower
+                id = RE_TAGS.sub('', text).lower()
+                # Remove non word characters or non spaces and dashes
+                # Then convert spaces to dashes
+                id = RE_WORD.sub('', id).replace(' ', '-')
+                # Encode anything that needs to be
+                return quote(id)
+
+            def inject_id(m):
+                id = header_to_id(m.group('text'))
+                if id == '':
+                    return m.group(0)
+                # Append a dash and number for uniqueness if needed
+                value = unique.get(id, None)
+                if value is None:
+                    unique[id] = 1
+                else:
+                    unique[id] += 1
+                    id += "-%d" % value
+                return m.group('open')[:-1] + (' id="%s">' % id) + m.group('text') + m.group('close')
+
+            RE_TAGS = re.compile(r'''</?[^>]*>''')
+            RE_WORD = re.compile(r'''[^\w\- ]''')
+            RE_HEADER = re.compile(r'''(?P<open><h([1-6])>)(?P<text>.*?)(?P<close></h\2>)''', re.DOTALL)
+
+            return RE_HEADER.sub(inject_id, html)
 
         IDCOUNT_RE = re.compile(r'^(.*)_([0-9]+)$')
         def unique(id, ids):
@@ -143,7 +165,7 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
             if heading is None:
                 return ''
             if attrs['delegate_to_markdown_preview'] == 'github':
-                _h1 = MarkdownPreview.GithubCompiler().postprocess_inject_header_id('<h1>%s</h1>' % heading)
+                _h1 = postprocess_inject_header_id('<h1>%s</h1>' % heading)
                 pattern = r'<h1 id="(.*)">.*</h1>'
                 matchs = re.finditer(pattern, _h1)
                 for match in matchs:

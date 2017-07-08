@@ -3,14 +3,6 @@ from base import TestBase
 import sublime
 import sys
 
-# Set 'capture_console' true in unittest.json if you want to enable print
-try:
-    MarkdownPreview = sys.modules['Markdown Preview.MarkdownPreview']
-    print("MarkdownPreview is found")
-except KeyError:
-    MarkdownPreview = None
-    print("MarkdownPreview is not found")
-
 class TestAttribute(TestBase):
     """Test of attributes"""
 
@@ -367,19 +359,15 @@ class TestAttribute(TestBase):
         self.assert_In('- [ПРИМЕР RUSSIAN upper][russian-upper]', toc_txt)
 
     # github
-    # *Please run this test in both environments in which MarkdownPreview installed and not
     def test_delegate_to_markdown_preview_github(self):
         toc_txt = self.commonSetup(self.delegate_to_markdown_preview_text.format('delegate_to_markdown_preview=github'))
-        if MarkdownPreview is None:
-            self.assert_In('[ Warning ]', toc_txt)
-        else:
-            self.assert_In('- [Hello 世界 World][hello-%E4%B8%96%E7%95%8C-world]', toc_txt)
-            self.assert_In('- [camión, último lower][cami%C3%B3n-%C3%BAltimo-lower]', toc_txt)
-            self.assert_In('- [CAMIÓN, ÚLTIMO upper][cami%C3%B3n-%C3%BAltimo-upper]', toc_txt)
-            self.assert_In('- [españa lower][espa%C3%B1a-lower]', toc_txt)
-            self.assert_In('- [ESPAÑA upper][espa%C3%B1a-upper]', toc_txt)
-            self.assert_In('- [пример russian lower][%D0%BF%D1%80%D0%B8%D0%BC%D0%B5%D1%80-russian-lower]', toc_txt)
-            self.assert_In('- [ПРИМЕР RUSSIAN upper][%D0%BF%D1%80%D0%B8%D0%BC%D0%B5%D1%80-russian-upper]', toc_txt)
+        self.assert_In('- [Hello 世界 World][hello-%E4%B8%96%E7%95%8C-world]', toc_txt)
+        self.assert_In('- [camión, último lower][cami%C3%B3n-%C3%BAltimo-lower]', toc_txt)
+        self.assert_In('- [CAMIÓN, ÚLTIMO upper][cami%C3%B3n-%C3%BAltimo-upper]', toc_txt)
+        self.assert_In('- [españa lower][espa%C3%B1a-lower]', toc_txt)
+        self.assert_In('- [ESPAÑA upper][espa%C3%B1a-upper]', toc_txt)
+        self.assert_In('- [пример russian lower][%D0%BF%D1%80%D0%B8%D0%BC%D0%B5%D1%80-russian-lower]', toc_txt)
+        self.assert_In('- [ПРИМЕР RUSSIAN upper][%D0%BF%D1%80%D0%B8%D0%BC%D0%B5%D1%80-russian-upper]', toc_txt)
 
     # the other values...
     def test_delegate_to_markdown_preview_othervalues(self):
