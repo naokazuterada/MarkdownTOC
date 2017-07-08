@@ -350,6 +350,10 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
             arg = str(arg)
             sublime.status_message(arg)
             pp.pprint(arg)
+    def error(self, arg):
+        arg = str(arg)
+        sublime.status_message(arg)
+        pp.pprint(arg)
 
 def is_out_of_areas(num, areas):
     for area in areas:
