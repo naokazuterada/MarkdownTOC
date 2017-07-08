@@ -13,6 +13,7 @@ pp = pprint.PrettyPrinter(indent=4)
 
 # Load MarkdownPreview module
 mp_module_name = 'Markdown Preview.MarkdownPreview'
+MarkdownPreview = None
 try:
     MarkdownPreview = sys.modules[mp_module_name]
 except KeyError:
@@ -114,6 +115,11 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
     # TODO: add "end" parameter
     def get_toc(self, attrs, begin, edit):
 
+        if attrs['delegate_to_markdown_preview'] == 'github' and MarkdownPreview is None:
+            error  = "[ Warning ]\n"
+            error += "You can't set 'delegate_to_markdown_preview' to 'github'.\n"
+            error += "Please install 'Markdown Preview' package at first.\n"
+            return error
 
         def slugify(value, separator):
             """ Slugify a string, to make it URL friendly. """
