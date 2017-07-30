@@ -175,7 +175,7 @@ class TestDefault(TestBase):
         self.assert_NotIn('^- ', toc_txt)
 
     def test_uniquify_id(self):
-        """ Same heading texts
+        """ uniquify id if there are same text headings
         """
         text = \
 """

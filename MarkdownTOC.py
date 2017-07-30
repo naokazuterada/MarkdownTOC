@@ -200,7 +200,11 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
                     indent = heading.size() - 1
                     items.append([indent, text, heading.begin()])
                 elif len(lines) == 2:
-                    # handle - or + headings, Title 1==== section1----
+                    # handle = or - headings
+                    # Title 1
+                    # ====
+                    # section1
+                    # ----
                     text = self.view.substr(lines[0])
                     if text.strip():
                         indent = 1 if (
