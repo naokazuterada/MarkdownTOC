@@ -352,11 +352,11 @@ class TestAttribute(TestBase):
         toc_txt = self.commonSetup(self.markdown_preview_text.format('markdown_preview=markdown'))
         self.assert_In('- [Hello 世界 World][hello-world]', toc_txt)
         self.assert_In('- [camión, último][camion-ultimo]', toc_txt)
-        self.assert_In('- [CAMIÓN, ÚLTIMO][camion-ultimo_1]', toc_txt)
+        self.assert_In('- [CAMIÓN, ÚLTIMO][camion-ultimo-1]', toc_txt)
         self.assert_In('- [españa][espana]', toc_txt)
-        self.assert_In('- [ESPAÑA][espana_1]', toc_txt)
+        self.assert_In('- [ESPAÑA][espana-1]', toc_txt)
         self.assert_In('- [пример russian][russian]', toc_txt)
-        self.assert_In('- [ПРИМЕР RUSSIAN][russian_1]', toc_txt)
+        self.assert_In('- [ПРИМЕР RUSSIAN][russian-1]', toc_txt)
 
     # github
     def test_markdown_preview_github(self):
