@@ -194,12 +194,7 @@ class TestDefault(TestBase):
         self.assert_In('- [Heading][heading-2]', toc_txt)
 
     def test_uniquify_id(self):
-        """ handle = or - headings
-        Title 1
-        ====
-        section1
-        ----
-        """
+        """ handle = or - headings"""
         text = \
 """
 
