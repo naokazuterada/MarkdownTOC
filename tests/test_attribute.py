@@ -323,24 +323,24 @@ class TestAttribute(TestBase):
 <!-- /MarkdownTOC -->
 
 # Hello 世界 World
-# camión, último lower
-# CAMIÓN, ÚLTIMO upper
-# españa lower
-# ESPAÑA upper
-# пример russian lower
-# ПРИМЕР RUSSIAN upper
+# camión, último
+# CAMIÓN, ÚLTIMO
+# españa
+# ESPAÑA
+# пример russian
+# ПРИМЕР RUSSIAN
 """
     # TODO: Check MarkdownPreview installed or not
 
     # common result (not test, call inside test)
     def common_markdown_preview(self, toc_txt):
         self.assert_In('- [Hello 世界 World][hello-世界-world]', toc_txt)
-        self.assert_In('- [camión, último lower][camión-último-lower]', toc_txt)
-        self.assert_In('- [CAMIÓN, ÚLTIMO upper][camiÓn-Último-upper]', toc_txt)
-        self.assert_In('- [españa lower][españa-lower]', toc_txt)
-        self.assert_In('- [ESPAÑA upper][espaÑa-upper]', toc_txt)
-        self.assert_In('- [пример russian lower][пример-russian-lower]', toc_txt)
-        self.assert_In('- [ПРИМЕР RUSSIAN upper][ПРИМЕР-russian-upper]', toc_txt)
+        self.assert_In('- [camión, último][camión-último]', toc_txt)
+        self.assert_In('- [CAMIÓN, ÚLTIMO][camiÓn-Último]', toc_txt)
+        self.assert_In('- [españa][españa]', toc_txt)
+        self.assert_In('- [ESPAÑA][espaÑa]', toc_txt)
+        self.assert_In('- [пример russian][пример-russian]', toc_txt)
+        self.assert_In('- [ПРИМЕР RUSSIAN][ПРИМЕР-russian]', toc_txt)
 
     # default
     def test_markdown_preview_default(self):
@@ -351,23 +351,23 @@ class TestAttribute(TestBase):
     def test_markdown_preview_markdown(self):
         toc_txt = self.commonSetup(self.markdown_preview_text.format('markdown_preview=markdown'))
         self.assert_In('- [Hello 世界 World][hello-world]', toc_txt)
-        self.assert_In('- [camión, último lower][camion-ultimo-lower]', toc_txt)
-        self.assert_In('- [CAMIÓN, ÚLTIMO upper][camion-ultimo-upper]', toc_txt)
-        self.assert_In('- [españa lower][espana-lower]', toc_txt)
-        self.assert_In('- [ESPAÑA upper][espana-upper]', toc_txt)
-        self.assert_In('- [пример russian lower][russian-lower]', toc_txt)
-        self.assert_In('- [ПРИМЕР RUSSIAN upper][russian-upper]', toc_txt)
+        self.assert_In('- [camión, último][camion-ultimo]', toc_txt)
+        self.assert_In('- [CAMIÓN, ÚLTIMO][camion-ultimo_1]', toc_txt)
+        self.assert_In('- [españa][espana]', toc_txt)
+        self.assert_In('- [ESPAÑA][espana_1]', toc_txt)
+        self.assert_In('- [пример russian][russian]', toc_txt)
+        self.assert_In('- [ПРИМЕР RUSSIAN][russian_1]', toc_txt)
 
     # github
     def test_markdown_preview_github(self):
         toc_txt = self.commonSetup(self.markdown_preview_text.format('markdown_preview=github'))
         self.assert_In('- [Hello 世界 World][hello-%E4%B8%96%E7%95%8C-world]', toc_txt)
-        self.assert_In('- [camión, último lower][cami%C3%B3n-%C3%BAltimo-lower]', toc_txt)
-        self.assert_In('- [CAMIÓN, ÚLTIMO upper][cami%C3%B3n-%C3%BAltimo-upper]', toc_txt)
-        self.assert_In('- [españa lower][espa%C3%B1a-lower]', toc_txt)
-        self.assert_In('- [ESPAÑA upper][espa%C3%B1a-upper]', toc_txt)
-        self.assert_In('- [пример russian lower][%D0%BF%D1%80%D0%B8%D0%BC%D0%B5%D1%80-russian-lower]', toc_txt)
-        self.assert_In('- [ПРИМЕР RUSSIAN upper][%D0%BF%D1%80%D0%B8%D0%BC%D0%B5%D1%80-russian-upper]', toc_txt)
+        self.assert_In('- [camión, último][cami%C3%B3n-%C3%BAltimo]', toc_txt)
+        self.assert_In('- [CAMIÓN, ÚLTIMO][cami%C3%B3n-%C3%BAltimo-1]', toc_txt)
+        self.assert_In('- [españa][espa%C3%B1a]', toc_txt)
+        self.assert_In('- [ESPAÑA][espa%C3%B1a-1]', toc_txt)
+        self.assert_In('- [пример russian][%D0%BF%D1%80%D0%B8%D0%BC%D0%B5%D1%80-russian]', toc_txt)
+        self.assert_In('- [ПРИМЕР RUSSIAN][%D0%BF%D1%80%D0%B8%D0%BC%D0%B5%D1%80-russian-1]', toc_txt)
 
     # the other values...
     def test_markdown_preview_othervalues(self):
