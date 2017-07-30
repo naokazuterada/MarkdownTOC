@@ -409,7 +409,7 @@ You should set this attribute to `markdown` or `github`.
 
 When you set it to `markdown`, you can get same links rendered by MarkdownPreview's markdown parser.
 ```
-<!-- MarkdownTOC markdown_preview="markdown" -->
+<!-- MarkdownTOC autolink="true" markdown_preview="markdown" -->
 
 - [Hello 世界 World][hello-world]
 - [ESPAÑA][espana]
@@ -424,7 +424,7 @@ When you set it to `markdown`, you can get same links rendered by MarkdownPrevie
 
 When you set it to `github`, you can get same links rendered by MarkdownPreview's github parser.
 ```
-<!-- MarkdownTOC markdown_preview="github" -->
+<!-- MarkdownTOC autolink="true" markdown_preview="github" -->
 
 - [Hello 世界 World][hello-%25E4%25B8%2596%25E7%2595%258C-world]
 - [ESPAÑA][espa%25C3%25B1a]
