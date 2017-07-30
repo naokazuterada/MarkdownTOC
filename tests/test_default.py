@@ -198,7 +198,7 @@ class TestDefault(TestBase):
         text = \
 """
 
-<!-- MarkdownTOC autolink=true -->
+<!-- MarkdownTOC autolink=true indent="  " -->
 
 <!-- /MarkdownTOC -->
 
