@@ -174,7 +174,7 @@ class TestDefault(TestBase):
         toc_txt = self.commonSetup(text)
         self.assert_NotIn('^- ', toc_txt)
 
-    def test_same_headings(self):
+    def test_uniquify_id(self):
         """ Same heading texts
         """
         text = \
@@ -185,9 +185,7 @@ class TestDefault(TestBase):
 <!-- /MarkdownTOC -->
 
 # Heading
-
 # Heading
-
 # Heading
 """
         toc_txt = self.commonSetup(text)

@@ -373,3 +373,42 @@ class TestAttribute(TestBase):
     def test_markdown_preview_othervalues(self):
         toc_txt = self.commonSetup(self.markdown_preview_text.format('markdown_preview=othervalues'))
         self.common_markdown_preview(toc_txt)
+
+    # uniquify heading's id
+    markdown_preview_uniquify_id_text = \
+"""
+
+<!-- MarkdownTOC autolink=true uri_encoding=false {0} -->
+
+<!-- /MarkdownTOC -->
+
+# Heading
+# Heading
+# Heading
+"""
+    def test_markdown_preview_uniquify_id_markdown(self):
+        toc_txt = self.commonSetup(self.markdown_preview_uniquify_id_text.format('markdown_preview=markdown'))
+        self.assert_In('- [Heading][heading]', toc_txt)
+        self.assert_In('- [Heading][heading-1]', toc_txt)
+        self.assert_In('- [Heading][heading-2]', toc_txt)
+    def test_markdown_preview_uniquify_id_github(self):
+        toc_txt = self.commonSetup(self.markdown_preview_uniquify_id_text.format('markdown_preview=github'))
+        self.assert_In('- [Heading][heading]', toc_txt)
+        self.assert_In('- [Heading][heading-1]', toc_txt)
+        self.assert_In('- [Heading][heading-2]', toc_txt)
+
+    # no headings
+    markdown_preview_no_heading_text = \
+"""
+
+<!-- MarkdownTOC autolink=true uri_encoding=false {0} -->
+
+<!-- /MarkdownTOC -->
+
+"""
+    def test_markdown_preview_no_heading_markdown(self):
+        toc_txt = self.commonSetup(self.markdown_preview_no_heading_text.format('markdown_preview=markdown'))
+        self.assert_NotIn('^- ', toc_txt)
+    def test_markdown_preview_no_heading_github(self):
+        toc_txt = self.commonSetup(self.markdown_preview_no_heading_text.format('markdown_preview=github'))
+        self.assert_NotIn('^- ', toc_txt)
