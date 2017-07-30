@@ -609,16 +609,16 @@ Example of [Markdown] heading in a [Markdown] listing, not being included in the
 
 The following attributes can be used to control the generation of the TOC.
 
-| attribute                                     | values                         | default       | key in configuration/settings  |
-|:--------------------------------------------- |:------------------------------ |:------------- |:------------------------------ |
-| [autoanchor](#autoanchor)                     | `true`or`false`                | `false`       | `default_autoanchor`           |
-| [autolink](#auto-link)                        | `true`or`false`                | `false`       | `default_autolink`             |
-| [bracket](#bracket)                           | `square`or`round`              | `'square'`    | `default_bracket`              |
-| [depth](#depth)                               | integer (`0` means _no limit_) | `2`           | `default_depth`                |
-| [indent](#indent)                             | string                         | `'\t'`        | `default_indent`               |
-| [lowercase_only_ascii](#lowercase_only_ascii) | `true`or`false`                | `true`        | `default_lowercase_only_ascii` |
-| [style](#style)                               | `ordered` or `unordered`       | `'unordered'` | `default_style`                |
-| [uri_encoding](#uri_encoding)                 | `true`or`false`                | `true`        | `default_uri_encoding`         |
+| attribute              | values                         | default       | key in configuration/settings  |
+|:---------------------- |:------------------------------ |:------------- |:------------------------------ |
+| `autoanchor`           | `true`or`false`                | `false`       | `default_autoanchor`           |
+| `autolink`             | `true`or`false`                | `false`       | `default_autolink`             |
+| `bracket`              | `square`or`round`              | `'square'`    | `default_bracket`              |
+| `depth`                | integer (`0` means _no limit_) | `2`           | `default_depth`                |
+| `indent`               | string                         | `'\t'`        | `default_indent`               |
+| `lowercase_only_ascii` | `true`or`false`                | `true`        | `default_lowercase_only_ascii` |
+| `style`                | `ordered` or `unordered`       | `'unordered'` | `default_style`                |
+| `uri_encoding`         | `true`or`false`                | `true`        | `default_uri_encoding`         |
 
 You can define your own default values via package preferences, [Sublime Text][SublimeText]s way of letting users customize [package settings][SublimeTextSettings]. Please see the [Section on Configuration](#Configuration) for more details for **MarkdownTOC**.
 
