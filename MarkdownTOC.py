@@ -149,18 +149,6 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
 
             return RE_HEADER.sub(inject_id, html)
 
-        IDCOUNT_RE = re.compile(r'^(.*)_([0-9]+)$')
-        def unique(id, ids):
-            """ Ensure id is unique in set of ids. Append '_1', '_2'... if not """
-            while id in ids or not id:
-                m = IDCOUNT_RE.match(id)
-                if m:
-                    id = '%s_%d' % (m.group(1), int(m.group(2))+1)
-                else:
-                    id = '%s_%d' % (id, 1)
-            ids.add(id)
-            return id
-
         def heading_to_id(heading):
             if heading is None:
                 return ''
