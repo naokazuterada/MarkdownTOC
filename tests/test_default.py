@@ -173,3 +173,24 @@ class TestDefault(TestBase):
 """
         toc_txt = self.commonSetup(text)
         self.assert_NotIn('^- ', toc_txt)
+
+    def test_same_headings(self):
+        """ Same heading texts
+        """
+        text = \
+"""
+
+<!-- MarkdownTOC autolink=true -->
+
+<!-- /MarkdownTOC -->
+
+# Heading
+
+# Heading
+
+# Heading
+"""
+        toc_txt = self.commonSetup(text)
+        self.assert_In('- [Heading][heading]', toc_txt)
+        self.assert_In('- [Heading][heading-1]', toc_txt)
+        self.assert_In('- [Heading][heading-2]', toc_txt)
