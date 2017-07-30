@@ -159,3 +159,17 @@ class TestDefault(TestBase):
         self.assert_In('- [Heading &and&and& 3][heading-andand-3]', toc_txt)
         self.assert_In('- [&lt;element1>][element1]', toc_txt)
         self.assert_In('- [&#60;element2>][element2]', toc_txt)
+
+    def test_no_headings(self):
+        """ No headings there
+        """
+        text = \
+"""
+
+<!-- MarkdownTOC autolink=true -->
+
+<!-- /MarkdownTOC -->
+
+"""
+        toc_txt = self.commonSetup(text)
+        self.assert_NotIn('^- ', toc_txt)
