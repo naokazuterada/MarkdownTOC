@@ -192,3 +192,27 @@ class TestDefault(TestBase):
         self.assert_In('- [Heading][heading]', toc_txt)
         self.assert_In('- [Heading][heading-1]', toc_txt)
         self.assert_In('- [Heading][heading-2]', toc_txt)
+
+    def test_uniquify_id(self):
+        """ handle = or - headings
+        Title 1
+        ====
+        section1
+        ----
+        """
+        text = \
+"""
+
+<!-- MarkdownTOC autolink=true -->
+
+<!-- /MarkdownTOC -->
+
+Heading 1
+=======
+
+Heading 2
+-------
+"""
+        toc_txt = self.commonSetup(text)
+        self.assert_In('- [Heading 1][heading-1]', toc_txt)
+        self.assert_In('  - [Heading 2][heading-2]', toc_txt)
