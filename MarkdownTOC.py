@@ -169,16 +169,16 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
                 pattern = r'<h1 id="(.*)">.*</h1>'
                 matchs = re.finditer(pattern, _h1)
                 for match in matchs:
-                    _id = match.groups()[0]
+                    return match.groups()[0]
             elif attrs['markdown_preview'] == 'markdown':
-                _id = slugify(heading, '-')
+                return slugify(heading, '-')
             else:
                 if strtobool(attrs['lowercase_only_ascii']):
                     # only ascii
                     _id = ''.join(chr(ord(x)+('A'<=x<='Z')*32) for x in heading)
                 else:
                     _id = heading.lower()
-            return replace_strings_in_id(_id)
+                return replace_strings_in_id(_id)
 
         def replace_strings_in_id(_str):
             replacements = self.get_setting('id_replacements')
