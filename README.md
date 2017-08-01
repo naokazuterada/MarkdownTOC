@@ -437,7 +437,7 @@ When you set it to `github`, you can get same links rendered by MarkdownPreview'
 # ПРИМЕР RUSSIAN
 ```
 
-It doesn't support any other parsers.
+Currently no other parsers are supported.
 If you want to disable this feature, set it to `false`.
 
 
