@@ -408,6 +408,7 @@ If you want to use **MarkdownTOC** with [Markdown Preview][MarkdownPreview], you
 You can set this attribute to either `markdown` or `github`.
 
 When you set it to `markdown`, you can get same links rendered by MarkdownPreview's markdown parser.
+
 ```
 <!-- MarkdownTOC autolink="true" markdown_preview="markdown" -->
 
@@ -423,6 +424,7 @@ When you set it to `markdown`, you can get same links rendered by MarkdownPrevie
 ```
 
 When you set it to `github`, you can get same links rendered by MarkdownPreview's github parser.
+
 ```
 <!-- MarkdownTOC autolink="true" markdown_preview="github" -->
 
@@ -438,6 +440,7 @@ When you set it to `github`, you can get same links rendered by MarkdownPreview'
 ```
 
 Currently no other parsers are supported.
+
 If you want to disable this feature, set it to `false`.
 
 
