@@ -405,7 +405,7 @@ As mentioned you can disable this by setting the `uri_encoding` attribute to `fa
 #### Markdown Preview compatible
 
 If you want to use **MarkdownTOC** with [Markdown Preview][MarkdownPreview], you should use `markdown_preview` attribute.
-You should set this attribute to `markdown` or `github`.
+You can set this attribute to either `markdown` or `github`.
 
 When you set it to `markdown`, you can get same links rendered by MarkdownPreview's markdown parser.
 ```
