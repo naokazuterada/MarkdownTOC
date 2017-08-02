@@ -22,6 +22,7 @@ Sublime Text 3 plugin for generating a Table of Contents (TOC) in a Markdown doc
         - [Lowercase only ASCII characters in auto link ids](#lowercase-only-ascii-characters-in-auto-link-ids)
         - [Manipulation of auto link ids](#manipulation-of-auto-link-ids)
         - [URI encoding](#uri-encoding)
+        - [Markdown Preview compatible](#markdown-preview-compatible)
     - [Control of depth listed in TOC](#control-of-depth-listed-in-toc)
     - [Ordered or unordered style for TOC elements](#ordered-or-unordered-style-for-toc-elements)
     - [Specify custom indentation prefix](#specify-custom-indentation-prefix)
@@ -401,6 +402,48 @@ As mentioned you can disable this by setting the `uri_encoding` attribute to `fa
 # 中国的例子
 ```
 
+#### Markdown Preview compatible
+
+If you want to use **MarkdownTOC** with [Markdown Preview][MarkdownPreview], you should use `markdown_preview` attribute.
+You can set this attribute to either `markdown` or `github`.
+
+When you set it to `markdown`, you can get same links rendered by MarkdownPreview's markdown parser.
+
+```
+<!-- MarkdownTOC autolink="true" markdown_preview="markdown" -->
+
+- [Hello 世界 World][hello-world]
+- [ESPAÑA][espana]
+- [ПРИМЕР RUSSIAN][russian]
+
+<!-- /MarkdownTOC -->
+
+# Hello 世界 World
+# ESPAÑA
+# ПРИМЕР RUSSIAN
+```
+
+When you set it to `github`, you can get same links rendered by MarkdownPreview's github parser.
+
+```
+<!-- MarkdownTOC autolink="true" markdown_preview="github" -->
+
+- [Hello 世界 World][hello-%25E4%25B8%2596%25E7%2595%258C-world]
+- [ESPAÑA][espa%25C3%25B1a]
+- [ПРИМЕР RUSSIAN][%25D0%25BF%25D1%2580%25D0%25B8%25D0%25BC%25D0%25B5%25D1%2580-russian]
+
+<!-- /MarkdownTOC -->
+
+# Hello 世界 World
+# ESPAÑA
+# ПРИМЕР RUSSIAN
+```
+
+Currently no other parsers are supported.
+
+If you want to disable this feature, set it to `false`.
+
+
 ### Control of depth listed in TOC
 
 ```
@@ -609,16 +652,17 @@ Example of [Markdown] heading in a [Markdown] listing, not being included in the
 
 The following attributes can be used to control the generation of the TOC.
 
-| attribute                                     | values                         | default       | key in configuration/settings  |
-|:--------------------------------------------- |:------------------------------ |:------------- |:------------------------------ |
-| [autoanchor](#autoanchor)                     | `true`or`false`                | `false`       | `default_autoanchor`           |
-| [autolink](#auto-link)                        | `true`or`false`                | `false`       | `default_autolink`             |
-| [bracket](#bracket)                           | `square`or`round`              | `'square'`    | `default_bracket`              |
-| [depth](#depth)                               | integer (`0` means _no limit_) | `2`           | `default_depth`                |
-| [indent](#indent)                             | string                         | `'\t'`        | `default_indent`               |
-| [lowercase_only_ascii](#lowercase_only_ascii) | `true`or`false`                | `true`        | `default_lowercase_only_ascii` |
-| [style](#style)                               | `ordered` or `unordered`       | `'unordered'` | `default_style`                |
-| [uri_encoding](#uri_encoding)                 | `true`or`false`                | `true`        | `default_uri_encoding`         |
+| attribute              | values                         | default       | key in configuration/settings  |
+|:---------------------- |:------------------------------ |:------------- |:------------------------------ |
+| `autoanchor`           | `true`or`false`                | `false`       | `default_autoanchor`           |
+| `autolink`             | `true`or`false`                | `false`       | `default_autolink`             |
+| `bracket`              | `square`or`round`              | `'square'`    | `default_bracket`              |
+| `depth`                | integer (`0` means _no limit_) | `2`           | `default_depth`                |
+| `indent`               | string                         | `'\t'`        | `default_indent`               |
+| `lowercase_only_ascii` | `true`or`false`                | `true`        | `default_lowercase_only_ascii` |
+| `style`                | `ordered` or `unordered`       | `'unordered'` | `default_style`                |
+| `uri_encoding`         | `true`or`false`                | `true`        | `default_uri_encoding`         |
+| `markdown_preview`     | `false`or`github`or`markdown`  | `false`       | `default_markdown_preview`     |
 
 You can define your own default values via package preferences, [Sublime Text][SublimeText]s way of letting users customize [package settings][SublimeTextSettings]. Please see the [Section on Configuration](#Configuration) for more details for **MarkdownTOC**.
 
@@ -663,6 +707,7 @@ Example: `MarkdownTOC.sublime-settings`
   "default_lowercase_only_ascii": true,
   "default_style": "unordered",
   "default_uri_encoding": true,
+  "default_markdown_preview": false,
   "id_replacements": {
     "-": " ",
     "" : ["&lt;","&gt;","&amp;","&apos;","&quot;","&#60;","&#62;","&#38;","&#39;","&#34;","!","#","$","&","'","(",")","*","+",",","/",":",";","=","?","@","[","]","`","\"", ".","<",">","{","}","™","®","©"]
@@ -688,6 +733,7 @@ For an overview of the specific behaviour behind an attribute, please refer to t
 - `default_lowercase_only_ascii`, (see: [Lowercase only ASCII characters in auto link ids](#lowercase-only-ascii-characters-in-auto-link-ids))
 - `default_style`, (see: [Ordered or unordered style for TOC elements](#ordered-or-unordered-style-for-toc-elements))
 - `default_uri_encoding`, (see: [URI encoding](#uri-encoding))
+- `default_markdown_preview`, (see: [Markdown Preview compatible](#markdown-preview-compatible))
 - `id_replacements`, (see: [Manipulation of auto link ids](#manipulation-of-auto-link-ids))
 
 ### Github Configuration
@@ -743,6 +789,7 @@ Contributions are most welcome, please see the [guidelines on contributing](http
 - [Sublime Text: Package Control][PackageControl]
 - [Emoji cheatsheet][emoji]
 - [Github flavoured markdown][Github]
+- [Markdown Preview][MarkdownPreview]
 
 ### Markdown Table of Contents Generators
 
@@ -762,3 +809,4 @@ Here follows a list of other Markdown Table of Contents generators, for inspirat
 [PackageControl]: http://wbond.net/sublime_packages/package_control
 [emoji]: http://www.emoji-cheat-sheet.com/
 [Github]: https://help.github.com/articles/basic-writing-and-formatting-syntax/
+[MarkdownPreview]: https://packagecontrol.io/packages/Markdown%20Preview

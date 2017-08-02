@@ -3,8 +3,10 @@ import sublime_plugin
 import re
 import os.path
 import pprint
+import sys
 from urllib.parse import quote
 from bs4 import BeautifulSoup
+import unicodedata
 
 # for dbug
 pp = pprint.PrettyPrinter(indent=4)
@@ -105,6 +107,77 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
     # TODO: add "end" parameter
     def get_toc(self, attrs, begin, edit):
 
+        # from MarkdownPreview
+        def slugify(value, separator):
+            """ Slugify a string, to make it URL friendly. """
+            value = unicodedata.normalize('NFKD', value).encode('ascii', 'ignore')
+            value = re.sub('[^\w\s-]', '', value.decode('ascii')).strip().lower()
+            return re.sub('[%s\s]+' % separator, separator, value)
+
+        # from MarkdownPreview
+        def postprocess_inject_header_id(html):
+            """ Insert header ids when no anchors are present """
+            unique = {}
+
+            def header_to_id(text):
+                if text is None:
+                    return ''
+                # Strip html tags and lower
+                id = RE_TAGS.sub('', text).lower()
+                # Remove non word characters or non spaces and dashes
+                # Then convert spaces to dashes
+                id = RE_WORD.sub('', id).replace(' ', '-')
+                # Encode anything that needs to be
+                return quote(id)
+
+            def inject_id(m):
+                id = header_to_id(m.group('text'))
+                if id == '':
+                    return m.group(0)
+                # Append a dash and number for uniqueness if needed
+                value = unique.get(id, None)
+                if value is None:
+                    unique[id] = 1
+                else:
+                    unique[id] += 1
+                    id += "-%d" % value
+                return m.group('open')[:-1] + (' id="%s">' % id) + m.group('text') + m.group('close')
+
+            RE_TAGS = re.compile(r'''</?[^>]*>''')
+            RE_WORD = re.compile(r'''[^\w\- ]''')
+            RE_HEADER = re.compile(r'''(?P<open><h([1-6])>)(?P<text>.*?)(?P<close></h\2>)''', re.DOTALL)
+
+            return RE_HEADER.sub(inject_id, html)
+
+        def heading_to_id(heading):
+            if heading is None:
+                return ''
+            if attrs['markdown_preview'] == 'github':
+                _h1 = postprocess_inject_header_id('<h1>%s</h1>' % heading)
+                pattern = r'<h1 id="(.*)">.*</h1>'
+                matchs = re.finditer(pattern, _h1)
+                for match in matchs:
+                    return match.groups()[0]
+            elif attrs['markdown_preview'] == 'markdown':
+                return slugify(heading, '-')
+            else:
+                if strtobool(attrs['lowercase_only_ascii']):
+                    # only ascii
+                    _id = ''.join(chr(ord(x)+('A'<=x<='Z')*32) for x in heading)
+                else:
+                    _id = heading.lower()
+                return replace_strings_in_id(_id)
+
+        def replace_strings_in_id(_str):
+            replacements = self.get_setting('id_replacements')
+            for _key in replacements:
+                _substitute = _key
+                _targets = replacements[_key]
+                for _target in _targets:
+                    _str = _str.replace(_target, _substitute)
+            return _str
+
+
         # Search headings in docment
         pattern_hash = "^#+?[^#]"
         headings = self.view.find_all(
@@ -127,7 +200,11 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
                     indent = heading.size() - 1
                     items.append([indent, text, heading.begin()])
                 elif len(lines) == 2:
-                    # handle - or + headings, Title 1==== section1----
+                    # handle = or - headings
+                    # Title 1
+                    # ====
+                    # section1
+                    # ----
                     text = self.view.substr(lines[0])
                     if text.strip():
                         indent = 1 if (
@@ -181,14 +258,7 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
                 _text = _text[0:match_ex_id.start()].rstrip()
                 _id = match_ex_id.group().replace('{#','').replace('}','')
             elif strtobool(attrs['autolink']):
-
-                if strtobool(attrs['lowercase_only_ascii']):
-                    # only ascii
-                    _lower_text = ''.join(chr(ord(x)+('A'<=x<='Z')*32) for x in _text)
-                else:
-                    _lower_text = _text.lower()
-                _id = self.replace_strings_in_id(_lower_text)
-
+                _id = heading_to_id(_text)
                 if strtobool(attrs['uri_encoding']):
                     _id = quote(_id)
 
@@ -247,6 +317,17 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
 
     def get_settings(self):
         """return dict of settings"""
+        settings = sublime.load_settings("MarkdownTOC.sublime-settings")
+        files = sublime.find_resources("MarkdownTOC.sublime-settings")
+
+        for file in files:
+            try:
+                for key in sublime.decode_value(sublime.load_resource(file)):
+                    settings.erase(key)
+            except:
+                print("Error Loading settings file")
+        self.log('settings')
+        self.log(settings)
         return {
             "autoanchor":           self.get_setting('default_autoanchor'),
             "autolink":             self.get_setting('default_autolink'),
@@ -255,7 +336,8 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
             "indent":               self.get_setting('default_indent'),
             "lowercase_only_ascii": self.get_setting('default_lowercase_only_ascii'),
             "style":                self.get_setting('default_style'),
-            "uri_encoding":           self.get_setting('default_uri_encoding')
+            "uri_encoding":         self.get_setting('default_uri_encoding'),
+            "markdown_preview":     self.get_setting('default_markdown_preview')
         }
 
     def get_attibutes_from(self, tag_str):
@@ -283,20 +365,15 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
         items = [h for h in items if is_out_of_areas(h.begin(), codeblockAreas)]
         return items
 
-    def replace_strings_in_id(self, _str):
-        replacements = self.get_setting('id_replacements')
-        for _key in replacements:
-            _substitute = _key
-            _targets = replacements[_key]
-            for _target in _targets:
-                _str = _str.replace(_target, _substitute)
-        return _str
-
     def log(self, arg):
         if self.get_setting('logging') == True:
             arg = str(arg)
             sublime.status_message(arg)
             pp.pprint(arg)
+    def error(self, arg):
+        arg = str(arg)
+        sublime.status_message(arg)
+        pp.pprint(arg)
 
 def is_out_of_areas(num, areas):
     for area in areas:
