@@ -1,5 +1,0 @@
-MarkdownTOC - 2.4.0
-
-CHANGES
-
-- Support MarkdownPreview's anchoring
