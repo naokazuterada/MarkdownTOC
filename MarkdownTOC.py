@@ -103,12 +103,16 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
         return False
 
     def escape_brackets(self, _text):
-        _text = _text\
-                .replace('(','\(')\
-                .replace(')','\)')\
-                .replace('[','\[')\
-                .replace(']','\]')
-        return _text
+        is_in_code = False
+        text = ''
+        for char in _text:
+            if char in ['(', ')', '[', ']'] and not is_in_code:
+                text += '\\' + char
+            else:
+                text += char
+            if char == '`':
+                is_in_code = not is_in_code
+        return text
 
     # TODO: add "end" parameter
     def get_toc(self, attrs, begin, edit):
