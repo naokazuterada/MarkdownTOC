@@ -102,6 +102,14 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
         self.log('cannot find TOC tags')
         return False
 
+    def escape_brackets(self, _text):
+        _text = _text\
+                .replace('(','\(')\
+                .replace(')','\)')\
+                .replace('[','\[')\
+                .replace(']','\]')
+        return _text
+
     # TODO: add "end" parameter
     def get_toc(self, attrs, begin, edit):
 
@@ -203,11 +211,7 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
                 list_prefix = '1. '
 
             # escape brackets
-            _text = _text\
-                        .replace('(','\(')\
-                        .replace(')','\)')\
-                        .replace('[','\[')\
-                        .replace(']','\]')
+            _text = self.escape_brackets(_text)
 
             if _id == None:
                 toc += list_prefix + _text + '\n'
