@@ -170,7 +170,7 @@ class TestDefault(TestBase):
 <!-- /MarkdownTOC -->
 
 ## `function(param, [optional])`
-### (a static function) `greet([name])` (original, right?)
+## (a static function) `greet([name])` (original, right?)
 # `add(keys, command[, args][, context])`
 # `get_context(key[, operator][, operand][, match_all])`
 """
