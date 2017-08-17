@@ -159,3 +159,25 @@ class TestDefault(TestBase):
         self.assert_In('- [Heading &and&and& 3][heading-andand-3]', toc_txt)
         self.assert_In('- [&lt;element1>][element1]', toc_txt)
         self.assert_In('- [&#60;element2>][element2]', toc_txt)
+
+
+    def test_no_escape_in_code(self):
+        text = \
+"""
+
+<!-- MarkdownTOC autolink=true -->
+
+<!-- /MarkdownTOC -->
+
+## `function(param, [optional])`
+## (a static function) `greet([name])` (original, right?)
+# `add(keys, command[, args][, context])`
+# `get_context(key[, operator][, operand][, match_all])`
+"""
+        toc_txt = self.commonSetup(text)
+        self.assert_In('- [`function(param, [optional])`]'
+                       '[functionparam-optional', toc_txt)
+        self.assert_In('- [\\(a static function\\) `greet([name])` \\(original, right?\\)]'
+                       '[a-static-function-greetname-original-right]', toc_txt)
+        self.assert_In('- [`add(keys, command[, args][, context])`][addkeys-command-args-context]', toc_txt)
+        self.assert_In('- [`get_context(key[, operator][, operand][, match_all])`][getcontextkey-operator-operand-matchall]', toc_txt)
