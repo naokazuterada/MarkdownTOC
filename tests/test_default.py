@@ -164,19 +164,37 @@ class TestDefault(TestBase):
         text = \
 """
 
-<!-- MarkdownTOC autolink=true -->
+<!-- MarkdownTOC -->
 
 <!-- /MarkdownTOC -->
 
-## `function(param, [optional])`
-## (a static function) `greet([name])` (original, right?)
+# `function(param, [optional])`
+# (a static function) `greet([name])` (original, right?)
 # `add(keys, command[, args][, context])`
 # `get_context(key[, operator][, operand][, match_all])`
 """
         toc_txt = self.commonSetup(text)
-        self.assert_In('- [`function(param, [optional])`]'
-                       '[functionparam-optional', toc_txt)
-        self.assert_In('- [\\(a static function\\) `greet([name])` \\(original, right?\\)]'
-                       '[a-static-function-greetname-original-right]', toc_txt)
+        self.assert_In('- `function(param, [optional])`', toc_txt)
+        self.assert_In('- \\(a static function\\) `greet([name])` \\(original, right?\\)', toc_txt)
+        self.assert_In('- `add(keys, command[, args][, context])`', toc_txt)
+        self.assert_In('- `get_context(key[, operator][, operand][, match_all])`', toc_txt)
+
+    def test_no_escape_in_code(self):
+        """ No escape in codeblock (with link)"""
+        text = \
+"""
+
+<!-- MarkdownTOC autolink=true -->
+
+<!-- /MarkdownTOC -->
+
+# `function(param, [optional])`
+# (a static function) `greet([name])` (original, right?)
+# `add(keys, command[, args][, context])`
+# `get_context(key[, operator][, operand][, match_all])`
+"""
+        toc_txt = self.commonSetup(text)
+        self.assert_In('- [`function(param, [optional])`][functionparam-optional]', toc_txt)
+        self.assert_In('- [\\(a static function\\) `greet([name])` \\(original, right?\\)][a-static-function-greetname-original-right]', toc_txt)
         self.assert_In('- [`add(keys, command[, args][, context])`][addkeys-command-args-context]', toc_txt)
         self.assert_In('- [`get_context(key[, operator][, operand][, match_all])`][getcontextkey-operator-operand-matchall]', toc_txt)
