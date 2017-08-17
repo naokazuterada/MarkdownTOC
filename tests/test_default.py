@@ -108,8 +108,7 @@ class TestDefault(TestBase):
         self.assert_In('- Heading 1', toc_txt)
 
     def test_remove_atx_closing_seq(self):
-        """ Remove closing sequence of # characters
-        """
+        """ Remove closing sequence of # characters"""
         text = \
 """
 
@@ -131,8 +130,7 @@ class TestDefault(TestBase):
         self.assert_In('Heading 2\n', toc_txt)
 
     def test_id_replacement(self):
-        """ Reoplace chars(or string) in id_replacements object in id string
-        """
+        """ Reoplace chars(or string) in id_replacements object in id string"""
         text = \
 """
 
