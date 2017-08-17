@@ -160,6 +160,7 @@ class TestDefault(TestBase):
 
 
     def test_no_escape_in_code(self):
+        """ No escape in codeblock"""
         text = \
 """
 
