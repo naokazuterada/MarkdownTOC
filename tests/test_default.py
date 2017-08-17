@@ -198,3 +198,57 @@ class TestDefault(TestBase):
         self.assert_In('- [\\(a static function\\) `greet([name])` \\(original, right?\\)][a-static-function-greetname-original-right]', toc_txt)
         self.assert_In('- [`add(keys, command[, args][, context])`][addkeys-command-args-context]', toc_txt)
         self.assert_In('- [`get_context(key[, operator][, operand][, match_all])`][getcontextkey-operator-operand-matchall]', toc_txt)
+
+    def test_no_headings(self):
+        """ No headings there"""
+        text = \
+"""
+
+<!-- MarkdownTOC autolink=true -->
+
+<!-- /MarkdownTOC -->
+
+# `function(param, [optional])`
+# (a static function) `greet([name])` (original, right?)
+# `add(keys, command[, args][, context])`
+# `get_context(key[, operator][, operand][, match_all])`
+"""
+        toc_txt = self.commonSetup(text)
+        self.assert_NotIn('^- ', toc_txt)
+
+    def test_uniquify_id(self):
+        """ uniquify id if there are same text headings"""
+        text = \
+"""
+
+<!-- MarkdownTOC autolink=true -->
+
+<!-- /MarkdownTOC -->
+
+# Heading
+# Heading
+# Heading
+"""
+        toc_txt = self.commonSetup(text)
+        self.assert_In('- [Heading][heading]', toc_txt)
+        self.assert_In('- [Heading][heading-1]', toc_txt)
+        self.assert_In('- [Heading][heading-2]', toc_txt)
+
+    def test_uniquify_id(self):
+        """ handle = or - headings"""
+        text = \
+"""
+
+<!-- MarkdownTOC autolink=true indent="  " -->
+
+<!-- /MarkdownTOC -->
+
+Heading 1
+=======
+
+Heading 2
+-------
+"""
+        toc_txt = self.commonSetup(text)
+        self.assert_In('- [Heading 1][heading-1]', toc_txt)
+        self.assert_In('  - [Heading 2][heading-2]', toc_txt)
