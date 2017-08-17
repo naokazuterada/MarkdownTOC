@@ -179,7 +179,7 @@ class TestDefault(TestBase):
         self.assert_In('- `add(keys, command[, args][, context])`', toc_txt)
         self.assert_In('- `get_context(key[, operator][, operand][, match_all])`', toc_txt)
 
-    def test_no_escape_in_code(self):
+    def test_no_escape_in_code_with_link(self):
         """ No escape in codeblock (with link)"""
         text = \
 """
