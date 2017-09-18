@@ -246,7 +246,7 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
             _text = item[1]
             _text = pattern_image.sub('', _text) # remove markdown image
             _text = pattern_tag.sub('', _text) # remove html tags
-            _text = _text.rstrip() # remove end space
+            _text = _text.strip() # remove start and end spaces
 
             # Ignore links: e.g. '[link](http://sample.com/)' -> 'link'
             _text = pattern_link.sub('\\1', _text)
