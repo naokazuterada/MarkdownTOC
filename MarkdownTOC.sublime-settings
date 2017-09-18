@@ -4,6 +4,7 @@
   "default_bracket": "square",
   "default_depth": 2,
   "default_indent": "\t",
+  "default_ignore_image": true,
   "default_lowercase_only_ascii": true,
   "default_style": "unordered",
   "default_uri_encoding": true,

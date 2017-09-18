@@ -239,12 +239,13 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
         toc = ''
         _ids = []
         level_counters = [0]
-
+        ignore_image = strtobool(attrs['ignore_image'])
         for item in items:
             _id = None
             _indent = item[0] - 1
             _text = item[1]
-            _text = pattern_image.sub('', _text) # remove markdown image
+            if ignore_image:
+                _text = pattern_image.sub('', _text) # remove markdown image
             _text = pattern_tag.sub('', _text) # remove html tags
             _text = _text.strip() # remove start and end spaces
 
@@ -332,6 +333,7 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
             "autolink":             self.get_setting('default_autolink'),
             "bracket":              self.get_setting('default_bracket'),
             "depth":                self.get_setting('default_depth'),
+            "ignore_image":         self.get_setting('default_ignore_image'),
             "indent":               self.get_setting('default_indent'),
             "lowercase_only_ascii": self.get_setting('default_lowercase_only_ascii'),
             "style":                self.get_setting('default_style'),
