@@ -13,6 +13,7 @@ pp = pprint.PrettyPrinter(indent=4)
 
 pattern_reference_link = re.compile(r'\[.+?\]$') # [Heading][my-id]
 pattern_link = re.compile(r'\[(.+?)\]\(.+?\)')  # [link](http://www.sample.com/)
+pattern_image = re.compile(r'!\[[^\]]+\]\([^)]+\)') # ![alt](path/to/image.png)
 pattern_ex_id = re.compile(r'\{#.+?\}$')         # [Heading]{#my-id}
 pattern_tag = re.compile(r'<.*?>')
 pattern_anchor = re.compile(r'<a\s+name="[^"]+"\s*>\s*</a>')
@@ -243,6 +244,7 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
             _id = None
             _indent = item[0] - 1
             _text = item[1]
+            _text = pattern_image.sub('', _text) # remove markdown image
             _text = pattern_tag.sub('', _text) # remove html tags
             _text = _text.rstrip() # remove end space
 
