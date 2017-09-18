@@ -238,11 +238,14 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
         toc = ''
         _ids = []
         level_counters = [0]
+        list_bullets = attrs['list_bullets']
+
 
         for item in items:
             _id = None
             _indent = item[0] - 1
             _text = item[1]
+            _list_bullet = list_bullets[_indent%len(list_bullets)]
             _text = pattern_tag.sub('', _text) # remove html tags
             _text = _text.rstrip() # remove end space
 
@@ -280,7 +283,7 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
                     _id += '-' + str(n-1)
 
             if attrs['style'] == 'unordered':
-                list_prefix = '- '
+                list_prefix = _list_bullet+' '
             elif attrs['style'] == 'ordered':
                 list_prefix = '1. '
 
@@ -331,6 +334,7 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
             "bracket":              self.get_setting('default_bracket'),
             "depth":                self.get_setting('default_depth'),
             "indent":               self.get_setting('default_indent'),
+            "list_bullets":         self.get_setting('default_list_bullets'),
             "lowercase_only_ascii": self.get_setting('default_lowercase_only_ascii'),
             "style":                self.get_setting('default_style'),
             "uri_encoding":         self.get_setting('default_uri_encoding'),
