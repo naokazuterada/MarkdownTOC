@@ -12,7 +12,7 @@ import unicodedata
 pp = pprint.PrettyPrinter(indent=4)
 
 pattern_reference_link = re.compile(r'\[.+?\]$') # [Heading][my-id]
-pattern_link = re.compile(r'\[(.+?)\]\(.+?\)')  # [link](http://www.sample.com/)
+pattern_link = re.compile(r'[^!]\[(.+?)\]\(.+?\)')  # [link](http://www.sample.com/)
 pattern_image = re.compile(r'!\[[^\]]+\]\([^)]+\)') # ![alt](path/to/image.png)
 pattern_ex_id = re.compile(r'\{#.+?\}$')         # [Heading]{#my-id}
 pattern_tag = re.compile(r'<.*?>')
