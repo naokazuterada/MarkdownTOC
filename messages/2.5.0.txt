@@ -1,0 +1,7 @@
+MarkdownTOC - 2.5.0
+
+CHANGES
+
+- Add `Customizable list bullets` feature
+
+Ref: #41

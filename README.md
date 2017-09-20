@@ -25,6 +25,7 @@ Sublime Text 3 plugin for generating a Table of Contents (TOC) in a Markdown doc
         - [Markdown Preview compatible](#markdown-preview-compatible)
     - [Control of depth listed in TOC](#control-of-depth-listed-in-toc)
     - [Ordered or unordered style for TOC elements](#ordered-or-unordered-style-for-toc-elements)
+    - [Customizable list bullets in TOC](#customizable-list-bullets-in-toc)
     - [Specify custom indentation prefix](#specify-custom-indentation-prefix)
 - [Usage](#usage)
 - [Tips](#tips)
@@ -77,6 +78,7 @@ The **MarkdownTOC** plugin is rich on features and customization, useful for bot
 - Manipulation of auto link ids
 - Control of depth listed in TOC
 - Ordered or unordered style for TOC elements
+- Customizable list bullets in TOC
 - Specify custom indentation prefix
 
 ### Insertion of TOC based on headings in Markdown document
@@ -556,6 +558,41 @@ Please note that the default for the [attribute](#attributes) is: `unordered`.
 
 You can set your default style in your [configuration](#configuration) with the key `default_style`.
 
+### Customizable list bullets in TOC
+
+You can define the list items used for the TOC for each level. The first item is for the first level, the second for the second and so on until the last one of the list and then it starts over from the beginning.
+
+```markdown
+<!-- MarkdownTOC list_bullets="-+*" depth="0" -->
+
+- foo
+  + bar
+    * baz
+      - foo
+        + bar
+          * baz
+
+<!-- /MarkdownTOC -->
+```
+
+You can set default list bullets in your [configuration](#configuration) with the key `default_list_bullets`.
+
+The example above could also be described as:
+
+```json
+{
+  "default_list_bullets": "-+*"
+}
+```
+
+And the value could also be _array_.
+
+```json
+{
+  "default_list_bullets": ["-","+","*"]
+}
+```
+
 ### Specify custom indentation prefix
 
 The indentation prefix is a specification of the string used to indent the TOC elements.
@@ -659,6 +696,7 @@ The following attributes can be used to control the generation of the TOC.
 | `bracket`              | `square`or`round`              | `'square'`    | `default_bracket`              |
 | `depth`                | integer (`0` means _no limit_) | `2`           | `default_depth`                |
 | `indent`               | string                         | `'\t'`        | `default_indent`               |
+| `list_bullets`         | string                         | `-`           | `default_list_bullets`         |
 | `lowercase_only_ascii` | `true`or`false`                | `true`        | `default_lowercase_only_ascii` |
 | `style`                | `ordered` or `unordered`       | `'unordered'` | `default_style`                |
 | `uri_encoding`         | `true`or`false`                | `true`        | `default_uri_encoding`         |
@@ -704,6 +742,7 @@ Example: `MarkdownTOC.sublime-settings`
   "default_bracket": "square",
   "default_depth": 2,
   "default_indent": "\t",
+  "default_list_bullets": "-",
   "default_lowercase_only_ascii": true,
   "default_style": "unordered",
   "default_uri_encoding": true,
