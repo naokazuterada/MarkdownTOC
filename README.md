@@ -87,7 +87,7 @@ When you have completed the [installation](#installation) of the plugin, you can
 
 For the following sample [Markdown] document:
 
-```
+```markdown
 
 # Heading 0
 
@@ -108,7 +108,7 @@ Lorem ipsum...
 
 The **MarkdownTOC** plugin will out of the box generate:
 
-```
+```markdown
 # Heading 0
 
 Headings before MarkdownTOC tags will be ignored.
@@ -140,13 +140,13 @@ As you can read from the sample above:
 
 If we edit the [Markdown] document some more and add an additional heading:
 
-```
+```markdown
 ## Heading 4
 ```
 
 When we save the document, the TOC is automatically updated.
 
-```
+```markdown
 <!-- MarkdownTOC -->
 
 - [Heading 1]
@@ -164,7 +164,7 @@ Updating the TOC can also be accomplished without saving by picking from the men
 
 ### Customizing generation of TOC using attributes
 
-```
+```markdown
 <!-- MarkdownTOC style="round" autolink="true" -->
 
 - [Heading 1]
@@ -182,7 +182,7 @@ Updating the TOC can also be accomplished without saving by picking from the men
 
 The default behaviour could also be described as:
 
-```
+```markdown
 <!-- MarkdownTOC depth="2" autolink="false" bracket="square" autoanchor="false" style="unordered" indent="\t" -->
 ```
 
@@ -192,19 +192,19 @@ Please see: [Github Configuration](#github-configuration) for a guideline to con
 
 You can add an HTML anchor (`<a name="xxx"></a>`) before your heading automatically.
 
-```
+```markdown
 # Heading with anchor [with-anchor]
 ```
 
 The TOC generation can be specified to respect this and a TOC element of the following format is generated:
 
-```
+```markdown
 - [Heading with anchor](#with-anchor)
 ```
 
 Please note that the default for the attribute: [autoanchor](#autoanchor) is `false`.You can add an HTML anchor (`<a name="xxx"></a>`) before the heading automatically.
 
-```
+```markdown
 <!-- MarkdownTOC autolink="true" autoanchor="true" bracket="round" -->
 
 - [Changelog](#changelog)
@@ -234,7 +234,7 @@ The plugin can be specified to auto link heading so you get a TOC with _clickabl
 
 The following sample document:
 
-```
+```markdown
 # Heading 1
 Lorem ipsum...
 
@@ -247,7 +247,7 @@ Lorem ipsum...
 
 With `autolink` set to `true` will render the following:
 
-```
+```markdown
 <!-- MarkdownTOC autolink="true" bracket="round" -->
 
 - [Heading 1](#heading-1)
@@ -266,7 +266,7 @@ The auto link markup style can be one of:
 
 Please note that the default for autolink is `false` defined by the [attribute](#attributes) `default_autolink`.
 
-```
+```markdown
 <!-- MarkdownTOC autolink="false" -->
 
 - MarkdownTOC Plugin for Sublime Text
@@ -276,7 +276,7 @@ Please note that the default for autolink is `false` defined by the [attribute](
 
 <!-- /MarkdownTOC -->
 ```
-```
+```markdown
 <!-- MarkdownTOC autolink="true" -->
 
 - [MarkdownTOC Plugin for Sublime Text](#markdowntoc-plugin-for-sublime-text)
@@ -289,7 +289,7 @@ Please note that the default for autolink is `false` defined by the [attribute](
 
 **square**: according to ["Markdown standard reference-style links"][MarkdownLinks].
 
-```
+```markdown
 <!-- MarkdownTOC bracket="square" -->
 
 - [Heading][heading]
@@ -299,7 +299,7 @@ Please note that the default for autolink is `false` defined by the [attribute](
 
 **round**: according to [Github] style.
 
-```
+```markdown
 <!-- MarkdownTOC bracket="round" -->
 
 - [Heading](#heading)
@@ -313,7 +313,7 @@ Please note that the default for bracket is `square` defined by the [attribute](
 
 By default the plugin lowercases ASCII based alphabets **only** (`a` to `z`) for auto links.
 
-```
+```markdown
 <!-- MarkdownTOC autolink="true" -->
 
 - [ПРИМЕР EXAMPLE][ПРИМЕР-example]
@@ -325,7 +325,7 @@ By default the plugin lowercases ASCII based alphabets **only** (`a` to `z`) for
 
 You can expand the lowercasing capability by setting the `lowecase_only_ascii` attribute to `false`.
 
-```
+```markdown
 <!-- MarkdownTOC autolink="true" lowercase_only_ascii="false" -->
 
 - [ПРИМЕР EXAMPLE][пример-example]
@@ -353,13 +353,13 @@ You can manipulate your link ids in your [configuration](#configuration) using t
 
 An example:
 
-```
+```markdown
 # Super Product™
 ```
 
 This heading link of this heading is changed to following id
 
-```
+```markdown
 #super-product
 ```
 
@@ -370,7 +370,7 @@ This heading link of this heading is changed to following id
 
 By default non-ASCII characters in link ids are [URL encoded](https://en.wikipedia.org/wiki/Percent-encoding).
 
-```
+```markdown
 <!-- MarkdownTOC autolink="true" -->
 
 - [Ejemplos de español][ejemplos-de-espa%C3%B1ol]
@@ -388,7 +388,7 @@ By default non-ASCII characters in link ids are [URL encoded](https://en.wikiped
 
 As mentioned you can disable this by setting the `uri_encoding` attribute to `false`, like so: `uri_encoding="false"`.
 
-```
+```markdown
 <!-- MarkdownTOC autolink="true" uri_encoding="false" -->
 
 - [Ejemplos de español][ejemplos-de-español]
@@ -411,7 +411,7 @@ You can set this attribute to either `markdown` or `github`.
 
 When you set it to `markdown`, you can get same links rendered by MarkdownPreview's markdown parser.
 
-```
+```markdown
 <!-- MarkdownTOC autolink="true" markdown_preview="markdown" -->
 
 - [Hello 世界 World][hello-world]
@@ -427,7 +427,7 @@ When you set it to `markdown`, you can get same links rendered by MarkdownPrevie
 
 When you set it to `github`, you can get same links rendered by MarkdownPreview's github parser.
 
-```
+```markdown
 <!-- MarkdownTOC autolink="true" markdown_preview="github" -->
 
 - [Hello 世界 World][hello-%25E4%25B8%2596%25E7%2595%258C-world]
@@ -448,7 +448,7 @@ If you want to disable this feature, set it to `false`.
 
 ### Control of depth listed in TOC
 
-```
+```markdown
 # Heading 1
 
 Lorem ipsum...
@@ -466,7 +466,7 @@ Lorem ipsum...
 
 With default depth:
 
-```
+```markdown
 <!-- MarkdownTOC -->
 
 - [Heading 1]
@@ -477,7 +477,7 @@ With default depth:
 
 With depth set to 4:
 
-```
+```markdown
 <!-- MarkdownTOC depth="4" -->
 
 - [Heading 1]
@@ -504,7 +504,7 @@ The plugin supports two styles of TOC element listing:
 
 A [Markdown] document with the following contents:
 
-```
+```markdown
 # Heading 1
 Lorem ipsum...
 
@@ -526,7 +526,7 @@ Lorem ipsum...
 
 Will with style `unordered`:
 
-```
+```markdown
 <!-- MarkdownTOC style="unordered" -->
 
 - Heading 1
@@ -541,7 +541,7 @@ Will with style `unordered`:
 
 And with style `ordered`:
 
-```
+```markdown
 <!-- MarkdownTOC style="ordered" -->
 
 1. Heading 1
@@ -599,7 +599,7 @@ The indentation prefix is a specification of the string used to indent the TOC e
 
 An _ugly_ but demonstrative example could be to use an [emoji][emoji].
 
-```
+```markdown
 <!-- MarkdownTOC autolink="true" bracket="round" indent=":point_right: " -->
 
 - [Heading 1](#heading-1)
@@ -637,7 +637,7 @@ If you want to remove the TOC again, you do not have to go through your complete
 1. Open your [Markdown] file
 2. Set the attribute `autoanchor` to `false`, this clears all anchors
 
-```
+```markdown
 <!-- MarkdownTOC autoanchor="false" -->
 ```
 
@@ -647,7 +647,7 @@ Please see the below animation demonstrating the change
 
 <ol><li value="3">Now delete the TOC section from beginning to end and **MarkdownTOC** integration is gone</li></ol>
 
-```
+```markdown
 <!-- MarkdownTOC autoanchor="false" -->
 
 ...
@@ -663,7 +663,7 @@ If you are using Github Pages you might experience that some themes do not rende
 
 This can be addressed simply by setting `autoanchor` to `false`
 
-```
+```markdown
 <!-- MarkdownTOC autoanchor="false" -->
 ```
 
@@ -795,7 +795,7 @@ If that is the case and you cannot agree on a configuration, choose configuratio
 
 Example of attribute configuration for the above configuration settings in file:
 
-```
+```markdown
 <!-- MarkdownTOC autolink="true" bracket="round" autoanchor="true" -->
 ```
 
