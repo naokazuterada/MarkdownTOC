@@ -696,7 +696,7 @@ The following attributes can be used to control the generation of the TOC.
 | `bracket`              | `square`or`round`              | `'square'`    | `default_bracket`              |
 | `depth`                | integer (`0` means _no limit_) | `2`           | `default_depth`                |
 | `indent`               | string                         | `'\t'`        | `default_indent`               |
-| `list_bullets`         | string                         | `-`           | `default_list_bullets`         |
+| `list_bullets`         | string                         | `'-'`         | `default_list_bullets`         |
 | `lowercase_only_ascii` | `true`or`false`                | `true`        | `default_lowercase_only_ascii` |
 | `style`                | `ordered` or `unordered`       | `'unordered'` | `default_style`                |
 | `uri_encoding`         | `true`or`false`                | `true`        | `default_uri_encoding`         |
