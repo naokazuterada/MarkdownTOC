@@ -106,6 +106,74 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
         return False
 
     def escape_brackets(self, _text):
+        # TODO ここでpattern_image以外の部分のみを対象にする
+
+        # Get indexes of images
+        # ![image](path/to.png)
+        images = [] # [[start,end],...]
+        for m in pattern_image.finditer(_text):
+            images.append([m.start(), m.start()+len(m.group())])
+
+        # Get indexes of backquotes
+        # `like this`
+        backquotes = [] # [[start,end],...]
+        stock = None
+        for m in re.compile(r'`').finditer(_text):
+            if stock == None:
+                stock = m.start()
+            else:
+                backquotes.append([stock, m.start()])
+                stock = None
+
+        # Get indexes of square brackets
+        # [like this]
+        square_brackets = [] # [[start,end],...]
+        stock = None
+        for m in re.compile(r'\[[^\]]*\]').finditer(_text):
+            square_brackets.append([m.start(), m.start()+len(m.group())])
+
+        round_brackets = [] # [[start,end],...]
+        stock = None
+        for m in re.compile(r'\([^\)]*\)').finditer(_text):
+            round_brackets.append([m.start(), m.start()+len(m.group())])
+
+        self.log('')
+        self.log('===')
+        self.log(_text)
+        self.log('---')
+
+        def within_ranges(target, ranges):
+            tb = target[0]
+            te = target[1]
+            for _range in ranges:
+                rb = _range[0]
+                re = _range[1]
+                if (rb <= tb and tb <= re) and (rb <= tb and tb <= re):
+                    return True
+            return False
+
+        def not_in_image(target):
+            return not within_ranges(target, images)
+
+        def not_in_codeblock(target):
+            return not within_ranges(target, backquotes)
+
+        images = list(filter(not_in_codeblock, images))
+        self.log(images)
+
+        square_brackets = list(filter(not_in_image, square_brackets))
+        square_brackets = list(filter(not_in_codeblock, square_brackets))
+        self.log(square_brackets)
+
+        round_brackets = list(filter(not_in_image, round_brackets))
+        round_brackets = list(filter(not_in_codeblock, round_brackets))
+        self.log(round_brackets)
+
+
+
+
+        # Select
+
         is_in_code = False
         text = ''
         for char in _text:
@@ -115,6 +183,9 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
                 text += char
             if char == '`':
                 is_in_code = not is_in_code
+
+        self.log('---')
+        self.log(text)
         return text
 
     # TODO: add "end" parameter
