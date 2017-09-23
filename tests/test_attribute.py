@@ -484,18 +484,31 @@ class TestAttribute(TestBase):
 
 <!-- /MarkdownTOC -->
 
-# ![icon](images/icon.png) Heading
-# Image in ![icon](images/icon.png)sentence
+# ![icon](img/icon.png) In the beginning
+# In the ![icon](img/icon.png) middle
+# In the last ![icon](img/icon.png)
+# [link](http://sample.com) In the beginning
+# In the [link](http://sample.com) middle
+# In the last [link](http://sample.com)
 """
+    def common_ignore_image_default(self, toc_txt):
+        self.assert_In('- In the beginning', toc_txt)
+        self.assert_In('- In the  middle', toc_txt)
+        self.assert_In('- In the last', toc_txt)
+        self.assert_In('- link In the beginning', toc_txt)
+        self.assert_In('- In the link middle', toc_txt)
+        self.assert_In('- In the last link', toc_txt)
     def test_ignore_image_default(self):
         toc_txt = self.commonSetup(self.ignore_image_text.format(''))
-        self.assert_In('- Heading', toc_txt)
-        self.assert_In('- Image in sentence', toc_txt)
+        self.common_ignore_image_default(toc_txt)
     def test_ignore_image_true(self):
         toc_txt = self.commonSetup(self.ignore_image_text.format('ignore_image="true"'))
-        self.assert_In('- Heading', toc_txt)
-        self.assert_In('- Image in sentence', toc_txt)
+        self.common_ignore_image_default(toc_txt)
     def test_ignore_image_false(self):
         toc_txt = self.commonSetup(self.ignore_image_text.format('ignore_image="false"'))
-        self.assert_In('- ![icon](images/icon.png) Heading', toc_txt)
-        self.assert_In('- Image in ![icon](images/icon.png)sentence', toc_txt)
+        self.assert_In('- ![icon](img/icon.png) In the beginning', toc_txt)
+        self.assert_In('- In the ![icon](img/icon.png) middle', toc_txt)
+        self.assert_In('- In the last ![icon](img/icon.png)', toc_txt)
+        self.assert_In('- link In the beginning', toc_txt)
+        self.assert_In('- In the link middle', toc_txt)
+        self.assert_In('- In the last link', toc_txt)
