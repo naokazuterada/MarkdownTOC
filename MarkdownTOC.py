@@ -12,7 +12,7 @@ import unicodedata
 pp = pprint.PrettyPrinter(indent=4)
 
 pattern_reference_link = re.compile(r'\[.+?\]$') # [Heading][my-id]
-pattern_link = re.compile(r'[^!]\[(.+?)\]\(.+?\)')  # [link](http://www.sample.com/)
+pattern_link = re.compile(r'([^!])\[(.+?)\]\(.+?\)')  # [link](http://www.sample.com/)
 pattern_image = re.compile(r'!\[[^\]]+\]\([^)]+\)') # ![alt](path/to/image.png)
 pattern_ex_id = re.compile(r'\{#.+?\}$')         # [Heading]{#my-id}
 pattern_tag = re.compile(r'<.*?>')
@@ -253,7 +253,7 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
             _text = _text.strip() # remove start and end spaces
 
             # Ignore links: e.g. '[link](http://sample.com/)' -> 'link'
-            _text = pattern_link.sub('\\1', _text)
+            _text = pattern_link.sub('\\1\\2', _text)
 
             # Add indent
             for i in range(_indent):

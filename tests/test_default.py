@@ -252,3 +252,21 @@ Heading 2
         toc_txt = self.commonSetup(text)
         self.assert_In('- [Heading 1][heading-1]', toc_txt)
         self.assert_In('  - [Heading 2][heading-2]', toc_txt)
+
+    def test_whitespace_in_begining(self):
+        """Ignore images in heading"""
+        text = \
+"""
+
+<!-- MarkdownTOC -->
+
+<!-- /MarkdownTOC -->
+
+# Heading
+#  Heading
+#   Heading
+"""
+        toc_txt = self.commonSetup(text)
+        self.assert_In('- Heading', toc_txt)
+        self.assert_NotIn('-  Heading', toc_txt)
+        self.assert_NotIn('-   Heading', toc_txt)
