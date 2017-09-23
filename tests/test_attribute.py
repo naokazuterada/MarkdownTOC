@@ -475,3 +475,27 @@ class TestAttribute(TestBase):
         self.assert_In('* Heading4-2', toc_txt)
         self.assert_In('- Heading5', toc_txt)
         self.assert_In('+ Heading6', toc_txt)
+
+    # Ignore image in heading
+    ignore_image_text = \
+"""
+
+<!-- MarkdownTOC {0} -->
+
+<!-- /MarkdownTOC -->
+
+# ![icon](images/icon.png) Heading
+# Image in ![icon](images/icon.png)sentence
+"""
+    def test_ignore_image_default(self):
+        toc_txt = self.commonSetup(self.ignore_image_text.format(''))
+        self.assert_In('- Heading', toc_txt)
+        self.assert_In('- Image in sentence', toc_txt)
+    def test_ignore_image_true(self):
+        toc_txt = self.commonSetup(self.ignore_image_text.format('ignore_image="true"'))
+        self.assert_In('- Heading', toc_txt)
+        self.assert_In('- Image in sentence', toc_txt)
+    def test_ignore_image_false(self):
+        toc_txt = self.commonSetup(self.ignore_image_text.format('ignore_image="false"'))
+        self.assert_In('- ![icon](images/icon.png) Heading', toc_txt)
+        self.assert_In('- Image in ![icon](images/icon.png)sentence', toc_txt)
