@@ -315,11 +315,10 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
             _list_bullet = list_bullets[_indent%len(list_bullets)]
             _text = pattern_tag.sub('', _text) # remove html tags
             _text = _text.strip() # remove start and end spaces
+
             # Ignore links: e.g. '[link](http://sample.com/)' -> 'link'
-            self.log('+++')
-            self.log(_text)
             # _text = pattern_link.sub('\\1\\2', _text)
-            self.log(_text)
+
             # Add indent
             for i in range(_indent):
                 _prefix = attrs['indent']
