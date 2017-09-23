@@ -107,11 +107,18 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
 
     def escape_brackets(self, _text):
         # TODO ここでpattern_image以外の部分のみを対象にする
-        # Get indexes of images
-        # ![image](path/to.png)
-        images = [] # [[start,end],...]
-        for m in pattern_image.finditer(_text):
-            images.append([m.start(), m.end()])
+
+        def within_ranges(target, ranges):
+            tb = target[0]
+            te = target[1]
+            for _range in ranges:
+                rb = _range[0]
+                re = _range[1]
+                if (rb <= tb and tb <= re) and (rb <= tb and tb <= re):
+                    return True
+            return False
+
+
 
         # Get indexes of backquotes
         # `foo`
@@ -124,29 +131,7 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
                 backquotes.append([stock, m.start()])
                 stock = None
 
-        # Get indexes of square brackets
-        pattern_square_brackets = re.compile(r'\[([^\]]*)\]') # [foo]
-        square_brackets = [] # [[start,end],...]
-        stock = None
-        for m in pattern_square_brackets.finditer(_text):
-            square_brackets.append([m.start(), m.end()])
-
-        # Get indexes of round brackets
-        pattern_round_brackets = re.compile(r'\(([^\)]*)\)') # (foo)
-        round_brackets = [] # [[start,end],...]
-        stock = None
-        for m in pattern_round_brackets.finditer(_text):
-            round_brackets.append([m.start(), m.end()])
-
-        def within_ranges(target, ranges):
-            tb = target[0]
-            te = target[1]
-            for _range in ranges:
-                rb = _range[0]
-                re = _range[1]
-                if (rb <= tb and tb <= re) and (rb <= tb and tb <= re):
-                    return True
-            return False
+        images = [] # [[start,end],...]
 
         def not_in_image(target):
             return not within_ranges(target, images)
@@ -154,20 +139,18 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
         def not_in_codeblock(target):
             return not within_ranges(target, backquotes)
 
-        images = list(filter(not_in_codeblock, images))
 
-        # Filtering by effectiveness
+        for m in pattern_image.finditer(_text):
+            images.append([m.start(), m.end()])
+        images = list(filter(not_in_codeblock, images))
+        pattern_square_brackets = re.compile(r'\[([^\]]*)\]') # [foo]
+        square_brackets = [] # [[start,end],...]
+        stock = None
+        for m in pattern_square_brackets.finditer(_text):
+            square_brackets.append([m.start(), m.end()])
         square_brackets = list(filter(not_in_image, square_brackets))
         square_brackets = list(filter(not_in_codeblock, square_brackets))
         square_brackets = list(map((lambda x: x[0]), square_brackets))
-
-        round_brackets = list(filter(not_in_image, round_brackets))
-        round_brackets = list(filter(not_in_codeblock, round_brackets))
-        round_brackets = list(map((lambda x: x[0]), round_brackets))
-
-
-        # Replace
-
         def replace_square_brackets(m):
             if m.start() in square_brackets:
                 return '\['+m.group(1)+'\]'
@@ -175,6 +158,20 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
                 return m.group(0)
         _text = re.sub(pattern_square_brackets, replace_square_brackets, _text)
 
+
+        # -------------
+        images = [] # [[start,end],...]
+        for m in pattern_image.finditer(_text):
+            images.append([m.start(), m.end()])
+        images = list(filter(not_in_codeblock, images))
+        pattern_round_brackets = re.compile(r'\(([^\)]*)\)') # (foo)
+        round_brackets = [] # [[start,end],...]
+        stock = None
+        for m in pattern_round_brackets.finditer(_text):
+            round_brackets.append([m.start(), m.end()])
+        round_brackets = list(filter(not_in_image, round_brackets))
+        round_brackets = list(filter(not_in_codeblock, round_brackets))
+        round_brackets = list(map((lambda x: x[0]), round_brackets))
         def replace_round_brackets(m):
             if m.start() in round_brackets:
                 return '\('+m.group(1)+'\)'
