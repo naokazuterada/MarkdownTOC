@@ -270,3 +270,19 @@ Heading 2
         self.assert_In('- Heading', toc_txt)
         self.assert_NotIn('-  Heading', toc_txt)
         self.assert_NotIn('-   Heading', toc_txt)
+
+    def test_image_in_heading(self):
+        """Ignore images in heading"""
+        text = \
+"""
+
+<!-- MarkdownTOC -->
+
+<!-- /MarkdownTOC -->
+
+# ![icon](images/icon.png) Heading
+# Image in ![icon](images/icon.png)sentence
+"""
+        toc_txt = self.commonSetup(text)
+        self.assert_In('- Heading', toc_txt)
+        self.assert_In('- Image in sentence', toc_txt)
