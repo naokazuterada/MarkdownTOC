@@ -107,15 +107,14 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
 
     def escape_brackets(self, _text):
         # TODO ここでpattern_image以外の部分のみを対象にする
-
         # Get indexes of images
         # ![image](path/to.png)
         images = [] # [[start,end],...]
         for m in pattern_image.finditer(_text):
-            images.append([m.start(), m.start()+len(m.group())])
+            images.append([m.start(), m.end()])
 
         # Get indexes of backquotes
-        # `like this`
+        # `foo`
         backquotes = [] # [[start,end],...]
         stock = None
         for m in re.compile(r'`').finditer(_text):
@@ -126,21 +125,18 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
                 stock = None
 
         # Get indexes of square brackets
-        # [like this]
+        pattern_square_brackets = re.compile(r'\[([^\]]*)\]') # [foo]
         square_brackets = [] # [[start,end],...]
         stock = None
-        for m in re.compile(r'\[[^\]]*\]').finditer(_text):
-            square_brackets.append([m.start(), m.start()+len(m.group())])
+        for m in pattern_square_brackets.finditer(_text):
+            square_brackets.append([m.start(), m.end()])
 
+        # Get indexes of round brackets
+        pattern_round_brackets = re.compile(r'\(([^\)]*)\)') # (foo)
         round_brackets = [] # [[start,end],...]
         stock = None
-        for m in re.compile(r'\([^\)]*\)').finditer(_text):
-            round_brackets.append([m.start(), m.start()+len(m.group())])
-
-        self.log('')
-        self.log('===')
-        self.log(_text)
-        self.log('---')
+        for m in pattern_round_brackets.finditer(_text):
+            round_brackets.append([m.start(), m.end()])
 
         def within_ranges(target, ranges):
             tb = target[0]
@@ -159,34 +155,34 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
             return not within_ranges(target, backquotes)
 
         images = list(filter(not_in_codeblock, images))
-        self.log(images)
 
+        # Filtering by effectiveness
         square_brackets = list(filter(not_in_image, square_brackets))
         square_brackets = list(filter(not_in_codeblock, square_brackets))
-        self.log(square_brackets)
+        square_brackets = list(map((lambda x: x[0]), square_brackets))
 
         round_brackets = list(filter(not_in_image, round_brackets))
         round_brackets = list(filter(not_in_codeblock, round_brackets))
-        self.log(round_brackets)
+        round_brackets = list(map((lambda x: x[0]), round_brackets))
 
 
+        # Replace
 
-
-        # Select
-
-        is_in_code = False
-        text = ''
-        for char in _text:
-            if char in ['(', ')', '[', ']'] and not is_in_code:
-                text += '\\' + char
+        def replace_square_brackets(m):
+            if m.start() in square_brackets:
+                return '\['+m.group(1)+'\]'
             else:
-                text += char
-            if char == '`':
-                is_in_code = not is_in_code
+                return m.group(0)
+        _text = re.sub(pattern_square_brackets, replace_square_brackets, _text)
 
-        self.log('---')
-        self.log(text)
-        return text
+        def replace_round_brackets(m):
+            if m.start() in round_brackets:
+                return '\('+m.group(1)+'\)'
+            else:
+                return m.group(0)
+        _text = re.sub(pattern_round_brackets, replace_round_brackets, _text)
+
+        return _text
 
     # TODO: add "end" parameter
     def get_toc(self, attrs, begin, edit):
@@ -322,10 +318,11 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
             _list_bullet = list_bullets[_indent%len(list_bullets)]
             _text = pattern_tag.sub('', _text) # remove html tags
             _text = _text.strip() # remove start and end spaces
-
             # Ignore links: e.g. '[link](http://sample.com/)' -> 'link'
-            _text = pattern_link.sub('\\1\\2', _text)
-
+            self.log('+++')
+            self.log(_text)
+            # _text = pattern_link.sub('\\1\\2', _text)
+            self.log(_text)
             # Add indent
             for i in range(_indent):
                 _prefix = attrs['indent']
@@ -340,13 +337,16 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
             match_ex_id = pattern_ex_id.search(_text)
 
             if len(list_reference_link):
+                self.log('@1')
                 match = list_reference_link[-1]
                 _text = _text[0:match.start()].replace('[','').replace(']','').rstrip()
                 _id = match.group().replace('[','').replace(']','')
             elif match_ex_id:
+                self.log('@2')
                 _text = _text[0:match_ex_id.start()].rstrip()
                 _id = match_ex_id.group().replace('{#','').replace('}','')
             elif strtobool(attrs['autolink']):
+                self.log('@3')
                 _id = heading_to_id(_text)
                 if strtobool(attrs['uri_encoding']):
                     _id = quote(_id)
