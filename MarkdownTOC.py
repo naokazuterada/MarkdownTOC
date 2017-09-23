@@ -240,12 +240,15 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
         _ids = []
         level_counters = [0]
         ignore_image = strtobool(attrs['ignore_image'])
+        list_bullets = attrs['list_bullets']
+
         for item in items:
             _id = None
             _indent = item[0] - 1
             _text = item[1]
             if ignore_image:
                 _text = pattern_image.sub('', _text) # remove markdown image
+            _list_bullet = list_bullets[_indent%len(list_bullets)]
             _text = pattern_tag.sub('', _text) # remove html tags
             _text = _text.strip() # remove start and end spaces
 
@@ -283,7 +286,7 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
                     _id += '-' + str(n-1)
 
             if attrs['style'] == 'unordered':
-                list_prefix = '- '
+                list_prefix = _list_bullet+' '
             elif attrs['style'] == 'ordered':
                 list_prefix = '1. '
 
@@ -335,6 +338,7 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
             "depth":                self.get_setting('default_depth'),
             "ignore_image":         self.get_setting('default_ignore_image'),
             "indent":               self.get_setting('default_indent'),
+            "list_bullets":         self.get_setting('default_list_bullets'),
             "lowercase_only_ascii": self.get_setting('default_lowercase_only_ascii'),
             "style":                self.get_setting('default_style'),
             "uri_encoding":         self.get_setting('default_uri_encoding'),

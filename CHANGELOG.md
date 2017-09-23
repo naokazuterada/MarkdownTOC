@@ -1,6 +1,20 @@
 Changes in MarkdownTOC
 ===========================
 
+## 2.5.0
+
+- Add `Customizable list bullets` feature
+
+## 2.4.1
+
+- Fix problem that user's settings doesn't work. Ref: #100
+- Fix problem that characters inside codeblock is also escaped. Ref: #64
+  Contribution by Mathieu PATUREL ( @math2001 ). Ref: #101
+
+## 2.4.0
+
+- Support MarkdownPreview's anchoring
+
 ## 2.3.2
 
 - Fix the way of import dependencies
