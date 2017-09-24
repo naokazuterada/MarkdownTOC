@@ -2,6 +2,5 @@ MarkdownTOC - 2.6.0
 
 CHANGES
 
-- Add `remove_image` parameter
-
-Ref: #43
+- Add `remove_image` parameter. Ref: #43
+- Add `lowercase` parameter. Ref: #40
