@@ -193,7 +193,9 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
             elif attrs['markdown_preview'] == 'markdown':
                 return slugify(heading, '-')
             else:
-                if strtobool(attrs['lowercase_only_ascii']):
+                if not strtobool(attrs['lowercase']):
+                    _id = heading
+                elif strtobool(attrs['lowercase_only_ascii']):
                     # only ascii
                     _id = ''.join(chr(ord(x)+('A'<=x<='Z')*32) for x in heading)
                 else:
@@ -380,6 +382,7 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
             "remove_image":         self.get_setting('default_remove_image'),
             "indent":               self.get_setting('default_indent'),
             "list_bullets":         self.get_setting('default_list_bullets'),
+            "lowercase":            self.get_setting('default_lowercase'),
             "lowercase_only_ascii": self.get_setting('default_lowercase_only_ascii'),
             "style":                self.get_setting('default_style'),
             "uri_encoding":         self.get_setting('default_uri_encoding'),
