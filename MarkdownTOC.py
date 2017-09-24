@@ -132,51 +132,35 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
 
         images = [] # [[start,end],...]
 
-        def not_in_image(target):
-            return not within_ranges(target, images)
-
-        def not_in_codeblock(target):
-            return not within_ranges(target, backquotes)
 
 
-        for m in pattern_image.finditer(_text):
-            images.append([m.start(), m.end()])
-        images = list(filter(not_in_codeblock, images))
-        pattern_square_brackets = re.compile(r'\[([^\]]*)\]') # [foo]
-        square_brackets = [] # [[start,end],...]
-        stock = None
-        for m in pattern_square_brackets.finditer(_text):
-            square_brackets.append([m.start(), m.end()])
-        square_brackets = list(filter(not_in_image, square_brackets))
-        square_brackets = list(filter(not_in_codeblock, square_brackets))
-        square_brackets = list(map((lambda x: x[0]), square_brackets))
-        def replace_square_brackets(m):
-            if m.start() in square_brackets:
-                return '\['+m.group(1)+'\]'
-            else:
-                return m.group(0)
-        _text = re.sub(pattern_square_brackets, replace_square_brackets, _text)
+        def escape_brackets(_text, _pattern, _open, _close):
+            images = []
+            _brackets = []
+            def not_in_image(target):
+                return not within_ranges(target, images)
+            def not_in_codeblock(target):
+                return not within_ranges(target, backquotes)
+            # Collect images not in codeblock
+            for m in pattern_image.finditer(_text):
+                images.append([m.start(), m.end()])
+            images = list(filter(not_in_codeblock, images))
+            # Collect brackets not in image tags
+            for m in _pattern.finditer(_text):
+                _brackets.append([m.start(), m.end()])
+            _brackets = list(filter(not_in_image, _brackets))
+            _brackets = list(filter(not_in_codeblock, _brackets))
+            _brackets = list(map((lambda x: x[0]), _brackets))
+            # Escape brackets
+            def replace_brackets(m):
+                if m.start() in _brackets:
+                    return _open+m.group(1)+_close
+                else:
+                    return m.group(0)
+            return re.sub(_pattern, replace_brackets, _text)
 
-
-        # -------------
-        images = [] # [[start,end],...]
-        for m in pattern_image.finditer(_text):
-            images.append([m.start(), m.end()])
-        images = list(filter(not_in_codeblock, images))
-        pattern_round_brackets = re.compile(r'\(([^\)]*)\)') # (foo)
-        round_brackets = [] # [[start,end],...]
-        stock = None
-        for m in pattern_round_brackets.finditer(_text):
-            round_brackets.append([m.start(), m.end()])
-        round_brackets = list(filter(not_in_image, round_brackets))
-        round_brackets = list(filter(not_in_codeblock, round_brackets))
-        round_brackets = list(map((lambda x: x[0]), round_brackets))
-        def replace_round_brackets(m):
-            if m.start() in round_brackets:
-                return '\('+m.group(1)+'\)'
-            else:
-                return m.group(0)
-        _text = re.sub(pattern_round_brackets, replace_round_brackets, _text)
+        _text = escape_brackets(_text, re.compile(r'\[([^\]]*)\]'), '\[', '\]')
+        _text = escape_brackets(_text, re.compile(r'\(([^\)]*)\)'), '\(', '\)')
 
         return _text
 
