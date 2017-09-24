@@ -415,9 +415,8 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
         items = [h for h in items if is_out_of_areas(h.begin(), codeblockAreas)]
         return items
 
-    def log(self, *arg):
+    def log(self, arg):
         if self.get_setting('logging') == True:
-            arg = ' '.join(arg)
             arg = str(arg)
             sublime.status_message(arg)
             pp.pprint(arg)
