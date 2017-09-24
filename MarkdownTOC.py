@@ -101,60 +101,38 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
         return False
 
     def escape_brackets(self, _text):
-        # TODO ここでPATTERN_IMAGE以外の部分のみを対象にする
+        # Escape brackets which not in image and codeblock
 
-        def within_ranges(target, ranges):
-            tb = target[0]
-            te = target[1]
-            for _range in ranges:
-                rb = _range[0]
-                re = _range[1]
-                if (rb <= tb and tb <= re) and (rb <= tb and tb <= re):
-                    return True
-            return False
-
-
-
-        # Get indexes of backquotes
-        # `foo`
-        backquotes = [] # [[start,end],...]
-        stock = None
-        for m in re.compile(r'`').finditer(_text):
-            if stock == None:
-                stock = m.start()
-            else:
-                backquotes.append([stock, m.start()])
-                stock = None
-
-        images = []
-
-        def escape_brackets(_text, _pattern, _open, _close):
+        def do_escape(_text, _pattern, _open, _close):
             images = []
-            _brackets = []
+            brackets = []
+            codes = []
+            for m in re.compile(r'^`[^`]*`').finditer(_text):
+                codes.append([m.start(), m.end()])
+            def not_in_codeblock(target):
+                return not within_ranges(target, codes)
             def not_in_image(target):
                 return not within_ranges(target, images)
-            def not_in_codeblock(target):
-                return not within_ranges(target, backquotes)
             # Collect images not in codeblock
             for m in PATTERN_IMAGE.finditer(_text):
                 images.append([m.start(), m.end()])
             images = list(filter(not_in_codeblock, images))
             # Collect brackets not in image tags
             for m in _pattern.finditer(_text):
-                _brackets.append([m.start(), m.end()])
-            _brackets = list(filter(not_in_image, _brackets))
-            _brackets = list(filter(not_in_codeblock, _brackets))
-            _brackets = list(map((lambda x: x[0]), _brackets))
+                brackets.append([m.start(), m.end()])
+            brackets = list(filter(not_in_image, brackets))
+            brackets = list(filter(not_in_codeblock, brackets))
+            brackets = list(map((lambda x: x[0]), brackets))
             # Escape brackets
             def replace_brackets(m):
-                if m.start() in _brackets:
+                if m.start() in brackets:
                     return _open+m.group(1)+_close
                 else:
                     return m.group(0)
             return re.sub(_pattern, replace_brackets, _text)
 
-        _text = escape_brackets(_text, re.compile(r'\[([^\]]*)\]'), '\[', '\]')
-        _text = escape_brackets(_text, re.compile(r'\(([^\)]*)\)'), '\(', '\)')
+        _text = do_escape(_text, re.compile(r'\[([^\]]*)\]'), '\[', '\]')
+        _text = do_escape(_text, re.compile(r'\(([^\)]*)\)'), '\(', '\)')
 
         return _text
 
@@ -289,7 +267,25 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
             _indent = item[0] - 1
             _text = item[1]
             if ignore_image:
-                _text = PATTERN_IMAGE.sub('', _text) # remove markdown image
+                # Remove markdown image which not in codeblock
+                images = []
+                codes = []
+                for m in re.compile(r'`[^`]*`').finditer(_text):
+                    codes.append([m.start(), m.end()])
+                def not_in_codeblock(_target):
+                    return not within_ranges(_target, codes)
+                # Collect images not in codeblock
+                for m in PATTERN_IMAGE.finditer(_text):
+                    images.append([m.start(), m.end()])
+                images = list(filter(not_in_codeblock, images))
+                images = list(map((lambda x: x[0]), images))
+                def _replace(m):
+                    if m.start() in images:
+                        return ''
+                    else:
+                        return m.group(0)
+                _text = re.sub(PATTERN_IMAGE, _replace, _text)
+
             _list_bullet = list_bullets[_indent%len(list_bullets)]
             _text = PATTERN_TAG.sub('', _text) # remove html tags
             _text = _text.strip() # remove start and end spaces
@@ -299,7 +295,6 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
             _text = link.sub('\\1\\2', _text)
             beginning_link = re.compile(r'^\[([^\]]+)\]\([^\)]+\)') # [link](http://www.sample.com/) link in the beginning of line
             _text = beginning_link.sub('\\1', _text)
-
             # Add indent
             for i in range(_indent):
                 _prefix = attrs['indent']
@@ -462,7 +457,15 @@ def strtobool(val):
     else:
         return bool(val)
 
-
+def within_ranges(target, ranges):
+    tb = target[0]
+    te = target[1]
+    for _range in ranges:
+        rb = _range[0]
+        re = _range[1]
+        if (rb <= tb and tb <= re) and (rb <= tb and tb <= re):
+            return True
+    return False
 # Search and refresh if it's exist
 
 
