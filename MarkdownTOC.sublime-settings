@@ -6,6 +6,7 @@
   "default_indent": "\t",
   "default_remove_image": true,
   "default_list_bullets": "-",
+  "default_lowercase": true,
   "default_lowercase_only_ascii": true,
   "default_style": "unordered",
   "default_uri_encoding": true,

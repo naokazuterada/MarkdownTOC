@@ -20,6 +20,7 @@ Sublime Text 3 plugin for generating a Table of Contents (TOC) in a Markdown doc
     - [Auto anchoring when heading has anchor defined](#auto-anchoring-when-heading-has-anchor-defined)
     - [Auto linking for _clickable_ TOC](#auto-linking-for-clickable-toc)
         - [Lowercase only ASCII characters in auto link ids](#lowercase-only-ascii-characters-in-auto-link-ids)
+        - [Do not change case](#do-not-change-case)
         - [Manipulation of auto link ids](#manipulation-of-auto-link-ids)
         - [URI encoding](#uri-encoding)
         - [Markdown Preview compatible](#markdown-preview-compatible)
@@ -335,6 +336,22 @@ You can expand the lowercasing capability by setting the `lowecase_only_ascii` a
 
 # ПРИМЕР EXAMPLE
 ```
+
+#### Do not change case
+
+You can disable the lowercasing capability by setting the `lowecase` attribute to `false`.
+
+```markdown
+<!-- MarkdownTOC autolink="true" lowercase="false" -->
+
+- [One Two Three][One-Two-Three]
+
+<!-- /MarkdownTOC -->
+
+# One Two Three
+```
+
+You can also specify this in your [configuration](#configuration) with key `default_lowercase`.
 
 #### Manipulation of auto link ids
 
@@ -726,6 +743,7 @@ The following attributes can be used to control the generation of the TOC.
 | `depth`                | integer (`0` means _no limit_) | `2`           | `default_depth`                |
 | `indent`               | string                         | `\t`          | `default_indent`               |
 | `list_bullets`         | string                         | `-`           | `default_list_bullets`         |
+| `lowercase`            | `true`or`false`                | `true`        | `default_lowercase`            |
 | `lowercase_only_ascii` | `true`or`false`                | `true`        | `default_lowercase_only_ascii` |
 | `remove_image`         | `true`or`false`                | `true`        | `default_remove_image`         |
 | `style`                | `ordered` or `unordered`       | `unordered`   | `default_style`                |
@@ -773,6 +791,7 @@ Example: `MarkdownTOC.sublime-settings`
   "default_depth": 2,
   "default_indent": "\t",
   "default_list_bullets": "-",
+  "default_lowercase": true,
   "default_lowercase_only_ascii": true,
   "default_remove_image": true,
   "default_style": "unordered",
@@ -800,7 +819,10 @@ For an overview of the specific behaviour behind an attribute, please refer to t
 - `default_bracket`, (see: [Auto linking for _clickable_ TOC](#auto-linking-for-clickable-toc))
 - `default_depth`, (see: [Control of depth listed in TOC](#control-of-depth-listed-in-toc))
 - `default_indent`, (see: [Specify custom indentation prefix](#specify-custom-indentation-prefix))
+- `default_list_bullets`, (see: [Customizable list bullets in TOC](#customizable-list-bullets-in-toc))
+- `default_lowercase`, (see: [Do not change case](#do-not-change-case))
 - `default_lowercase_only_ascii`, (see: [Lowercase only ASCII characters in auto link ids](#lowercase-only-ascii-characters-in-auto-link-ids))
+- `remove_image`, (see: [Maintain the images in headings](#maintain-the-images-in-headings))
 - `default_style`, (see: [Ordered or unordered style for TOC elements](#ordered-or-unordered-style-for-toc-elements))
 - `default_uri_encoding`, (see: [URI encoding](#uri-encoding))
 - `default_markdown_preview`, (see: [Markdown Preview compatible](#markdown-preview-compatible))
@@ -814,6 +836,7 @@ A configuration for writing Markdown primaily for use on [Github] _could_ look l
 {
   "default_autolink": true,
   "default_bracket": "round",
+  "default_lowercase": true,
   "default_lowercase_only_ascii": true
 }
 ```
