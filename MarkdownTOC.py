@@ -11,17 +11,13 @@ import unicodedata
 # for dbug
 pp = pprint.PrettyPrinter(indent=4)
 
-pattern_reference_link = re.compile(r'\[.+?\]$') # [Heading][my-id]
-pattern_image = re.compile(r'!\[([^\]]+)\]\([^\)]+\)') # ![alt](path/to/image.png)
-pattern_ex_id = re.compile(r'\{#.+?\}$')         # [Heading]{#my-id}
-pattern_tag = re.compile(r'<.*?>')
-pattern_anchor = re.compile(r'<a\s+name="[^"]+"\s*>\s*</a>')
-pattern_toc_tag_start = re.compile(r'<!-- *')
-pattern_toc_tag_end = re.compile(r'-->')
+PATTERN_REFERENCE_LINK = re.compile(r'\[.+?\]$') # [Heading][my-id]
+PATTERN_IMAGE = re.compile(r'!\[([^\]]+)\]\([^\)]+\)') # ![alt](path/to/image.png)
+PATTERN_EX_ID = re.compile(r'\{#.+?\}$')         # [Heading]{#my-id}
+PATTERN_TAG = re.compile(r'<.*?>')
+PATTERN_ANCHOR = re.compile(r'<a\s+name="[^"]+"\s*>\s*</a>')
+PATTERN_TOC_TAG_START = re.compile(r'<!-- *')
 
-pattern_h1_h2_equal_dash = "^.*?(?:(?:\r\n)|\n|\r)(?:-+|=+)$"
-
-TOCTAG_START = "<!-- MarkdownTOC -->"
 TOCTAG_END = "<!-- /MarkdownTOC -->"
 
 class MarkdowntocInsert(sublime_plugin.TextCommand):
@@ -34,7 +30,7 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
                 attrs = self.get_settings()
 
                 # add TOCTAG
-                toc = TOCTAG_START + "\n"
+                toc = "<!-- MarkdownTOC -->\n"
                 toc += "\n"
                 toc += self.get_toc(attrs, sel.end(), edit)
                 toc += "\n"
@@ -105,7 +101,7 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
         return False
 
     def escape_brackets(self, _text):
-        # TODO ここでpattern_image以外の部分のみを対象にする
+        # TODO ここでPATTERN_IMAGE以外の部分のみを対象にする
 
         def within_ranges(target, ranges):
             tb = target[0]
@@ -142,7 +138,7 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
             def not_in_codeblock(target):
                 return not within_ranges(target, backquotes)
             # Collect images not in codeblock
-            for m in pattern_image.finditer(_text):
+            for m in PATTERN_IMAGE.finditer(_text):
                 images.append([m.start(), m.end()])
             images = list(filter(not_in_codeblock, images))
             # Collect brackets not in image tags
@@ -240,8 +236,9 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
 
         # Search headings in docment
         pattern_hash = "^#+?[^#]"
-        headings = self.view.find_all(
-            "%s|%s" % (pattern_h1_h2_equal_dash, pattern_hash))
+        pattern_h1_h2_equal_dash = "^.*?(?:(?:\r\n)|\n|\r)(?:-+|=+)$"
+        pattern_heading = "%s|%s" % (pattern_h1_h2_equal_dash, pattern_hash)
+        headings = self.view.find_all(pattern_heading)
 
         headings = self.remove_items_in_codeblock(headings)
 
@@ -294,9 +291,9 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
             _indent = item[0] - 1
             _text = item[1]
             if ignore_image:
-                _text = pattern_image.sub('', _text) # remove markdown image
+                _text = PATTERN_IMAGE.sub('', _text) # remove markdown image
             _list_bullet = list_bullets[_indent%len(list_bullets)]
-            _text = pattern_tag.sub('', _text) # remove html tags
+            _text = PATTERN_TAG.sub('', _text) # remove html tags
             _text = _text.strip() # remove start and end spaces
 
             # Ignore links: e.g. '[link](http://sample.com/)' -> 'link'
@@ -313,10 +310,10 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
                 toc += _prefix
 
             # Reference-style links: e.g. '# heading [my-anchor]'
-            list_reference_link = list(pattern_reference_link.finditer(_text))
+            list_reference_link = list(PATTERN_REFERENCE_LINK.finditer(_text))
 
             # Markdown-Extra special attribute style: e.g. '# heading {#my-anchor}'
-            match_ex_id = pattern_ex_id.search(_text)
+            match_ex_id = PATTERN_EX_ID.search(_text)
 
             if len(list_reference_link):
                 self.log('@1')
@@ -365,7 +362,7 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
         # Iterate in reverse so that inserts don't affect the position
         for item in reversed(items):
             anchor_region = v.line(item[2] - 1)  # -1 to get to previous line
-            is_update = pattern_anchor.match(v.substr(anchor_region))
+            is_update = PATTERN_ANCHOR.match(v.substr(anchor_region))
             if autoanchor:
                 if is_update:
                     new_anchor = '<a name="{0}"></a>'.format(item[3])
@@ -401,8 +398,8 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
     def get_attibutes_from(self, tag_str):
         """return dict of settings from tag_str"""
 
-        tag_str_html = pattern_toc_tag_start.sub("<", tag_str)
-        tag_str_html = pattern_toc_tag_start.sub(">", tag_str_html)
+        tag_str_html = PATTERN_TOC_TAG_START.sub("<", tag_str)
+        tag_str_html = PATTERN_TOC_TAG_START.sub(">", tag_str_html)
 
         soup = BeautifulSoup(tag_str_html, "html.parser")
 
