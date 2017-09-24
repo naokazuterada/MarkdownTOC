@@ -295,6 +295,7 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
             _text = link.sub('\\1\\2', _text)
             beginning_link = re.compile(r'^\[([^\]]+)\]\([^\)]+\)') # [link](http://www.sample.com/) link in the beginning of line
             _text = beginning_link.sub('\\1', _text)
+
             # Add indent
             for i in range(_indent):
                 _prefix = attrs['indent']
