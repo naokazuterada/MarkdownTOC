@@ -259,14 +259,14 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
         toc = ''
         _ids = []
         level_counters = [0]
-        ignore_image = strtobool(attrs['ignore_image'])
+        remove_image = strtobool(attrs['remove_image'])
         list_bullets = attrs['list_bullets']
 
         for item in items:
             _id = None
             _indent = item[0] - 1
             _text = item[1]
-            if ignore_image:
+            if remove_image:
                 # Remove markdown image which not in codeblock
                 images = []
                 codes = []
@@ -377,7 +377,7 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
             "autolink":             self.get_setting('default_autolink'),
             "bracket":              self.get_setting('default_bracket'),
             "depth":                self.get_setting('default_depth'),
-            "ignore_image":         self.get_setting('default_ignore_image'),
+            "remove_image":         self.get_setting('default_remove_image'),
             "indent":               self.get_setting('default_indent'),
             "list_bullets":         self.get_setting('default_list_bullets'),
             "lowercase_only_ascii": self.get_setting('default_lowercase_only_ascii'),
