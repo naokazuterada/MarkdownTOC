@@ -27,6 +27,7 @@ Sublime Text 3 plugin for generating a Table of Contents (TOC) in a Markdown doc
     - [Ordered or unordered style for TOC elements](#ordered-or-unordered-style-for-toc-elements)
     - [Customizable list bullets in TOC](#customizable-list-bullets-in-toc)
     - [Specify custom indentation prefix](#specify-custom-indentation-prefix)
+    - [Maintain the images in headings](#maintain-the-images-in-headings)
 - [Usage](#usage)
 - [Tips](#tips)
     - [How to remove anchors added by MarkdownTOC](#how-to-remove-anchors-added-by-markdowntoc)
@@ -616,6 +617,34 @@ Please note that the default for the [attribute](#attributes) is: `'\t'`.
 
 You can set your default indentation in your [configuration](#configuration) with the key `default_indent`.
 
+### Maintain the images in headings
+
+If you don't want to removing images in headings, please set `remove_image` to `false`.
+
+```
+<!-- MarkdownTOC remove_image="false" -->
+
+- ![check](check.png) Everything is OK
+
+<!-- /MarkdownTOC -->
+
+# ![check](check.png) Everything is OK
+```
+
+Please note that the default for the [attribute](#attributes) is: `false`.
+
+```
+<!-- MarkdownTOC -->
+
+- Everything is OK
+
+<!-- /MarkdownTOC -->
+
+# ![check](check.png) Everything is OK
+```
+
+You can change your default setting in your [configuration](#configuration) with the key `default_remove_image`.
+
 ## Usage
 
 1. Open your [Markdown] file
@@ -698,6 +727,7 @@ The following attributes can be used to control the generation of the TOC.
 | `indent`               | string                         | `\t`          | `default_indent`               |
 | `list_bullets`         | string                         | `-`           | `default_list_bullets`         |
 | `lowercase_only_ascii` | `true`or`false`                | `true`        | `default_lowercase_only_ascii` |
+| `remove_image`         | `true`or`false`                | `true`        | `default_remove_image`         |
 | `style`                | `ordered` or `unordered`       | `unordered`   | `default_style`                |
 | `uri_encoding`         | `true`or`false`                | `true`        | `default_uri_encoding`         |
 | `markdown_preview`     | `false`or`github`or`markdown`  | `false`       | `default_markdown_preview`     |
@@ -744,6 +774,7 @@ Example: `MarkdownTOC.sublime-settings`
   "default_indent": "\t",
   "default_list_bullets": "-",
   "default_lowercase_only_ascii": true,
+  "default_remove_image": true,
   "default_style": "unordered",
   "default_uri_encoding": true,
   "default_markdown_preview": false,
