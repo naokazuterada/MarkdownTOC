@@ -107,7 +107,7 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
             images = []
             brackets = []
             codes = []
-            for m in re.compile(r'^`[^`]*`').finditer(_text):
+            for m in re.compile(r'`[^`]*`').finditer(_text):
                 codes.append([m.start(), m.end()])
             def not_in_codeblock(target):
                 return not within_ranges(target, codes)
