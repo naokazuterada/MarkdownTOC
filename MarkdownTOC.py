@@ -126,9 +126,7 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
                 backquotes.append([stock, m.start()])
                 stock = None
 
-        images = [] # [[start,end],...]
-
-
+        images = []
 
         def escape_brackets(_text, _pattern, _open, _close):
             images = []
@@ -316,16 +314,13 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
             match_ex_id = PATTERN_EX_ID.search(_text)
 
             if len(list_reference_link):
-                self.log('@1')
                 match = list_reference_link[-1]
                 _text = _text[0:match.start()].replace('[','').replace(']','').rstrip()
                 _id = match.group().replace('[','').replace(']','')
             elif match_ex_id:
-                self.log('@2')
                 _text = _text[0:match_ex_id.start()].rstrip()
                 _id = match_ex_id.group().replace('{#','').replace('}','')
             elif strtobool(attrs['autolink']):
-                self.log('@3')
                 _id = heading_to_id(_text)
                 if strtobool(attrs['uri_encoding']):
                     _id = quote(_id)
