@@ -20,7 +20,7 @@ Sublime Text 3 plugin for generating a Table of Contents (TOC) in a Markdown doc
     - [Auto anchoring when heading has anchor defined](#auto-anchoring-when-heading-has-anchor-defined)
     - [Auto linking for _clickable_ TOC](#auto-linking-for-clickable-toc)
         - [Lowercase only ASCII characters in auto link ids](#lowercase-only-ascii-characters-in-auto-link-ids)
-        - [Do not change case](#do-not-change-case)
+        - [Preserve case](#preserve-case)
         - [Manipulation of auto link ids](#manipulation-of-auto-link-ids)
         - [URI encoding](#uri-encoding)
         - [Markdown Preview compatible](#markdown-preview-compatible)
@@ -28,7 +28,7 @@ Sublime Text 3 plugin for generating a Table of Contents (TOC) in a Markdown doc
     - [Ordered or unordered style for TOC elements](#ordered-or-unordered-style-for-toc-elements)
     - [Customizable list bullets in TOC](#customizable-list-bullets-in-toc)
     - [Specify custom indentation prefix](#specify-custom-indentation-prefix)
-    - [Maintain the images in headings](#maintain-the-images-in-headings)
+    - [Preserve images in headings](#preserve-images-in-headings)
 - [Usage](#usage)
 - [Tips](#tips)
     - [How to remove anchors added by MarkdownTOC](#how-to-remove-anchors-added-by-markdowntoc)
@@ -337,7 +337,7 @@ You can expand the lowercasing capability by setting the `lowecase_only_ascii` a
 # ПРИМЕР EXAMPLE
 ```
 
-#### Do not change case
+#### Preserve case
 
 You can disable the lowercasing capability by setting the `lowecase` attribute to `false`.
 
@@ -634,9 +634,9 @@ Please note that the default for the [attribute](#attributes) is: `'\t'`.
 
 You can set your default indentation in your [configuration](#configuration) with the key `default_indent`.
 
-### Maintain the images in headings
+### Preserve images in headings
 
-If you don't want to removing images in headings, please set `remove_image` to `false`.
+If you want to preserve images in headings, set `remove_image` to `false`.
 
 ```
 <!-- MarkdownTOC remove_image="false" -->
@@ -820,9 +820,9 @@ For an overview of the specific behaviour behind an attribute, please refer to t
 - `default_depth`, (see: [Control of depth listed in TOC](#control-of-depth-listed-in-toc))
 - `default_indent`, (see: [Specify custom indentation prefix](#specify-custom-indentation-prefix))
 - `default_list_bullets`, (see: [Customizable list bullets in TOC](#customizable-list-bullets-in-toc))
-- `default_lowercase`, (see: [Do not change case](#do-not-change-case))
+- `default_lowercase`, (see: [Preserve case](#preserve-case))
 - `default_lowercase_only_ascii`, (see: [Lowercase only ASCII characters in auto link ids](#lowercase-only-ascii-characters-in-auto-link-ids))
-- `remove_image`, (see: [Maintain the images in headings](#maintain-the-images-in-headings))
+- `remove_image`, (see: [Preserve images in headings](#maintain-the-images-in-headings))
 - `default_style`, (see: [Ordered or unordered style for TOC elements](#ordered-or-unordered-style-for-toc-elements))
 - `default_uri_encoding`, (see: [URI encoding](#uri-encoding))
 - `default_markdown_preview`, (see: [Markdown Preview compatible](#markdown-preview-compatible))
