@@ -1,6 +1,6 @@
 {
   "tests_dir" : "tests",
-  "pattern" : "*test*.py",
+  "pattern" : "*.py",
   "async": false,
   "deferred": false,
   "verbosity": 2,

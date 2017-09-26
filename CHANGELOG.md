@@ -1,6 +1,11 @@
 Changes in MarkdownTOC
 ===========================
 
+## 2.6.0
+
+- Add `remove_image` parameter. Ref: #43
+- Add `lowercase` parameter. Ref: #40
+
 ## 2.5.0
 
 - Add `Customizable list bullets` feature
