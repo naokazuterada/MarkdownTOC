@@ -10,7 +10,7 @@ Sublime Text 3 plugin for generating a Table of Contents (TOC) in a Markdown doc
 
 ## Table of Contents
 
-<!-- MarkdownTOC autolink="true" bracket="round" depth="0" style="unordered" indent="    " autoanchor="false" -->
+<!-- MarkdownTOC autolink="true" levels="1,2,3,4,5,6" bracket="round" style="unordered" indent="    " autoanchor="false" -->
 
 - [Quick Start](#quick-start)
 - [Features](#features)
@@ -25,7 +25,7 @@ Sublime Text 3 plugin for generating a Table of Contents (TOC) in a Markdown doc
         - [URI encoding](#uri-encoding)
         - [Markdown Preview compatible](#markdown-preview-compatible)
         - [Link Prefix](#link-prefix)
-    - [Control of depth listed in TOC](#control-of-depth-listed-in-toc)
+    - [Control of levels listed in TOC](#control-of-levels-listed-in-toc)
     - [Ordered or unordered style for TOC elements](#ordered-or-unordered-style-for-toc-elements)
     - [Customizable list bullets in TOC](#customizable-list-bullets-in-toc)
     - [Specify custom indentation prefix](#specify-custom-indentation-prefix)
@@ -79,7 +79,7 @@ The **MarkdownTOC** plugin is rich on features and customization, useful for bot
 - Auto link when heading has anchor defined
 - Auto linking for _clickable_ TOC
 - Manipulation of auto link ids
-- Control of depth listed in TOC
+- Control of levels listed in TOC
 - Ordered or unordered style for TOC elements
 - Customizable list bullets in TOC
 - Specify custom indentation prefix
@@ -187,7 +187,7 @@ Updating the TOC can also be accomplished without saving by picking from the men
 The default behaviour could also be described as:
 
 ```markdown
-<!-- MarkdownTOC depth="2" autolink="false" bracket="square" autoanchor="false" style="unordered" indent="\t" -->
+<!-- MarkdownTOC levels="1,2" autolink="false" bracket="square" autoanchor="false" style="unordered" indent="\t" -->
 ```
 
 Please see: [Github Configuration](#github-configuration) for a guideline to configuring **MarkdownTOC** for [Github] use.
@@ -482,7 +482,7 @@ You can also set _prefix_ of links.
 
 You can manipulate this in your [configuration](#configuration) using the key `default_link_prefix`.
 
-### Control of depth listed in TOC
+### Control of levels listed in TOC
 
 ```markdown
 # Heading 1
@@ -500,7 +500,7 @@ Lorem ipsum...
 #### Heading 2
 ```
 
-With default depth:
+With default levels:
 
 ```markdown
 <!-- MarkdownTOC -->
@@ -511,10 +511,10 @@ With default depth:
 <!-- /MarkdownTOC -->
 ```
 
-With depth set to 4:
+With levels set to 1,2,3,4:
 
 ```markdown
-<!-- MarkdownTOC depth="4" -->
+<!-- MarkdownTOC levels="1,2,3,4" -->
 
 - [Heading 1]
   - [Heading 2]
@@ -524,9 +524,9 @@ With depth set to 4:
 <!-- /MarkdownTOC -->
 ```
 
-Please note that the default for the [attribute](#attributes) depth is `2`. Specifying `0` means indefinite and means all heading sizes will be included.
+Please note that the default for the [attribute](#attributes) levels is `"1,2"`. Specifying `"1,2,3,4,5,6"` means all heading sizes will be included.
 
-You can also specify this in your [configuration](#configuration) with key `default_depth`.
+You can also specify this in your [configuration](#configuration) with key `default_levels`.
 
 The maximum size for headings is `6` according to the [Markdown specification][Markdown]
 
@@ -599,7 +599,7 @@ You can set your default style in your [configuration](#configuration) with the 
 You can define the list items used for the TOC for each level. The first item is for the first level, the second for the second and so on until the last one of the list and then it starts over from the beginning.
 
 ```markdown
-<!-- MarkdownTOC list_bullets="-+*" depth="0" -->
+<!-- MarkdownTOC list_bullets="-+*" levels="1,2,3,4,5,6" -->
 
 - foo
   + bar
@@ -753,21 +753,21 @@ Example of [Markdown] heading in a [Markdown] listing, not being included in the
 
 The following attributes can be used to control the generation of the TOC.
 
-| attribute              | values                         | default       | key in configuration/settings  |
-|:---------------------- |:------------------------------ |:------------- |:------------------------------ |
-| `autoanchor`           | `true`or`false`                | `false`       | `default_autoanchor`           |
-| `autolink`             | `true`or`false`                | `false`       | `default_autolink`             |
-| `bracket`              | `square`or`round`              | `"square"`    | `default_bracket`              |
-| `depth`                | integer (`0` means _no limit_) | `2`           | `default_depth`                |
-| `indent`               | string                         | `"\t"`        | `default_indent`               |
-| `link_prefix`          | string                         | `""`          | `default_link_prefix`          |
-| `list_bullets`         | string                         | `"-"`         | `default_list_bullets`         |
-| `lowercase`            | `true`or`false`                | `true`        | `default_lowercase`            |
-| `lowercase_only_ascii` | `true`or`false`                | `true`        | `default_lowercase_only_ascii` |
-| `remove_image`         | `true`or`false`                | `true`        | `default_remove_image`         |
-| `style`                | `ordered` or `unordered`       | `unordered`   | `default_style`                |
-| `uri_encoding`         | `true`or`false`                | `true`        | `default_uri_encoding`         |
-| `markdown_preview`     | `false`or`github`or`markdown`  | `false`       | `default_markdown_preview`     |
+| attribute              | values                         | default     | key in configuration/settings  |
+|:---------------------- |:------------------------------ |:----------- |:------------------------------ |
+| `autoanchor`           | `true`or`false`                | `false`     | `default_autoanchor`           |
+| `autolink`             | `true`or`false`                | `false`     | `default_autolink`             |
+| `bracket`              | `square`or`round`              | `"square"`  | `default_bracket`              |
+| `indent`               | string                         | `"\t"`      | `default_indent`               |
+| `levels`               | string (decimal list separated with `,`)  | `"1,2"`     | `default_levels`                |
+| `link_prefix`          | string                         | `""`        | `default_link_prefix`          |
+| `list_bullets`         | string                         | `"-"`       | `default_list_bullets`         |
+| `lowercase`            | `true`or`false`                | `true`      | `default_lowercase`            |
+| `lowercase_only_ascii` | `true`or`false`                | `true`      | `default_lowercase_only_ascii` |
+| `remove_image`         | `true`or`false`                | `true`      | `default_remove_image`         |
+| `style`                | `ordered` or `unordered`       | `unordered` | `default_style`                |
+| `uri_encoding`         | `true`or`false`                | `true`      | `default_uri_encoding`         |
+| `markdown_preview`     | `false`or`github`or`markdown`  | `false`     | `default_markdown_preview`     |
 
 You can define your own default values via package preferences, [Sublime Text][SublimeText]s way of letting users customize [package settings][SublimeTextSettings]. Please see the [Section on Configuration](#Configuration) for more details for **MarkdownTOC**.
 
@@ -807,8 +807,8 @@ Example: `MarkdownTOC.sublime-settings`
   "default_autoanchor": false,
   "default_autolink": false,
   "default_bracket": "square",
-  "default_depth": 2,
   "default_indent": "\t",
+  "default_levels": "1,2,3,4,5,6",
   "default_link_prefix": "",
   "default_list_bullets": "-",
   "default_lowercase": true,
@@ -837,9 +837,9 @@ For an overview of the specific behaviour behind an attribute, please refer to t
 - `default_autolink`, (see: [Auto linking for _clickable_ TOC](#auto-linking-for-clickable-toc))
 - `default_autoanchor`, (see: [Auto anchoring when heading has anchor defined](#auto-anchoring-when-heading-has-anchor-defined))
 - `default_bracket`, (see: [Auto linking for _clickable_ TOC](#auto-linking-for-clickable-toc))
-- `default_depth`, (see: [Control of depth listed in TOC](#control-of-depth-listed-in-toc))
 - `default_indent`, (see: [Specify custom indentation prefix](#specify-custom-indentation-prefix))
 - `default_link_prefix`, (see: [Link Prefix](#link-prefix))
+- `default_levels`, (see: [Control of levels listed in TOC](#control-of-levels-listed-in-toc))
 - `default_list_bullets`, (see: [Customizable list bullets in TOC](#customizable-list-bullets-in-toc))
 - `default_lowercase`, (see: [Preserve case](#preserve-case))
 - `default_lowercase_only_ascii`, (see: [Lowercase only ASCII characters in auto link ids](#lowercase-only-ascii-characters-in-auto-link-ids))
