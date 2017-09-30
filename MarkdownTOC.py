@@ -258,7 +258,7 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
         if attrs['depth']:
             # WARNING
             url = 'https://github.com/naokazuterada/MarkdownTOC/releases/tag/2.7.0'
-            message = '[MarkdownTOC] <b>OBSOLETE</b> <br>Don\'t use \'depth\' and \'default_depth\' any more. Please use \'levels\' and \'default_levels\' instead.'
+            message = '[MarkdownTOC] <b>OBSOLETE</b> <br>Don\'t use \'depth\' and \'default_depth\' any more, use \'levels\' and \'default_levels\' instead.'
             def open_link(v):
                 webbrowser.open_new(url)
             self.view.show_popup(message+'<br><a href>Instruction</a>', on_navigate=open_link)
