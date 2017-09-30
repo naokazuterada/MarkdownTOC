@@ -638,7 +638,7 @@ You can set your default indentation in your [configuration](#configuration) wit
 
 If you want to preserve images in headings, set `remove_image` to `false`.
 
-```
+```markdown
 <!-- MarkdownTOC remove_image="false" -->
 
 - ![check](check.png) Everything is OK
@@ -650,7 +650,7 @@ If you want to preserve images in headings, set `remove_image` to `false`.
 
 Please note that the default for the [attribute](#attributes) is: `false`.
 
-```
+```markdown
 <!-- MarkdownTOC -->
 
 - Everything is OK
