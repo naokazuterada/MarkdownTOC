@@ -337,7 +337,8 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
             # escape brackets
             _text = self.escape_brackets(_text)
 
-            _id = link_prefix+_id
+            if link_prefix:
+                _id = link_prefix+_id
 
             if _id == None:
                 toc += list_prefix + _text + '\n'
