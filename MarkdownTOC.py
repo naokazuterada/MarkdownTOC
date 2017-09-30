@@ -257,11 +257,11 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
         if attrs['depth']:
             # TODO: Popup and instruction, or link?
             url = 'https://github.com/naokazuterada/MarkdownTOC/releases/tag/2.7.0'
-            message = '[MarkdownTOC] <b>DEPRECATED</b> <br>Don\'t use \'depth\' or \'default_depth\' any more. Please use \'level\' and \'default_level\' instead.'
+            message = '[MarkdownTOC] <b>OBSOLETE</b> <br>Don\'t use \'depth\' or \'default_depth\' any more. Please use \'levels\' and \'default_levels\' instead.'
             def open_link(v):
                 webbrowser.open_new(url)
-            self.view.show_popup(message+'<br><a href>More instruction</a>', on_navigate=open_link)
-            self.error(PATTERN_TAG.sub('', message)+' More info > '+url)
+            self.view.show_popup(message+'<br><a href>Instruction</a>', on_navigate=open_link)
+            self.error(PATTERN_TAG.sub('', message)+' Instruction > '+url)
 
         # Filtering by heading level  ------------------
         accepted_levels = list(map(lambda i: int(i), attrs['levels'].split(",")))
