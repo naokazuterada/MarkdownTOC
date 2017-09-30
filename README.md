@@ -739,10 +739,10 @@ The following attributes can be used to control the generation of the TOC.
 |:---------------------- |:------------------------------ |:------------- |:------------------------------ |
 | `autoanchor`           | `true`or`false`                | `false`       | `default_autoanchor`           |
 | `autolink`             | `true`or`false`                | `false`       | `default_autolink`             |
-| `bracket`              | `square`or`round`              | `square`      | `default_bracket`              |
+| `bracket`              | `square`or`round`              | `"square"`    | `default_bracket`              |
 | `depth`                | integer (`0` means _no limit_) | `2`           | `default_depth`                |
-| `indent`               | string                         | `\t`          | `default_indent`               |
-| `list_bullets`         | string                         | `-`           | `default_list_bullets`         |
+| `indent`               | string                         | `"\t"`        | `default_indent`               |
+| `link_prefix`          | string                         | `""`          | `default_link_prefix`          |
 | `lowercase`            | `true`or`false`                | `true`        | `default_lowercase`            |
 | `lowercase_only_ascii` | `true`or`false`                | `true`        | `default_lowercase_only_ascii` |
 | `remove_image`         | `true`or`false`                | `true`        | `default_remove_image`         |
