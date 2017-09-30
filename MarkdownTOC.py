@@ -7,6 +7,7 @@ import sys
 from urllib.parse import quote
 from bs4 import BeautifulSoup
 import unicodedata
+import webbrowser
 
 # for dbug
 pp = pprint.PrettyPrinter(indent=4)
@@ -255,7 +256,12 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
         # Depth limit  ------------------
         if attrs['depth']:
             # TODO: Popup and instruction, or link?
-            self.error('[DEPRECATED] Please use \'level\' parameter instead of \'depth\'.')
+            url = 'https://github.com/naokazuterada/MarkdownTOC/releases/tag/2.7.0'
+            message = '[MarkdownTOC] <b>DEPRECATED</b> <br>Don\'t use \'depth\' or \'default_depth\' any more. Please use \'level\' and \'default_level\' instead.'
+            def open_link(v):
+                webbrowser.open_new(url)
+            self.view.show_popup(message+'<br><a href>More instruction</a>', on_navigate=open_link)
+            self.error(PATTERN_TAG.sub('', message)+' More info > '+url)
 
         # Filtering by heading level  ------------------
         accepted_levels = list(map(lambda i: int(i), attrs['levels'].split(",")))
