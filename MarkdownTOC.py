@@ -253,9 +253,10 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
         # Shape TOC  ------------------
         items = format(items)
 
+        # TODO: Remove this block in the future release version
         # Depth limit  ------------------
         if attrs['depth']:
-            # TODO: Popup and instruction, or link?
+            # WARNING
             url = 'https://github.com/naokazuterada/MarkdownTOC/releases/tag/2.7.0'
             message = '[MarkdownTOC] <b>OBSOLETE</b> <br>Don\'t use \'depth\' or \'default_depth\' any more. Please use \'levels\' and \'default_levels\' instead.'
             def open_link(v):
