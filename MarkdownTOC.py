@@ -27,7 +27,7 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
         if not self.find_tag_and_insert(edit):
             sels = self.view.sel()
             for sel in sels:
-                attrs = self.get_settings()
+                attrs = self.get_defaults()
 
                 # add TOCTAG
                 toc = "<!-- MarkdownTOC -->\n"
@@ -54,7 +54,7 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
                 toc_open_tag = {"region": toc_open}
 
                 # settings in user settings
-                settings_user = self.get_settings()
+                settings_user = self.get_defaults()
 
                 # settings in tag
                 tag_str = self.view.substr(toc_open)
@@ -376,23 +376,9 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
         settings = sublime.load_settings('MarkdownTOC.sublime-settings')
         return settings.get(attr)
 
-    def get_settings(self):
+    def get_defaults(self):
         """return dict of settings"""
-        return {
-            "autoanchor":           self.get_setting('default_autoanchor'),
-            "autolink":             self.get_setting('default_autolink'),
-            "bracket":              self.get_setting('default_bracket'),
-            "depth":                self.get_setting('default_depth'),
-            "remove_image":         self.get_setting('default_remove_image'),
-            "indent":               self.get_setting('default_indent'),
-            "link_prefix":          self.get_setting('default_link_prefix'),
-            "list_bullets":         self.get_setting('default_list_bullets'),
-            "lowercase":            self.get_setting('default_lowercase'),
-            "lowercase_only_ascii": self.get_setting('default_lowercase_only_ascii'),
-            "style":                self.get_setting('default_style'),
-            "uri_encoding":         self.get_setting('default_uri_encoding'),
-            "markdown_preview":     self.get_setting('default_markdown_preview')
-        }
+        return self.get_setting('defaults')
 
     def get_attibutes_from(self, tag_str):
         """return dict of settings from tag_str"""

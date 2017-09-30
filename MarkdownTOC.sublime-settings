@@ -1,17 +1,19 @@
 {
-  "default_autoanchor": false,
-  "default_autolink": false,
-  "default_bracket": "square",
-  "default_depth": 2,
-  "default_indent": "\t",
-  "default_remove_image": true,
-  "default_link_prefix": "",
-  "default_list_bullets": "-",
-  "default_lowercase": true,
-  "default_lowercase_only_ascii": true,
-  "default_style": "unordered",
-  "default_uri_encoding": true,
-  "default_markdown_preview": false,
+  "defaults": {
+    "autoanchor": false,
+    "autolink": false,
+    "bracket": "square",
+    "depth": 2,
+    "indent": "\t",
+    "remove_image": true,
+    "link_prefix": "",
+    "list_bullets": "-",
+    "lowercase": true,
+    "lowercase_only_ascii": true,
+    "style": "unordered",
+    "uri_encoding": true,
+    "markdown_preview": false
+  },
   "id_replacements": {
     "-": " ",
     "" : ["&lt;","&gt;","&amp;","&apos;","&quot;","&#60;","&#62;","&#38;","&#39;","&#34;","!","#","$","&","'","(",")","*","+",",","/",":",";","=","_","?","@","[","]","`","\"", ".","<",">","{","}","™","®","©"]
