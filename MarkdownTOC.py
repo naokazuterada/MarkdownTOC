@@ -262,6 +262,7 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
         _ids = []
         level_counters = [0]
         remove_image = strtobool(attrs['remove_image'])
+        link_prefix = attrs['link_prefix']
         list_bullets = attrs['list_bullets']
 
         for item in items:
@@ -336,6 +337,8 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
             # escape brackets
             _text = self.escape_brackets(_text)
 
+            _id = link_prefix+_id
+
             if _id == None:
                 toc += list_prefix + _text + '\n'
             elif attrs['bracket'] == 'round':
@@ -381,6 +384,7 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
             "depth":                self.get_setting('default_depth'),
             "remove_image":         self.get_setting('default_remove_image'),
             "indent":               self.get_setting('default_indent'),
+            "link_prefix":          self.get_setting('default_link_prefix'),
             "list_bullets":         self.get_setting('default_list_bullets'),
             "lowercase":            self.get_setting('default_lowercase'),
             "lowercase_only_ascii": self.get_setting('default_lowercase_only_ascii'),
