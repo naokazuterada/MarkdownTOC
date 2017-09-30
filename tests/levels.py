@@ -3,14 +3,14 @@ from base import TestBase
 import sublime
 import sys
 
-class TestLevel(TestBase):
-    """Test of attributes 'level'"""
+class TestLevels(TestBase):
+    """Test of attributes 'levels'"""
 
     # for debug
     # def tearDown(self):
     #     pass
 
-    level_text = \
+    levels_text = \
 """
 
 <!-- MarkdownTOC {0} -->
@@ -31,14 +31,14 @@ class TestLevel(TestBase):
         self.assert_In('- heading 4', toc_txt)
         self.assert_In('- heading 5', toc_txt)
         self.assert_In('- heading 6', toc_txt)
-    def test_level_default(self):
+    def test_levels_default(self):
         """Default is no limit"""
-        toc_txt = self.commonSetup(self.level_text.format(''))
+        toc_txt = self.commonSetup(self.levels_text.format(''))
         self.appear_all_headings(toc_txt)
 
-    def test_level_1(self):
-        """level="1" shows h1 """
-        toc_txt = self.commonSetup(self.level_text.format('level="1"'))
+    def test_levels_1(self):
+        """levels="1" shows h1 """
+        toc_txt = self.commonSetup(self.levels_text.format('levels="1"'))
         self.assert_In('- heading 1', toc_txt)
         self.assert_NotIn('- heading 2', toc_txt)
         self.assert_NotIn('- heading 3', toc_txt)
@@ -46,9 +46,9 @@ class TestLevel(TestBase):
         self.assert_NotIn('- heading 5', toc_txt)
         self.assert_NotIn('- heading 6', toc_txt)
 
-    def test_level_1_2(self):
-        """level="1,2" shows h1,h2 """
-        toc_txt = self.commonSetup(self.level_text.format('level="1,2"'))
+    def test_levels_1_2(self):
+        """levels="1,2" shows h1,h2 """
+        toc_txt = self.commonSetup(self.levels_text.format('levels="1,2"'))
         self.assert_In('- heading 1', toc_txt)
         self.assert_In('- heading 2', toc_txt)
         self.assert_NotIn('- heading 3', toc_txt)
@@ -56,9 +56,9 @@ class TestLevel(TestBase):
         self.assert_NotIn('- heading 5', toc_txt)
         self.assert_NotIn('- heading 6', toc_txt)
 
-    def test_level_1_2_3(self):
-        """level="1,2,3" shows h1,h2,h3 """
-        toc_txt = self.commonSetup(self.level_text.format('level="1,2,3"'))
+    def test_levels_1_2_3(self):
+        """levels="1,2,3" shows h1,h2,h3 """
+        toc_txt = self.commonSetup(self.levels_text.format('levels="1,2,3"'))
         self.assert_In('- heading 1', toc_txt)
         self.assert_In('- heading 2', toc_txt)
         self.assert_In('- heading 3', toc_txt)
@@ -66,9 +66,9 @@ class TestLevel(TestBase):
         self.assert_NotIn('- heading 5', toc_txt)
         self.assert_NotIn('- heading 6', toc_txt)
 
-    def test_level_1_2_3_4(self):
-        """level="1,2,3,4" shows h1,h2,h3,h4 """
-        toc_txt = self.commonSetup(self.level_text.format('level="1,2,3,4"'))
+    def test_levels_1_2_3_4(self):
+        """levels="1,2,3,4" shows h1,h2,h3,h4 """
+        toc_txt = self.commonSetup(self.levels_text.format('levels="1,2,3,4"'))
         self.assert_In('- heading 1', toc_txt)
         self.assert_In('- heading 2', toc_txt)
         self.assert_In('- heading 3', toc_txt)
@@ -76,9 +76,9 @@ class TestLevel(TestBase):
         self.assert_NotIn('- heading 5', toc_txt)
         self.assert_NotIn('- heading 6', toc_txt)
 
-    def test_level_1_2_3_4_5(self):
-        """level="1,2,3,4,5" shows h1,h2,h3,h4,h5 """
-        toc_txt = self.commonSetup(self.level_text.format('level="1,2,3,4,5"'))
+    def test_levels_1_2_3_4_5(self):
+        """levels="1,2,3,4,5" shows h1,h2,h3,h4,h5 """
+        toc_txt = self.commonSetup(self.levels_text.format('levels="1,2,3,4,5"'))
         self.assert_In('- heading 1', toc_txt)
         self.assert_In('- heading 2', toc_txt)
         self.assert_In('- heading 3', toc_txt)
@@ -86,7 +86,7 @@ class TestLevel(TestBase):
         self.assert_In('- heading 5', toc_txt)
         self.assert_NotIn('- heading 6', toc_txt)
 
-    def test_level_1_2_3_4_5_6(self):
-        """level="1,2,3,4,5" shows h1,h2,h3,h4,h5 """
-        toc_txt = self.commonSetup(self.level_text.format('level="1,2,3,4,5,6"'))
+    def test_levels_1_2_3_4_5_6(self):
+        """levels="1,2,3,4,5" shows h1,h2,h3,h4,h5 """
+        toc_txt = self.commonSetup(self.levels_text.format('levels="1,2,3,4,5,6"'))
         self.appear_all_headings(toc_txt)

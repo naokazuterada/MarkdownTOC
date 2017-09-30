@@ -5,7 +5,7 @@
   "default_depth": 2,
   "default_indent": "\t",
   "default_remove_image": true,
-  "default_level": "1,2,3,4,5,6",
+  "default_levels": "1,2,3,4,5,6",
   "default_link_prefix": "",
   "default_list_bullets": "-",
   "default_lowercase": true,

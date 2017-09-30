@@ -258,7 +258,7 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
             self.error('[DEPRECATED] Please use \'level\' parameter instead of \'depth\'.')
 
         # Filtering by heading level  ------------------
-        accepted_levels = list(map(lambda i: int(i), attrs['level'].split(",")))
+        accepted_levels = list(map(lambda i: int(i), attrs['levels'].split(",")))
         items = list(filter((lambda i: i[0] in accepted_levels), items))
 
         # Create TOC  ------------------
@@ -389,7 +389,7 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
             "depth":                self.get_setting('default_depth'),
             "remove_image":         self.get_setting('default_remove_image'),
             "indent":               self.get_setting('default_indent'),
-            "level":                self.get_setting('default_level'),
+            "levels":               self.get_setting('default_levels'),
             "link_prefix":          self.get_setting('default_link_prefix'),
             "list_bullets":         self.get_setting('default_list_bullets'),
             "lowercase":            self.get_setting('default_lowercase'),
