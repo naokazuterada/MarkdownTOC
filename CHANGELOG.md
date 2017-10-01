@@ -1,6 +1,10 @@
 Changes in MarkdownTOC
 ===========================
 
+## 2.7.0
+
+- Add `link_prefix` parameter. Ref: #54
+
 ## 2.6.0
 
 - Add `remove_image` parameter. Ref: #43

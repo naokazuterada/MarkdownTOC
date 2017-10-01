@@ -24,6 +24,7 @@ Sublime Text 3 plugin for generating a Table of Contents (TOC) in a Markdown doc
         - [Manipulation of auto link ids](#manipulation-of-auto-link-ids)
         - [URI encoding](#uri-encoding)
         - [Markdown Preview compatible](#markdown-preview-compatible)
+        - [Link Prefix](#link-prefix)
     - [Control of depth listed in TOC](#control-of-depth-listed-in-toc)
     - [Ordered or unordered style for TOC elements](#ordered-or-unordered-style-for-toc-elements)
     - [Customizable list bullets in TOC](#customizable-list-bullets-in-toc)
@@ -82,6 +83,7 @@ The **MarkdownTOC** plugin is rich on features and customization, useful for bot
 - Ordered or unordered style for TOC elements
 - Customizable list bullets in TOC
 - Specify custom indentation prefix
+- Customizable link prefix
 
 ### Insertion of TOC based on headings in Markdown document
 
@@ -464,6 +466,22 @@ Currently no other parsers are supported.
 If you want to disable this feature, set it to `false`.
 
 
+#### Link Prefix
+
+You can also set _prefix_ of links.
+
+```markdown
+<!-- MarkdownTOC autolink=true link_prefix="user-content-" -->
+
+- [My Heading][user-content-my-heading]
+
+<!-- /MarkdownTOC -->
+
+# My Heading
+```
+
+You can manipulate this in your [configuration](#configuration) using the key `default_link_prefix`.
+
 ### Control of depth listed in TOC
 
 ```markdown
@@ -638,7 +656,7 @@ You can set your default indentation in your [configuration](#configuration) wit
 
 If you want to preserve images in headings, set `remove_image` to `false`.
 
-```
+```markdown
 <!-- MarkdownTOC remove_image="false" -->
 
 - ![check](check.png) Everything is OK
@@ -650,7 +668,7 @@ If you want to preserve images in headings, set `remove_image` to `false`.
 
 Please note that the default for the [attribute](#attributes) is: `false`.
 
-```
+```markdown
 <!-- MarkdownTOC -->
 
 - Everything is OK
@@ -739,10 +757,11 @@ The following attributes can be used to control the generation of the TOC.
 |:---------------------- |:------------------------------ |:------------- |:------------------------------ |
 | `autoanchor`           | `true`or`false`                | `false`       | `default_autoanchor`           |
 | `autolink`             | `true`or`false`                | `false`       | `default_autolink`             |
-| `bracket`              | `square`or`round`              | `square`      | `default_bracket`              |
+| `bracket`              | `square`or`round`              | `"square"`    | `default_bracket`              |
 | `depth`                | integer (`0` means _no limit_) | `2`           | `default_depth`                |
-| `indent`               | string                         | `\t`          | `default_indent`               |
-| `list_bullets`         | string                         | `-`           | `default_list_bullets`         |
+| `indent`               | string                         | `"\t"`        | `default_indent`               |
+| `link_prefix`          | string                         | `""`          | `default_link_prefix`          |
+| `list_bullets`         | string                         | `"-"`         | `default_list_bullets`         |
 | `lowercase`            | `true`or`false`                | `true`        | `default_lowercase`            |
 | `lowercase_only_ascii` | `true`or`false`                | `true`        | `default_lowercase_only_ascii` |
 | `remove_image`         | `true`or`false`                | `true`        | `default_remove_image`         |
@@ -790,6 +809,7 @@ Example: `MarkdownTOC.sublime-settings`
   "default_bracket": "square",
   "default_depth": 2,
   "default_indent": "\t",
+  "default_link_prefix": "",
   "default_list_bullets": "-",
   "default_lowercase": true,
   "default_lowercase_only_ascii": true,
@@ -819,6 +839,7 @@ For an overview of the specific behaviour behind an attribute, please refer to t
 - `default_bracket`, (see: [Auto linking for _clickable_ TOC](#auto-linking-for-clickable-toc))
 - `default_depth`, (see: [Control of depth listed in TOC](#control-of-depth-listed-in-toc))
 - `default_indent`, (see: [Specify custom indentation prefix](#specify-custom-indentation-prefix))
+- `default_link_prefix`, (see: [Link Prefix](#link-prefix))
 - `default_list_bullets`, (see: [Customizable list bullets in TOC](#customizable-list-bullets-in-toc))
 - `default_lowercase`, (see: [Preserve case](#preserve-case))
 - `default_lowercase_only_ascii`, (see: [Lowercase only ASCII characters in auto link ids](#lowercase-only-ascii-characters-in-auto-link-ids))
