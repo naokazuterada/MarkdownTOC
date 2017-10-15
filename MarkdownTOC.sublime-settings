@@ -3,7 +3,7 @@
     "autoanchor": false,
     "autolink": false,
     "bracket": "square",
-    "depth": 2,
+    "levels": "1,2",
     "indent": "\t",
     "remove_image": true,
     "link_prefix": "",

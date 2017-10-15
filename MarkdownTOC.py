@@ -7,6 +7,7 @@ import sys
 from urllib.parse import quote
 from bs4 import BeautifulSoup
 import unicodedata
+import webbrowser
 
 # for dbug
 pp = pprint.PrettyPrinter(indent=4)
@@ -252,10 +253,52 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
         # Shape TOC  ------------------
         items = format(items)
 
+        # TODO: Remove this block in the future release version
         # Depth limit  ------------------
-        _depth = int(attrs['depth'])
-        if 0 < _depth:
-            items = list(filter((lambda i: i[0] <= _depth), items))
+        if attrs['depth']:
+            # WARNING
+            url = 'https://github.com/naokazuterada/MarkdownTOC/releases/tag/2.7.0'
+            message = '[MarkdownTOC] <b>OBSOLETE</b> <br>Don\'t use \'depth\' and \'default_depth\' any more, use \'levels\' and \'default_levels\' instead.'
+            def open_link(v):
+                webbrowser.open_new(url)
+            self.view.show_popup(message+'<br><a href>Instruction</a>', on_navigate=open_link)
+            self.error(PATTERN_TAG.sub('', message)+' Instruction > '+url)
+
+        # Filtering by heading level  ------------------
+        accepted_levels = []
+        # def _parse(_str):
+        #     def _replace(m):
+        #         _range = range(int(m.group(1)),int(m.group(2)))
+        #         return list(_range)
+        #     _PATTERN = re.compile(r'([1-6])-([1-6])')
+        #     accepted_levels.append(re.sub(_PATTERN, _replace, _str))
+        #     return re.sub(_PATTERN, _replace, _str)
+        for _str in attrs['levels'].split(","):
+            # def _replace(m):
+            #     _range = range(int(m.group(1)),int(m.group(2)))
+            #     return list(_range)
+            # _str = re.sub(_PATTERN, _replace, _str)
+
+            _PATTERN = re.compile(r'([1-6])-([1-6])')
+            matches = _PATTERN.finditer(_str)
+            self.log(matches)
+            if matches:
+                self.log('matches !')
+                for m in matches:
+                    _range = range(int(m.group(1)),int(m.group(2)))
+                    accepted_levels.extend(list(_range))
+            else:
+                self.log('matches ____')
+                accepted_levels.extend(int(_str))
+
+
+            # if isinstance(_str, list):
+            #     accepted_levels.extend(_str)
+            # else:
+            #     accepted_levels.append(int(_str))
+            # return re.sub(_PATTERN, _replace, _str)
+        self.log(accepted_levels)
+        # items = list(filter((lambda i: i[0] in accepted_levels), items))
 
         # Create TOC  ------------------
         toc = ''
