@@ -24,6 +24,8 @@ class TestLevels(TestBase):
 ##### heading 5
 ###### heading 6
 """
+    # TODO: test warning if depth is exists in settings
+
     def appear_all_headings(self, toc_txt):
         self.assert_In('- heading 1', toc_txt)
         self.assert_In('- heading 2', toc_txt)
