@@ -16,7 +16,7 @@ PATTERN_EX_ID = re.compile(r'\{#.+?\}$')         # [Heading]{#my-id}
 PATTERN_TAG = re.compile(r'<.*?>')
 PATTERN_ANCHOR = re.compile(r'<a\s+name="[^"]+"\s*>\s*</a>')
 PATTERN_TOC_TAG_START = re.compile(r'<!-- *')
-PATTERN_TOC_TAG_SETTING = re.compile(r'\b(?P<name>[^=]+)=((?P<empty>)|("(?P<quoted>[^"]+)")|(?P<simple>\S+))\s')
+PATTERN_TOC_TAG_SETTING = re.compile(r'\b(?P<name>\w+)=((?P<empty>)|("(?P<quoted>[^"]+)")|(?P<simple>\S+))\s')
 
 TOCTAG_END = "<!-- /MarkdownTOC -->"
 
