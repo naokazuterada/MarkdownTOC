@@ -2,10 +2,6 @@ os:
     - linux
     - osx
 
-sudo: required
-dist: trusty
-group: deprecated-2017Q4
-
 env:
     global:
         - PACKAGE="MarkdownTOC"
@@ -16,7 +12,7 @@ before_install:
     - curl -OL https://raw.githubusercontent.com/randy3k/UnitTesting/master/sbin/travis.sh
 
 install:
-    - sudo pip install coveralls coverage codecov
+    - pip install coveralls coverage codecov
     - sh travis.sh bootstrap
     - sh travis.sh install_package_control
 
