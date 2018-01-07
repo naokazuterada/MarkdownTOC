@@ -1,5 +1,0 @@
-MarkdownTOC - 2.2.1
-
-CHANGES
-
-- Improve heading detecting
