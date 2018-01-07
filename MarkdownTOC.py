@@ -207,7 +207,7 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
                 _substitute = _key
                 _targets = replacements[_key]
                 for _target in _targets:
-                    _str = _str.replace(_target, _substitute)
+                    _str = re.sub(_target, _key, _str)
             return _str
 
 
