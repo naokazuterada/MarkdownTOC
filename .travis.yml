@@ -12,7 +12,7 @@ before_install:
     - curl -OL https://raw.githubusercontent.com/SublimeText/UnitTesting/master/sbin/travis.sh
 
 install:
-    - pip install coveralls coverage codecov
+    - sudo pip install coveralls coverage codecov
     - sh travis.sh bootstrap
     - sh travis.sh install_package_control
 
