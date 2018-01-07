@@ -16,7 +16,6 @@ PATTERN_IMAGE = re.compile(r'!\[([^\]]+)\]\([^\)]+\)') # ![alt](path/to/image.pn
 PATTERN_EX_ID = re.compile(r'\{#.+?\}$')         # [Heading]{#my-id}
 PATTERN_TAG = re.compile(r'<.*?>')
 PATTERN_ANCHOR = re.compile(r'<a\s+name="[^"]+"\s*>\s*</a>')
-PATTERN_TOC_TAG_START = re.compile(r'<!-- *')
 
 TOCTAG_END = "<!-- /MarkdownTOC -->"
 
@@ -397,8 +396,7 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
     def get_attibutes_from(self, tag_str):
         """return dict of settings from tag_str"""
 
-        tag_str_html = PATTERN_TOC_TAG_START.sub("<", tag_str)
-        tag_str_html = PATTERN_TOC_TAG_START.sub(">", tag_str_html)
+        tag_str_html = tag_str.replace('<!-- ', '<').replace(' -->', '>')
 
         soup = BeautifulSoup(tag_str_html, "html.parser")
 
