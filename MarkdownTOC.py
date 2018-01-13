@@ -7,7 +7,7 @@ import sys
 from urllib.parse import quote
 import unicodedata
 
-# for dbug
+# for debug
 pp = pprint.PrettyPrinter(indent=4)
 
 PATTERN_REFERENCE_LINK = re.compile(r'\[.+?\]$') # [Heading][my-id]
