@@ -12,9 +12,15 @@
   "default_style": "unordered",
   "default_uri_encoding": true,
   "default_markdown_preview": false,
-  "id_replacements": {
-    "-": " ",
-    "" : ["&lt;","&gt;","&amp;","&apos;","&quot;","&#60;","&#62;","&#38;","&#39;","&#34;","!","#","$","&","'","(",")","*","+",",","/",":",";","=","_","?","@","[","]","`","\"", ".","<",">","{","}","™","®","©"]
-  },
+  "id_replacements": [
+    {
+      "pattern": "\\s+",
+      "replacement": "-"
+    },
+    {
+      "pattern": "&lt;|&gt;|&amp;|&apos;|&quot;|&#60;|&#62;|&#38;|&#39;|&#34;|!|#|$|&|'|\\(|\\)|\\*|\\+|,|/|:|;|=|_|\\?|@|\\[|\\]|`|\"|\\.|<|>|{|}|™|®|©",
+      "replacement": ""
+    }
+  ],
   "logging": false
 }
