@@ -13,7 +13,7 @@ class TestListBullets(TestBase):
     list_bullets_text = \
 """
 
-<!-- MarkdownTOC depth=0 {0} -->
+<!-- MarkdownTOC levels="1,2,3,4,5,6" {0} -->
 
 <!-- /MarkdownTOC -->
 
