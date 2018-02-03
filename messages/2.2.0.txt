@@ -1,9 +1,0 @@
-MarkdownTOC - 2.2.0
-
-CHANGES
-
-- Add 'logging' option in 'Package Settings'
-
-NOTICE
-
-If you are developper, please this option `true` to enable logging in console.

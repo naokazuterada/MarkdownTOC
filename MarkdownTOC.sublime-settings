@@ -4,9 +4,14 @@
   "default_bracket": "square",
   "default_depth": 2,
   "default_indent": "\t",
+  "default_remove_image": true,
+  "default_link_prefix": "",
+  "default_list_bullets": "-",
+  "default_lowercase": true,
   "default_lowercase_only_ascii": true,
   "default_style": "unordered",
   "default_uri_encoding": true,
+  "default_markdown_preview": false,
   "id_replacements": {
     "-": " ",
     "" : ["&lt;","&gt;","&amp;","&apos;","&quot;","&#60;","&#62;","&#38;","&#39;","&#34;","!","#","$","&","'","(",")","*","+",",","/",":",";","=","_","?","@","[","]","`","\"", ".","<",">","{","}","™","®","©"]

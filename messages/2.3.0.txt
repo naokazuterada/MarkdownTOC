@@ -1,6 +1,0 @@
-MarkdownTOC - 2.3.0
-
-CHANGES
-
-- Add 'URI encoding' feature
-- Change 'default_lowercase_only_ascii' default value ('false' to 'true') because it breaks link in Russian

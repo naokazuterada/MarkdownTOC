@@ -1,6 +1,39 @@
 Changes in MarkdownTOC
 ===========================
 
+## 2.7.1
+
+- Drop BeautifulSoup dependency. Ref: #111
+  Contribution by @ziembla
+
+## 2.7.0
+
+- Add `link_prefix` parameter. Ref: #54
+
+## 2.6.0
+
+- Add `remove_image` parameter. Ref: #43
+- Add `lowercase` parameter. Ref: #40
+
+## 2.5.0
+
+- Add `Customizable list bullets` feature
+
+## 2.4.1
+
+- Fix problem that user's settings doesn't work. Ref: #100
+- Fix problem that characters inside codeblock is also escaped. Ref: #64
+  Contribution by Mathieu PATUREL ( @math2001 ). Ref: #101
+
+## 2.4.0
+
+- Support MarkdownPreview's anchoring
+
+## 2.3.2
+
+- Fix the way of import dependencies
+- Add code coverage on redame
+
 ## 2.3.1
 
 - Allow indentation of blockquates

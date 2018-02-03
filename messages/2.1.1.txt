@@ -1,8 +1,0 @@
-MarkdownTOC - 2.1.1
-
-CHANGES
-
-- Improved ATX headings
-    - Extra spaces processing in headings
-    - Removing of closing sequence of # characters
-- Allow not only chars but strings in id_replacement

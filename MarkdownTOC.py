@@ -3,23 +3,20 @@ import sublime_plugin
 import re
 import os.path
 import pprint
+import sys
 from urllib.parse import quote
-from .bs4 import BeautifulSoup
+import unicodedata
 
-# for dbug
+# for debug
 pp = pprint.PrettyPrinter(indent=4)
 
-pattern_reference_link = re.compile(r'\[.+?\]$') # [Heading][my-id]
-pattern_link = re.compile(r'\[(.+?)\]\(.+?\)')  # [link](http://www.sample.com/)
-pattern_ex_id = re.compile(r'\{#.+?\}$')         # [Heading]{#my-id}
-pattern_tag = re.compile(r'<.*?>')
-pattern_anchor = re.compile(r'<a\s+name="[^"]+"\s*>\s*</a>')
-pattern_toc_tag_start = re.compile(r'<!-- *')
-pattern_toc_tag_end = re.compile(r'-->')
+PATTERN_REFERENCE_LINK = re.compile(r'\[.+?\]$') # [Heading][my-id]
+PATTERN_IMAGE = re.compile(r'!\[([^\]]+)\]\([^\)]+\)') # ![alt](path/to/image.png)
+PATTERN_EX_ID = re.compile(r'\{#.+?\}$')         # [Heading]{#my-id}
+PATTERN_TAG = re.compile(r'<.*?>')
+PATTERN_ANCHOR = re.compile(r'<a\s+name="[^"]+"\s*>\s*</a>')
+PATTERN_TOC_TAG_SETTING = re.compile(r'\b(?P<name>\w+)=((?P<empty>)|(\'(?P<quoted>[^\']+)\')|("(?P<dquoted>[^"]+)")|(?P<simple>\S+))\s')
 
-pattern_h1_h2_equal_dash = "^.*?(?:(?:\r\n)|\n|\r)(?:-+|=+)$"
-
-TOCTAG_START = "<!-- MarkdownTOC -->"
 TOCTAG_END = "<!-- /MarkdownTOC -->"
 
 class MarkdowntocInsert(sublime_plugin.TextCommand):
@@ -32,7 +29,7 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
                 attrs = self.get_settings()
 
                 # add TOCTAG
-                toc = TOCTAG_START + "\n"
+                toc = "<!-- MarkdownTOC -->\n"
                 toc += "\n"
                 toc += self.get_toc(attrs, sel.end(), edit)
                 toc += "\n"
@@ -102,13 +99,123 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
         self.log('cannot find TOC tags')
         return False
 
+    def escape_brackets(self, _text):
+        # Escape brackets which not in image and codeblock
+
+        def do_escape(_text, _pattern, _open, _close):
+            images = []
+            brackets = []
+            codes = []
+            for m in re.compile(r'`[^`]*`').finditer(_text):
+                codes.append([m.start(), m.end()])
+            def not_in_codeblock(target):
+                return not within_ranges(target, codes)
+            def not_in_image(target):
+                return not within_ranges(target, images)
+            # Collect images not in codeblock
+            for m in PATTERN_IMAGE.finditer(_text):
+                images.append([m.start(), m.end()])
+            images = list(filter(not_in_codeblock, images))
+            # Collect brackets not in image tags
+            for m in _pattern.finditer(_text):
+                brackets.append([m.start(), m.end()])
+            brackets = list(filter(not_in_image, brackets))
+            brackets = list(filter(not_in_codeblock, brackets))
+            brackets = list(map((lambda x: x[0]), brackets))
+            # Escape brackets
+            def replace_brackets(m):
+                if m.start() in brackets:
+                    return _open+m.group(1)+_close
+                else:
+                    return m.group(0)
+            return re.sub(_pattern, replace_brackets, _text)
+
+        _text = do_escape(_text, re.compile(r'\[([^\]]*)\]'), '\[', '\]')
+        _text = do_escape(_text, re.compile(r'\(([^\)]*)\)'), '\(', '\)')
+
+        return _text
+
     # TODO: add "end" parameter
     def get_toc(self, attrs, begin, edit):
 
+        # from MarkdownPreview
+        def slugify(value, separator):
+            """ Slugify a string, to make it URL friendly. """
+            value = unicodedata.normalize('NFKD', value).encode('ascii', 'ignore')
+            value = re.sub('[^\w\s-]', '', value.decode('ascii')).strip().lower()
+            return re.sub('[%s\s]+' % separator, separator, value)
+
+        # from MarkdownPreview
+        def postprocess_inject_header_id(html):
+            """ Insert header ids when no anchors are present """
+            unique = {}
+
+            def header_to_id(text):
+                if text is None:
+                    return ''
+                # Strip html tags and lower
+                id = RE_TAGS.sub('', text).lower()
+                # Remove non word characters or non spaces and dashes
+                # Then convert spaces to dashes
+                id = RE_WORD.sub('', id).replace(' ', '-')
+                # Encode anything that needs to be
+                return quote(id)
+
+            def inject_id(m):
+                id = header_to_id(m.group('text'))
+                if id == '':
+                    return m.group(0)
+                # Append a dash and number for uniqueness if needed
+                value = unique.get(id, None)
+                if value is None:
+                    unique[id] = 1
+                else:
+                    unique[id] += 1
+                    id += "-%d" % value
+                return m.group('open')[:-1] + (' id="%s">' % id) + m.group('text') + m.group('close')
+
+            RE_TAGS = re.compile(r'''</?[^>]*>''')
+            RE_WORD = re.compile(r'''[^\w\- ]''')
+            RE_HEADER = re.compile(r'''(?P<open><h([1-6])>)(?P<text>.*?)(?P<close></h\2>)''', re.DOTALL)
+
+            return RE_HEADER.sub(inject_id, html)
+
+        def heading_to_id(heading):
+            if heading is None:
+                return ''
+            if attrs['markdown_preview'] == 'github':
+                _h1 = postprocess_inject_header_id('<h1>%s</h1>' % heading)
+                pattern = r'<h1 id="(.*)">.*</h1>'
+                matchs = re.finditer(pattern, _h1)
+                for match in matchs:
+                    return match.groups()[0]
+            elif attrs['markdown_preview'] == 'markdown':
+                return slugify(heading, '-')
+            else:
+                if not strtobool(attrs['lowercase']):
+                    _id = heading
+                elif strtobool(attrs['lowercase_only_ascii']):
+                    # only ascii
+                    _id = ''.join(chr(ord(x)+('A'<=x<='Z')*32) for x in heading)
+                else:
+                    _id = heading.lower()
+                return replace_strings_in_id(_id)
+
+        def replace_strings_in_id(_str):
+            replacements = self.get_setting('id_replacements')
+            for _key in replacements:
+                _substitute = _key
+                _targets = replacements[_key]
+                for _target in _targets:
+                    _str = _str.replace(_target, _substitute)
+            return _str
+
+
         # Search headings in docment
         pattern_hash = "^#+?[^#]"
-        headings = self.view.find_all(
-            "%s|%s" % (pattern_h1_h2_equal_dash, pattern_hash))
+        pattern_h1_h2_equal_dash = "^.*?(?:(?:\r\n)|\n|\r)(?:-+|=+)$"
+        pattern_heading = "%s|%s" % (pattern_h1_h2_equal_dash, pattern_hash)
+        headings = self.view.find_all(pattern_heading)
 
         headings = self.remove_items_in_codeblock(headings)
 
@@ -127,7 +234,11 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
                     indent = heading.size() - 1
                     items.append([indent, text, heading.begin()])
                 elif len(lines) == 2:
-                    # handle - or + headings, Title 1==== section1----
+                    # handle = or - headings
+                    # Title 1
+                    # ====
+                    # section1
+                    # ----
                     text = self.view.substr(lines[0])
                     if text.strip():
                         indent = 1 if (
@@ -149,16 +260,43 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
         toc = ''
         _ids = []
         level_counters = [0]
+        remove_image = strtobool(attrs['remove_image'])
+        link_prefix = attrs['link_prefix']
+        list_bullets = attrs['list_bullets']
 
         for item in items:
             _id = None
             _indent = item[0] - 1
             _text = item[1]
-            _text = pattern_tag.sub('', _text) # remove html tags
-            _text = _text.rstrip() # remove end space
+            if remove_image:
+                # Remove markdown image which not in codeblock
+                images = []
+                codes = []
+                for m in re.compile(r'`[^`]*`').finditer(_text):
+                    codes.append([m.start(), m.end()])
+                def not_in_codeblock(_target):
+                    return not within_ranges(_target, codes)
+                # Collect images not in codeblock
+                for m in PATTERN_IMAGE.finditer(_text):
+                    images.append([m.start(), m.end()])
+                images = list(filter(not_in_codeblock, images))
+                images = list(map((lambda x: x[0]), images))
+                def _replace(m):
+                    if m.start() in images:
+                        return ''
+                    else:
+                        return m.group(0)
+                _text = re.sub(PATTERN_IMAGE, _replace, _text)
+
+            _list_bullet = list_bullets[_indent%len(list_bullets)]
+            _text = PATTERN_TAG.sub('', _text) # remove html tags
+            _text = _text.strip() # remove start and end spaces
 
             # Ignore links: e.g. '[link](http://sample.com/)' -> 'link'
-            _text = pattern_link.sub('\\1', _text)
+            link = re.compile(r'([^!])\[([^\]]+)\]\([^\)]+\)') # this is [link](http://www.sample.com/)
+            _text = link.sub('\\1\\2', _text)
+            beginning_link = re.compile(r'^\[([^\]]+)\]\([^\)]+\)') # [link](http://www.sample.com/) link in the beginning of line
+            _text = beginning_link.sub('\\1', _text)
 
             # Add indent
             for i in range(_indent):
@@ -168,10 +306,10 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
                 toc += _prefix
 
             # Reference-style links: e.g. '# heading [my-anchor]'
-            list_reference_link = list(pattern_reference_link.finditer(_text))
+            list_reference_link = list(PATTERN_REFERENCE_LINK.finditer(_text))
 
             # Markdown-Extra special attribute style: e.g. '# heading {#my-anchor}'
-            match_ex_id = pattern_ex_id.search(_text)
+            match_ex_id = PATTERN_EX_ID.search(_text)
 
             if len(list_reference_link):
                 match = list_reference_link[-1]
@@ -181,14 +319,7 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
                 _text = _text[0:match_ex_id.start()].rstrip()
                 _id = match_ex_id.group().replace('{#','').replace('}','')
             elif strtobool(attrs['autolink']):
-
-                if strtobool(attrs['lowercase_only_ascii']):
-                    # only ascii
-                    _lower_text = ''.join(chr(ord(x)+('A'<=x<='Z')*32) for x in _text)
-                else:
-                    _lower_text = _text.lower()
-                _id = self.replace_strings_in_id(_lower_text)
-
+                _id = heading_to_id(_text)
                 if strtobool(attrs['uri_encoding']):
                     _id = quote(_id)
 
@@ -198,16 +329,15 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
                     _id += '-' + str(n-1)
 
             if attrs['style'] == 'unordered':
-                list_prefix = '- '
+                list_prefix = _list_bullet+' '
             elif attrs['style'] == 'ordered':
                 list_prefix = '1. '
 
             # escape brackets
-            _text = _text\
-                        .replace('(','\(')\
-                        .replace(')','\)')\
-                        .replace('[','\[')\
-                        .replace(']','\]')
+            _text = self.escape_brackets(_text)
+
+            if link_prefix:
+                _id = link_prefix+_id
 
             if _id == None:
                 toc += list_prefix + _text + '\n'
@@ -228,7 +358,7 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
         # Iterate in reverse so that inserts don't affect the position
         for item in reversed(items):
             anchor_region = v.line(item[2] - 1)  # -1 to get to previous line
-            is_update = pattern_anchor.match(v.substr(anchor_region))
+            is_update = PATTERN_ANCHOR.match(v.substr(anchor_region))
             if autoanchor:
                 if is_update:
                     new_anchor = '<a name="{0}"></a>'.format(item[3])
@@ -252,21 +382,23 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
             "autolink":             self.get_setting('default_autolink'),
             "bracket":              self.get_setting('default_bracket'),
             "depth":                self.get_setting('default_depth'),
+            "remove_image":         self.get_setting('default_remove_image'),
             "indent":               self.get_setting('default_indent'),
+            "link_prefix":          self.get_setting('default_link_prefix'),
+            "list_bullets":         self.get_setting('default_list_bullets'),
+            "lowercase":            self.get_setting('default_lowercase'),
             "lowercase_only_ascii": self.get_setting('default_lowercase_only_ascii'),
             "style":                self.get_setting('default_style'),
-            "uri_encoding":           self.get_setting('default_uri_encoding')
+            "uri_encoding":         self.get_setting('default_uri_encoding'),
+            "markdown_preview":     self.get_setting('default_markdown_preview')
         }
 
     def get_attibutes_from(self, tag_str):
         """return dict of settings from tag_str"""
-
-        tag_str_html = pattern_toc_tag_start.sub("<", tag_str)
-        tag_str_html = pattern_toc_tag_start.sub(">", tag_str_html)
-
-        soup = BeautifulSoup(tag_str_html, "html.parser")
-
-        return soup.find('markdowntoc').attrs
+        return dict(
+            (m.group("name"), m.group("simple") or m.group("dquoted") or m.group("quoted") or m.group("empty"))
+            for m in PATTERN_TOC_TAG_SETTING.finditer(tag_str)
+        )
 
     def remove_items_in_codeblock(self, items):
 
@@ -283,20 +415,15 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
         items = [h for h in items if is_out_of_areas(h.begin(), codeblockAreas)]
         return items
 
-    def replace_strings_in_id(self, _str):
-        replacements = self.get_setting('id_replacements')
-        for _key in replacements:
-            _substitute = _key
-            _targets = replacements[_key]
-            for _target in _targets:
-                _str = _str.replace(_target, _substitute)
-        return _str
-
     def log(self, arg):
         if self.get_setting('logging') == True:
             arg = str(arg)
             sublime.status_message(arg)
             pp.pprint(arg)
+    def error(self, arg):
+        arg = str(arg)
+        sublime.status_message(arg)
+        pp.pprint(arg)
 
 def is_out_of_areas(num, areas):
     for area in areas:
@@ -335,7 +462,15 @@ def strtobool(val):
     else:
         return bool(val)
 
-
+def within_ranges(target, ranges):
+    tb = target[0]
+    te = target[1]
+    for _range in ranges:
+        rb = _range[0]
+        re = _range[1]
+        if (rb <= tb and tb <= re) and (rb <= tb and tb <= re):
+            return True
+    return False
 # Search and refresh if it's exist
 
 
