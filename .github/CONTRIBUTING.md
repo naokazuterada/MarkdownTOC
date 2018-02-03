@@ -13,12 +13,12 @@ File an issue if you think you've found a bug. Please describe
 
 ### Way of operation
 
-1. We close these issues
+1. The contributors will `Close` these Issues or PR
     1. Not accepted feature request
         - Add `wontfix` label
     2. Not obvious and Not responding
         - Not obvious: Problem is not obvious, or not reproduced.
-        - Not responding: Author doesn't respond in a week.
+        - Not responding: Author doesn't respond in 3 weeks.
 
 ## Patches
 
