@@ -1,6 +1,11 @@
 Changes in MarkdownTOC
 ===========================
 
+## 2.7.1
+
+- Drop BeautifulSoup dependency. Ref: #111
+  Contribution by @ziembla
+
 ## 2.7.0
 
 - Add `link_prefix` parameter. Ref: #54

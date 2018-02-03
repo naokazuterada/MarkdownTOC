@@ -5,11 +5,10 @@ import os.path
 import pprint
 import sys
 from urllib.parse import quote
-from bs4 import BeautifulSoup
 import unicodedata
 import webbrowser
 
-# for dbug
+# for debug
 pp = pprint.PrettyPrinter(indent=4)
 
 PATTERN_REFERENCE_LINK = re.compile(r'\[.+?\]$') # [Heading][my-id]
@@ -17,7 +16,7 @@ PATTERN_IMAGE = re.compile(r'!\[([^\]]+)\]\([^\)]+\)') # ![alt](path/to/image.pn
 PATTERN_EX_ID = re.compile(r'\{#.+?\}$')         # [Heading]{#my-id}
 PATTERN_TAG = re.compile(r'<.*?>')
 PATTERN_ANCHOR = re.compile(r'<a\s+name="[^"]+"\s*>\s*</a>')
-PATTERN_TOC_TAG_START = re.compile(r'<!-- *')
+PATTERN_TOC_TAG_SETTING = re.compile(r'\b(?P<name>\w+)=((?P<empty>)|(\'(?P<quoted>[^\']+)\')|("(?P<dquoted>[^"]+)")|(?P<simple>\S+))\s')
 
 TOCTAG_END = "<!-- /MarkdownTOC -->"
 
@@ -425,13 +424,10 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
 
     def get_attibutes_from(self, tag_str):
         """return dict of settings from tag_str"""
-
-        tag_str_html = PATTERN_TOC_TAG_START.sub("<", tag_str)
-        tag_str_html = PATTERN_TOC_TAG_START.sub(">", tag_str_html)
-
-        soup = BeautifulSoup(tag_str_html, "html.parser")
-
-        return soup.find('markdowntoc').attrs
+        return dict(
+            (m.group("name"), m.group("simple") or m.group("dquoted") or m.group("quoted") or m.group("empty"))
+            for m in PATTERN_TOC_TAG_SETTING.finditer(tag_str)
+        )
 
     def remove_items_in_codeblock(self, items):
 
