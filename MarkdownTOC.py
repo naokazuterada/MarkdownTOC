@@ -254,7 +254,7 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
 
         # TODO: Remove this block in the future release version
         # Depth limit  ------------------
-        if attrs['depth']:
+        if hasattr(attrs, 'depth'):
             # WARNING
             url = 'https://github.com/naokazuterada/MarkdownTOC/releases/tag/2.7.0'
             message = '[MarkdownTOC] <b>OBSOLETE</b> <br>Don\'t use \'depth\' and \'default_depth\' any more, use \'levels\' and \'default_levels\' instead.'
