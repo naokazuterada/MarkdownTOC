@@ -361,15 +361,22 @@ You can manipulate your link ids in your [configuration](#configuration) using t
 
 ```json
 {
-  "id_replacements": {
-    "-": " ",
-    "" : ["&lt;","&gt;","&amp;","&apos;","&quot;","&#60;","&#62;","&#38;","&#39;","&#34;","!","#","$","&","'","(",")","*","+",",","/",":",";","=","?","@","[","]","`","\"", ".","<",">","{","}","™","®","©"]
-  }
+  "id_replacements": [
+    {
+      "pattern": "\\s+",
+      "replacement": "-"
+    },
+    {
+      "pattern": "!|#|$|&|'|\\(|\\)|\\*|\\+|,|/|:|;|=|_|\\?|@|\\[|\\]|`|\"|\\.|<|>|{|}|™|®|©|&lt;|&gt;|&amp;|&apos;|&quot;|&#60;|&#62;|&#38;|&#39;|&#34;",
+      "replacement": ""
+    }
+  ]
 }
 ```
 
-1. The set specified as values string(s) will be replaced with the key string.
-1. The replacement sequence executes from top to bottom and left to right
+1. Regular expression is allowed in each sets
+    - It will be simply expanded into python's `re.sub(pattern, replacement, id)`
+1. The replacement sequence executes from top to bottom
 
 An example:
 
@@ -814,19 +821,25 @@ Example: `MarkdownTOC.sublime-settings`
     "bracket": "square",
     "levels": "1,2,3,4,5,6",
     "indent": "\t",
+    "remove_image": true,
     "link_prefix": "",
     "list_bullets": "-",
     "lowercase": true,
     "lowercase_only_ascii": true,
-    "remove_image": true,
     "style": "unordered",
     "uri_encoding": true,
-    "markdown_preview": false,
+    "markdown_preview": false
   },
-  "id_replacements": {
-    "-": " ",
-    "" : ["&lt;","&gt;","&amp;","&apos;","&quot;","&#60;","&#62;","&#38;","&#39;","&#34;","!","#","$","&","'","(",")","*","+",",","/",":",";","=","?","@","[","]","`","\"", ".","<",">","{","}","™","®","©"]
-  }
+  "id_replacements": [
+    {
+      "pattern": "\\s+",
+      "replacement": "-"
+    },
+    {
+      "pattern": "&lt;|&gt;|&amp;|&apos;|&quot;|&#60;|&#62;|&#38;|&#39;|&#34;|!|#|$|&|'|\\(|\\)|\\*|\\+|,|/|:|;|=|_|\\?|@|\\[|\\]|`|\"|\\.|<|>|{|}|™|®|©",
+      "replacement": ""
+    }
+  ]
 }
 ```
 

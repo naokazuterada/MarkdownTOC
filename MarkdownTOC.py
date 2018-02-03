@@ -10,6 +10,7 @@ import webbrowser
 
 # for debug
 pp = pprint.PrettyPrinter(indent=4)
+
 # [Heading][my-id]
 PATTERN_REFERENCE_LINK = re.compile(r'\[.+?\]$')
 # ![alt](path/to/image.png)
@@ -214,12 +215,8 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
                 return replace_strings_in_id(_id)
 
         def replace_strings_in_id(_str):
-            replacements = self.get_setting('id_replacements')
-            for _key in replacements:
-                _substitute = _key
-                _targets = replacements[_key]
-                for _target in _targets:
-                    _str = _str.replace(_target, _substitute)
+            for group in self.get_setting('id_replacements'):
+                _str = re.sub(group['pattern'], group['replacement'], _str)
             return _str
 
         # Search headings in docment
