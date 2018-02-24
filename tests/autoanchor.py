@@ -39,7 +39,7 @@ class TestAutoanchor(TestBase):
         self.assert_In('<a id="Changelog"></a>\n# Changelog', body_txt)
         self.assert_In('<a id="Glossary"></a>\n# Glossary', body_txt)
         self.assert_In(
-            '<a id="API Specification"></a>\n# API Specification',
+            '<a id="API-Specification"></a>\n# API Specification',
             body_txt)
 
     def test_autoanchor_false(self):
