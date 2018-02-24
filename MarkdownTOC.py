@@ -12,6 +12,22 @@ from urllib.parse import quote
 # for debug
 pp = pprint.PrettyPrinter(indent=4)
 
+TYPES = {
+        'autoanchor': bool,
+        'autolink': bool,
+        'bracket': str,
+        'levels': list,
+        'indent': str,
+        'remove_image': bool,
+        'link_prefix': str,
+        'bullets': list,
+        'lowercase': bool,
+        'lowercase_only_ascii': bool,
+        'style': str,
+        'uri_encoding': bool,
+        'markdown_preview': str
+    }
+
 # [Heading][my-id]
 PATTERN_REFERENCE_LINK = re.compile(r'\[.+?\]$')
 # ![alt](path/to/image.png)
@@ -22,7 +38,6 @@ PATTERN_TAG = re.compile(r'<.*?>')
 PATTERN_ANCHOR = re.compile(r'<a\s+id="[^"]+"\s*>\s*</a>')
 
 TOCTAG_END = "<!-- /MarkdownTOC -->"
-
 
 class MarkdowntocInsert(sublime_plugin.TextCommand):
 
@@ -429,11 +444,11 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
             for m in pattern.finditer(tag_str)
         )
 
-        # parse
-        if 'levels' in attr:
-            attr['levels'] = attr['levels'].split(',')
-        if 'bullets' in attr:
-            attr['bullets'] = attr['bullets'].split(',')
+        # parse list
+        attrs_of_list = list(k for k,v in TYPES.items() if v == list)
+        for key in attrs_of_list:
+            if key in attr:
+                attr[key] = attr[key].split(',')
 
         return attr
 
