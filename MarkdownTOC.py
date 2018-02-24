@@ -20,8 +20,6 @@ PATTERN_IMAGE = re.compile(r'!\[([^\]]+)\]\([^\)]+\)')
 PATTERN_EX_ID = re.compile(r'\{#.+?\}$')
 PATTERN_TAG = re.compile(r'<.*?>')
 PATTERN_ANCHOR = re.compile(r'<a\s+id="[^"]+"\s*>\s*</a>')
-PATTERN_TOC_TAG_SETTING = re.compile(
-    r'\b(?P<name>\w+)=((?P<empty>)|(\'(?P<quoted>[^\']+)\')|("(?P<dquoted>[^"]+)")|(?P<simple>\S+))\s')
 
 TOCTAG_END = "<!-- /MarkdownTOC -->"
 
@@ -420,10 +418,12 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
 
     def get_attibutes_from(self, tag_str):
         """return dict of settings from tag_str"""
+        pattern = re.compile(
+            r'\b(?P<name>\w+)=((?P<empty>)|(\'(?P<quoted>[^\']+)\')|("(?P<dquoted>[^"]+)")|(?P<simple>\S+))\s')
         return dict(
             (m.group("name"), m.group("simple") or m.group(
                 "dquoted") or m.group("quoted") or m.group("empty"))
-            for m in PATTERN_TOC_TAG_SETTING.finditer(tag_str)
+            for m in pattern.finditer(tag_str)
         )
 
     def remove_items_in_codeblock(self, items):
