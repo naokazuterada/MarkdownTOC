@@ -220,7 +220,7 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
                 return replace_strings_in_id(_id)
 
         def replace_strings_in_id(_str):
-            for group in self.get_setting('id_replacements'):
+            for group in self.get_settings('id_replacements'):
                 _str = re.sub(group['pattern'], group['replacement'], _str)
             return _str
 
@@ -410,13 +410,13 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
                             anchor_region.begin(),
                             anchor_region.end() + 1))
 
-    def get_setting(self, attr):
+    def get_settings(self, attr):
         settings = sublime.load_settings('MarkdownTOC.sublime-settings')
         return settings.get(attr)
 
     def get_defaults(self):
         """return dict of settings"""
-        return self.get_setting('defaults')
+        return self.get_settings('defaults')
 
     def get_attibutes_from(self, tag_str):
         """return dict of settings from tag_str"""
@@ -445,7 +445,7 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
         return items
 
     def log(self, arg):
-        if self.get_setting('logging') == True:
+        if self.get_settings('logging') == True:
             arg = str(arg)
             sublime.status_message(arg)
             pp.pprint(arg)
