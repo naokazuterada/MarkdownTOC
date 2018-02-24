@@ -1,17 +1,23 @@
 environment:
-    global:
-        PACKAGE: "MarkdownTOC"
-    matrix:
-        - SUBLIME_TEXT_VERSION : "3"
+    # The package name
+    PACKAGE: "MarkdownTOC"
+    SUBLIME_TEXT_VERSION : "3"
 
 install:
-    - ps: start-filedownload "https://raw.githubusercontent.com/randy3k/UnitTesting/master/sbin/appveyor.ps1"
+    - ps: appveyor DownloadFile "https://raw.githubusercontent.com/SublimeText/UnitTesting/master/sbin/appveyor.ps1"
     - ps: .\appveyor.ps1 "bootstrap" -verbose
-    - ps: .\appveyor.ps1 "install_package_control" -verbose
+    # install Package Control
+    # - ps: .\appveyor.ps1 "install_package_control" -verbose
 
 build: off
 
 test_script:
-    - ps: .\appveyor.ps1 "run_tests" -verbose
-    # testing syntax_test files
-    # - ps: .\appveyor.ps1 "run_syntax_tests" -verbose
+
+    # run tests with test coverage report
+    - ps: .\appveyor.ps1 "run_tests" -coverage -verbose
+
+after_test:
+    - "SET PYTHON=C:\\Python33"
+    - "SET PATH=%PYTHON%;%PYTHON%\\Scripts;%PATH%"
+    - pip install codecov
+    - codecov
