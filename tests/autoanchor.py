@@ -12,7 +12,45 @@ class TestAutoanchor(TestBase):
     # def tearDown(self):
     #     pass
 
-    autoanchor_text = \
+    text = \
+        """
+
+<!-- MarkdownTOC {0} -->
+
+<!-- /MarkdownTOC -->
+
+# Changelog
+# Glossary
+# API Specification
+"""
+
+    def test_autoanchor_default(self):
+        """autoanchor is 'false' in default"""
+        body_txt = self.commonSetupAndUpdateGetBody(
+            self.text_with_autolink_true.format(''))
+        self.assert_NotIn('<a id="changelog"></a>\n# Changelog', body_txt)
+        self.assert_NotIn('<a id="glossary"></a>\n# Glossary', body_txt)
+        self.assert_NotIn('<a id="api-specification"></a>', body_txt)
+
+    def test_autoanchor_true(self):
+        """If autoanchor is 'true' then added anchor"""
+        body_txt = self.commonSetupAndUpdateGetBody(
+            self.text.format('autoanchor=true'))
+        self.assert_In('<a id="Changelog"></a>\n# Changelog', body_txt)
+        self.assert_In('<a id="Glossary"></a>\n# Glossary', body_txt)
+        self.assert_In(
+            '<a id="API Specification"></a>\n# API Specification',
+            body_txt)
+
+    def test_autoanchor_false(self):
+        """If autoanchor is 'false' then it doesn't added anchor"""
+        body_txt = self.commonSetupAndUpdateGetBody(
+            self.text.format('autoanchor=false'))
+        self.assert_NotIn('<a id="changelog"></a>', body_txt)
+        self.assert_NotIn('<a id="glossary"></a>', body_txt)
+        self.assert_NotIn('<a id="api-specification"></a>', body_txt)
+
+    text_with_autolink_true = \
         """
 
 <!-- MarkdownTOC autolink=true {0} -->
@@ -24,26 +62,28 @@ class TestAutoanchor(TestBase):
 # API Specification
 """
 
-    def test_autoanchor_false(self):
-        """Default Auto Anchor is false"""
+    def test_with_autolink_autoanchor_default(self):
+        """With autolink: autoanchor is 'false' in default"""
         body_txt = self.commonSetupAndUpdateGetBody(
-            self.autoanchor_text.format(''))
-        self.assert_NotIn('<a id="changelog"></a>', body_txt)
-        self.assert_NotIn('<a id="glossary"></a>', body_txt)
+            self.text_with_autolink_true.format(''))
+        self.assert_NotIn('<a id="changelog"></a>\n# Changelog', body_txt)
+        self.assert_NotIn('<a id="glossary"></a>\n# Glossary', body_txt)
         self.assert_NotIn('<a id="api-specification"></a>', body_txt)
 
-    def test_autoanchor_true(self):
+    def test_with_autolink_autoanchor_true(self):
+        """With autolink: If autoanchor is 'true' then it adds anchor"""
         body_txt = self.commonSetupAndUpdateGetBody(
-            self.autoanchor_text.format('autoanchor=true'))
+            self.text_with_autolink_true.format('autoanchor=true'))
         self.assert_In('<a id="changelog"></a>\n# Changelog', body_txt)
         self.assert_In('<a id="glossary"></a>\n# Glossary', body_txt)
         self.assert_In(
             '<a id="api-specification"></a>\n# API Specification',
             body_txt)
 
-    def test_autoanchor_false(self):
+    def test_with_autolink_autoanchor_false(self):
+        """With autolink: If autoanchor is 'false' then it doesn't added anchor"""
         body_txt = self.commonSetupAndUpdateGetBody(
-            self.autoanchor_text.format('autoanchor=false'))
-        self.assert_NotIn('<a id="changelog"></a>', body_txt)
-        self.assert_NotIn('<a id="glossary"></a>', body_txt)
+            self.text_with_autolink_true.format('autoanchor=false'))
+        self.assert_NotIn('<a id="changelog"></a>\n# Changelog', body_txt)
+        self.assert_NotIn('<a id="glossary"></a>\n# Glossary', body_txt)
         self.assert_NotIn('<a id="api-specification"></a>', body_txt)

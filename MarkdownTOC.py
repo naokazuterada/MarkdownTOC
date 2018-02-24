@@ -382,11 +382,14 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
             anchor_region = v.line(item[2] - 1)  # -1 to get to previous line
             is_update = PATTERN_ANCHOR.match(v.substr(anchor_region))
             if autoanchor:
+                # if autolink=false then item[3] will be None,
+                # so use raw heading valie(replaced whitespaces) then
+                _id = item[3] or re.sub(r'\s+', '-', item[1])
                 if is_update:
-                    new_anchor = '<a id="{0}"></a>'.format(item[3])
+                    new_anchor = '<a id="{0}"></a>'.format(_id)
                     v.replace(edit, anchor_region, new_anchor)
                 else:
-                    new_anchor = '\n<a id="{0}"></a>'.format(item[3])
+                    new_anchor = '\n<a id="{0}"></a>'.format(_id)
                     v.insert(edit, anchor_region.end(), new_anchor)
 
             else:
