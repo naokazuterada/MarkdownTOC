@@ -17,6 +17,7 @@ class LinkPrefixBullets(TestBase):
 
 # My Beatutiful Heading
 """
+
     def test_link_prefix_default(self):
         toc_txt = self.commonSetup(self.link_prefix_text.format(''))
         self.assert_In('- [My Beatutiful Heading][my-beatutiful-heading]', toc_txt)

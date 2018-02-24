@@ -22,6 +22,7 @@ class TestRemoveImage(TestBase):
 # In the [link](http://sample.com) middle
 # In the last [link](http://sample.com)
 """
+
     def common_remove_image_default(self, toc_txt):
         self.assert_In('- In the beginning', toc_txt)
         self.assert_In('- In the  middle', toc_txt)
@@ -67,6 +68,7 @@ class TestRemoveImage(TestBase):
 # hello[SQUARE] and (ROUND)
 # hello`[SQUARE]` and `(ROUND)`
 """
+
     def common_remove_image_codeblock_default(self, toc_txt):
         self.assert_In('- and LINK and \[SQUARE\] and \(ROUND\)', toc_txt)
         self.assert_In('- hello and LINK and \[SQUARE\] and \(ROUND\)', toc_txt)

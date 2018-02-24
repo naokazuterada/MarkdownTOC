@@ -33,6 +33,7 @@ class TestDefault(TestBase):
 
 ...
 """
+
     def test_before_than_TOC_should_be_ignored(self):
         toc_txt = self.commonSetup(self.insert_position_text, 13)
         self.assert_NotIn('Heading 0', toc_txt)

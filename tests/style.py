@@ -20,6 +20,7 @@ class TestStyle(TestBase):
 ## buz
 # qux
 """
+
     def test_style_default(self):
         """Default Style is unordered"""
         toc_txt = self.commonSetup(self.style_text.format(''))

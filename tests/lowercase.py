@@ -19,6 +19,7 @@ class TestLowercase(TestBase):
 # One Two Three
 
 """
+
     def common_only_ascii_true(self, toc_txt):
         self.assert_In('- [ПРИМЕР EXAMPLE][ПРИМЕР-example]', toc_txt)
         self.assert_In('- [One Two Three][one-two-three]', toc_txt)
@@ -47,6 +48,7 @@ class TestLowercase(TestBase):
 # One Two Three
 
 """
+
     def common_only_ascii_false(self, toc_txt):
         self.assert_In('- [ПРИМЕР EXAMPLE][пример-example]', toc_txt)
         self.assert_In('- [One Two Three][one-two-three]', toc_txt)

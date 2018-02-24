@@ -17,6 +17,7 @@ class TestLowercaseOnlyAscii(TestBase):
 
 # ПРИМЕР EXAMPLE
 """
+
     def test_lowercase_only_ascii_default(self):
         toc_txt = self.commonSetup(self.lowercase_only_ascii_text.format(''))
         self.assert_In('- [ПРИМЕР EXAMPLE][ПРИМЕР-example]', toc_txt)

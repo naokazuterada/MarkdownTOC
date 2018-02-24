@@ -79,6 +79,7 @@ class TestMarkdownPreview(TestBase):
 # Heading
 # Heading
 """
+
     def test_markdown_preview_uniquify_id_markdown(self):
         toc_txt = self.commonSetup(self.markdown_preview_uniquify_id_text.format('markdown_preview=markdown'))
         self.assert_In('- [Heading][heading]', toc_txt)
@@ -99,6 +100,7 @@ class TestMarkdownPreview(TestBase):
 <!-- /MarkdownTOC -->
 
 """
+
     def test_markdown_preview_no_heading_markdown(self):
         toc_txt = self.commonSetup(self.markdown_preview_no_heading_text.format('markdown_preview=markdown'))
         self.assert_NotIn('^- ', toc_txt)

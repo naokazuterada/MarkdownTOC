@@ -19,6 +19,7 @@ class TestBracket(TestBase):
 
 # foo bar
 """
+
     def test_bracket_default(self):
         """Default Bracket is square"""
         toc_txt = self.commonSetup(self.bracket_text.format(''))
