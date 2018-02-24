@@ -1,12 +1,13 @@
-import sublime
-import sublime_plugin
-import re
 import os.path
 import pprint
+import re
+import sublime
+import sublime_plugin
 import sys
-from urllib.parse import quote
 import unicodedata
 import webbrowser
+
+from urllib.parse import quote
 
 # for debug
 pp = pprint.PrettyPrinter(indent=4)
@@ -18,7 +19,7 @@ PATTERN_IMAGE = re.compile(r'!\[([^\]]+)\]\([^\)]+\)')
 # [Heading]{#my-id}
 PATTERN_EX_ID = re.compile(r'\{#.+?\}$')
 PATTERN_TAG = re.compile(r'<.*?>')
-PATTERN_ANCHOR = re.compile(r'<a\s+name="[^"]+"\s*>\s*</a>')
+PATTERN_ANCHOR = re.compile(r'<a\s+id="[^"]+"\s*>\s*</a>')
 PATTERN_TOC_TAG_SETTING = re.compile(
     r'\b(?P<name>\w+)=((?P<empty>)|(\'(?P<quoted>[^\']+)\')|("(?P<dquoted>[^"]+)")|(?P<simple>\S+))\s')
 
@@ -151,9 +152,12 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
         def slugify(value, separator):
             """ Slugify a string, to make it URL friendly. """
             value = unicodedata.normalize(
-                'NFKD', value).encode('ascii', 'ignore')
+                'NFKD', value).encode(
+                'ascii', 'ignore')
             value = re.sub(
-                '[^\w\s-]', '', value.decode('ascii')).strip().lower()
+                '[^\w\s-]',
+                '',
+                value.decode('ascii')).strip().lower()
             return re.sub('[%s\s]+' % separator, separator, value)
 
         # from MarkdownPreview
@@ -183,7 +187,8 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
                 else:
                     unique[id] += 1
                     id += "-%d" % value
-                return m.group('open')[:-1] + (' id="%s">' % id) + m.group('text') + m.group('close')
+                return m.group('open')[:-1] + (' id="%s">' %
+                                               id) + m.group('text') + m.group('close')
 
             RE_TAGS = re.compile(r'''</?[^>]*>''')
             RE_WORD = re.compile(r'''[^\w\- ]''')
@@ -333,7 +338,7 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
             # Reference-style links: e.g. '# heading [my-anchor]'
             list_reference_link = list(PATTERN_REFERENCE_LINK.finditer(_text))
 
-            # Markdown-Extra special attribute style
+            # Markdown-Extra special attribute style:
             # e.g. '# heading {#my-anchor}'
             match_ex_id = PATTERN_EX_ID.search(_text)
 
@@ -366,7 +371,7 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
             if link_prefix:
                 _id = link_prefix + _id
 
-            if _id == None:
+            if _id is None:
                 toc += list_prefix + _text + '\n'
             elif attrs['bracket'] == 'round':
                 toc += list_prefix + '[' + _text + '](#' + _id + ')\n'
@@ -387,17 +392,23 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
             anchor_region = v.line(item[2] - 1)  # -1 to get to previous line
             is_update = PATTERN_ANCHOR.match(v.substr(anchor_region))
             if autoanchor:
+                # if autolink=false then item[3] will be None,
+                # so use raw heading valie(replaced whitespaces) then
+                _id = item[3] or re.sub(r'\s+', '-', item[1])
                 if is_update:
-                    new_anchor = '<a name="{0}"></a>'.format(item[3])
+                    new_anchor = '<a id="{0}"></a>'.format(_id)
                     v.replace(edit, anchor_region, new_anchor)
                 else:
-                    new_anchor = '\n<a name="{0}"></a>'.format(item[3])
+                    new_anchor = '\n<a id="{0}"></a>'.format(_id)
                     v.insert(edit, anchor_region.end(), new_anchor)
 
             else:
                 if is_update:
-                    v.erase(edit, sublime.Region(
-                        anchor_region.begin(), anchor_region.end() + 1))
+                    v.erase(
+                        edit,
+                        sublime.Region(
+                            anchor_region.begin(),
+                            anchor_region.end() + 1))
 
     def get_setting(self, attr):
         settings = sublime.load_settings('MarkdownTOC.sublime-settings')
@@ -427,8 +438,10 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
                 codeblockAreas.append([area_begin, area_end])
             i += 2
 
-        items = [h for h in items if is_out_of_areas(
-            h.begin(), codeblockAreas)]
+        items = [
+            h for h in items if is_out_of_areas(
+                h.begin(),
+                codeblockAreas)]
         return items
 
     def log(self, arg):
@@ -507,5 +520,11 @@ class AutoRunner(sublime_plugin.EventListener):
         # limit scope
         root, ext = os.path.splitext(view.file_name())
         ext = ext.lower()
-        if ext in [".md", ".markdown", ".mdown", ".mdwn", ".mkdn", ".mkd", ".mark"]:
+        if ext in ['.md',
+                   '.markdown',
+                   '.mdown',
+                   '.mdwn',
+                   '.mkdn',
+                   '.mkd',
+                   '.mark']:
             view.run_command('markdowntoc_update')
