@@ -62,7 +62,7 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
 
                 # settings in tag
                 tag_str = self.view.substr(toc_open)
-                settings_tag = self.get_attibutes_from(tag_str)
+                settings_tag = self.get_attributes_from(tag_str)
 
                 # merge
                 toc_open_tag.update(settings_user)
@@ -416,7 +416,7 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
         """return dict of settings"""
         return self.get_settings('defaults')
 
-    def get_attibutes_from(self, tag_str):
+    def get_attributes_from(self, tag_str):
         """return dict of settings from tag_str"""
         pattern = re.compile(
             r'\b(?P<name>\w+)=((?P<empty>)|(\'(?P<quoted>[^\']+)\')|("(?P<dquoted>[^"]+)")|(?P<simple>\S+))\s')
