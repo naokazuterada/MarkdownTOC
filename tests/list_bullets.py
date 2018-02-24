@@ -39,7 +39,7 @@ class TestListBullets(TestBase):
         self.assert_In('- Heading5', toc_txt)
         self.assert_In('- Heading6', toc_txt)
     def test_list_bullets_2values(self):
-        toc_txt = self.commonSetup(self.list_bullets_text.format('list_bullets="+-"'))
+        toc_txt = self.commonSetup(self.list_bullets_text.format('list_bullets="+,-"'))
         self.assert_In('+ Heading1', toc_txt)
         self.assert_In('- Heading2', toc_txt)
         self.assert_In('- Heading2-2', toc_txt)
@@ -50,7 +50,7 @@ class TestListBullets(TestBase):
         self.assert_In('+ Heading5', toc_txt)
         self.assert_In('- Heading6', toc_txt)
     def test_list_bullets_3values(self):
-        toc_txt = self.commonSetup(self.list_bullets_text.format('list_bullets="-+*"'))
+        toc_txt = self.commonSetup(self.list_bullets_text.format('list_bullets="-,+,*"'))
         self.assert_In('- Heading1', toc_txt)
         self.assert_In('+ Heading2', toc_txt)
         self.assert_In('+ Heading2-2', toc_txt)
@@ -61,7 +61,7 @@ class TestListBullets(TestBase):
         self.assert_In('+ Heading5', toc_txt)
         self.assert_In('* Heading6', toc_txt)
     def test_list_bullets_4values(self):
-        toc_txt = self.commonSetup(self.list_bullets_text.format('list_bullets="-+-*"'))
+        toc_txt = self.commonSetup(self.list_bullets_text.format('list_bullets="-,+,-,*"'))
         self.assert_In('- Heading1', toc_txt)
         self.assert_In('+ Heading2', toc_txt)
         self.assert_In('+ Heading2-2', toc_txt)

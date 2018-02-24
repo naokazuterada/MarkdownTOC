@@ -277,7 +277,7 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
 
         # Filtering by heading level  ------------------
         accepted_levels = list(
-            map(lambda i: int(i), attrs['levels'].split(",")))
+            map(lambda i: int(i), attrs['levels']))
         items = list(filter((lambda j: j[0] in accepted_levels), items))
 
         # Create TOC  ------------------
@@ -420,7 +420,7 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
         """return dict of settings from tag_str"""
         pattern = re.compile(
             r'\b(?P<name>\w+)=((?P<empty>)|(\'(?P<quoted>[^\']+)\')|("(?P<dquoted>[^"]+)")|(?P<simple>\S+))\s')
-        return dict(
+        attr = dict(
             (m.group('name'),
                 m.group('simple') or
                 m.group('dquoted') or
@@ -428,6 +428,14 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
                 m.group('empty'))
             for m in pattern.finditer(tag_str)
         )
+
+        # parse
+        if 'levels' in attr:
+            attr['levels'] = attr['levels'].split(',')
+        if 'list_bullets' in attr:
+            attr['list_bullets'] = attr['list_bullets'].split(',')
+
+        return attr
 
     def remove_items_in_codeblock(self, items):
 
