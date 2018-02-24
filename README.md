@@ -606,7 +606,7 @@ You can set your default style in your [configuration](#configuration) with the 
 You can define the list items used for the TOC for each level. The first item is for the first level, the second for the second and so on until the last one of the list and then it starts over from the beginning.
 
 ```markdown
-<!-- MarkdownTOC list_bullets="-+*" levels="1,2,3,4,5,6" -->
+<!-- MarkdownTOC bullets="-,+,*" levels="1,2,3,4,5,6" -->
 
 - foo
   + bar
@@ -618,14 +618,14 @@ You can define the list items used for the TOC for each level. The first item is
 <!-- /MarkdownTOC -->
 ```
 
-You can set default list bullets in your [configuration](#configuration) with the key `defaults.list_bullets`.
+You can set default list bullets in your [configuration](#configuration) with the key `defaults.bullets`.
 
 The example above could also be described as:
 
 ```json
 {
   "defaults": {
-    "list_bullets": "-+*"
+    "bullets": "-+*"
   }
 }
 ```
@@ -635,7 +635,7 @@ And the value could also be _array_.
 ```json
 {
   "defaults": {
-    "list_bullets": ["-","+","*"]
+    "bullets": ["-","+","*"]
   }
 }
 ```
@@ -772,7 +772,7 @@ The following attributes can be used to control the generation of the TOC.
 | `indent`               | string                         | `"\t"`        |
 | `levels`               | string (decimal list separated with `,`)  | `"1,2"`     |
 | `link_prefix`          | string                         | `""`          |
-| `list_bullets`         | string                         | `"-"`         |
+| `bullets`         | string                         | `"-"`         |
 | `lowercase`            | `true`or`false`                | `true`        |
 | `lowercase_only_ascii` | `true`or`false`                | `true`        |
 | `remove_image`         | `true`or`false`                | `true`        |
@@ -823,7 +823,7 @@ Example: `MarkdownTOC.sublime-settings`
     "indent": "\t",
     "remove_image": true,
     "link_prefix": "",
-    "list_bullets": "-",
+    "bullets": "-",
     "lowercase": true,
     "lowercase_only_ascii": true,
     "style": "unordered",
@@ -859,7 +859,7 @@ For an overview of the specific behaviour behind an attribute, please refer to t
 - `defaults.indent`, (see: [Specify custom indentation prefix](#specify-custom-indentation-prefix))
 - `defaults.link_prefix`, (see: [Link Prefix](#link-prefix))
 - `defaults.levels`, (see: [Control of levels listed in TOC](#control-of-levels-listed-in-toc))
-- `defaults.list_bullets`, (see: [Customizable list bullets in TOC](#customizable-list-bullets-in-toc))
+- `defaults.bullets`, (see: [Customizable list bullets in TOC](#customizable-list-bullets-in-toc))
 - `defaults.lowercase`, (see: [Preserve case](#preserve-case))
 - `defaults.lowercase_only_ascii`, (see: [Lowercase only ASCII characters in auto link ids](#lowercase-only-ascii-characters-in-auto-link-ids))
 - `defaults.remove_image`, (see: [Preserve images in headings](#maintain-the-images-in-headings))

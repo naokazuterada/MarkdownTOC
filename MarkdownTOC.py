@@ -286,7 +286,7 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
         level_counters = [0]
         remove_image = strtobool(attrs['remove_image'])
         link_prefix = attrs['link_prefix']
-        list_bullets = attrs['list_bullets']
+        bullets = attrs['bullets']
 
         for item in items:
             _id = None
@@ -314,7 +314,7 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
                         return m.group(0)
                 _text = re.sub(PATTERN_IMAGE, _replace, _text)
 
-            _list_bullet = list_bullets[_indent % len(list_bullets)]
+            _list_bullet = bullets[_indent % len(bullets)]
             _text = PATTERN_TAG.sub('', _text)  # remove html tags
             _text = _text.strip()  # remove start and end spaces
 
@@ -432,8 +432,8 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
         # parse
         if 'levels' in attr:
             attr['levels'] = attr['levels'].split(',')
-        if 'list_bullets' in attr:
-            attr['list_bullets'] = attr['list_bullets'].split(',')
+        if 'bullets' in attr:
+            attr['bullets'] = attr['bullets'].split(',')
 
         return attr
 
