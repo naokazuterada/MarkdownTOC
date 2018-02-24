@@ -27,6 +27,7 @@ class TestListBullets(TestBase):
 ##### Heading5
 ###### Heading6
 """
+
     def test_bullets_default(self):
         toc_txt = self.commonSetup(self.bullets_text.format(''))
         self.assert_In('- Heading1', toc_txt)
