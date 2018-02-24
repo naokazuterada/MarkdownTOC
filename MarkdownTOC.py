@@ -11,10 +11,12 @@ from urllib.parse import quote
 # for debug
 pp = pprint.PrettyPrinter(indent=4)
 
-PATTERN_REFERENCE_LINK = re.compile(r'\[.+?\]$')  # [Heading][my-id]
+# [Heading][my-id]
+PATTERN_REFERENCE_LINK = re.compile(r'\[.+?\]$')
 # ![alt](path/to/image.png)
 PATTERN_IMAGE = re.compile(r'!\[([^\]]+)\]\([^\)]+\)')
-PATTERN_EX_ID = re.compile(r'\{#.+?\}$')         # [Heading]{#my-id}
+# [Heading]{#my-id}
+PATTERN_EX_ID = re.compile(r'\{#.+?\}$')
 PATTERN_TAG = re.compile(r'<.*?>')
 PATTERN_ANCHOR = re.compile(r'<a\s+id="[^"]+"\s*>\s*</a>')
 PATTERN_TOC_TAG_SETTING = re.compile(
@@ -326,8 +328,8 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
             # Reference-style links: e.g. '# heading [my-anchor]'
             list_reference_link = list(PATTERN_REFERENCE_LINK.finditer(_text))
 
-            # Markdown-Extra special attribute style: e.g. '# heading
-            # {#my-anchor}'
+            # Markdown-Extra special attribute style:
+            # e.g. '# heading {#my-anchor}'
             match_ex_id = PATTERN_EX_ID.search(_text)
 
             if len(list_reference_link):
@@ -520,6 +522,11 @@ class AutoRunner(sublime_plugin.EventListener):
         # limit scope
         root, ext = os.path.splitext(view.file_name())
         ext = ext.lower()
-        if ext in [".md", ".markdown", ".mdown",
-                   ".mdwn", ".mkdn", ".mkd", ".mark"]:
+        if ext in ['.md',
+                   '.markdown',
+                   '.mdown',
+                   '.mdwn',
+                   '.mkdn',
+                   '.mkd',
+                   '.mark']:
             view.run_command('markdowntoc_update')
