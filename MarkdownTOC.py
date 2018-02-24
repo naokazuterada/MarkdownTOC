@@ -222,9 +222,9 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
             elif attrs['markdown_preview'] == 'markdown':
                 return slugify(heading, '-')
             else:
-                if not strtobool(attrs['lowercase']):
+                if not attrs['lowercase']:
                     _id = heading
-                elif strtobool(attrs['lowercase_only_ascii']):
+                elif attrs['lowercase_only_ascii']:
                     # only ascii
                     _id = ''.join(chr(ord(x) + ('A' <= x <= 'Z') * 32)
                                   for x in heading)
@@ -299,7 +299,7 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
         toc = ''
         _ids = []
         level_counters = [0]
-        remove_image = strtobool(attrs['remove_image'])
+        remove_image = attrs['remove_image']
         link_prefix = attrs['link_prefix']
         bullets = attrs['bullets']
 
@@ -363,9 +363,9 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
             elif match_ex_id:
                 _text = _text[0:match_ex_id.start()].rstrip()
                 _id = match_ex_id.group().replace('{#', '').replace('}', '')
-            elif strtobool(attrs['autolink']):
+            elif attrs['autolink']:
                 _id = heading_to_id(_text)
-                if strtobool(attrs['uri_encoding']):
+                if attrs['uri_encoding']:
                     _id = quote(_id)
 
                 _ids.append(_id)
@@ -393,7 +393,7 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
 
             item.append(_id)
 
-        self.update_anchors(edit, items, strtobool(attrs['autoanchor']))
+        self.update_anchors(edit, items, attrs['autoanchor'])
 
         return toc
 
@@ -444,11 +444,18 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
             for m in pattern.finditer(tag_str)
         )
 
-        # parse list
-        attrs_of_list = list(k for k,v in TYPES.items() if v == list)
-        for key in attrs_of_list:
+        # parse values ---------
+
+        # list
+        lists = list(k for k,v in TYPES.items() if v == list)
+        for key in lists:
             if key in attr:
                 attr[key] = attr[key].split(',')
+        # bool
+        bools = list(k for k,v in TYPES.items() if v == bool)
+        for key in bools:
+            if key in attr:
+                attr[key] = strtobool(attr[key])
 
         return attr
 
