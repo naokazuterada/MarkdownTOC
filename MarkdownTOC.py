@@ -421,8 +421,11 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
         pattern = re.compile(
             r'\b(?P<name>\w+)=((?P<empty>)|(\'(?P<quoted>[^\']+)\')|("(?P<dquoted>[^"]+)")|(?P<simple>\S+))\s')
         return dict(
-            (m.group('name'), m.group('simple') or m.group(
-                'dquoted') or m.group('quoted') or m.group('empty'))
+            (m.group('name'),
+                m.group('simple') or
+                m.group('dquoted') or
+                m.group('quoted') or
+                m.group('empty'))
             for m in pattern.finditer(tag_str)
         )
 
