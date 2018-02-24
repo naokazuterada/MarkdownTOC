@@ -435,7 +435,7 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
         """return dict of settings from tag_str"""
         pattern = re.compile(
             r'\b(?P<name>\w+)=((?P<empty>)|(\'(?P<quoted>[^\']+)\')|("(?P<dquoted>[^"]+)")|(?P<simple>\S+))\s')
-        attr = dict(
+        attrs = dict(
             (m.group('name'),
                 m.group('simple') or
                 m.group('dquoted') or
@@ -445,19 +445,13 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
         )
 
         # parse values ---------
+        for key in attrs:
+            if TYPES[key] == list:
+                attrs[key] = attrs[key].split(',')
+            elif TYPES[key] == bool:
+                attrs[key] = strtobool(attrs[key])
 
-        # list
-        lists = list(k for k,v in TYPES.items() if v == list)
-        for key in lists:
-            if key in attr:
-                attr[key] = attr[key].split(',')
-        # bool
-        bools = list(k for k,v in TYPES.items() if v == bool)
-        for key in bools:
-            if key in attr:
-                attr[key] = strtobool(attr[key])
-
-        return attr
+        return attrs
 
     def remove_items_in_codeblock(self, items):
 
