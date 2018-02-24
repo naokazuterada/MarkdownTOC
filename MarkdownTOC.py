@@ -446,9 +446,9 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
 
         # parse values ---------
         for key in attrs:
-            if TYPES[key] == list:
+            if TYPES[key] is list:
                 attrs[key] = attrs[key].split(',')
-            elif TYPES[key] == bool:
+            elif TYPES[key] is bool:
                 attrs[key] = strtobool(attrs[key])
 
         return attrs
@@ -472,7 +472,7 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
         return items
 
     def log(self, arg):
-        if self.get_settings('logging') == True:
+        if self.get_settings('logging') is True:
             arg = str(arg)
             sublime.status_message(arg)
             pp.pprint(arg)
