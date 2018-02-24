@@ -1,7 +1,4 @@
 # coding:utf-8
-import sublime
-import sys
-
 from base import TestBase
 
 

@@ -1,7 +1,5 @@
 # coding:utf-8
 from base import TestBase
-import sublime
-import sys
 
 class TestMarkdownPreview(TestBase):
     """Test of attributes 'markdown_preview'"""

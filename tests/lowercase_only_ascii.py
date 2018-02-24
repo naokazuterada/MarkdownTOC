@@ -1,7 +1,5 @@
 # coding:utf-8
 from base import TestBase
-import sublime
-import sys
 
 class TestLowercaseOnlyAscii(TestBase):
     """Test of attributes 'lowercase_only_ascii'"""
