@@ -2,7 +2,7 @@
 from base import TestBase
 
 class TestUriEncoding(TestBase):
-    """Test of attributes 'uri_encoding'"""
+    """Test for attributes 'uri_encoding'"""
 
     # for debug
     # def tearDown(self):

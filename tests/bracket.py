@@ -2,7 +2,7 @@
 from base import TestBase
 
 class TestBracket(TestBase):
-    """Test of attributes 'bracket'"""
+    """Test for attributes 'bracket'"""
 
     # for debug
     # def tearDown(self):

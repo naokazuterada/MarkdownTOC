@@ -2,7 +2,7 @@
 from base import TestBase
 
 class TestMarkdownPreview(TestBase):
-    """Test of attributes 'markdown_preview'"""
+    """Test for attributes 'markdown_preview'"""
 
     # for debug
     # def tearDown(self):

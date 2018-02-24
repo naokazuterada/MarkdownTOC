@@ -2,7 +2,7 @@
 from base import TestBase
 
 class TestLowercase(TestBase):
-    """Test of attributes 'lowercase'"""
+    """Test for attributes 'lowercase'"""
 
     # for debug
     # def tearDown(self):

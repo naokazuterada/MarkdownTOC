@@ -2,7 +2,7 @@
 from base import TestBase
 
 class TestIndent(TestBase):
-    """Test of attributes 'indent'"""
+    """Test for attributes 'indent'"""
 
     # for debug
     # def tearDown(self):

@@ -3,7 +3,7 @@ from base import TestBase
 
 
 class TestAutoanchor(TestBase):
-    """Test of attributes 'autoanchor'"""
+    """Test for attributes 'autoanchor'"""
 
     # for debug
     # def tearDown(self):

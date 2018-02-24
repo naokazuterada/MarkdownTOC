@@ -2,7 +2,7 @@
 from base import TestBase
 
 class TestStyle(TestBase):
-    """Test of attributes 'style'"""
+    """Test for attributes 'style'"""
 
     # for debug
     # def tearDown(self):

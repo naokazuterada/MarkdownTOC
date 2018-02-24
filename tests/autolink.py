@@ -2,7 +2,7 @@
 from base import TestBase
 
 class TestAutolink(TestBase):
-    """Test of attributes 'autolink'"""
+    """Test for attributes 'autolink'"""
 
     # for debug
     # def tearDown(self):

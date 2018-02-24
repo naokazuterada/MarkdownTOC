@@ -2,7 +2,7 @@
 from base import TestBase
 
 class LinkPrefixBullets(TestBase):
-    """Test of attributes 'link_prefix'"""
+    """Test for attributes 'link_prefix'"""
 
     # for debug
     # def tearDown(self):

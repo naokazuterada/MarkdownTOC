@@ -2,7 +2,7 @@
 from base import TestBase
 
 class TestLevels(TestBase):
-    """Test of attributes 'levels'"""
+    """Test for attributes 'levels'"""
 
     # for debug
     # def tearDown(self):

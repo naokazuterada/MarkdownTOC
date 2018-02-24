@@ -2,7 +2,7 @@
 from base import TestBase
 
 class TestListBullets(TestBase):
-    """Test of attributes 'bullets'"""
+    """Test for attributes 'bullets'"""
 
     # for debug
     # def tearDown(self):

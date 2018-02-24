@@ -2,7 +2,7 @@
 from base import TestBase
 
 class TestRemoveImage(TestBase):
-    """Test of attributes 'remove_image'"""
+    """Test for attributes 'remove_image'"""
 
     # for debug
     # def tearDown(self):
