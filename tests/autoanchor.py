@@ -10,8 +10,7 @@ class TestAutoanchor(TestBase):
     #     pass
 
     text = \
-        """
-
+"""
 <!-- MarkdownTOC {0} -->
 
 <!-- /MarkdownTOC -->
