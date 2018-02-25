@@ -69,7 +69,7 @@ class TestBase(TestCase):
     #
     #     return self.commonSetup(text, insert_position)
 
-    def commonSetupAndUpdate(self, text, insert_position=3):
+    def setupUpdate(self, text, insert_position=3):
         # 1. load text
         self.setText(text)
 
@@ -77,17 +77,7 @@ class TestBase(TestCase):
         self.view.run_command('markdowntoc_update')
 
         # 3. return TOC
-        return self.getTOC_text()
-
-    def commonSetupAndUpdateGetBody(self, text, insert_position=3):
-        # 1. load text
-        self.setText(text)
-
-        # 2. update TOC
-        self.view.run_command('markdowntoc_update')
-
-        # 3. return Body Text
-        return self.view.substr(sublime.Region(0, self.view.size()))
+        return {'toc': self.getTOC_text(), 'body': self.view.substr(sublime.Region(0, self.view.size()))}
 
     # -----
 
