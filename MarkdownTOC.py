@@ -12,22 +12,6 @@ from urllib.parse import quote
 # for debug
 pp = pprint.PrettyPrinter(indent=4)
 
-TYPES = {
-        'autoanchor': bool,
-        'autolink': bool,
-        'bracket': str,
-        'levels': list,
-        'indent': str,
-        'remove_image': bool,
-        'link_prefix': str,
-        'bullets': list,
-        'lowercase': bool,
-        'lowercase_only_ascii': bool,
-        'style': str,
-        'uri_encoding': bool,
-        'markdown_preview': str
-    }
-
 # [Heading][my-id]
 PATTERN_REFERENCE_LINK = re.compile(r'\[.+?\]$')
 # ![alt](path/to/image.png)
@@ -444,11 +428,12 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
             for m in pattern.finditer(tag_str)
         )
 
-        # parse values ---------
+        # parse values according to type of values in settings file
+        defaults = self.get_defaults()
         for key in attrs:
-            if TYPES[key] is list:
+            if type(defaults[key]) is list:
                 attrs[key] = attrs[key].split(',')
-            elif TYPES[key] is bool:
+            elif type(defaults[key]) is bool:
                 attrs[key] = strtobool(attrs[key])
 
         return attrs
