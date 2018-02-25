@@ -23,27 +23,27 @@ class TestRemoveImage(TestBase):
 # In the last [link](http://sample.com)
 """
 
-    def common_remove_image_default(self, toc_txt):
-        self.assert_In('- In the beginning', toc_txt)
-        self.assert_In('- In the  middle', toc_txt)
-        self.assert_In('- In the last', toc_txt)
-        self.assert_In('- link In the beginning', toc_txt)
-        self.assert_In('- In the link middle', toc_txt)
-        self.assert_In('- In the last link', toc_txt)
+    def common_remove_image_default(self, toc):
+        self.assert_In('- In the beginning', toc)
+        self.assert_In('- In the  middle', toc)
+        self.assert_In('- In the last', toc)
+        self.assert_In('- link In the beginning', toc)
+        self.assert_In('- In the link middle', toc)
+        self.assert_In('- In the last link', toc)
     def test_remove_image_default(self):
-        toc_txt = self.commonSetup(self.remove_image_text.format(''))
-        self.common_remove_image_default(toc_txt)
+        toc = self.init_update(self.remove_image_text.format(''))['toc']
+        self.common_remove_image_default(toc)
     def test_remove_image_true(self):
-        toc_txt = self.commonSetup(self.remove_image_text.format('remove_image="true"'))
-        self.common_remove_image_default(toc_txt)
+        toc = self.init_update(self.remove_image_text.format('remove_image="true"'))['toc']
+        self.common_remove_image_default(toc)
     def test_remove_image_false(self):
-        toc_txt = self.commonSetup(self.remove_image_text.format('remove_image="false"'))
-        self.assert_In('- ![icon](img/icon.png) In the beginning', toc_txt)
-        self.assert_In('- In the ![icon](img/icon.png) middle', toc_txt)
-        self.assert_In('- In the last ![icon](img/icon.png)', toc_txt)
-        self.assert_In('- link In the beginning', toc_txt)
-        self.assert_In('- In the link middle', toc_txt)
-        self.assert_In('- In the last link', toc_txt)
+        toc = self.init_update(self.remove_image_text.format('remove_image="false"'))['toc']
+        self.assert_In('- ![icon](img/icon.png) In the beginning', toc)
+        self.assert_In('- In the ![icon](img/icon.png) middle', toc)
+        self.assert_In('- In the last ![icon](img/icon.png)', toc)
+        self.assert_In('- link In the beginning', toc)
+        self.assert_In('- In the link middle', toc)
+        self.assert_In('- In the last link', toc)
 
     remove_image_codeblock_text = \
 """
@@ -69,42 +69,42 @@ class TestRemoveImage(TestBase):
 # hello`[SQUARE]` and `(ROUND)`
 """
 
-    def common_remove_image_codeblock_default(self, toc_txt):
-        self.assert_In('- and LINK and \[SQUARE\] and \(ROUND\)', toc_txt)
-        self.assert_In('- hello and LINK and \[SQUARE\] and \(ROUND\)', toc_txt)
-        self.assert_In('- `![IMAGE](image.png) and LINK and [SQUARE] and (ROUND)`', toc_txt)
-        self.assert_In('- hello`![IMAGE](image.png) and LINK and [SQUARE] and (ROUND)`', toc_txt)
-        self.assert_In('- `![IMAGE](image.png)` and `LINK` and `[SQUARE]` and `(ROUND)`', toc_txt)
-        self.assert_In('- hello`![IMAGE](image.png)` and `LINK` and `[SQUARE]` and `(ROUND)`', toc_txt)
-        self.assert_In('- `![IMAGE](image.png)`', toc_txt)
-        self.assert_In('- hello`![IMAGE](image.png)`', toc_txt)
-        self.assert_In('- `LINK`', toc_txt)
-        self.assert_In('- hello`LINK`', toc_txt)
-        self.assert_In('- \[SQUARE\] and \(ROUND\)', toc_txt)
-        self.assert_In('- `[SQUARE]` and `(ROUND)`', toc_txt)
-        self.assert_In('- `(ROUND)` and `[SQUARE]`', toc_txt)
-        self.assert_In('- hello\[SQUARE\] and \(ROUND\)', toc_txt)
-        self.assert_In('- hello`[SQUARE]` and `(ROUND)`', toc_txt)
+    def common_remove_image_codeblock_default(self, toc):
+        self.assert_In('- and LINK and \[SQUARE\] and \(ROUND\)', toc)
+        self.assert_In('- hello and LINK and \[SQUARE\] and \(ROUND\)', toc)
+        self.assert_In('- `![IMAGE](image.png) and LINK and [SQUARE] and (ROUND)`', toc)
+        self.assert_In('- hello`![IMAGE](image.png) and LINK and [SQUARE] and (ROUND)`', toc)
+        self.assert_In('- `![IMAGE](image.png)` and `LINK` and `[SQUARE]` and `(ROUND)`', toc)
+        self.assert_In('- hello`![IMAGE](image.png)` and `LINK` and `[SQUARE]` and `(ROUND)`', toc)
+        self.assert_In('- `![IMAGE](image.png)`', toc)
+        self.assert_In('- hello`![IMAGE](image.png)`', toc)
+        self.assert_In('- `LINK`', toc)
+        self.assert_In('- hello`LINK`', toc)
+        self.assert_In('- \[SQUARE\] and \(ROUND\)', toc)
+        self.assert_In('- `[SQUARE]` and `(ROUND)`', toc)
+        self.assert_In('- `(ROUND)` and `[SQUARE]`', toc)
+        self.assert_In('- hello\[SQUARE\] and \(ROUND\)', toc)
+        self.assert_In('- hello`[SQUARE]` and `(ROUND)`', toc)
     def test_remove_image_codeblock_default(self):
-        toc_txt = self.commonSetup(self.remove_image_codeblock_text.format(''))
-        self.common_remove_image_codeblock_default(toc_txt)
+        toc = self.init_update(self.remove_image_codeblock_text.format(''))['toc']
+        self.common_remove_image_codeblock_default(toc)
     def test_remove_image_codeblock_true(self):
-        toc_txt = self.commonSetup(self.remove_image_codeblock_text.format('remove_image="true"'))
-        self.common_remove_image_codeblock_default(toc_txt)
+        toc = self.init_update(self.remove_image_codeblock_text.format('remove_image="true"'))['toc']
+        self.common_remove_image_codeblock_default(toc)
     def test_remove_image_codeblock_false(self):
-        toc_txt = self.commonSetup(self.remove_image_codeblock_text.format('remove_image="false"'))
-        self.assert_In('- ![IMAGE](image.png) and LINK and \[SQUARE\] and \(ROUND\)', toc_txt)
-        self.assert_In('- hello![IMAGE](image.png) and LINK and \[SQUARE\] and \(ROUND\)', toc_txt)
-        self.assert_In('- `![IMAGE](image.png) and LINK and [SQUARE] and (ROUND)`', toc_txt)
-        self.assert_In('- hello`![IMAGE](image.png) and LINK and [SQUARE] and (ROUND)`', toc_txt)
-        self.assert_In('- `![IMAGE](image.png)` and `LINK` and `[SQUARE]` and `(ROUND)`', toc_txt)
-        self.assert_In('- hello`![IMAGE](image.png)` and `LINK` and `[SQUARE]` and `(ROUND)`', toc_txt)
-        self.assert_In('- `![IMAGE](image.png)`', toc_txt)
-        self.assert_In('- hello`![IMAGE](image.png)`', toc_txt)
-        self.assert_In('- `LINK`', toc_txt)
-        self.assert_In('- hello`LINK`', toc_txt)
-        self.assert_In('- \[SQUARE\] and \(ROUND\)', toc_txt)
-        self.assert_In('- `[SQUARE]` and `(ROUND)`', toc_txt)
-        self.assert_In('- `(ROUND)` and `[SQUARE]`', toc_txt)
-        self.assert_In('- hello\[SQUARE\] and \(ROUND\)', toc_txt)
-        self.assert_In('- hello`[SQUARE]` and `(ROUND)`', toc_txt)
+        toc = self.init_update(self.remove_image_codeblock_text.format('remove_image="false"'))['toc']
+        self.assert_In('- ![IMAGE](image.png) and LINK and \[SQUARE\] and \(ROUND\)', toc)
+        self.assert_In('- hello![IMAGE](image.png) and LINK and \[SQUARE\] and \(ROUND\)', toc)
+        self.assert_In('- `![IMAGE](image.png) and LINK and [SQUARE] and (ROUND)`', toc)
+        self.assert_In('- hello`![IMAGE](image.png) and LINK and [SQUARE] and (ROUND)`', toc)
+        self.assert_In('- `![IMAGE](image.png)` and `LINK` and `[SQUARE]` and `(ROUND)`', toc)
+        self.assert_In('- hello`![IMAGE](image.png)` and `LINK` and `[SQUARE]` and `(ROUND)`', toc)
+        self.assert_In('- `![IMAGE](image.png)`', toc)
+        self.assert_In('- hello`![IMAGE](image.png)`', toc)
+        self.assert_In('- `LINK`', toc)
+        self.assert_In('- hello`LINK`', toc)
+        self.assert_In('- \[SQUARE\] and \(ROUND\)', toc)
+        self.assert_In('- `[SQUARE]` and `(ROUND)`', toc)
+        self.assert_In('- `(ROUND)` and `[SQUARE]`', toc)
+        self.assert_In('- hello\[SQUARE\] and \(ROUND\)', toc)
+        self.assert_In('- hello`[SQUARE]` and `(ROUND)`', toc)

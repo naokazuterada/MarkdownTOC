@@ -20,13 +20,13 @@ class TestAutolink(TestBase):
 
     def test_autolink_default(self):
         """Default Auto link is false"""
-        toc_txt = self.commonSetup(self.autolink_text.format(''))
-        self.assert_In('- Foo Bar', toc_txt)
+        toc = self.init_update(self.autolink_text.format(''))['toc']
+        self.assert_In('- Foo Bar', toc)
 
     def test_autolink_true(self):
-        toc_txt = self.commonSetup(self.autolink_text.format('autolink=true'))
-        self.assert_In('- [Foo Bar][foo-bar]', toc_txt)
+        toc = self.init_update(self.autolink_text.format('autolink=true'))['toc']
+        self.assert_In('- [Foo Bar][foo-bar]', toc)
 
     def test_autolink_false(self):
-        toc_txt = self.commonSetup(self.autolink_text.format('autolink=false'))
-        self.assert_In('- Foo Bar', toc_txt)
+        toc = self.init_update(self.autolink_text.format('autolink=false'))['toc']
+        self.assert_In('- Foo Bar', toc)

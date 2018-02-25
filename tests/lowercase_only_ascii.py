@@ -19,13 +19,13 @@ class TestLowercaseOnlyAscii(TestBase):
 """
 
     def test_lowercase_only_ascii_default(self):
-        toc_txt = self.commonSetup(self.lowercase_only_ascii_text.format(''))
-        self.assert_In('- [ПРИМЕР EXAMPLE][ПРИМЕР-example]', toc_txt)
+        toc = self.init_update(self.lowercase_only_ascii_text.format(''))['toc']
+        self.assert_In('- [ПРИМЕР EXAMPLE][ПРИМЕР-example]', toc)
 
     def test_lowercase_only_ascii_true(self):
-        toc_txt = self.commonSetup(self.lowercase_only_ascii_text.format('lowercase_only_ascii=true'))
-        self.assert_In('- [ПРИМЕР EXAMPLE][ПРИМЕР-example]', toc_txt)
+        toc = self.init_update(self.lowercase_only_ascii_text.format('lowercase_only_ascii=true'))['toc']
+        self.assert_In('- [ПРИМЕР EXAMPLE][ПРИМЕР-example]', toc)
 
     def test_lowercase_only_ascii_false(self):
-        toc_txt = self.commonSetup(self.lowercase_only_ascii_text.format('lowercase_only_ascii=false'))
-        self.assert_In('- [ПРИМЕР EXAMPLE][пример-example]', toc_txt)
+        toc = self.init_update(self.lowercase_only_ascii_text.format('lowercase_only_ascii=false'))['toc']
+        self.assert_In('- [ПРИМЕР EXAMPLE][пример-example]', toc)

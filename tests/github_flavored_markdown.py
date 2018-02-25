@@ -10,7 +10,7 @@ class TestAutolink(TestBase):
 
 #     def test_escaped_square_brackets(self):
 #         """Escaped square brackets"""
-#         toc_txt = self.commonSetup(\
+#         toc_txt = self.init_update(\
 # """
 
 # <!-- MarkdownTOC autolink="true" bracket="round" -->
@@ -23,7 +23,7 @@ class TestAutolink(TestBase):
 
 #     def test_underscores(self):
 #         """Underscores"""
-#         toc_txt = self.commonSetup(\
+#         toc_txt = self.init_update(\
 # """
 
 # <!-- MarkdownTOC autolink="true" bracket="round" -->
