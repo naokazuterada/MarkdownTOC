@@ -902,7 +902,7 @@ Contributions are most welcome, please see the [guidelines on contributing](http
 - [Sublime Text][SublimeText]
 - [Sublime Text: Package Control][PackageControl]
 - [Emoji cheatsheet][emoji]
-- [Github flavoured markdown][Github]
+- [GitHub Flavored Markdown][Github]
 - [Markdown Preview][MarkdownPreview]
 
 ### Markdown Table of Contents Generators
