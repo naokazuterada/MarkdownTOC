@@ -11,6 +11,7 @@ from urllib.parse import quote
 from .autorunner import AutoRunner
 from .base import Base
 from .util import Util
+from .id import Id
 
 # for debug
 pp = pprint.PrettyPrinter(indent=4)
@@ -196,33 +197,6 @@ class MarkdowntocInsert(sublime_plugin.TextCommand, Base):
 
             return RE_HEADER.sub(inject_id, html)
 
-        def heading_to_id(heading):
-            if heading is None:
-                return ''
-            if attrs['markdown_preview'] == 'github':
-                _h1 = postprocess_inject_header_id('<h1>%s</h1>' % heading)
-                pattern = r'<h1 id="(.*)">.*</h1>'
-                matchs = re.finditer(pattern, _h1)
-                for match in matchs:
-                    return match.groups()[0]
-            elif attrs['markdown_preview'] == 'markdown':
-                return slugify(heading, '-')
-            else:
-                if not attrs['lowercase']:
-                    _id = heading
-                elif attrs['lowercase_only_ascii']:
-                    # only ascii
-                    _id = ''.join(chr(ord(x) + ('A' <= x <= 'Z') * 32)
-                                  for x in heading)
-                else:
-                    _id = heading.lower()
-                return replace_strings_in_id(_id)
-
-        def replace_strings_in_id(_str):
-            for group in self.get_settings('id_replacements'):
-                _str = re.sub(group['pattern'], group['replacement'], _str)
-            return _str
-
         # Search headings in docment
         pattern_hash = "^#+?[^#]"
         pattern_h1_h2_equal_dash = "^.*?(?:(?:\r\n)|\n|\r)(?:-+|=+)$"
@@ -350,7 +324,7 @@ class MarkdowntocInsert(sublime_plugin.TextCommand, Base):
                 _text = _text[0:match_ex_id.start()].rstrip()
                 _id = match_ex_id.group().replace('{#', '').replace('}', '')
             elif attrs['autolink']:
-                _id = heading_to_id(_text)
+                _id = Id(attrs).heading_to_id(_text)
                 if attrs['uri_encoding']:
                     _id = quote(_id)
 
