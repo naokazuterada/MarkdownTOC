@@ -8,8 +8,9 @@ import webbrowser
 
 from urllib.parse import quote
 
-from .util import Util
 from .autorunner import AutoRunner
+from .base import Base
+from .util import Util
 
 # for debug
 pp = pprint.PrettyPrinter(indent=4)
@@ -25,7 +26,7 @@ PATTERN_ANCHOR = re.compile(r'<a\s+id="[^"]+"\s*>\s*</a>')
 
 TOCTAG_END = "<!-- /MarkdownTOC -->"
 
-class MarkdowntocInsert(sublime_plugin.TextCommand):
+class MarkdowntocInsert(sublime_plugin.TextCommand, Base):
 
     def run(self, edit):
         if not self.find_tag_and_insert(edit):
@@ -408,14 +409,6 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
                             anchor_region.begin(),
                             anchor_region.end() + 1))
 
-    def get_settings(self, attr):
-        settings = sublime.load_settings('MarkdownTOC.sublime-settings')
-        return settings.get(attr)
-
-    def get_defaults(self):
-        """return dict of settings"""
-        return self.get_settings('defaults')
-
     def get_attributes_from(self, tag_str):
         """return dict of settings from tag_str"""
         pattern = re.compile(
@@ -456,14 +449,3 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
                 h.begin(),
                 codeblockAreas)]
         return items
-
-    def log(self, arg):
-        if self.get_settings('logging') is True:
-            arg = str(arg)
-            sublime.status_message(arg)
-            pp.pprint(arg)
-
-    def error(self, arg):
-        arg = str(arg)
-        sublime.status_message(arg)
-        pp.pprint(arg)
