@@ -1,4 +1,4 @@
-from .MarkdownTOC import MarkdowntocInsert
+from .markdowntoc_insert import MarkdowntocInsert
 
 class MarkdowntocUpdate(MarkdowntocInsert):
 

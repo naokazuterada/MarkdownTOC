@@ -517,4 +517,3 @@ def within_ranges(target, ranges):
         if (rb <= tb and tb <= re) and (rb <= tb and tb <= re):
             return True
     return False
-# Search and refresh if it's exist
