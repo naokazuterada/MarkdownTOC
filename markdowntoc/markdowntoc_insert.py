@@ -1,9 +1,7 @@
-import os.path
 import pprint
 import re
 import sublime
 import sublime_plugin
-import sys
 import unicodedata
 import webbrowser
 
@@ -519,24 +517,3 @@ def within_ranges(target, ranges):
     return False
 # Search and refresh if it's exist
 
-
-class MarkdowntocUpdate(MarkdowntocInsert):
-
-    def run(self, edit):
-        MarkdowntocInsert.find_tag_and_insert(self, edit)
-
-
-class AutoRunner(sublime_plugin.EventListener):
-
-    def on_pre_save(self, view):
-        # limit scope
-        root, ext = os.path.splitext(view.file_name())
-        ext = ext.lower()
-        if ext in ['.md',
-                   '.markdown',
-                   '.mdown',
-                   '.mdwn',
-                   '.mkdn',
-                   '.mkd',
-                   '.mark']:
-            view.run_command('markdowntoc_update')
