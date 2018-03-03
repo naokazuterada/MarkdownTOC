@@ -8,6 +8,7 @@ import webbrowser
 
 from urllib.parse import quote
 
+from .util import Util
 from .autorunner import AutoRunner
 
 # for debug
@@ -114,10 +115,10 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
                 codes.append([m.start(), m.end()])
 
             def not_in_codeblock(target):
-                return not within_ranges(target, codes)
+                return not Util.within_ranges(target, codes)
 
             def not_in_image(target):
-                return not within_ranges(target, images)
+                return not Util.within_ranges(target, images)
             # Collect images not in codeblock
             for m in PATTERN_IMAGE.finditer(_text):
                 images.append([m.start(), m.end()])
@@ -259,7 +260,7 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
             return ''
 
         # Shape TOC  ------------------
-        items = format(items)
+        items = Util.format(items)
 
         # TODO: Remove this block in the future release version
         # Depth limit  ------------------
@@ -299,7 +300,7 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
                     codes.append([m.start(), m.end()])
 
                 def not_in_codeblock(_target):
-                    return not within_ranges(_target, codes)
+                    return not Util.within_ranges(_target, codes)
                 # Collect images not in codeblock
                 for m in PATTERN_IMAGE.finditer(_text):
                     images.append([m.start(), m.end()])
@@ -434,7 +435,7 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
             if type(defaults[key]) is list:
                 attrs[key] = attrs[key].split(',')
             elif type(defaults[key]) is bool:
-                attrs[key] = strtobool(attrs[key])
+                attrs[key] = Util.strtobool(attrs[key])
 
         return attrs
 
@@ -451,7 +452,7 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
             i += 2
 
         items = [
-            h for h in items if is_out_of_areas(
+            h for h in items if Util.is_out_of_areas(
                 h.begin(),
                 codeblockAreas)]
         return items
@@ -466,54 +467,3 @@ class MarkdowntocInsert(sublime_plugin.TextCommand):
         arg = str(arg)
         sublime.status_message(arg)
         pp.pprint(arg)
-
-
-def is_out_of_areas(num, areas):
-    for area in areas:
-        if area[0] < num and num < area[1]:
-            return False
-    return True
-
-
-def format(items):
-    headings = []
-    for item in items:
-        headings.append(item[0])
-    # --------------------------
-
-    # minimize diff between headings -----
-    _depths = list(set(headings))  # sort and unique
-    # replace with depth rank
-    for i, item in enumerate(headings):
-        headings[i] = _depths.index(headings[i]) + 1
-    # ----- /minimize diff between headings
-
-    # --------------------------
-    for i, item in enumerate(items):
-        item[0] = headings[i]
-    return items
-
-
-def strtobool(val):
-    """pick out from 'distutils.util' module"""
-    if isinstance(val, str):
-        val = val.lower()
-        if val in ('y', 'yes', 't', 'true', 'on', '1'):
-            return 1
-        elif val in ('n', 'no', 'f', 'false', 'off', '0'):
-            return 0
-        else:
-            raise ValueError("invalid truth value %r" % (val,))
-    else:
-        return bool(val)
-
-
-def within_ranges(target, ranges):
-    tb = target[0]
-    te = target[1]
-    for _range in ranges:
-        rb = _range[0]
-        re = _range[1]
-        if (rb <= tb and tb <= re) and (rb <= tb and tb <= re):
-            return True
-    return False
