@@ -1,4 +1,3 @@
-import os.path
 import pprint
 import re
 import sublime
@@ -8,6 +7,8 @@ import unicodedata
 import webbrowser
 
 from urllib.parse import quote
+
+from .autorunner import AutoRunner
 
 # for debug
 pp = pprint.PrettyPrinter(indent=4)
@@ -26,7 +27,6 @@ TOCTAG_END = "<!-- /MarkdownTOC -->"
 class MarkdowntocInsert(sublime_plugin.TextCommand):
 
     def run(self, edit):
-
         if not self.find_tag_and_insert(edit):
             sels = self.view.sel()
             for sel in sels:
@@ -518,25 +518,3 @@ def within_ranges(target, ranges):
             return True
     return False
 # Search and refresh if it's exist
-
-
-class MarkdowntocUpdate(MarkdowntocInsert):
-
-    def run(self, edit):
-        MarkdowntocInsert.find_tag_and_insert(self, edit)
-
-
-class AutoRunner(sublime_plugin.EventListener):
-
-    def on_pre_save(self, view):
-        # limit scope
-        root, ext = os.path.splitext(view.file_name())
-        ext = ext.lower()
-        if ext in ['.md',
-                   '.markdown',
-                   '.mdown',
-                   '.mdwn',
-                   '.mkdn',
-                   '.mkd',
-                   '.mark']:
-            view.run_command('markdowntoc_update')
