@@ -3,7 +3,6 @@ import re
 import sublime
 import sublime_plugin
 import sys
-import unicodedata
 import webbrowser
 
 from urllib.parse import quote
@@ -148,55 +147,6 @@ class MarkdowntocInsert(sublime_plugin.TextCommand, Base):
     # TODO: add "end" parameter
     def get_toc(self, attrs, begin, edit):
 
-        # from MarkdownPreview
-        def slugify(value, separator):
-            """ Slugify a string, to make it URL friendly. """
-            value = unicodedata.normalize(
-                'NFKD', value).encode(
-                'ascii', 'ignore')
-            value = re.sub(
-                '[^\w\s-]',
-                '',
-                value.decode('ascii')).strip().lower()
-            return re.sub('[%s\s]+' % separator, separator, value)
-
-        # from MarkdownPreview
-        def postprocess_inject_header_id(html):
-            """ Insert header ids when no anchors are present """
-            unique = {}
-
-            def header_to_id(text):
-                if text is None:
-                    return ''
-                # Strip html tags and lower
-                id = RE_TAGS.sub('', text).lower()
-                # Remove non word characters or non spaces and dashes
-                # Then convert spaces to dashes
-                id = RE_WORD.sub('', id).replace(' ', '-')
-                # Encode anything that needs to be
-                return quote(id)
-
-            def inject_id(m):
-                id = header_to_id(m.group('text'))
-                if id == '':
-                    return m.group(0)
-                # Append a dash and number for uniqueness if needed
-                value = unique.get(id, None)
-                if value is None:
-                    unique[id] = 1
-                else:
-                    unique[id] += 1
-                    id += "-%d" % value
-                return m.group('open')[:-1] + (' id="%s">' %
-                                               id) + m.group('text') + m.group('close')
-
-            RE_TAGS = re.compile(r'''</?[^>]*>''')
-            RE_WORD = re.compile(r'''[^\w\- ]''')
-            RE_HEADER = re.compile(
-                r'''(?P<open><h([1-6])>)(?P<text>.*?)(?P<close></h\2>)''', re.DOTALL)
-
-            return RE_HEADER.sub(inject_id, html)
-
         # Search headings in docment
         pattern_hash = "^#+?[^#]"
         pattern_h1_h2_equal_dash = "^.*?(?:(?:\r\n)|\n|\r)(?:-+|=+)$"
@@ -324,7 +274,12 @@ class MarkdowntocInsert(sublime_plugin.TextCommand, Base):
                 _text = _text[0:match_ex_id.start()].rstrip()
                 _id = match_ex_id.group().replace('{#', '').replace('}', '')
             elif attrs['autolink']:
-                _id = Id(attrs).heading_to_id(_text)
+                _id = Id(
+                        self.get_settings('id_replacements'),
+                        attrs['markdown_preview'],
+                        attrs['lowercase'],
+                        attrs['lowercase_only_ascii']
+                    ).heading_to_id(_text)
                 if attrs['uri_encoding']:
                     _id = quote(_id)
 
