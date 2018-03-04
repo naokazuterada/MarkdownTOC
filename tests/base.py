@@ -1,7 +1,6 @@
 # coding:utf-8
-import os
+# import os
 import re
-import sys
 import sublime
 from unittest import TestCase
 
@@ -51,7 +50,7 @@ class TestBase(TestCase):
 
         return toc_contents
 
-    def commonSetup(self, text, insert_position=3):
+    def init_insert(self, text, insert_position=3):
         # 1. load text
         self.setText(text)
 
@@ -63,14 +62,14 @@ class TestBase(TestCase):
         # 3. return TOC
         return self.getTOC_text()
 
-    # def commonSetupFile(self, filename, insert_position=3):
+    # def init_insertFile(self, filename, insert_position=3):
     #     # 1. load file
     #     file = os.path.join(os.path.dirname(__file__), 'samples/' + filename)
     #     text = open(file).read()
     #
-    #     return self.commonSetup(text, insert_position)
+    #     return self.init_insert(text, insert_position)
 
-    def commonSetupAndUpdate(self, text, insert_position=3):
+    def init_update(self, text):
         # 1. load text
         self.setText(text)
 
@@ -78,17 +77,7 @@ class TestBase(TestCase):
         self.view.run_command('markdowntoc_update')
 
         # 3. return TOC
-        return self.getTOC_text()
-
-    def commonSetupAndUpdateGetBody(self, text, insert_position=3):
-        # 1. load text
-        self.setText(text)
-
-        # 2. update TOC
-        self.view.run_command('markdowntoc_update')
-
-        # 3. return Body Text
-        return self.view.substr(sublime.Region(0, self.view.size()))
+        return {'toc': self.getTOC_text(), 'body': self.view.substr(sublime.Region(0, self.view.size()))}
 
     # -----
 

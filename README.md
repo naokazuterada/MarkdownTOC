@@ -1,4 +1,4 @@
-# MarkdownTOC Plugin for Sublime Text 3
+# MarkdownTOC
 
 Sublime Text 3 plugin for generating a Table of Contents (TOC) in a Markdown document.
 
@@ -6,11 +6,11 @@ Sublime Text 3 plugin for generating a Table of Contents (TOC) in a Markdown doc
 |:--------------|:----------|:--------------|:----------|
 | [![Linux and macOS Build Status](https://api.travis-ci.org/naokazuterada/MarkdownTOC.svg?branch=master&label=Linux+and+macOS+build "Linux and macOS Build Status")](https://travis-ci.org/naokazuterada/MarkdownTOC) | [![Windows Build Status](https://ci.appveyor.com/api/projects/status/vxj9jbihlrwfa6ui/branch/master?svg=true&label=Windows+build "Windows Build Status")](https://ci.appveyor.com/project/naokazuterada/markdowntoc/branch/master) | [![codecov](https://codecov.io/gh/naokazuterada/MarkdownTOC/branch/master/graph/badge.svg)](https://codecov.io/gh/naokazuterada/MarkdownTOC) | [![Package Control](https://packagecontrol.herokuapp.com/downloads/MarkdownTOC.svg?color=397fff)](https://packagecontrol.io/packages/MarkdownTOC) |
 
-![](./demo.gif)
+![](./images/demo.gif)
 
 ## Table of Contents
 
-<!-- MarkdownTOC autolink="true" bracket="round" depth="0" style="unordered" indent="    " autoanchor="false" -->
+<!-- MarkdownTOC autolink="true" levels="1,2,3,4,5,6" bracket="round" style="unordered" indent="    " autoanchor="false" -->
 
 - [Quick Start](#quick-start)
 - [Features](#features)
@@ -25,7 +25,7 @@ Sublime Text 3 plugin for generating a Table of Contents (TOC) in a Markdown doc
         - [URI encoding](#uri-encoding)
         - [Markdown Preview compatible](#markdown-preview-compatible)
         - [Link Prefix](#link-prefix)
-    - [Control of depth listed in TOC](#control-of-depth-listed-in-toc)
+    - [Control of levels listed in TOC](#control-of-levels-listed-in-toc)
     - [Ordered or unordered style for TOC elements](#ordered-or-unordered-style-for-toc-elements)
     - [Customizable list bullets in TOC](#customizable-list-bullets-in-toc)
     - [Specify custom indentation prefix](#specify-custom-indentation-prefix)
@@ -79,7 +79,7 @@ The **MarkdownTOC** plugin is rich on features and customization, useful for bot
 - Auto link when heading has anchor defined
 - Auto linking for _clickable_ TOC
 - Manipulation of auto link ids
-- Control of depth listed in TOC
+- Control of levels listed in TOC
 - Ordered or unordered style for TOC elements
 - Customizable list bullets in TOC
 - Specify custom indentation prefix
@@ -187,7 +187,7 @@ Updating the TOC can also be accomplished without saving by picking from the men
 The default behaviour could also be described as:
 
 ```markdown
-<!-- MarkdownTOC depth="2" autolink="false" bracket="square" autoanchor="false" style="unordered" indent="\t" -->
+<!-- MarkdownTOC levels="1,2" autolink="false" bracket="square" autoanchor="false" style="unordered" indent="\t" -->
 ```
 
 Please see: [Github Configuration](#github-configuration) for a guideline to configuring **MarkdownTOC** for [Github] use.
@@ -230,7 +230,7 @@ Lorem ipsum...
 Lorem ipsum...
 ```
 
-Please note that the default for autolink is `false` defined by the [attribute](#attributes) `default_autoanchor`. See also: [How to remove anchors added by MarkdownTOC](#how-to-remove-anchors-added-by-markdowntoc).
+Please note that the default for autolink is `false` defined by the [attribute](#attributes) `defaults.autoanchor`. See also: [How to remove anchors added by MarkdownTOC](#how-to-remove-anchors-added-by-markdowntoc).
 
 ### Auto linking for _clickable_ TOC
 
@@ -268,7 +268,7 @@ The auto link markup style can be one of:
 - `square`, the default
 - `round`, the style supported on [Github]
 
-Please note that the default for autolink is `false` defined by the [attribute](#attributes) `default_autolink`.
+Please note that the default for autolink is `false` defined by the [attribute](#attributes) `defaults.autolink`.
 
 ```markdown
 <!-- MarkdownTOC autolink="false" -->
@@ -311,7 +311,7 @@ Please note that the default for autolink is `false` defined by the [attribute](
 <!-- /MarkdownTOC -->
 ```
 
-Please note that the default for bracket is `square` defined by the [attribute](#attributes) `default_bracket`.
+Please note that the default for bracket is `square` defined by the [attribute](#attributes) `defaults.bracket`.
 
 #### Lowercase only ASCII characters in auto link ids
 
@@ -353,7 +353,7 @@ You can disable the lowercasing capability by setting the `lowecase` attribute t
 # One Two Three
 ```
 
-You can also specify this in your [configuration](#configuration) with key `default_lowercase`.
+You can also specify this in your [configuration](#configuration) with key `defaults.lowercase`.
 
 #### Manipulation of auto link ids
 
@@ -361,15 +361,22 @@ You can manipulate your link ids in your [configuration](#configuration) using t
 
 ```json
 {
-  "id_replacements": {
-    "-": " ",
-    "" : ["&lt;","&gt;","&amp;","&apos;","&quot;","&#60;","&#62;","&#38;","&#39;","&#34;","!","#","$","&","'","(",")","*","+",",","/",":",";","=","?","@","[","]","`","\"", ".","<",">","{","}","™","®","©"]
-  }
+  "id_replacements": [
+    {
+      "pattern": "\\s+",
+      "replacement": "-"
+    },
+    {
+      "pattern": "!|#|$|&|'|\\(|\\)|\\*|\\+|,|/|:|;|=|_|\\?|@|\\[|\\]|`|\"|\\.|<|>|{|}|™|®|©|&lt;|&gt;|&amp;|&apos;|&quot;|&#60;|&#62;|&#38;|&#39;|&#34;",
+      "replacement": ""
+    }
+  ]
 }
 ```
 
-1. The set specified as values string(s) will be replaced with the key string.
-1. The replacement sequence executes from top to bottom and left to right
+1. Regular expression is allowed in each sets
+    - It will be simply expanded into python's `re.sub(pattern, replacement, id)`
+1. The replacement sequence executes from top to bottom
 
 An example:
 
@@ -480,9 +487,9 @@ You can also set _prefix_ of links.
 # My Heading
 ```
 
-You can manipulate this in your [configuration](#configuration) using the key `default_link_prefix`.
+You can manipulate this in your [configuration](#configuration) using the key `defaults.link_prefix`.
 
-### Control of depth listed in TOC
+### Control of levels listed in TOC
 
 ```markdown
 # Heading 1
@@ -500,7 +507,7 @@ Lorem ipsum...
 #### Heading 2
 ```
 
-With default depth:
+With default levels:
 
 ```markdown
 <!-- MarkdownTOC -->
@@ -511,10 +518,10 @@ With default depth:
 <!-- /MarkdownTOC -->
 ```
 
-With depth set to 4:
+With levels set to 1,2,3,4:
 
 ```markdown
-<!-- MarkdownTOC depth="4" -->
+<!-- MarkdownTOC levels="1,2,3,4" -->
 
 - [Heading 1]
   - [Heading 2]
@@ -524,9 +531,9 @@ With depth set to 4:
 <!-- /MarkdownTOC -->
 ```
 
-Please note that the default for the [attribute](#attributes) depth is `2`. Specifying `0` means indefinite and means all heading sizes will be included.
+Please note that the default for the [attribute](#attributes) levels is `"1,2"`. Specifying `"1,2,3,4,5,6"` means all heading sizes will be included.
 
-You can also specify this in your [configuration](#configuration) with key `default_depth`.
+You can also specify this in your [configuration](#configuration) with key `defaults.levels`.
 
 The maximum size for headings is `6` according to the [Markdown specification][Markdown]
 
@@ -592,14 +599,14 @@ And with style `ordered`:
 
 Please note that the default for the [attribute](#attributes) is: `unordered`.
 
-You can set your default style in your [configuration](#configuration) with the key `default_style`.
+You can set your default style in your [configuration](#configuration) with the key `defaults.style`.
 
 ### Customizable list bullets in TOC
 
 You can define the list items used for the TOC for each level. The first item is for the first level, the second for the second and so on until the last one of the list and then it starts over from the beginning.
 
 ```markdown
-<!-- MarkdownTOC list_bullets="-+*" depth="0" -->
+<!-- MarkdownTOC bullets="-,+,*" levels="1,2,3,4,5,6" -->
 
 - foo
   + bar
@@ -611,13 +618,15 @@ You can define the list items used for the TOC for each level. The first item is
 <!-- /MarkdownTOC -->
 ```
 
-You can set default list bullets in your [configuration](#configuration) with the key `default_list_bullets`.
+You can set default list bullets in your [configuration](#configuration) with the key `defaults.bullets`.
 
 The example above could also be described as:
 
 ```json
 {
-  "default_list_bullets": "-+*"
+  "defaults": {
+    "bullets": "-+*"
+  }
 }
 ```
 
@@ -625,7 +634,9 @@ And the value could also be _array_.
 
 ```json
 {
-  "default_list_bullets": ["-","+","*"]
+  "defaults": {
+    "bullets": ["-","+","*"]
+  }
 }
 ```
 
@@ -650,7 +661,7 @@ An _ugly_ but demonstrative example could be to use an [emoji][emoji].
 
 Please note that the default for the [attribute](#attributes) is: `'\t'`.
 
-You can set your default indentation in your [configuration](#configuration) with the key `default_indent`.
+You can set your default indentation in your [configuration](#configuration) with the key `defaults.indent`.
 
 ### Preserve images in headings
 
@@ -678,7 +689,7 @@ Please note that the default for the [attribute](#attributes) is: `false`.
 # ![check](check.png) Everything is OK
 ```
 
-You can change your default setting in your [configuration](#configuration) with the key `default_remove_image`.
+You can change your default setting in your [configuration](#configuration) with the key `defaults.remove_image`.
 
 ## Usage
 
@@ -753,21 +764,21 @@ Example of [Markdown] heading in a [Markdown] listing, not being included in the
 
 The following attributes can be used to control the generation of the TOC.
 
-| attribute              | values                         | default       | key in configuration/settings  |
-|:---------------------- |:------------------------------ |:------------- |:------------------------------ |
-| `autoanchor`           | `true`or`false`                | `false`       | `default_autoanchor`           |
-| `autolink`             | `true`or`false`                | `false`       | `default_autolink`             |
-| `bracket`              | `square`or`round`              | `"square"`    | `default_bracket`              |
-| `depth`                | integer (`0` means _no limit_) | `2`           | `default_depth`                |
-| `indent`               | string                         | `"\t"`        | `default_indent`               |
-| `link_prefix`          | string                         | `""`          | `default_link_prefix`          |
-| `list_bullets`         | string                         | `"-"`         | `default_list_bullets`         |
-| `lowercase`            | `true`or`false`                | `true`        | `default_lowercase`            |
-| `lowercase_only_ascii` | `true`or`false`                | `true`        | `default_lowercase_only_ascii` |
-| `remove_image`         | `true`or`false`                | `true`        | `default_remove_image`         |
-| `style`                | `ordered` or `unordered`       | `unordered`   | `default_style`                |
-| `uri_encoding`         | `true`or`false`                | `true`        | `default_uri_encoding`         |
-| `markdown_preview`     | `false`or`github`or`markdown`  | `false`       | `default_markdown_preview`     |
+| attribute              | values                         | default       |
+|:---------------------- |:------------------------------ |:------------- |
+| `autoanchor`           | `true`or`false`                | `false`       |
+| `autolink`             | `true`or`false`                | `false`       |
+| `bracket`              | `square`or`round`              | `"square"`    |
+| `indent`               | string                         | `"\t"`        |
+| `levels`               | string (decimal list separated with `,`)  | `"1,2"`     |
+| `link_prefix`          | string                         | `""`          |
+| `bullets`         | string                         | `"-"`         |
+| `lowercase`            | `true`or`false`                | `true`        |
+| `lowercase_only_ascii` | `true`or`false`                | `true`        |
+| `remove_image`         | `true`or`false`                | `true`        |
+| `style`                | `ordered` or `unordered`       | `unordered`   |
+| `uri_encoding`         | `true`or`false`                | `true`        |
+| `markdown_preview`     | `false`or`github`or`markdown`  | `false`       |
 
 You can define your own default values via package preferences, [Sublime Text][SublimeText]s way of letting users customize [package settings][SublimeTextSettings]. Please see the [Section on Configuration](#Configuration) for more details for **MarkdownTOC**.
 
@@ -804,23 +815,31 @@ Example: `MarkdownTOC.sublime-settings`
 
 ```json
 {
-  "default_autoanchor": false,
-  "default_autolink": false,
-  "default_bracket": "square",
-  "default_depth": 2,
-  "default_indent": "\t",
-  "default_link_prefix": "",
-  "default_list_bullets": "-",
-  "default_lowercase": true,
-  "default_lowercase_only_ascii": true,
-  "default_remove_image": true,
-  "default_style": "unordered",
-  "default_uri_encoding": true,
-  "default_markdown_preview": false,
-  "id_replacements": {
-    "-": " ",
-    "" : ["&lt;","&gt;","&amp;","&apos;","&quot;","&#60;","&#62;","&#38;","&#39;","&#34;","!","#","$","&","'","(",")","*","+",",","/",":",";","=","?","@","[","]","`","\"", ".","<",">","{","}","™","®","©"]
-  }
+  "defaults": {
+    "autoanchor": false,
+    "autolink": false,
+    "bracket": "square",
+    "levels": "1,2,3,4,5,6",
+    "indent": "\t",
+    "remove_image": true,
+    "link_prefix": "",
+    "bullets": "-",
+    "lowercase": true,
+    "lowercase_only_ascii": true,
+    "style": "unordered",
+    "uri_encoding": true,
+    "markdown_preview": false
+  },
+  "id_replacements": [
+    {
+      "pattern": "\\s+",
+      "replacement": "-"
+    },
+    {
+      "pattern": "&lt;|&gt;|&amp;|&apos;|&quot;|&#60;|&#62;|&#38;|&#39;|&#34;|!|#|$|&|'|\\(|\\)|\\*|\\+|,|/|:|;|=|_|\\?|@|\\[|\\]|`|\"|\\.|<|>|{|}|™|®|©",
+      "replacement": ""
+    }
+  ]
 }
 ```
 
@@ -834,19 +853,19 @@ Configuration precendence is as follows:
 
 For an overview of the specific behaviour behind an attribute, please refer to the below list.
 
-- `default_autolink`, (see: [Auto linking for _clickable_ TOC](#auto-linking-for-clickable-toc))
-- `default_autoanchor`, (see: [Auto anchoring when heading has anchor defined](#auto-anchoring-when-heading-has-anchor-defined))
-- `default_bracket`, (see: [Auto linking for _clickable_ TOC](#auto-linking-for-clickable-toc))
-- `default_depth`, (see: [Control of depth listed in TOC](#control-of-depth-listed-in-toc))
-- `default_indent`, (see: [Specify custom indentation prefix](#specify-custom-indentation-prefix))
-- `default_link_prefix`, (see: [Link Prefix](#link-prefix))
-- `default_list_bullets`, (see: [Customizable list bullets in TOC](#customizable-list-bullets-in-toc))
-- `default_lowercase`, (see: [Preserve case](#preserve-case))
-- `default_lowercase_only_ascii`, (see: [Lowercase only ASCII characters in auto link ids](#lowercase-only-ascii-characters-in-auto-link-ids))
-- `remove_image`, (see: [Preserve images in headings](#maintain-the-images-in-headings))
-- `default_style`, (see: [Ordered or unordered style for TOC elements](#ordered-or-unordered-style-for-toc-elements))
-- `default_uri_encoding`, (see: [URI encoding](#uri-encoding))
-- `default_markdown_preview`, (see: [Markdown Preview compatible](#markdown-preview-compatible))
+- `defaults.autolink`, (see: [Auto linking for _clickable_ TOC](#auto-linking-for-clickable-toc))
+- `defaults.autoanchor`, (see: [Auto anchoring when heading has anchor defined](#auto-anchoring-when-heading-has-anchor-defined))
+- `defaults.bracket`, (see: [Auto linking for _clickable_ TOC](#auto-linking-for-clickable-toc))
+- `defaults.indent`, (see: [Specify custom indentation prefix](#specify-custom-indentation-prefix))
+- `defaults.link_prefix`, (see: [Link Prefix](#link-prefix))
+- `defaults.levels`, (see: [Control of levels listed in TOC](#control-of-levels-listed-in-toc))
+- `defaults.bullets`, (see: [Customizable list bullets in TOC](#customizable-list-bullets-in-toc))
+- `defaults.lowercase`, (see: [Preserve case](#preserve-case))
+- `defaults.lowercase_only_ascii`, (see: [Lowercase only ASCII characters in auto link ids](#lowercase-only-ascii-characters-in-auto-link-ids))
+- `defaults.remove_image`, (see: [Preserve images in headings](#maintain-the-images-in-headings))
+- `defaults.style`, (see: [Ordered or unordered style for TOC elements](#ordered-or-unordered-style-for-toc-elements))
+- `defaults.uri_encoding`, (see: [URI encoding](#uri-encoding))
+- `defaults.markdown_preview`, (see: [Markdown Preview compatible](#markdown-preview-compatible))
 - `id_replacements`, (see: [Manipulation of auto link ids](#manipulation-of-auto-link-ids))
 
 ### Github Configuration
@@ -855,10 +874,12 @@ A configuration for writing Markdown primaily for use on [Github] _could_ look l
 
 ```json
 {
-  "default_autolink": true,
-  "default_bracket": "round",
-  "default_lowercase": true,
-  "default_lowercase_only_ascii": true
+  "defaults": {
+    "autolink": true,
+    "bracket": "round",
+    "lowercase": true,
+    "lowercase_only_ascii": true
+  }
 }
 ```
 

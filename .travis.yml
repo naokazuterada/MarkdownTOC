@@ -37,18 +37,14 @@ script:
     # - sh travis.sh run_syntax_tests
 
 after_success:
-    # remove the following if `coveralls` is not needed
     - if [ "$TRAVIS_OS_NAME" == "osx" ]; then
             brew update;
             brew install python3;
-            pip3 install python-coveralls;
             pip3 install codecov;
       fi
     - if [ "$TRAVIS_OS_NAME" == "linux" ]; then
-            pip install python-coveralls;
             pip install codecov;
       fi
-    - coveralls
     - codecov -t e41883b8-547a-4728-a703-d8e1bbedfcf8
 
 notifications:

@@ -1,10 +1,8 @@
 # coding:utf-8
 from base import TestBase
-import sublime
-import sys
 
 class LinkPrefixBullets(TestBase):
-    """Test of attributes 'link_prefix'"""
+    """Test for attributes 'link_prefix'"""
 
     # for debug
     # def tearDown(self):
@@ -19,9 +17,10 @@ class LinkPrefixBullets(TestBase):
 
 # My Beatutiful Heading
 """
+
     def test_link_prefix_default(self):
-        toc_txt = self.commonSetup(self.link_prefix_text.format(''))
-        self.assert_In('- [My Beatutiful Heading][my-beatutiful-heading]', toc_txt)
+        toc = self.init_update(self.link_prefix_text.format(''))['toc']
+        self.assert_In('- [My Beatutiful Heading][my-beatutiful-heading]', toc)
     def test_link_prefix_1(self):
-        toc_txt = self.commonSetup(self.link_prefix_text.format('link_prefix="user-content-"'))
-        self.assert_In('- [My Beatutiful Heading][user-content-my-beatutiful-heading]', toc_txt)
+        toc = self.init_update(self.link_prefix_text.format('link_prefix="user-content-"'))['toc']
+        self.assert_In('- [My Beatutiful Heading][user-content-my-beatutiful-heading]', toc)
