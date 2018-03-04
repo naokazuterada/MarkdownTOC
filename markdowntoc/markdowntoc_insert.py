@@ -275,7 +275,7 @@ class MarkdowntocInsert(sublime_plugin.TextCommand, Base):
                 _id = match_ex_id.group().replace('{#', '').replace('}', '')
             elif attrs['autolink']:
                 _id = Id(
-                        self.get_settings('id_replacements'),
+                        self.settings('id_replacements'),
                         attrs['markdown_preview'],
                         attrs['lowercase'],
                         attrs['lowercase_only_ascii']
