@@ -10,7 +10,7 @@ class Base(object):
         settings = sublime.load_settings('MarkdownTOC.sublime-settings')
         return settings.get(attr)
 
-    def get_defaults(self):
+    def defaults(self):
         """return dict of settings"""
         return self.settings('defaults')
 

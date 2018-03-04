@@ -32,7 +32,7 @@ class MarkdowntocInsert(sublime_plugin.TextCommand, Base):
         if not self.find_tag_and_insert(edit):
             sels = self.view.sel()
             for sel in sels:
-                attrs = self.get_defaults()
+                attrs = self.defaults()
 
                 # add TOCTAG
                 toc = "<!-- MarkdownTOC -->\n"
@@ -59,7 +59,7 @@ class MarkdowntocInsert(sublime_plugin.TextCommand, Base):
                 toc_open_tag = {"region": toc_open}
 
                 # settings in user settings
-                settings_user = self.get_defaults()
+                settings_user = self.defaults()
 
                 # settings in tag
                 tag_str = self.view.substr(toc_open)
@@ -352,7 +352,7 @@ class MarkdowntocInsert(sublime_plugin.TextCommand, Base):
         )
 
         # parse values according to type of values in settings file
-        defaults = self.get_defaults()
+        defaults = self.defaults()
         for key in attrs:
             if type(defaults[key]) is list:
                 attrs[key] = attrs[key].split(',')
