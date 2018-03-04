@@ -11,7 +11,6 @@ class Base(object):
         return settings.get(attr)
 
     def defaults(self):
-        """return dict of settings"""
         return self.settings('defaults')
 
     def log(self, arg):
