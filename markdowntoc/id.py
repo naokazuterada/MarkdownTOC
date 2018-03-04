@@ -14,6 +14,7 @@ class Id(Base):
         self.lowercase_only_ascii = lowercase_only_ascii
 
     def heading_to_id(self, heading):
+        heading = re.sub(r'\\', '', heading)
         if heading is None:
             return ''
         if self.markdown_preview == 'github':
