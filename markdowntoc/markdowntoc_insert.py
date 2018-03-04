@@ -16,15 +16,13 @@ from .id import Id
 pp = pprint.PrettyPrinter(indent=4)
 
 # [Heading][my-id]
-PATTERN_REFERENCE_LINK = re.compile(r'\[.+?\]$')
+PT_REF_LINK = re.compile(r'\[.+?\]$')
 # ![alt](path/to/image.png)
-PATTERN_IMAGE = re.compile(r'!\[([^\]]+)\]\([^\)]+\)')
+PT_IMAGE = re.compile(r'!\[([^\]]+)\]\([^\)]+\)')
 # [Heading]{#my-id}
-PATTERN_EX_ID = re.compile(r'\{#.+?\}$')
-PATTERN_TAG = re.compile(r'<.*?>')
-PATTERN_ANCHOR = re.compile(r'<a\s+id="[^"]+"\s*>\s*</a>')
-
-TOCTAG_END = "<!-- /MarkdownTOC -->"
+PT_EX_ID = re.compile(r'\{#.+?\}$')
+PT_TAG = re.compile(r'<.*?>')
+PT_ANCHOR = re.compile(r'<a\s+id="[^"]+"\s*>\s*</a>')
 
 class MarkdowntocInsert(sublime_plugin.TextCommand, Base):
 
@@ -39,7 +37,7 @@ class MarkdowntocInsert(sublime_plugin.TextCommand, Base):
                 toc += "\n"
                 toc += self.get_toc(attrs, sel.end(), edit)
                 toc += "\n"
-                toc += TOCTAG_END + "\n"
+                toc += "<!-- /MarkdownTOC -->\n"
 
                 self.view.insert(edit, sel.begin(), toc)
                 self.log('inserted TOC')
@@ -74,7 +72,7 @@ class MarkdowntocInsert(sublime_plugin.TextCommand, Base):
         return toc_open_tags
 
     def get_toc_close_tag(self, start):
-        close_tags = self.view.find_all("^" + TOCTAG_END + "\n")
+        close_tags = self.view.find_all("^<!-- /MarkdownTOC -->\n")
         close_tags = self.remove_items_in_codeblock(close_tags)
         for close_tag in close_tags:
             if start < close_tag.begin():
@@ -121,7 +119,7 @@ class MarkdowntocInsert(sublime_plugin.TextCommand, Base):
             def not_in_image(target):
                 return not Util.within_ranges(target, images)
             # Collect images not in codeblock
-            for m in PATTERN_IMAGE.finditer(_text):
+            for m in PT_IMAGE.finditer(_text):
                 images.append([m.start(), m.end()])
             images = list(filter(not_in_codeblock, images))
             # Collect brackets not in image tags
@@ -198,7 +196,7 @@ class MarkdowntocInsert(sublime_plugin.TextCommand, Base):
                 webbrowser.open_new(url)
             self.view.show_popup(
                 message + '<br><a href>Instruction</a>', on_navigate=open_link)
-            self.error(PATTERN_TAG.sub('', message) + ' Instruction > ' + url)
+            self.error(PT_TAG.sub('', message) + ' Instruction > ' + url)
 
         # Filtering by heading level  ------------------
         accepted_levels = list(
@@ -214,9 +212,11 @@ class MarkdowntocInsert(sublime_plugin.TextCommand, Base):
         bullets = attrs['bullets']
 
         for item in items:
+            self.log('-----------')
             _id = None
             _indent = item[0] - 1
             _text = item[1]
+            self.log(_text)
             if remove_image:
                 # Remove markdown image which not in codeblock
                 images = []
@@ -227,7 +227,7 @@ class MarkdowntocInsert(sublime_plugin.TextCommand, Base):
                 def not_in_codeblock(_target):
                     return not Util.within_ranges(_target, codes)
                 # Collect images not in codeblock
-                for m in PATTERN_IMAGE.finditer(_text):
+                for m in PT_IMAGE.finditer(_text):
                     images.append([m.start(), m.end()])
                 images = list(filter(not_in_codeblock, images))
                 images = list(map((lambda x: x[0]), images))
@@ -237,10 +237,10 @@ class MarkdowntocInsert(sublime_plugin.TextCommand, Base):
                         return ''
                     else:
                         return m.group(0)
-                _text = re.sub(PATTERN_IMAGE, _replace, _text)
+                _text = re.sub(PT_IMAGE, _replace, _text)
 
             _list_bullet = bullets[_indent % len(bullets)]
-            _text = PATTERN_TAG.sub('', _text)  # remove html tags
+            _text = PT_TAG.sub('', _text)  # remove html tags
             _text = _text.strip()  # remove start and end spaces
 
             # Ignore links: e.g. '[link](http://sample.com/)' -> 'link'
@@ -259,14 +259,14 @@ class MarkdowntocInsert(sublime_plugin.TextCommand, Base):
                 toc += _prefix
 
             # Reference-style links: e.g. '# heading [my-anchor]'
-            list_reference_link = list(PATTERN_REFERENCE_LINK.finditer(_text))
+            ref_links = list(PT_REF_LINK.finditer(_text))
 
             # Markdown-Extra special attribute style:
             # e.g. '# heading {#my-anchor}'
-            match_ex_id = PATTERN_EX_ID.search(_text)
+            match_ex_id = PT_EX_ID.search(_text)
 
-            if len(list_reference_link):
-                match = list_reference_link[-1]
+            if len(ref_links):
+                match = ref_links[-1]
                 _text = _text[0:match.start()].replace(
                     '[', '').replace(']', '').rstrip()
                 _id = match.group().replace('[', '').replace(']', '')
@@ -318,7 +318,7 @@ class MarkdowntocInsert(sublime_plugin.TextCommand, Base):
         # Iterate in reverse so that inserts don't affect the position
         for item in reversed(items):
             anchor_region = v.line(item[2] - 1)  # -1 to get to previous line
-            is_update = PATTERN_ANCHOR.match(v.substr(anchor_region))
+            is_update = PT_ANCHOR.match(v.substr(anchor_region))
             if autoanchor:
                 # if autolink=false then item[3] will be None,
                 # so use raw heading valie(replaced whitespaces) then
