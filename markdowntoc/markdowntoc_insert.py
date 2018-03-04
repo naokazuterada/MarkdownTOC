@@ -16,7 +16,9 @@ from .id import Id
 pp = pprint.PrettyPrinter(indent=4)
 
 # [Heading][my-id]
-PT_REF_LINK = re.compile(r'\[.+?\]$')
+# Negative lookbehind
+PT_REF_LINK = re.compile(r'(?<!\\)\[.+?(?<!\\)\]\s*$')
+
 # ![alt](path/to/image.png)
 PT_IMAGE = re.compile(r'!\[([^\]]+)\]\([^\)]+\)')
 # [Heading]{#my-id}
@@ -137,8 +139,8 @@ class MarkdowntocInsert(sublime_plugin.TextCommand, Base):
                     return m.group(0)
             return re.sub(_pattern, replace_brackets, _text)
 
-        _text = do_escape(_text, re.compile(r'\[([^\]]*)\]'), '\[', '\]')
-        _text = do_escape(_text, re.compile(r'\(([^\)]*)\)'), '\(', '\)')
+        _text = do_escape(_text, re.compile(r'(?<!\\)\[([^\]]*)(?<!\\)\]'), '\[', '\]')
+        _text = do_escape(_text, re.compile(r'(?<!\\)\(([^\)]*)(?<!\\)\)'), '\(', '\)')
 
         return _text
 
@@ -258,8 +260,35 @@ class MarkdowntocInsert(sublime_plugin.TextCommand, Base):
                 _prefix = _prefix.encode().decode('unicode-escape')
                 toc += _prefix
 
+            # -----------------
             # Reference-style links: e.g. '# heading [my-anchor]'
             ref_links = list(PT_REF_LINK.finditer(_text))
+
+            def filtering(ref_links, text):
+                images = []
+                codes = []
+                valids = []
+                for m in re.compile(r'`[^`]*`').finditer(text):
+                    codes.append([m.start(), m.end()])
+                def not_in_codeblock(target):
+                    return not Util.within_ranges(target, codes)
+                def not_in_image(target):
+                    return not Util.within_ranges(target, images)
+                # Collect images not in codeblock
+                for m in PT_IMAGE.finditer(text):
+                    images.append([m.start(), m.end()])
+                images = list(filter(not_in_codeblock, images))
+                # # Collect valids not in image tags
+                for m in ref_links:
+                    valids.append([m.start(), m.end()])
+                valids = list(filter(not_in_image, valids))
+                valids = list(filter(not_in_codeblock, valids))
+                valids = list(map((lambda x: x[0]), valids))
+                return list(filter(lambda x: x.start() in valids, ref_links))
+
+            ref_links = filtering(ref_links, _text)
+
+            # -----------------
 
             # Markdown-Extra special attribute style:
             # e.g. '# heading {#my-anchor}'
