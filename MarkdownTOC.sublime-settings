@@ -16,6 +16,14 @@
   },
   "id_replacements": [
     {
+      "pattern": "[_*]{2}([^\\s])[_*]{2}",
+      "replacement": "\\1"
+    },
+    {
+      "pattern": "[_*]([^\\s])[_*]",
+      "replacement": "\\1"
+    },
+    {
       "pattern": "\\s+",
       "replacement": "-"
     },
