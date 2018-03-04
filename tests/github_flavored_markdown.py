@@ -18,7 +18,7 @@ class TestAutolink(TestBase):
 <!-- /MarkdownTOC -->
 
 # variable \[required\]
-""")
+""")['toc']
         self.assert_In('- [variable \[required\]](#variable-required)', toc_txt)
 
     def test_underscores(self):
@@ -34,7 +34,7 @@ class TestAutolink(TestBase):
 # 2 test _x_
 # 3 test _x
 # 4 test x_
-""")
+""")['toc']
         self.assert_In('- [1 test_x](#1-test_x)', toc_txt)
         self.assert_In('- [2 test _x_](#2-test-x)', toc_txt)
         self.assert_In('- [3 test _x](#3-test-_x)', toc_txt)
