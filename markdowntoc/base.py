@@ -4,7 +4,7 @@ import sublime
 # for debug
 pp = pprint.PrettyPrinter(indent=4)
 
-class Base:
+class Base(object):
 
     def get_settings(self, attr):
         settings = sublime.load_settings('MarkdownTOC.sublime-settings')
