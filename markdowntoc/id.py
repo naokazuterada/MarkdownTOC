@@ -7,6 +7,7 @@ from .base import Base
 class Id(Base):
 
     def __init__(self, id_replacements, markdown_preview, lowercase, lowercase_only_ascii):
+        super().__init__()
         self.id_replacements = id_replacements
         self.markdown_preview = markdown_preview
         self.lowercase = lowercase
