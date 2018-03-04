@@ -33,9 +33,9 @@ class Id(Base):
                               for x in heading)
             else:
                 _id = heading.lower()
-            return self.replace_strings_in_id(_id)
+            return self.do_id_replacements(_id)
 
-    def replace_strings_in_id(self, _str):
+    def do_id_replacements(self, _str):
         for group in self.id_replacements:
             _str = re.sub(group['pattern'], group['replacement'], _str)
         return _str
