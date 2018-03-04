@@ -214,11 +214,9 @@ class MarkdowntocInsert(sublime_plugin.TextCommand, Base):
         bullets = attrs['bullets']
 
         for item in items:
-            self.log('-----------')
             _id = None
             _indent = item[0] - 1
             _text = item[1]
-            self.log(_text)
             if remove_image:
                 # Remove markdown image which not in codeblock
                 images = []
