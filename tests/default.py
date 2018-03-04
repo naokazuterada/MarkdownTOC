@@ -198,7 +198,7 @@ class TestDefault(TestBase):
         self.assert_In('- [`function(param, [optional])`][functionparam-optional]', toc)
         self.assert_In('- [\\(a static function\\) `greet([name])` \\(original, right?\\)][a-static-function-greetname-original-right]', toc)
         self.assert_In('- [`add(keys, command[, args][, context])`][addkeys-command-args-context]', toc)
-        self.assert_In('- [`get_context(key[, operator][, operand][, match_all])`][getcontextkey-operator-operand-matchall]', toc)
+        self.assert_In('- [`get_context(key[, operator][, operand][, match_all])`][get_contextkey-operator-operand-match_all]', toc)
 
     def test_no_headings(self):
         """ No headings there"""
