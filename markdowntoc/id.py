@@ -6,12 +6,11 @@ from .base import Base
 
 class Id(Base):
 
-    def __init__(self, id_replacements, markdown_preview, lowercase, lowercase_only_ascii):
+    def __init__(self, id_replacements, markdown_preview, lowercase):
         super().__init__()
         self.id_replacements = id_replacements
         self.markdown_preview = markdown_preview
         self.lowercase = lowercase
-        self.lowercase_only_ascii = lowercase_only_ascii
 
     def heading_to_id(self, heading):
         if heading is None:
@@ -27,7 +26,7 @@ class Id(Base):
         else:
             if not self.lowercase:
                 _id = heading
-            elif self.lowercase_only_ascii:
+            elif self.lowercase == 'only_ascii':
                 # only ascii
                 _id = ''.join(chr(ord(x) + ('A' <= x <= 'Z') * 32)
                               for x in heading)

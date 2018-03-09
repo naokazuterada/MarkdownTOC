@@ -304,8 +304,7 @@ class MarkdowntocInsert(sublime_plugin.TextCommand, Base):
                 _id = Id(
                         self.settings('id_replacements'),
                         attrs['markdown_preview'],
-                        attrs['lowercase'],
-                        attrs['lowercase_only_ascii']
+                        attrs['lowercase']
                     ).heading_to_id(_text)
                 if attrs['uri_encoding']:
                     _id = quote(_id)

@@ -8,8 +8,7 @@
     "remove_image": true,
     "link_prefix": "",
     "bullets": ["-"],
-    "lowercase": true,
-    "lowercase_only_ascii": true,
+    "lowercase": "only_ascii",
     "style": "unordered",
     "uri_encoding": true,
     "markdown_preview": ""
