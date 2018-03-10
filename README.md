@@ -519,7 +519,7 @@ Lorem ipsum...
 
 Lorem ipsum...
 
-#### Heading 2
+#### Heading 4
 ```
 
 With default levels:
