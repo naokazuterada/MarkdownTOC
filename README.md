@@ -2,7 +2,9 @@
 ==================================
 
 <p align="center">
+
 ![](./images/capture.gif)
+
 </p>
 
 <p align="center">Sublime Text 3 plugin for generating a Table of Contents (TOC) in a Markdown document.</p>
