@@ -205,6 +205,15 @@ class MarkdowntocInsert(sublime_plugin.TextCommand, Base):
             map(lambda i: int(i), attrs['levels']))
         items = list(filter((lambda j: j[0] in accepted_levels), items))
 
+        # Force change level of first item (first item must be list root)  ------------------
+        if len(items):
+            diff_to_root = items[0][0] - 1
+            if 0 < diff_to_root:
+                def pad(item):
+                    item[0] = item[0] - diff_to_root
+                    return item
+                items = list(map(pad, items))
+
         # Create TOC  ------------------
         toc = ''
         _ids = []
