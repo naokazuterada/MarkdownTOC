@@ -7,21 +7,30 @@ class Util:
 
 
     def format(items):
-        headings = []
+        levels = []
         for item in items:
-            headings.append(item[0])
+            levels.append(item[0])
         # --------------------------
 
-        # minimize diff between headings -----
-        _depths = list(set(headings))  # sort and unique
+        # minimize diff between levels -----
+        _depths = list(set(levels))  # sort and unique
         # replace with depth rank
-        for i, item in enumerate(headings):
-            headings[i] = _depths.index(headings[i]) + 1
-        # ----- /minimize diff between headings
+        for i, item in enumerate(levels):
+            levels[i] = _depths.index(levels[i]) + 1
+
+
+        # Force set level of first item to 1 -----
+        # (first item must be list root)
+        if len(levels):
+            diff_to_root = levels[0] - 1
+            if 0 < diff_to_root:
+                def pad(level):
+                    return level - diff_to_root
+                levels = list(map(pad, levels))
 
         # --------------------------
         for i, item in enumerate(items):
-            item[0] = headings[i]
+            item[0] = levels[i]
         return items
 
 

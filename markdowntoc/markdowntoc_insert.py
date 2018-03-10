@@ -184,6 +184,11 @@ class MarkdowntocInsert(sublime_plugin.TextCommand, Base):
         if len(items) < 1:
             return ''
 
+        # Filtering by heading level  ------------------
+        accepted_levels = list(
+            map(lambda i: int(i), attrs['levels']))
+        items = list(filter((lambda j: j[0] in accepted_levels), items))
+
         # Shape TOC  ------------------
         items = Util.format(items)
 
@@ -199,20 +204,6 @@ class MarkdowntocInsert(sublime_plugin.TextCommand, Base):
             self.view.show_popup(
                 message + '<br><a href>Instruction</a>', on_navigate=open_link)
             self.error(PT_TAG.sub('', message) + ' Instruction > ' + url)
-
-        # Filtering by heading level  ------------------
-        accepted_levels = list(
-            map(lambda i: int(i), attrs['levels']))
-        items = list(filter((lambda j: j[0] in accepted_levels), items))
-
-        # Force change level of first item (first item must be list root)  ------------------
-        if len(items):
-            diff_to_root = items[0][0] - 1
-            if 0 < diff_to_root:
-                def pad(item):
-                    item[0] = item[0] - diff_to_root
-                    return item
-                items = list(map(pad, items))
 
         # Create TOC  ------------------
         toc = ''
