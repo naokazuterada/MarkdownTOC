@@ -1,10 +1,6 @@
-<p align="center">
-
 ![MarkdownTOC](./images/title.gif)
 
 ![](./images/capture.gif)
-
-</p>
 
 MarkdownTOC
 ===========
