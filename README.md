@@ -189,7 +189,7 @@ Updating the TOC can also be accomplished without saving by picking from the men
 The default behaviour could also be described as:
 
 ```markdown
-<!-- MarkdownTOC levels="1,2" autolink="false" bracket="square" autoanchor="false" style="unordered" indent="\t" -->
+<!-- MarkdownTOC levels="1,2,3,4,5,6" autolink="false" bracket="round" autoanchor="false" style="unordered" indent="\t" -->
 ```
 
 Please see: [Github Configuration](#github-configuration) for a guideline to configuring **MarkdownTOC** for [Github] use.
@@ -254,7 +254,7 @@ Lorem ipsum...
 With `autolink` set to `true` will render the following:
 
 ```markdown
-<!-- MarkdownTOC autolink="true" bracket="round" -->
+<!-- MarkdownTOC autolink="true" -->
 
 - [Heading 1](#heading-1)
   - [Heading 2](#heading-2)
@@ -267,8 +267,8 @@ With `autolink` set to `true` will render the following:
 
 The auto link markup style can be one of:
 
-- `square`, the default
-- `round`, the style supported on [Github]
+- `round`, the default, the style supported on [Github]
+- `square`, the ["Markdown standard reference-style links"][MarkdownLinks] style.
 
 Please note that the default for autolink is `false` defined by the [attribute](#attributes) `defaults.autolink`.
 
@@ -293,16 +293,6 @@ Please note that the default for autolink is `false` defined by the [attribute](
 <!-- /MarkdownTOC -->
 ```
 
-**square**: according to ["Markdown standard reference-style links"][MarkdownLinks].
-
-```markdown
-<!-- MarkdownTOC bracket="square" -->
-
-- [Heading][heading]
-
-<!-- /MarkdownTOC -->
-```
-
 **round**: according to [Github] style.
 
 ```markdown
@@ -313,7 +303,17 @@ Please note that the default for autolink is `false` defined by the [attribute](
 <!-- /MarkdownTOC -->
 ```
 
-Please note that the default for bracket is `square` defined by the [attribute](#attributes) `defaults.bracket`.
+**square**: according to ["Markdown standard reference-style links"][MarkdownLinks].
+
+```markdown
+<!-- MarkdownTOC bracket="square" -->
+
+- [Heading][heading]
+
+<!-- /MarkdownTOC -->
+```
+
+Please note that the default for bracket is `round` defined by the [attribute](#attributes) `defaults.bracket`.
 
 #### Lowercasing in ids
 
@@ -780,20 +780,20 @@ Example of [Markdown] heading in a [Markdown] listing, not being included in the
 
 The following attributes can be used to control the generation of the TOC.
 
-| attribute              | values                                    | default        |
-|:-----------------------|:------------------------------------------|:---------------|
-| `autoanchor`           | `true`or`false`                           | `false`        |
-| `autolink`             | `true`or`false`                           | `false`        |
-| `bracket`              | `"square"`or`"round"`                     | `"square"`     |
-| `indent`               | string                                    | `"\t"`         |
 | `levels`               | string (decimal list separated with `,`)  | `"1,2"`        |
-| `link_prefix`          | string                                    | `""`           |
-| `bullets`              | string                                    | `"-"`          |
-| `lowercase`            | `"all"`or`"only_ascii"`or`"false"`        | `"only_ascii"` |
-| `remove_image`         | `true`or`false`                           | `true`         |
-| `style`                | `"ordered"` or `"unordered"`              | `"unordered"`  |
-| `uri_encoding`         | `true`or`false`                           | `true`         |
-| `markdown_preview`     | `""`or`"github"`or`"markdown"`            | `""`           |
+| attribute              | values                                    | default         |
+|:-----------------------|:------------------------------------------|:----------------|
+| `autoanchor`           | `true`or`false`                           | `false`         |
+| `autolink`             | `true`or`false`                           | `false`         |
+| `bracket`              | `"round"`or`"square"`                     | `"round"`       |
+| `indent`               | string                                    | `"\t"`          |
+| `link_prefix`          | string                                    | `""`            |
+| `bullets`              | string                                    | `"-"`           |
+| `lowercase`            | `"all"`or`"only_ascii"`or`"false"`        | `"only_ascii"`  |
+| `remove_image`         | `true`or`false`                           | `true`          |
+| `style`                | `"ordered"` or `"unordered"`              | `"unordered"`   |
+| `uri_encoding`         | `true`or`false`                           | `true`          |
+| `markdown_preview`     | `""`or`"github"`or`"markdown"`            | `""`            |
 
 You can define your own default values via package preferences, [Sublime Text][SublimeText]'s way of letting users customize [package settings][SublimeTextSettings]. Please see the [Section on Configuration](#Configuration) for more details for **MarkdownTOC**.
 
@@ -833,7 +833,7 @@ Example: `MarkdownTOC.sublime-settings`
   "defaults": {
     "autoanchor": false,
     "autolink": false,
-    "bracket": "square",
+    "bracket": "round",
     "levels": "1,2,3,4,5,6",
     "indent": "\t",
     "remove_image": true,

@@ -2,7 +2,7 @@
   "defaults": {
     "autoanchor": false,
     "autolink": false,
-    "bracket": "square",
+    "bracket": "round",
     "levels": [1,2,3,4,5,6],
     "indent": "\t",
     "remove_image": true,
