@@ -783,16 +783,16 @@ The following attributes can be used to control the generation of the TOC.
 |:-----------------------|:------------------------------------------|:---------------|
 | `autoanchor`           | `true`or`false`                           | `false`        |
 | `autolink`             | `true`or`false`                           | `false`        |
-| `bracket`              | `square`or`round`                         | `"square"`     |
+| `bracket`              | `"square"`or`"round"`                     | `"square"`     |
 | `indent`               | string                                    | `"\t"`         |
 | `levels`               | string (decimal list separated with `,`)  | `"1,2"`        |
 | `link_prefix`          | string                                    | `""`           |
 | `bullets`              | string                                    | `"-"`          |
-| `lowercase`            | `"all"`or`"only_ascii"`or`false`          | `"only_ascii"` |
+| `lowercase`            | `"all"`or`"only_ascii"`or`"false"`        | `"only_ascii"` |
 | `remove_image`         | `true`or`false`                           | `true`         |
-| `style`                | `ordered` or `unordered`                  | `unordered`    |
+| `style`                | `"ordered"` or `"unordered"`              | `"unordered"`  |
 | `uri_encoding`         | `true`or`false`                           | `true`         |
-| `markdown_preview`     | `false`or`github`or`markdown`             | `false`        |
+| `markdown_preview`     | `""`or`"github"`or`"markdown"`            | `""`           |
 
 You can define your own default values via package preferences, [Sublime Text][SublimeText]s way of letting users customize [package settings][SublimeTextSettings]. Please see the [Section on Configuration](#Configuration) for more details for **MarkdownTOC**.
 
