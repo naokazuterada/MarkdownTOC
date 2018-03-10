@@ -1,13 +1,8 @@
 ![MarkdownTOC](./images/title.gif)
 ==================================
 
-<center>
-  
-Sublime Text 3 plugin for generating a Table of Contents (TOC) in a Markdown document.
-
-[![Linux and macOS Build Status](https://api.travis-ci.org/naokazuterada/MarkdownTOC.svg?branch=master&label=Linux+and+macOS+build "Linux and macOS Build Status")](https://travis-ci.org/naokazuterada/MarkdownTOC) [![Windows Build Status](https://ci.appveyor.com/api/projects/status/vxj9jbihlrwfa6ui/branch/master?svg=true&label=Windows+build "Windows Build Status")](https://ci.appveyor.com/project/naokazuterada/markdowntoc/branch/master) [![codecov](https://codecov.io/gh/naokazuterada/MarkdownTOC/branch/master/graph/badge.svg)](https://codecov.io/gh/naokazuterada/MarkdownTOC) [![Package Control](https://packagecontrol.herokuapp.com/downloads/MarkdownTOC.svg?color=397fff)](https://packagecontrol.io/packages/MarkdownTOC)
-
-</center>
+<p align="center">Sublime Text 3 plugin for generating a Table of Contents (TOC) in a Markdown document.</p>
+<p align="center"><a href="https://travis-ci.org/naokazuterada/MarkdownTOC" rel="nofollow"><img src="https://camo.githubusercontent.com/5bd5d7a8194204f2e2a102c424f446f0c0815db8/68747470733a2f2f6170692e7472617669732d63692e6f72672f6e616f6b617a757465726164612f4d61726b646f776e544f432e7376673f6272616e63683d6d6173746572266c6162656c3d4c696e75782b616e642b6d61634f532b6275696c64" alt="Linux and macOS Build Status" title="Linux and macOS Build Status" data-canonical-src="https://api.travis-ci.org/naokazuterada/MarkdownTOC.svg?branch=master&amp;label=Linux+and+macOS+build" style="max-width:100%;"></a><a href="https://ci.appveyor.com/project/naokazuterada/markdowntoc/branch/master" rel="nofollow"><img src="https://camo.githubusercontent.com/600027ec9e06a6a2f6ce9e8f6f5587f506c14bd9/68747470733a2f2f63692e6170707665796f722e636f6d2f6170692f70726f6a656374732f7374617475732f76786a396a6269686c727766613675692f6272616e63682f6d61737465723f7376673d74727565266c6162656c3d57696e646f77732b6275696c64" alt="Windows Build Status" title="Windows Build Status" data-canonical-src="https://ci.appveyor.com/api/projects/status/vxj9jbihlrwfa6ui/branch/master?svg=true&amp;label=Windows+build" style="max-width:100%;"></a><a href="https://codecov.io/gh/naokazuterada/MarkdownTOC" rel="nofollow"><img src="https://camo.githubusercontent.com/cde799776df48c0ab1f6357b037d1f4840a3bf93/68747470733a2f2f636f6465636f762e696f2f67682f6e616f6b617a757465726164612f4d61726b646f776e544f432f6272616e63682f6d61737465722f67726170682f62616467652e737667" alt="codecov" data-canonical-src="https://codecov.io/gh/naokazuterada/MarkdownTOC/branch/master/graph/badge.svg" style="max-width:100%;"></a><a href="https://packagecontrol.io/packages/MarkdownTOC" rel="nofollow"><img src="https://camo.githubusercontent.com/064435dccbb7ebdf9df506998f7a373bec4bd1c1/68747470733a2f2f7061636b616765636f6e74726f6c2e6865726f6b756170702e636f6d2f646f776e6c6f6164732f4d61726b646f776e544f432e7376673f636f6c6f723d333937666666" alt="Package Control" data-canonical-src="https://packagecontrol.herokuapp.com/downloads/MarkdownTOC.svg?color=397fff" style="max-width:100%;"></a></p>
 
 ![](./images/demo.gif)
 
