@@ -391,7 +391,7 @@ You can manipulate your link ids in your [configuration](#configuration) using t
 
 1. Regular expression is allowed in each sets
     - It will be simply expanded into python's `re.sub(pattern, replacement, id)`
-1. The replacement sequence executes from top to bottom
+2. The replacement sequence executes from top to bottom
 
 An example:
 
