@@ -158,7 +158,7 @@ class MarkdowntocInsert(sublime_plugin.TextCommand, Base):
         if len(headings) < 1:
             return ''
 
-        items = []  # [[headingNum,text,position,anchor_id],...]
+        items = []  # [[headingNum, text, position, anchor_id], ...]
         for heading in headings:
             if begin < heading.end():
                 lines = self.view.lines(heading)
@@ -184,6 +184,11 @@ class MarkdowntocInsert(sublime_plugin.TextCommand, Base):
         if len(items) < 1:
             return ''
 
+        # Filtering by heading level  ------------------
+        accepted_levels = list(
+            map(lambda i: int(i), attrs['levels']))
+        items = list(filter((lambda j: j[0] in accepted_levels), items))
+
         # Shape TOC  ------------------
         items = Util.format(items)
 
@@ -199,11 +204,6 @@ class MarkdowntocInsert(sublime_plugin.TextCommand, Base):
             self.view.show_popup(
                 message + '<br><a href>Instruction</a>', on_navigate=open_link)
             self.error(PT_TAG.sub('', message) + ' Instruction > ' + url)
-
-        # Filtering by heading level  ------------------
-        accepted_levels = list(
-            map(lambda i: int(i), attrs['levels']))
-        items = list(filter((lambda j: j[0] in accepted_levels), items))
 
         # Create TOC  ------------------
         toc = ''
@@ -304,8 +304,7 @@ class MarkdowntocInsert(sublime_plugin.TextCommand, Base):
                 _id = Id(
                         self.settings('id_replacements'),
                         attrs['markdown_preview'],
-                        attrs['lowercase'],
-                        attrs['lowercase_only_ascii']
+                        str(attrs['lowercase']).lower()
                     ).heading_to_id(_text)
                 if attrs['uri_encoding']:
                     _id = quote(_id)

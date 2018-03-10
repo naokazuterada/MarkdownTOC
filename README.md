@@ -18,9 +18,10 @@ Sublime Text 3 plugin for generating a Table of Contents (TOC) in a Markdown doc
     - [Automatic refresh of TOC when Markdown document is saved](#automatic-refresh-of-toc-when-markdown-document-is-saved)
     - [Customizing generation of TOC using attributes](#customizing-generation-of-toc-using-attributes)
     - [Auto anchoring when heading has anchor defined](#auto-anchoring-when-heading-has-anchor-defined)
-    - [Auto linking for _clickable_ TOC](#auto-linking-for-clickable-toc)
-        - [Lowercase only ASCII characters in auto link ids](#lowercase-only-ascii-characters-in-auto-link-ids)
-        - [Preserve case](#preserve-case)
+    - [Auto linking for _clickable_ TOC](#auto-linking-for-_clickable_-toc)
+        - [Lowercasing in ids](#lowercasing-in-ids)
+            - [Preserve case](#preserve-case)
+            - [Lowercase all characters](#lowercase-all-characters)
         - [Manipulation of auto link ids](#manipulation-of-auto-link-ids)
         - [URI encoding](#uri-encoding)
         - [Markdown Preview compatible](#markdown-preview-compatible)
@@ -313,7 +314,7 @@ Please note that the default for autolink is `false` defined by the [attribute](
 
 Please note that the default for bracket is `square` defined by the [attribute](#attributes) `defaults.bracket`.
 
-#### Lowercase only ASCII characters in auto link ids
+#### Lowercasing in ids
 
 By default the plugin lowercases ASCII based alphabets **only** (`a` to `z`) for auto links.
 
@@ -327,19 +328,19 @@ By default the plugin lowercases ASCII based alphabets **only** (`a` to `z`) for
 # ПРИМЕР EXAMPLE
 ```
 
-You can expand the lowercasing capability by setting the `lowecase_only_ascii` attribute to `false`.
+This is same as setting `lowercase` attribute to `only_ascii`.
 
 ```markdown
-<!-- MarkdownTOC autolink="true" lowercase_only_ascii="false" -->
+<!-- MarkdownTOC autolink="true" lowercase="only_ascii" -->
 
-- [ПРИМЕР EXAMPLE][пример-example]
+- [ПРИМЕР EXAMPLE][ПРИМЕР-example]
 
 <!-- /MarkdownTOC -->
 
 # ПРИМЕР EXAMPLE
 ```
 
-#### Preserve case
+##### Preserve case
 
 You can disable the lowercasing capability by setting the `lowecase` attribute to `false`.
 
@@ -351,6 +352,20 @@ You can disable the lowercasing capability by setting the `lowecase` attribute t
 <!-- /MarkdownTOC -->
 
 # One Two Three
+```
+
+##### Lowercase all characters
+
+Further more you can also expand the lowercasing capability by setting the `lowercase` attribute to `all`(or any values other than `false` and `only_ascii`).
+
+```markdown
+<!-- MarkdownTOC autolink="true" lowercase="all" -->
+
+- [ПРИМЕР EXAMPLE][пример-example]
+
+<!-- /MarkdownTOC -->
+
+# ПРИМЕР EXAMPLE
 ```
 
 You can also specify this in your [configuration](#configuration) with key `defaults.lowercase`.
@@ -376,7 +391,7 @@ You can manipulate your link ids in your [configuration](#configuration) using t
 
 1. Regular expression is allowed in each sets
     - It will be simply expanded into python's `re.sub(pattern, replacement, id)`
-1. The replacement sequence executes from top to bottom
+2. The replacement sequence executes from top to bottom
 
 An example:
 
@@ -504,7 +519,7 @@ Lorem ipsum...
 
 Lorem ipsum...
 
-#### Heading 2
+#### Heading 4
 ```
 
 With default levels:
@@ -764,21 +779,20 @@ Example of [Markdown] heading in a [Markdown] listing, not being included in the
 
 The following attributes can be used to control the generation of the TOC.
 
-| attribute              | values                         | default       |
-|:---------------------- |:------------------------------ |:------------- |
-| `autoanchor`           | `true`or`false`                | `false`       |
-| `autolink`             | `true`or`false`                | `false`       |
-| `bracket`              | `square`or`round`              | `"square"`    |
-| `indent`               | string                         | `"\t"`        |
-| `levels`               | string (decimal list separated with `,`)  | `"1,2"`     |
-| `link_prefix`          | string                         | `""`          |
-| `bullets`         | string                         | `"-"`         |
-| `lowercase`            | `true`or`false`                | `true`        |
-| `lowercase_only_ascii` | `true`or`false`                | `true`        |
-| `remove_image`         | `true`or`false`                | `true`        |
-| `style`                | `ordered` or `unordered`       | `unordered`   |
-| `uri_encoding`         | `true`or`false`                | `true`        |
-| `markdown_preview`     | `false`or`github`or`markdown`  | `false`       |
+| attribute              | values                                    | default        |
+|:-----------------------|:------------------------------------------|:---------------|
+| `autoanchor`           | `true`or`false`                           | `false`        |
+| `autolink`             | `true`or`false`                           | `false`        |
+| `bracket`              | `"square"`or`"round"`                     | `"square"`     |
+| `indent`               | string                                    | `"\t"`         |
+| `levels`               | string (decimal list separated with `,`)  | `"1,2"`        |
+| `link_prefix`          | string                                    | `""`           |
+| `bullets`              | string                                    | `"-"`          |
+| `lowercase`            | `"all"`or`"only_ascii"`or`"false"`        | `"only_ascii"` |
+| `remove_image`         | `true`or`false`                           | `true`         |
+| `style`                | `"ordered"` or `"unordered"`              | `"unordered"`  |
+| `uri_encoding`         | `true`or`false`                           | `true`         |
+| `markdown_preview`     | `""`or`"github"`or`"markdown"`            | `""`           |
 
 You can define your own default values via package preferences, [Sublime Text][SublimeText]s way of letting users customize [package settings][SublimeTextSettings]. Please see the [Section on Configuration](#Configuration) for more details for **MarkdownTOC**.
 
@@ -824,8 +838,7 @@ Example: `MarkdownTOC.sublime-settings`
     "remove_image": true,
     "link_prefix": "",
     "bullets": "-",
-    "lowercase": true,
-    "lowercase_only_ascii": true,
+    "lowercase": "only_ascii",
     "style": "unordered",
     "uri_encoding": true,
     "markdown_preview": false
@@ -860,8 +873,7 @@ For an overview of the specific behaviour behind an attribute, please refer to t
 - `defaults.link_prefix`, (see: [Link Prefix](#link-prefix))
 - `defaults.levels`, (see: [Control of levels listed in TOC](#control-of-levels-listed-in-toc))
 - `defaults.bullets`, (see: [Customizable list bullets in TOC](#customizable-list-bullets-in-toc))
-- `defaults.lowercase`, (see: [Preserve case](#preserve-case))
-- `defaults.lowercase_only_ascii`, (see: [Lowercase only ASCII characters in auto link ids](#lowercase-only-ascii-characters-in-auto-link-ids))
+- `defaults.lowercase`, (see: [Lowercasing in ids](#lowercasing-in-ids))
 - `defaults.remove_image`, (see: [Preserve images in headings](#maintain-the-images-in-headings))
 - `defaults.style`, (see: [Ordered or unordered style for TOC elements](#ordered-or-unordered-style-for-toc-elements))
 - `defaults.uri_encoding`, (see: [URI encoding](#uri-encoding))
@@ -877,8 +889,7 @@ A configuration for writing Markdown primaily for use on [Github] _could_ look l
   "defaults": {
     "autolink": true,
     "bracket": "round",
-    "lowercase": true,
-    "lowercase_only_ascii": true
+    "lowercase": "only_ascii"
   }
 }
 ```
