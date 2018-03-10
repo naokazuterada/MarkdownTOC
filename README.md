@@ -795,7 +795,7 @@ The following attributes can be used to control the generation of the TOC.
 | `uri_encoding`         | `true`or`false`                           | `true`         |
 | `markdown_preview`     | `""`or`"github"`or`"markdown"`            | `""`           |
 
-You can define your own default values via package preferences, [Sublime Text][SublimeText]s way of letting users customize [package settings][SublimeTextSettings]. Please see the [Section on Configuration](#Configuration) for more details for **MarkdownTOC**.
+You can define your own default values via package preferences, [Sublime Text][SublimeText]'s way of letting users customize [package settings][SublimeTextSettings]. Please see the [Section on Configuration](#Configuration) for more details for **MarkdownTOC**.
 
 ## Installation
 
