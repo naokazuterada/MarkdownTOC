@@ -534,20 +534,18 @@ With default levels:
 <!-- /MarkdownTOC -->
 ```
 
-With levels set to 1,2,3,4:
+With levels set to 1,2:
 
 ```markdown
-<!-- MarkdownTOC levels="1,2,3,4" -->
+<!-- MarkdownTOC levels="1,2" -->
 
 - [Heading 1]
   - [Heading 2]
-    - [Heading 3]
-      - [Heading 4]
 
 <!-- /MarkdownTOC -->
 ```
 
-Please note that the default for the [attribute](#attributes) levels is `"1,2"`. Specifying `"1,2,3,4,5,6"` means all heading sizes will be included.
+Please note that the default for the [attribute](#attributes) levels is `"1,2,3,4,5,6"`, it means all heading sizes will be included.
 
 You can also specify this in your [configuration](#configuration) with key `defaults.levels`.
 
@@ -622,7 +620,7 @@ You can set your default style in your [configuration](#configuration) with the 
 You can define the list items used for the TOC for each level. The first item is for the first level, the second for the second and so on until the last one of the list and then it starts over from the beginning.
 
 ```markdown
-<!-- MarkdownTOC bullets="-,+,*" levels="1,2,3,4,5,6" -->
+<!-- MarkdownTOC bullets="-,+,*" -->
 
 - foo
   + bar
@@ -780,13 +778,13 @@ Example of [Markdown] heading in a [Markdown] listing, not being included in the
 
 The following attributes can be used to control the generation of the TOC.
 
-| `levels`               | string (decimal list separated with `,`)  | `"1,2"`        |
 | attribute              | values                                    | default         |
 |:-----------------------|:------------------------------------------|:----------------|
 | `autoanchor`           | `true`or`false`                           | `false`         |
 | `autolink`             | `true`or`false`                           | `false`         |
 | `bracket`              | `"round"`or`"square"`                     | `"round"`       |
 | `indent`               | string                                    | `"\t"`          |
+| `levels`               | string (decimal list separated with `,`)  | `"1,2,3,4,5,6"` |
 | `link_prefix`          | string                                    | `""`            |
 | `bullets`              | string                                    | `"-"`           |
 | `lowercase`            | `"all"`or`"only_ascii"`or`"false"`        | `"only_ascii"`  |
