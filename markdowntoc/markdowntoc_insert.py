@@ -158,7 +158,7 @@ class MarkdowntocInsert(sublime_plugin.TextCommand, Base):
         if len(headings) < 1:
             return ''
 
-        items = []  # [[headingNum,text,position,anchor_id],...]
+        items = []  # [[headingNum, text, position, anchor_id], ...]
         for heading in headings:
             if begin < heading.end():
                 lines = self.view.lines(heading)
