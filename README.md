@@ -829,18 +829,13 @@ Example: `MarkdownTOC.sublime-settings`
 ```json
 {
   "defaults": {
-    "autoanchor": false,
-    "autolink": false,
-    "bracket": "round",
-    "levels": "1,2,3,4,5,6",
-    "indent": "\t",
-    "remove_image": true,
-    "link_prefix": "",
-    "bullets": "-",
-    "lowercase": "only_ascii",
-    "style": "unordered",
-    "uri_encoding": true,
-    "markdown_preview": false
+    "autolink": true,
+    "bracket": "square",
+    "levels": "1,2",
+    "indent": "    ",
+    "remove_image": false,
+    "bullets": "*",
+    "style": "ordered"
   },
   "id_replacements": [
     {
