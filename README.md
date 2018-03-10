@@ -820,7 +820,7 @@ git clone git@github.com:naokazuterada/MarkdownTOC.git ~/Library/Application\ Su
 
 You can use [attributes](#attributes) to customize a TOC in a single [Markdown] document, but if you want to keep the same TOC configuration accross multiple [Markdown] documents, you can configure your own defaults.
 
-Pick: `Sublime Text > Preferences > Package Settings > MarkdownTOC > Settings - User
+Pick: `Sublime Text > Preferences > Package Settings > MarkdownTOC > Settings - User`
 
 Alternatively you can create the file `~/Library/Application Support/Sublime Text 3/Packages/User/MarkdownTOC.sublime-settings` by hand.
 
