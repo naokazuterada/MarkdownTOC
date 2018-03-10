@@ -75,17 +75,23 @@ Now you can go on and edit your document further or you can customize you TOC, p
 
 The **MarkdownTOC** plugin is rich on features and customization, useful for both work on a single [Markdown] document or if you have several [Markdown] documents that require _special_ TOC generation.
 
-- Insertion of TOC based on headings in [Markdown] document
-- Automatic refresh of TOC when [Markdown] document is saved
-- Customizing generation of TOC using attributes
-- Auto link when heading has anchor defined
-- Auto linking for _clickable_ TOC
-- Manipulation of auto link ids
-- Control of levels listed in TOC
-- Ordered or unordered style for TOC elements
-- Customizable list bullets in TOC
-- Specify custom indentation prefix
-- Customizable link prefix
+- [Insertion of TOC based on headings in Markdown document](#insertion-of-toc-based-on-headings-in-markdown-document)
+- [Automatic refresh of TOC when Markdown document is saved](#automatic-refresh-of-toc-when-markdown-document-is-saved)
+- [Customizing generation of TOC using attributes](#customizing-generation-of-toc-using-attributes)
+- [Auto anchoring when heading has anchor defined](#auto-anchoring-when-heading-has-anchor-defined)
+- [Auto linking for _clickable_ TOC](#auto-linking-for-_clickable_-toc)
+    - [Lowercasing in ids](#lowercasing-in-ids)
+        - [Preserve case](#preserve-case)
+        - [Lowercase all characters](#lowercase-all-characters)
+    - [Manipulation of auto link ids](#manipulation-of-auto-link-ids)
+    - [URI encoding](#uri-encoding)
+    - [Markdown Preview compatible](#markdown-preview-compatible)
+    - [Link Prefix](#link-prefix)
+- [Control of levels listed in TOC](#control-of-levels-listed-in-toc)
+- [Ordered or unordered style for TOC elements](#ordered-or-unordered-style-for-toc-elements)
+- [Customizable list bullets in TOC](#customizable-list-bullets-in-toc)
+- [Specify custom indentation prefix](#specify-custom-indentation-prefix)
+- [Preserve images in headings](#preserve-images-in-headings)
 
 ### Insertion of TOC based on headings in Markdown document
 
