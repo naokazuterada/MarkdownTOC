@@ -11,7 +11,7 @@ class TestUriEncoding(TestBase):
     uri_encoding_text = \
 """
 
-<!-- MarkdownTOC autolink=true lowercase_only_ascii=true {0} -->
+<!-- MarkdownTOC autolink="true" lowercase="only_ascii" {0} -->
 
 <!-- /MarkdownTOC -->
 

@@ -24,10 +24,9 @@ class Id(Base):
         elif self.markdown_preview == 'markdown':
             return self.slugify(heading, '-')
         else:
-            if not self.lowercase:
+            if self.lowercase == 'false':
                 _id = heading
             elif self.lowercase == 'only_ascii':
-                # only ascii
                 _id = ''.join(chr(ord(x) + ('A' <= x <= 'Z') * 32)
                               for x in heading)
             else:
