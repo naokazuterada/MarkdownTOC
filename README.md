@@ -9,6 +9,12 @@ Sublime Text 3 plugin for generating a Table of Contents (TOC) in a Markdown doc
 
 [![Linux and macOS Build Status](https://api.travis-ci.org/naokazuterada/MarkdownTOC.svg?branch=master&label=Linux+and+macOS+build "Linux and macOS Build Status")](https://travis-ci.org/naokazuterada/MarkdownTOC) [![Windows Build Status](https://ci.appveyor.com/api/projects/status/vxj9jbihlrwfa6ui/branch/master?svg=true&label=Windows+build "Windows Build Status")](https://ci.appveyor.com/project/naokazuterada/markdowntoc/branch/master) [![codecov](https://codecov.io/gh/naokazuterada/MarkdownTOC/branch/master/graph/badge.svg)](https://codecov.io/gh/naokazuterada/MarkdownTOC) [![Package Control](https://packagecontrol.herokuapp.com/downloads/MarkdownTOC.svg?color=397fff)](https://packagecontrol.io/packages/MarkdownTOC)
 
+---
+
+***Note: v3.0.0 has some breaking changes. See [Upgrade Guide](https://github.com/naokazuterada/MarkdownTOC/releases/tag/3.0.0) for mode detail.***
+
+---
+
 ## Table of Contents
 
 <details>
