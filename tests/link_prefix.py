@@ -20,7 +20,7 @@ class LinkPrefixBullets(TestBase):
 
     def test_link_prefix_default(self):
         toc = self.init_update(self.link_prefix_text.format(''))['toc']
-        self.assert_In('- [My Beatutiful Heading][my-beatutiful-heading]', toc)
+        self.assert_In('- [My Beatutiful Heading](#my-beatutiful-heading)', toc)
     def test_link_prefix_1(self):
         toc = self.init_update(self.link_prefix_text.format('link_prefix="user-content-"'))['toc']
-        self.assert_In('- [My Beatutiful Heading][user-content-my-beatutiful-heading]', toc)
+        self.assert_In('- [My Beatutiful Heading](#user-content-my-beatutiful-heading)', toc)

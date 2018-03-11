@@ -152,12 +152,12 @@ class TestDefault(TestBase):
 # &#60;element2>
 """
         toc = self.init_update(text)['toc']
-        self.assert_In('- [Heading ! 0][heading--0]', toc)
-        self.assert_In('- [Heading # 1][heading--1]', toc)
-        self.assert_In('- [Heading !! 2][heading--2]', toc)
-        self.assert_In('- [Heading &and&and& 3][heading-andand-3]', toc)
-        self.assert_In('- [&lt;element1>][element1]', toc)
-        self.assert_In('- [&#60;element2>][element2]', toc)
+        self.assert_In('- [Heading ! 0](#heading--0)', toc)
+        self.assert_In('- [Heading # 1](#heading--1)', toc)
+        self.assert_In('- [Heading !! 2](#heading--2)', toc)
+        self.assert_In('- [Heading &and&and& 3](#heading-andand-3)', toc)
+        self.assert_In('- [&lt;element1>](#element1)', toc)
+        self.assert_In('- [&#60;element2>](#element2)', toc)
 
 
     def test_no_escape_in_code(self):
@@ -195,10 +195,10 @@ class TestDefault(TestBase):
 # `get_context(key[, operator][, operand][, match_all])`
 """
         toc = self.init_update(text)['toc']
-        self.assert_In('- [`function(param, [optional])`][functionparam-optional]', toc)
-        self.assert_In('- [\\(a static function\\) `greet([name])` \\(original, right?\\)][a-static-function-greetname-original-right]', toc)
-        self.assert_In('- [`add(keys, command[, args][, context])`][addkeys-command-args-context]', toc)
-        self.assert_In('- [`get_context(key[, operator][, operand][, match_all])`][get_contextkey-operator-operand-match_all]', toc)
+        self.assert_In('- [`function(param, [optional])`](#functionparam-optional)', toc)
+        self.assert_In('- [\\(a static function\\) `greet([name])` \\(original, right?\\)](#a-static-function-greetname-original-right)', toc)
+        self.assert_In('- [`add(keys, command[, args][, context])`](#addkeys-command-args-context)', toc)
+        self.assert_In('- [`get_context(key[, operator][, operand][, match_all])`](#get_contextkey-operator-operand-match_all)', toc)
 
     def test_no_headings(self):
         """ No headings there"""
@@ -217,7 +217,7 @@ class TestDefault(TestBase):
         toc = self.init_update(text)['toc']
         self.assert_NotIn('^- ', toc)
 
-    def test_uniquify_id(self):
+    def test_uniquify_id_1(self):
         """ uniquify id if there are same text headings"""
         text = \
 """
@@ -231,11 +231,11 @@ class TestDefault(TestBase):
 # Heading
 """
         toc = self.init_update(text)['toc']
-        self.assert_In('- [Heading][heading]', toc)
-        self.assert_In('- [Heading][heading-1]', toc)
-        self.assert_In('- [Heading][heading-2]', toc)
+        self.assert_In('- [Heading](#heading)', toc)
+        self.assert_In('- [Heading](#heading-1)', toc)
+        self.assert_In('- [Heading](#heading-2)', toc)
 
-    def test_uniquify_id(self):
+    def test_uniquify_id_2(self):
         """ handle = or - headings"""
         text = \
 """
@@ -251,8 +251,8 @@ Heading 2
 -------
 """
         toc = self.init_update(text)['toc']
-        self.assert_In('- [Heading 1][heading-1]', toc)
-        self.assert_In('  - [Heading 2][heading-2]', toc)
+        self.assert_In('- [Heading 1](#heading-1)', toc)
+        self.assert_In('  - [Heading 2](#heading-2)', toc)
 
     def test_whitespace_in_begining(self):
         """Ignore images in heading"""

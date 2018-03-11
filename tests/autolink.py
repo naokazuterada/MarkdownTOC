@@ -25,7 +25,7 @@ class TestAutolink(TestBase):
 
     def test_autolink_true(self):
         toc = self.init_update(self.autolink_text.format('autolink=true'))['toc']
-        self.assert_In('- [Foo Bar][foo-bar]', toc)
+        self.assert_In('- [Foo Bar](#foo-bar)', toc)
 
     def test_autolink_false(self):
         toc = self.init_update(self.autolink_text.format('autolink=false'))['toc']

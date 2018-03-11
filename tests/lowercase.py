@@ -21,14 +21,14 @@ class TestLowercase(TestBase):
 """
 
     def get_only_ascii(self, toc):
-        self.assert_In('- [ПРИМЕР EXAMPLE][ПРИМЕР-example]', toc)
-        self.assert_In('- [One Two Three][one-two-three]', toc)
+        self.assert_In('- [ПРИМЕР EXAMPLE](#ПРИМЕР-example)', toc)
+        self.assert_In('- [One Two Three](#one-two-three)', toc)
     def get_all(self, toc):
-        self.assert_In('- [ПРИМЕР EXAMPLE][пример-example]', toc)
-        self.assert_In('- [One Two Three][one-two-three]', toc)
+        self.assert_In('- [ПРИМЕР EXAMPLE](#пример-example)', toc)
+        self.assert_In('- [One Two Three](#one-two-three)', toc)
     def get_none(self, toc):
-        self.assert_In('- [ПРИМЕР EXAMPLE][ПРИМЕР-EXAMPLE]', toc)
-        self.assert_In('- [One Two Three][One-Two-Three]', toc)
+        self.assert_In('- [ПРИМЕР EXAMPLE](#ПРИМЕР-EXAMPLE)', toc)
+        self.assert_In('- [One Two Three](#One-Two-Three)', toc)
 
     def test_default(self):
         toc = self.init_update(self.text.format(''))['toc']
