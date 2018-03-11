@@ -433,10 +433,10 @@ By default non-ASCII characters in link ids are [URL encoded](https://en.wikiped
 ```markdown
 <!-- MarkdownTOC autolink="true" -->
 
-- [Ejemplos de español][ejemplos-de-espa%C3%B1ol]
-- [日本語の例][%E6%97%A5%E6%9C%AC%E8%AA%9E%E3%81%AE%E4%BE%8B]
-- [Примеры русского][%D0%9F%D1%80%D0%B8%D0%BC%D0%B5%D1%80%D1%8B-%D1%80%D1%83%D1%81%D1%81%D0%BA%D0%BE%D0%B3%D0%BE]
-- [中国的例子][%E4%B8%AD%E5%9B%BD%E7%9A%84%E4%BE%8B%E5%AD%90]
+- [Ejemplos de español](#ejemplos-de-espa%C3%B1ol)
+- [日本語の例](#%E6%97%A5%E6%9C%AC%E8%AA%9E%E3%81%AE%E4%BE%8B)
+- [Примеры русского](#%D0%9F%D1%80%D0%B8%D0%BC%D0%B5%D1%80%D1%8B-%D1%80%D1%83%D1%81%D1%81%D0%BA%D0%BE%D0%B3%D0%BE)
+- [中国的例子](#%E4%B8%AD%E5%9B%BD%E7%9A%84%E4%BE%8B%E5%AD%90)
 
 <!-- /MarkdownTOC -->
 
@@ -451,10 +451,10 @@ As mentioned you can disable this by setting the `uri_encoding` attribute to `fa
 ```markdown
 <!-- MarkdownTOC autolink="true" uri_encoding="false" -->
 
-- [Ejemplos de español][ejemplos-de-español]
-- [日本語の例][日本語の例]
-- [Примеры русского][Примеры-русского]
-- [中国的例子][中国的例子]
+- [Ejemplos de español](#ejemplos-de-español)
+- [日本語の例](#日本語の例)
+- [Примеры русского](#Примеры-русского)
+- [中国的例子](#中国的例子)
 
 <!-- /MarkdownTOC -->
 
@@ -474,9 +474,9 @@ When you set it to `markdown`, you can get same links rendered by MarkdownPrevie
 ```markdown
 <!-- MarkdownTOC autolink="true" markdown_preview="markdown" -->
 
-- [Hello 世界 World][hello-world]
-- [ESPAÑA][espana]
-- [ПРИМЕР RUSSIAN][russian]
+- [Hello 世界 World](#hello-world)
+- [ESPAÑA](#espana)
+- [ПРИМЕР RUSSIAN](#russian)
 
 <!-- /MarkdownTOC -->
 
@@ -490,9 +490,9 @@ When you set it to `github`, you can get same links rendered by MarkdownPreview'
 ```markdown
 <!-- MarkdownTOC autolink="true" markdown_preview="github" -->
 
-- [Hello 世界 World][hello-%25E4%25B8%2596%25E7%2595%258C-world]
-- [ESPAÑA][espa%25C3%25B1a]
-- [ПРИМЕР RUSSIAN][%25D0%25BF%25D1%2580%25D0%25B8%25D0%25BC%25D0%25B5%25D1%2580-russian]
+- [Hello 世界 World](#hello-%25E4%25B8%2596%25E7%2595%258C-world)
+- [ESPAÑA](#espa%25C3%25B1a)
+- [ПРИМЕР RUSSIAN](#%25D0%25BF%25D1%2580%25D0%25B8%25D0%25BC%25D0%25B5%25D1%2580-russian)
 
 <!-- /MarkdownTOC -->
 
@@ -513,7 +513,7 @@ You can also set _prefix_ of links.
 ```markdown
 <!-- MarkdownTOC autolink=true link_prefix="user-content-" -->
 
-- [My Heading][user-content-my-heading]
+- [My Heading](#user-content-my-heading)
 
 <!-- /MarkdownTOC -->
 
@@ -526,18 +526,16 @@ You can manipulate this in your [configuration](#configuration) using the key `d
 
 ```markdown
 # Heading 1
-
 Lorem ipsum...
 
 ## Heading 2
-
 Lorem ipsum...
 
 ### Heading 3
-
 Lorem ipsum...
 
 #### Heading 4
+Lorem ipsum...
 ```
 
 With default levels:
@@ -545,8 +543,10 @@ With default levels:
 ```markdown
 <!-- MarkdownTOC -->
 
-- [Heading 1]
-  - [Heading 2]
+- Heading 1
+  - Heading 2
+    - Heading 3
+      - Heading 4
 
 <!-- /MarkdownTOC -->
 ```
@@ -556,8 +556,8 @@ With levels set to 1,2:
 ```markdown
 <!-- MarkdownTOC levels="1,2" -->
 
-- [Heading 1]
-  - [Heading 2]
+- Heading 1
+  - Heading 2
 
 <!-- /MarkdownTOC -->
 ```
@@ -656,19 +656,15 @@ The example above could also be described as:
 ```json
 {
   "defaults": {
-    "bullets": "-+*"
+    "bullets": ["-","+","*"]
   }
 }
 ```
 
-And the value could also be _array_.
+You can also set it in attribute. In this case the values type is **'conmma separated string'**.
 
-```json
-{
-  "defaults": {
-    "bullets": ["-","+","*"]
-  }
-}
+```markdown
+<!-- MarkdownTOC bullets="-,+,*" -->
 ```
 
 ### Specify custom indentation prefix
