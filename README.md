@@ -167,13 +167,24 @@ When we save the document, the TOC is automatically updated.
 ```markdown
 <!-- MarkdownTOC -->
 
-- [Heading 1]
-  - [Heading 2]
-  - [Heading 3]
-  - [Heading 4]
-- [Heading with anchor](#with-anchor)
+- Heading 1
+  - Heading 2
+  - Heading 3
+  - Heading 4
 
 <!-- /MarkdownTOC -->
+
+# Heading 1
+Lorem ipsum...
+
+## Heading 2
+Lorem ipsum...
+
+## Heading 3
+Lorem ipsum...
+
+## Heading 4
+Here is the added text
 ```
 
 Same goes for deleted headings, these are cleared out.
@@ -183,15 +194,26 @@ Updating the TOC can also be accomplished without saving by picking from the men
 ### Customizing generation of TOC using attributes
 
 ```markdown
-<!-- MarkdownTOC style="round" autolink="true" -->
+<!-- MarkdownTOC autolink="true" -->
 
-- [Heading 1]
-  - [Heading 2]
-  - [Heading 3]
-  - [Heading 4]
-- [Heading with anchor](#with-anchor)
+- [Heading 1](#heading-1)
+  - [Heading 2](#heading-2)
+  - [Heading 3](#heading-3)
+  - [Heading 4](#heading-4)
 
 <!-- /MarkdownTOC -->
+
+# Heading 1
+Lorem ipsum...
+
+## Heading 2
+Lorem ipsum...
+
+## Heading 3
+Lorem ipsum...
+
+## Heading 4
+Here is the added text
 ```
 
 1. TOC tags can overwrite default [attributes](#Attributes) using local settings and influence the rendering of the TOC. See: [Configuration](#configuration) on how to set your own defaults for the plugin
