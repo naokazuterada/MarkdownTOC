@@ -4,12 +4,11 @@ These are the guidelines for contributing to this repository.
 
 ## Issues
 
-File an issue if you think you've found a bug. Please describe
+Please follow the each template by the type of your issue.
 
-1. How can it be reproduced
-2. What was expected
-3. What actually occurred
-4. What version of the involved component
+- [Bug Report](https://github.com/naokazuterada/MarkdownTOC/issues/new)
+- [Feature Request](https://github.com/naokazuterada/MarkdownTOC/issues/new?template=feature.md)
+- [Question](https://github.com/naokazuterada/MarkdownTOC/issues/new?template=question.md)
 
 ### Way of operation
 
@@ -19,6 +18,10 @@ File an issue if you think you've found a bug. Please describe
     2. Not obvious and Not responding
         - Not obvious: Problem is not obvious, or not reproduced.
         - Not responding: Author doesn't respond in 3 weeks.
+
+## Gitter
+
+If you want to ask more easily, please use [Gitter](https://gitter.im/naokazuterada/MarkdownTOC) chat system.
 
 ## Patches
 
