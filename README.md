@@ -111,7 +111,7 @@ For the following sample [Markdown] document:
 
 Headings before MarkdownTOC tags will be ignored.
 
-:point_left: place the cursor here and generate the TOC
+◀ place the cursor here and generate the TOC
 
 # Heading 1
 Lorem ipsum...
