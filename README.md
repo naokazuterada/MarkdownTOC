@@ -118,10 +118,6 @@ Lorem ipsum...
 
 ## Heading 2
 Lorem ipsum...
-
-## Heading 3
-Lorem ipsum...
-
 ```
 
 The **MarkdownTOC** plugin will out of the box generate:
@@ -135,7 +131,6 @@ Headings before MarkdownTOC tags will be ignored.
 
 - Heading 1
   - Heading 2
-  - Heading 3
 
 <!-- /MarkdownTOC -->
 
@@ -144,10 +139,6 @@ Lorem ipsum...
 
 ## Heading 2
 Lorem ipsum...
-
-## Heading 3
-Lorem ipsum...
-
 ```
 
 As you can read from the sample above:
@@ -159,7 +150,7 @@ As you can read from the sample above:
 If we edit the [Markdown] document some more and add an additional heading:
 
 ```markdown
-## Heading 4
+## Heading 3
 ```
 
 When we save the document, the TOC is automatically updated.
@@ -170,7 +161,6 @@ When we save the document, the TOC is automatically updated.
 - Heading 1
   - Heading 2
   - Heading 3
-  - Heading 4
 
 <!-- /MarkdownTOC -->
 
@@ -181,10 +171,7 @@ Lorem ipsum...
 Lorem ipsum...
 
 ## Heading 3
-Lorem ipsum...
-
-## Heading 4
-Here is the added text
+Lorem ipsum... (the added text)
 ```
 
 Same goes for deleted headings, these are cleared out.
@@ -199,7 +186,6 @@ Updating the TOC can also be accomplished without saving by picking from the men
 - [Heading 1](#heading-1)
   - [Heading 2](#heading-2)
   - [Heading 3](#heading-3)
-  - [Heading 4](#heading-4)
 
 <!-- /MarkdownTOC -->
 
@@ -210,10 +196,7 @@ Lorem ipsum...
 Lorem ipsum...
 
 ## Heading 3
-Lorem ipsum...
-
-## Heading 4
-Here is the added text
+Lorem ipsum... (the added text)
 ```
 
 1. TOC tags can overwrite default [attributes](#Attributes) using local settings and influence the rendering of the TOC. See: [Configuration](#configuration) on how to set your own defaults for the plugin
