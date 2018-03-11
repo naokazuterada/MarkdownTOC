@@ -245,7 +245,7 @@ The TOC generation can be specified to respect this and a TOC element of the fol
 Please note that the default for the attribute: [autoanchor](#autoanchor) is `false`.You can add an HTML anchor (`<a name="xxx"></a>`) before the heading automatically.
 
 ```markdown
-<!-- MarkdownTOC autolink="true" autoanchor="true" bracket="round" -->
+<!-- MarkdownTOC autolink="true" autoanchor="true" -->
 
 - [Changelog](#changelog)
 - [Glossary](#glossary)
@@ -695,7 +695,7 @@ The indentation prefix is a specification of the string used to indent the TOC e
 An _ugly_ but demonstrative example could be to use an [emoji][emoji].
 
 ```markdown
-<!-- MarkdownTOC autolink="true" bracket="round" indent=":point_right: " -->
+<!-- MarkdownTOC autolink="true" indent=":point_right: " -->
 
 - [Heading 1](#heading-1)
 :point_right: - [Heading 2](#heading-2)
