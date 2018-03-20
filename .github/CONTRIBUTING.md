@@ -4,7 +4,7 @@ These are the guidelines for contributing to this repository.
 
 ## Issues
 
-Please follow the each template by the type of your issue.
+Please use the template for your type of issue.
 
 - [Bug Report](https://github.com/naokazuterada/MarkdownTOC/issues/new)
 - [Feature Request](https://github.com/naokazuterada/MarkdownTOC/issues/new?template=feature.md)
@@ -12,16 +12,16 @@ Please follow the each template by the type of your issue.
 
 ### Way of operation
 
-1. The contributors will `Close` these Issues or PR
+1. The maintainers will `Close` the issue or PR
     1. Not accepted feature request
-        - Add `wontfix` label
-    2. Not obvious and Not responding
-        - Not obvious: Problem is not obvious, or not reproduced.
-        - Not responding: Author doesn't respond in 3 weeks.
+        - Add the `wontfix` label
+    2. Not clear or unresponsive
+        - Not clear: Problem is not obvious or not reproducible.
+        - Unresponsive: the author does not respond to inquiries within 3 weeks.
 
 ## Gitter
 
-If you want to ask more easily, please use [Gitter](https://gitter.im/naokazuterada/MarkdownTOC) chat system.
+If you want more general support or to ask questions, please use [Gitter](https://gitter.im/naokazuterada/MarkdownTOC) chat system.
 
 ## Patches
 
@@ -40,7 +40,7 @@ All contributions are welcome
 
 ## Useful Tools
 
-- [Gyazo](https://gyazo.com/en): Tool for making screen captures into animation GIF. Use it for showing how the function works.
+- [Gyazo](https://gyazo.com/en): Tool for making animated GIFs from screen captures. Use it for showing how the function works.
 
 ## Licensing and copyright
 

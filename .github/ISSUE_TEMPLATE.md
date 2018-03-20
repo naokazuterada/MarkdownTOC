@@ -2,11 +2,11 @@
 
 Template: BUG REPORT
 
-This is an issue for a bug report.
+This is an template for a bug report.
 You should label `bug-report`.
 
 
-If your purpose is different, please visit following links.
+If your issue is not a bug report, please visit one of the following links.
 
 FEATURE REQUEST:
 https://github.com/naokazuterada/MarkdownTOC/issues/new?template=feature.md
@@ -16,10 +16,10 @@ https://github.com/naokazuterada/MarkdownTOC/issues/new?template=question.md
 
 -->
 
-# How can it be reproduced
+# How can the issue be reproduced
 
 # What was expected
 
 # What actually occurred
 
-# What version of the involved component
+# What was the version of the involved component
