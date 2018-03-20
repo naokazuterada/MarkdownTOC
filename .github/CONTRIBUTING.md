@@ -4,12 +4,24 @@ These are the guidelines for contributing to this repository.
 
 ## Issues
 
-File an issue if you think you've found a bug. Please describe
+Please use the template for your type of issue.
 
-1. How can it be reproduced
-2. What was expected
-3. What actually occurred
-4. What version of the involved component
+- [Bug Report](https://github.com/naokazuterada/MarkdownTOC/issues/new)
+- [Feature Request](https://github.com/naokazuterada/MarkdownTOC/issues/new?template=feature.md)
+- [Question](https://github.com/naokazuterada/MarkdownTOC/issues/new?template=question.md)
+
+### Way of operation
+
+1. The maintainers will `Close` the issue or PR
+    1. Not accepted feature request
+        - Add the `wontfix` label
+    2. Not clear or unresponsive
+        - Not clear: Problem is not obvious or not reproducible.
+        - Unresponsive: the author does not respond to inquiries within 3 weeks.
+
+## Gitter
+
+If you want more general support or to ask questions, please use [Gitter](https://gitter.im/naokazuterada/MarkdownTOC) chat system.
 
 ## Patches
 
@@ -32,6 +44,10 @@ You should use unit-tests for SublimeText by using [UnitTesting](https://github.
 4. Send Pull Request when tests pass
 
 All contributions are welcome
+
+## Useful Tools
+
+- [Gyazo](https://gyazo.com/en): Tool for making animated GIFs from screen captures. Use it for showing how the function works.
 
 ## Licensing and copyright
 

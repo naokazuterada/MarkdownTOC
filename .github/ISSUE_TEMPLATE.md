@@ -1,8 +1,25 @@
 <!--
-File an issue if you think you've found a bug. Please describe
 
-1. How can it be reproduced
-2. What was expected
-3. What actually occurred
-4. What version of the involved component
+Template: BUG REPORT
+
+This is an template for a bug report.
+You should label `bug-report`.
+
+
+If your issue is not a bug report, please visit one of the following links.
+
+FEATURE REQUEST:
+https://github.com/naokazuterada/MarkdownTOC/issues/new?template=feature.md
+
+QUESTION:
+https://github.com/naokazuterada/MarkdownTOC/issues/new?template=question.md
+
 -->
+
+# How can the issue be reproduced
+
+# What was expected
+
+# What actually occurred
+
+# What was the version of the involved component
