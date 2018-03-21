@@ -11,7 +11,7 @@ Sublime Text 3 plugin for generating a Table of Contents (TOC) in a Markdown doc
 
 ---
 
-***Note: v3.0.0 has some breaking changes. See [Upgrade Guide](https://github.com/naokazuterada/MarkdownTOC/releases/tag/3.0.0) for more detail.***
+***Note: v3.0.0 has breaking changes. See [Upgrade Guide](https://github.com/naokazuterada/MarkdownTOC/releases/tag/3.0.0) for more detail.***
 
 ---
 
