@@ -1,6 +1,10 @@
 Changes in MarkdownTOC
 ===========================
 
+## 2.8.0
+
+- Allow regular expressions in 'id_replacements' Ref: #113
+
 ## 2.7.1
 
 - Drop BeautifulSoup dependency. Ref: #111

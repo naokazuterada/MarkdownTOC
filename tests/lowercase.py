@@ -1,19 +1,17 @@
 # coding:utf-8
 from base import TestBase
-import sublime
-import sys
 
 class TestLowercase(TestBase):
-    """Test of attributes 'lowercase'"""
+    """Test for attributes 'lowercase'"""
 
     # for debug
     # def tearDown(self):
     #     pass
 
-    text_lowercase_only_ascii_true = \
+    text = \
 """
 
-<!-- MarkdownTOC autolink=true uri_encoding=false lowercase_only_ascii=true {0} -->
+<!-- MarkdownTOC autolink=true uri_encoding=false {0} -->
 
 <!-- /MarkdownTOC -->
 
@@ -21,47 +19,33 @@ class TestLowercase(TestBase):
 # One Two Three
 
 """
-    def common_only_ascii_true(self, toc_txt):
-        self.assert_In('- [ПРИМЕР EXAMPLE][ПРИМЕР-example]', toc_txt)
-        self.assert_In('- [One Two Three][one-two-three]', toc_txt)
 
-    def test_lowercase_default_only_ascii_true(self):
-        toc_txt = self.commonSetup(self.text_lowercase_only_ascii_true.format(''))
-        self.common_only_ascii_true(toc_txt)
+    def get_only_ascii(self, toc):
+        self.assert_In('- [ПРИМЕР EXAMPLE](#ПРИМЕР-example)', toc)
+        self.assert_In('- [One Two Three](#one-two-three)', toc)
+    def get_all(self, toc):
+        self.assert_In('- [ПРИМЕР EXAMPLE](#пример-example)', toc)
+        self.assert_In('- [One Two Three](#one-two-three)', toc)
+    def get_none(self, toc):
+        self.assert_In('- [ПРИМЕР EXAMPLE](#ПРИМЕР-EXAMPLE)', toc)
+        self.assert_In('- [One Two Three](#One-Two-Three)', toc)
 
-    def test_lowercase_true_only_ascii_true(self):
-        toc_txt = self.commonSetup(self.text_lowercase_only_ascii_true.format('lowercase=true'))
-        self.common_only_ascii_true(toc_txt)
+    def test_default(self):
+        toc = self.init_update(self.text.format(''))['toc']
+        self.get_only_ascii(toc)
 
-    def test_lowercase_false_only_ascii_true(self):
-        toc_txt = self.commonSetup(self.text_lowercase_only_ascii_true.format('lowercase=false'))
-        self.assert_In('- [ПРИМЕР EXAMPLE][ПРИМЕР-EXAMPLE]', toc_txt)
-        self.assert_In('- [One Two Three][One-Two-Three]', toc_txt)
+    def test_false(self):
+        toc = self.init_update(self.text.format('lowercase="false"'))['toc']
+        self.get_none(toc)
 
-    text_lowercase_only_ascii_false = \
-"""
+    def test_only_ascii(self):
+        toc = self.init_update(self.text.format('lowercase="only_ascii"'))['toc']
+        self.get_only_ascii(toc)
 
-<!-- MarkdownTOC autolink=true uri_encoding=false lowercase_only_ascii=false {0} -->
+    def test_all(self):
+        toc = self.init_update(self.text.format('lowercase="all"'))['toc']
+        self.get_all(toc)
 
-<!-- /MarkdownTOC -->
-
-# ПРИМЕР EXAMPLE
-# One Two Three
-
-"""
-    def common_only_ascii_false(self, toc_txt):
-        self.assert_In('- [ПРИМЕР EXAMPLE][пример-example]', toc_txt)
-        self.assert_In('- [One Two Three][one-two-three]', toc_txt)
-
-    def test_lowercase_default_only_ascii_false(self):
-        toc_txt = self.commonSetup(self.text_lowercase_only_ascii_false.format(''))
-        self.common_only_ascii_false(toc_txt)
-
-    def test_lowercase_true_only_ascii_false(self):
-        toc_txt = self.commonSetup(self.text_lowercase_only_ascii_false.format('lowercase=true'))
-        self.common_only_ascii_false(toc_txt)
-
-    def test_lowercase_false_only_ascii_false(self):
-        toc_txt = self.commonSetup(self.text_lowercase_only_ascii_false.format('lowercase=false'))
-        self.assert_In('- [ПРИМЕР EXAMPLE][ПРИМЕР-EXAMPLE]', toc_txt)
-        self.assert_In('- [One Two Three][One-Two-Three]', toc_txt)
+    def test_others(self):
+        toc = self.init_update(self.text.format('lowercase="xxxxx"'))['toc']
+        self.get_all(toc)

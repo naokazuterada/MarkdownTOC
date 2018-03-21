@@ -1,20 +1,35 @@
 {
-  "default_autoanchor": false,
-  "default_autolink": false,
-  "default_bracket": "square",
-  "default_depth": 2,
-  "default_indent": "\t",
-  "default_remove_image": true,
-  "default_link_prefix": "",
-  "default_list_bullets": "-",
-  "default_lowercase": true,
-  "default_lowercase_only_ascii": true,
-  "default_style": "unordered",
-  "default_uri_encoding": true,
-  "default_markdown_preview": false,
-  "id_replacements": {
-    "-": " ",
-    "" : ["&lt;","&gt;","&amp;","&apos;","&quot;","&#60;","&#62;","&#38;","&#39;","&#34;","!","#","$","&","'","(",")","*","+",",","/",":",";","=","_","?","@","[","]","`","\"", ".","<",">","{","}","™","®","©"]
+  "defaults": {
+    "autoanchor": false,
+    "autolink": false,
+    "bracket": "round",
+    "levels": [1,2,3,4,5,6],
+    "indent": "\t",
+    "remove_image": true,
+    "link_prefix": "",
+    "bullets": ["-"],
+    "lowercase": "only_ascii",
+    "style": "unordered",
+    "uri_encoding": true,
+    "markdown_preview": ""
   },
+  "id_replacements": [
+    {
+      "pattern": "[_*]{2}([^\\s])[_*]{2}",
+      "replacement": "\\1"
+    },
+    {
+      "pattern": "[_*]([^\\s])[_*]",
+      "replacement": "\\1"
+    },
+    {
+      "pattern": "\\s+",
+      "replacement": "-"
+    },
+    {
+      "pattern": "&lt;|&gt;|&amp;|&apos;|&quot;|&#60;|&#62;|&#38;|&#39;|&#34;|!|#|$|&|'|\\(|\\)|\\*|\\+|,|/|:|;|=|\\?|@|\\[|\\]|`|\"|\\.|\\\\|<|>|{|}|™|®|©",
+      "replacement": ""
+    }
+  ],
   "logging": false
 }
