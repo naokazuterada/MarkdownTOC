@@ -24,6 +24,7 @@ class Base(object):
             pp.pprint(arg)
 
     def error(self, arg):
+        arg = 'MarkdownTOC Error: '+arg
         arg = str(arg)
         sublime.status_message(arg)
         pp.pprint(arg)
