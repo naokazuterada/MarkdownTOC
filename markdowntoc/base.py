@@ -9,9 +9,14 @@ pp = pprint.PrettyPrinter(indent=4)
 class Base(object):
 
     def settings(self, attr):
-        settings = json.loads(sublime.load_resource('Packages/MarkdownTOC/MarkdownTOC.sublime-settings'))
-        user_settings = json.loads(sublime.load_resource('Packages/User/MarkdownTOC.sublime-settings'))
-        Util.dict_merge(settings, user_settings)
+        DEFAULT = 'Packages/MarkdownTOC/MarkdownTOC.sublime-settings'
+        files = sublime.find_resources('MarkdownTOC.sublime-settings')
+        files.remove(DEFAULT)
+        settings = sublime.decode_value(sublime.load_resource(DEFAULT))
+        for f in files:
+            user_settings = sublime.decode_value(sublime.load_resource(f))
+            if user_settings != None:
+                Util.dict_merge(settings, user_settings)
         return settings[attr]
 
     def defaults(self):
