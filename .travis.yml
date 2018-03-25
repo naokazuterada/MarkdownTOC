@@ -1,6 +1,6 @@
 env:
     global:
-        - PACKAGE="UnitTesting-example" # Package name
+        - PACKAGE="MarkdownTOC" # Package name
         - SUBLIME_TEXT_VERSION="3"
         # use UNITTESTING_TAG to specific tag of UnitTesting
         # - UNITTESTING_TAG="master"
