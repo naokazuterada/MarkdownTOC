@@ -25,6 +25,7 @@ Sublime Text 3 plugin for generating a Table of Contents (TOC) in a Markdown doc
 - [Features](#features)
     - [Insertion of TOC based on headings in Markdown document](#insertion-of-toc-based-on-headings-in-markdown-document)
     - [Automatic refresh of TOC when Markdown document is saved](#automatic-refresh-of-toc-when-markdown-document-is-saved)
+        - [Supported file extensions](#supported-file-extensions)
     - [Customizing generation of TOC using attributes](#customizing-generation-of-toc-using-attributes)
     - [Auto anchoring when heading has anchor defined](#auto-anchoring-when-heading-has-anchor-defined)
     - [Auto linking for _clickable_ TOC](#auto-linking-for-_clickable_-toc)
@@ -177,6 +178,13 @@ Lorem ipsum... (the added text)
 Same goes for deleted headings, these are cleared out.
 
 Updating the TOC can also be accomplished without saving by picking from the menu: Tools > MarkdownTOC > Update TOC
+
+
+#### Supported file extensions
+
+Make sure your file's extension is in following list.
+
+`.md` `.markdown` `.mdown` `.mdwn` `.mkdn` `.mkd` `.mark`
 
 ### Customizing generation of TOC using attributes
 
