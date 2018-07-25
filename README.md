@@ -19,7 +19,7 @@ Sublime Text 3 plugin for generating a Table of Contents (TOC) in a Markdown doc
 
 <details>
  <summary>Click to open TOC</summary>
-<!-- MarkdownTOC autolink="true" levels="1,2,3,4,5,6" bracket="round" style="unordered" indent="    " autoanchor="false" -->
+<!-- MarkdownTOC autolink="true" levels="1,2,3,4,5,6" bracket="round" style="unordered" indent="    " autoanchor="false" markdown_preview="github" -->
 
 - [Quick Start](#quick-start)
 - [Features](#features)
@@ -28,7 +28,7 @@ Sublime Text 3 plugin for generating a Table of Contents (TOC) in a Markdown doc
         - [Supported file extensions](#supported-file-extensions)
     - [Customizing generation of TOC using attributes](#customizing-generation-of-toc-using-attributes)
     - [Auto anchoring when heading has anchor defined](#auto-anchoring-when-heading-has-anchor-defined)
-    - [Auto linking for _clickable_ TOC](#auto-linking-for-_clickable_-toc)
+    - [Auto linking for _clickable_ TOC](#auto-linking-for-clickable-toc)
         - [Lowercasing in ids](#lowercasing-in-ids)
             - [Preserve case](#preserve-case)
             - [Lowercase all characters](#lowercase-all-characters)
