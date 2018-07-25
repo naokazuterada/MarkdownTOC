@@ -182,7 +182,7 @@ Updating the TOC can also be accomplished without saving by picking from the men
 
 #### Supported file extensions
 
-Make sure your file's extension is in following list.
+Make sure your file's extension is in the following list.
 
 `.md` `.markdown` `.mdown` `.mdwn` `.mkdn` `.mkd` `.mark`
 
