@@ -86,7 +86,7 @@ The **MarkdownTOC** plugin is rich on features and customization, useful for bot
 - [Automatic refresh of TOC when Markdown document is saved](#automatic-refresh-of-toc-when-markdown-document-is-saved)
 - [Customizing generation of TOC using attributes](#customizing-generation-of-toc-using-attributes)
 - [Auto anchoring when heading has anchor defined](#auto-anchoring-when-heading-has-anchor-defined)
-- [Auto linking for _clickable_ TOC](#auto-linking-for-_clickable_-toc)
+- [Auto linking for _clickable_ TOC](#auto-linking-for-clickable-toc)
     - [Lowercasing in ids](#lowercasing-in-ids)
         - [Preserve case](#preserve-case)
         - [Lowercase all characters](#lowercase-all-characters)
