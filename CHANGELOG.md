@@ -1,6 +1,8 @@
 Changes in MarkdownTOC
 ===========================
 
+[See the latest change log](https://github.com/naokazuterada/MarkdownTOC/releases)
+
 ## 2.8.0
 
 - Allow regular expressions in 'id_replacements' Ref: #113
