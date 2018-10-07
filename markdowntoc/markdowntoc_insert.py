@@ -48,7 +48,7 @@ class MarkdowntocInsert(sublime_plugin.TextCommand, Base):
 
     def get_toc_open_tag(self):
         search_results = self.view.find_all(
-            "^<!-- MarkdownTOC .*-->\n",
+            r'^<!--[\s\n]+MarkdownTOC[\s\n]+[^>]*-->\n',
             sublime.IGNORECASE)
         search_results = self.remove_items_in_codeblock(search_results)
 
