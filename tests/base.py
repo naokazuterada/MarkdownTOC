@@ -39,13 +39,13 @@ class TestBase(TestCase):
     def getTOC_text(self):
         """Find TOC in the document, and return the list texts in it."""
         toc_region = self.view.find(
-            "<!-- MarkdownTOC .*-->(.|\n)+?<!-- /MarkdownTOC -->",
+            r'<!--[\s\n]+MarkdownTOC[\s\n]+[^>]*-->\n(.|\n)+?<!--[\s\n]+/MarkdownTOC[\s\n]+-->',
             sublime.IGNORECASE)
         toc_all = self.view.substr(toc_region)
 
         # pick toc contents
-        toc_contents = re.sub(r'<!-- MarkdownTOC .* -->', '', toc_all)
-        toc_contents = re.sub(r'<!-- /MarkdownTOC -->', '', toc_contents)
+        toc_contents = re.sub(r'<!--[\s\n]+MarkdownTOC[\s\n]+[^>]*-->', '', toc_all)
+        toc_contents = re.sub(r'<!--[\s\n]+/MarkdownTOC[\s\n]+-->', '', toc_contents)
         toc_contents = toc_contents.rstrip()
 
         return toc_contents
