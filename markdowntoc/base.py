@@ -1,6 +1,5 @@
 import pprint
 import sublime
-import json
 from .util import Util
 
 # for debug
@@ -12,15 +11,23 @@ class Base(object):
         DEFAULT = 'Packages/MarkdownTOC/MarkdownTOC.sublime-settings'
         files = sublime.find_resources('MarkdownTOC.sublime-settings')
         files.remove(DEFAULT)
-        settings = sublime.decode_value(sublime.load_resource(DEFAULT))
+
+        settings = self.decode_value(DEFAULT)
         for f in files:
-            user_settings = sublime.decode_value(sublime.load_resource(f))
+            user_settings = self.decode_value(f)
             if user_settings != None:
                 Util.dict_merge(settings, user_settings)
         return settings[attr]
 
     def defaults(self):
         return self.settings('defaults')
+
+    def decode_value(self, file):
+        # Check json syntax
+        try:
+            return sublime.decode_value(sublime.load_resource(file))
+        except ValueError as e:
+            self.error('Invalid json in %s: %s' % (file, e))
 
     def log(self, arg):
         if self.settings('logging') is True:
