@@ -1,6 +1,6 @@
 ![MarkdownTOC](./images/title.gif)
 
-![](./images/capture.gif)
+![Demo animation of the toc generation](./images/capture.gif)
 
 MarkdownTOC
 ===========
@@ -76,7 +76,6 @@ Sublime Text 3 plugin for generating a Table of Contents (TOC) in a Markdown doc
 1. Save the document and you are done
 
 Now you can go on and edit your document further or you can customize you TOC, please read on.
-
 
 ## Features
 
@@ -178,7 +177,6 @@ Lorem ipsum... (the added text)
 Same goes for deleted headings, these are cleared out.
 
 Updating the TOC can also be accomplished without saving by picking from the menu: Tools > MarkdownTOC > Update TOC
-
 
 #### Supported file extensions
 
@@ -513,7 +511,6 @@ Currently no other parsers are supported.
 
 If you want to disable this feature, set it to `false`.
 
-
 #### Link Prefix
 
 You can also set _prefix_ of links.
@@ -575,7 +572,6 @@ Please note that the default for the [attribute](#attributes) levels is `"1,2,3,
 You can also specify this in your [configuration](#configuration) with key `defaults.levels`.
 
 The maximum size for headings is `6` according to the [Markdown specification][Markdown]
-
 
 ### Ordered or unordered style for TOC elements
 
@@ -733,8 +729,8 @@ You can change your default setting in your [configuration](#configuration) with
 3. Pick from menu: Tools > MarkdownTOC > Insert TOC
 4. TOC is inserted in document
 5. Evaluate your TOC and customize using [attributes](#attributes) or [configuration](#configuration)
-5. Update contents and save...
-6. TOC has been updated
+6. Update contents and save...
+7. TOC has been updated
 
 ***Don't remove the comment tags if you want to update every time saving.***
 
@@ -753,7 +749,7 @@ If you want to remove the TOC again, you do not have to go through your complete
 
 Please see the below animation demonstrating the change
 
-![](./images/how_to_remove_the_toc.gif)
+![Demo animation of removal of toc](./images/how_to_remove_the_toc.gif)
 
 <ol><li value="3">Now delete the TOC section from beginning to end and **MarkdownTOC** integration is gone</li></ol>
 

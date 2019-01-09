@@ -1,0 +1,9 @@
+{
+    "first-line-h1": false,
+    "line-length": false,
+    "html": false,
+    "blanks-around-headings": false,
+    "heading-style": false,
+    "ul-indent": false,
+    "blanks-around-fences": false
+}
