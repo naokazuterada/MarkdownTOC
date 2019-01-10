@@ -777,6 +777,30 @@ And when **Jekyll** is done, your headings should render correctly.
 
 Ref: [Github issue #81](https://github.com/naokazuterada/MarkdownTOC/issues/81)
 
+### Using MarkdownTOC with Markdownlint
+
+If you are using [Markdownlint](https://github.com/DavidAnson/markdownlint) (Node implementation), it will report several violations out of the box.
+
+The basic configuration you can use to address these looks like the following:
+
+```json
+{
+    "html": false,
+    "blanks-around-headings": false,
+    "ul-indent": {
+        "indent": 4
+    }
+}
+```
+
+- `html` set to `false`, to allow use of HTML since **MarkdownTOC** relies on HTML tags to assist the Markdown
+- `blanks-around-headings` should be set to `false`, since anchors are places closed to the headings that are listed in the TOC
+- `ul-indent` should have it's parameter `indent` set to `4` to adhere with the default of `4` used by **MarkdownTOC**, whereas **Markdownlint** defaults to `2`
+
+If you have configured **MarkdownTOC** differently, you can adjust your **Markdownlint** configuration accordingly.
+
+Do note that this tip is based on the **Node** implementation, [available on GitHub](https://github.com/DavidAnson/markdownlint), which uses a project specific `.markdownlint.json` based configuration.
+
 ## Limitations
 
 **MarkdownTOC** does come with some limitations.
