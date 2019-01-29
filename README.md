@@ -949,7 +949,8 @@ This is by no means an exhaustive list and you are welcome to provide additional
 | ------------ | ------------- |
 | [Github](https://github.com/) | Compatible |
 | [Gitblit](http://gitblit.com/) 1.6.x | Incompatible |
-| [Gitlab](https://about.gitlab.com/) 8.10.x| Compatible |
+| [Gitlab](https://about.gitlab.com/) 8.10.x | Compatible |
+| [BitBucket](https://bitbucket.org/) 5.12.2 | Incompatible |
 
 ## Contributing
 
