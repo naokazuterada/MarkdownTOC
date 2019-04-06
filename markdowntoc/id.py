@@ -18,8 +18,8 @@ class Id(Base):
         if self.markdown_preview == 'github':
             _h1 = self.postprocess_inject_header_id('<h1>%s</h1>' % heading)
             pattern = r'<h1 id="(.*)">.*</h1>'
-            matchs = re.finditer(pattern, _h1)
-            for match in matchs:
+            matches = re.finditer(pattern, _h1)
+            for match in matches:
                 return match.groups()[0]
         elif self.markdown_preview == 'markdown':
             return self.slugify(heading, '-')
