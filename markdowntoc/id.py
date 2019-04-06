@@ -18,8 +18,8 @@ class Id(Base):
         if self.markdown_preview == 'github':
             _h1 = self.postprocess_inject_header_id('<h1>%s</h1>' % heading)
             pattern = r'<h1 id="(.*)">.*</h1>'
-            matchs = re.finditer(pattern, _h1)
-            for match in matchs:
+            matches = re.finditer(pattern, _h1)
+            for match in matches:
                 return match.groups()[0]
         elif self.markdown_preview == 'markdown':
             return self.slugify(heading, '-')
@@ -34,6 +34,20 @@ class Id(Base):
             return self.do_id_replacements(_id)
 
     def do_id_replacements(self, _str):
+
+        # **Ignore the texts in codeblocks
+        # **[1] stock and take over codeblocks
+        matches = re.finditer(r'`([^`]*)`', _str)
+        _str = re.sub(r'`([^`]*)`', '[codeblock]', _str)
+
+        # Treat '_' for italic and '_' as text
+        _str = re.sub(r'_([^_ ]{1}.*[^_ ]{1})_', '\\1', _str)
+
+        # **[2] recover codeblocks
+        for match in matches:
+            _str = _str.replace('[codeblock]', match.groups()[0], 1)
+
+        # User setting replacements
         for group in self.id_replacements:
             _str = re.sub(group['pattern'], group['replacement'], _str)
         return _str
