@@ -62,14 +62,14 @@ class TestItalic(TestBase):
         toc = self.init_update(self.bracket_text)['toc']
         self.assert_In('- [2 _this is not italic with markdown error _](#2-_this-is-not-italic-with-markdown-error-_)', toc)
 
-    def test_italic_in_inheading8(self):
+    def test_italic_in_inheading9(self):
         toc = self.init_update(self.bracket_text)['toc']
         self.assert_In('- [`_should ignore underscores in codeblocks_`](#_should-ignore-underscores-in-codeblocks_)', toc)
 
-    def test_italic_in_inheading8(self):
+    def test_italic_in_inheading10(self):
         toc = self.init_update(self.bracket_text)['toc']
         self.assert_In('- [`_should ignore underscores in codeblocks 2_ `](#_should-ignore-underscores-in-codeblocks-2_-)', toc)
 
-    def test_italic_in_inheading8(self):
+    def test_italic_in_inheading11(self):
         toc = self.init_update(self.bracket_text)['toc']
         self.assert_In('- [this is ` _more complex_ ` exmaple](#this-is-_more-complex_-exmaple)', toc)
