@@ -36,7 +36,7 @@ class Id(Base):
     def do_id_replacements(self, _str):
 
         # Treat '_' for italic and '_' as text
-        _str = re.sub(r'_([^_ ]+)_', '\\1', _str)
+        _str = re.sub(r'_([^_ ]{1}.*[^_ ]{1})_', '\\1', _str)
 
         for group in self.id_replacements:
             _str = re.sub(group['pattern'], group['replacement'], _str)
