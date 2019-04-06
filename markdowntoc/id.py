@@ -35,9 +35,19 @@ class Id(Base):
 
     def do_id_replacements(self, _str):
 
+        # **Ignore the texts in codeblocks
+        # **[1] stock and take over codeblocks
+        matches = re.finditer(r'`([^`]*)`', _str)
+        _str = re.sub(r'`([^`]*)`', '[codeblock]', _str)
+
         # Treat '_' for italic and '_' as text
         _str = re.sub(r'_([^_ ]{1}.*[^_ ]{1})_', '\\1', _str)
 
+        # **[2] recover codeblocks
+        for match in matches:
+            _str = _str.replace('[codeblock]', match.groups()[0], 1)
+
+        # User setting replacements
         for group in self.id_replacements:
             _str = re.sub(group['pattern'], group['replacement'], _str)
         return _str
