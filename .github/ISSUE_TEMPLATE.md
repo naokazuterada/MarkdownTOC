@@ -2,7 +2,7 @@
 
 Template: BUG REPORT
 
-This is an template for a bug report.
+This is a template for a bug report.
 You should label `bug-report`.
 
 

@@ -2,7 +2,7 @@
 
 Template: FEATURE REQUEST
 
-This is an template for a feature request.
+This is a template for a feature request.
 You should label `feature-request`.
 
 
