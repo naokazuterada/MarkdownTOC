@@ -41,7 +41,7 @@ class Id(Base):
         _str = re.sub(r'`([^`]*)`', '[codeblock]', _str)
 
         # Treat '_' for italic and '_' as text
-        _str = re.sub(r'_([^_ ]{1}.*[^_ ]{1})_', '\\1', _str)
+        _str = re.sub(r'( |^)_([^_ ].*[^_ ])_( |$)', '\\1\\2\\3', _str)
 
         # **[2] recover codeblocks
         for match in matches:

@@ -28,6 +28,7 @@ class TestItalic(TestBase):
 # `_should ignore underscores in codeblocks_`
 # `_should ignore underscores in codeblocks 2_ `
 # this is ` _more complex_ ` exmaple
+# this_is_not_italic
 """
 
     def test_italic_in_inheading1(self):
@@ -73,3 +74,7 @@ class TestItalic(TestBase):
     def test_italic_in_inheading11(self):
         toc = self.init_update(self.bracket_text)['toc']
         self.assert_In('- [this is ` _more complex_ ` exmaple](#this-is-_more-complex_-exmaple)', toc)
+
+    def test_italic_in_inheading12(self):
+        toc = self.init_update(self.bracket_text)['toc']
+        self.assert_In('- [this_is_not_italic](#this_is_not_italic)', toc)
