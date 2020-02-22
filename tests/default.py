@@ -50,27 +50,29 @@ class TestDefault(TestBase):
 """
 
 
-# Outside1
+# heading1
 
 ```
-# Inseide
+# heading2
 ```
 
-# Outside2
+```markdown
+# heading3
+```
 
 ```
 
-# Inseide2
-# Inseide3
+# heading4
+# heading5
 
 ```
 """
         toc = self.init_insert(text)
-        self.assert_In('Outside1', toc)
-        self.assert_In('Outside2', toc)
-        self.assert_NotIn('Inside1', toc)
-        self.assert_NotIn('Inside2', toc)
-        self.assert_NotIn('Inside3', toc)
+        self.assert_In('heading1', toc)
+        self.assert_NotIn('heading3', toc)
+        self.assert_NotIn('heading2', toc)
+        self.assert_NotIn('heading4', toc)
+        self.assert_NotIn('heading5', toc)
 
     def test_escape_link(self):
         text = \
