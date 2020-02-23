@@ -74,6 +74,35 @@ class TestDefault(TestBase):
         self.assert_NotIn('heading4', toc)
         self.assert_NotIn('heading5', toc)
 
+    def test_ignore_inside_codeblock_alt(self):
+        text = \
+"""
+
+
+# heading1
+
+~~~
+# heading2
+~~~
+
+~~~markdown
+# heading3
+~~~
+
+~~~
+
+# heading4
+# heading5
+
+~~~
+"""
+        toc = self.init_insert(text)
+        self.assert_In('heading1', toc)
+        self.assert_NotIn('heading3', toc)
+        self.assert_NotIn('heading2', toc)
+        self.assert_NotIn('heading4', toc)
+        self.assert_NotIn('heading5', toc)
+
     def test_escape_link(self):
         text = \
 """
