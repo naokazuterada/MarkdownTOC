@@ -29,12 +29,12 @@ Patches for fixes, features, and improvements are accepted via pull requests.
 
 Pull requests should be based on the master branch, unless you want to contribute to an active branch for a specific topic.
 
-#### Coding Style
+### Coding Style
 
 You should follow [pycodestyle](https://github.com/PyCQA/pycodestyle) (formerly called pep8).
 You can do it easily with [Python PEP8 Autoformat](https://packagecontrol.io/packages/Python%20PEP8%20Autoformat).
 
-#### Test
+### Test
 
 You should use unit-tests for SublimeText by using [UnitTesting](https://github.com/randy3k/UnitTesting) plugin.
 
