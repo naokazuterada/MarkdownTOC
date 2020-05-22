@@ -1,16 +1,16 @@
 import pprint
 import re
-import sys
-import webbrowser
-from urllib.parse import quote
-
 import sublime
 import sublime_plugin
+import sys
+import webbrowser
+
+from urllib.parse import quote
 
 from .autorunner import AutoRunner
 from .base import Base
-from .id import Id
 from .util import Util
+from .id import Id
 
 # for debug
 pp = pprint.PrettyPrinter(indent=4)
@@ -21,11 +21,11 @@ PT_REF_LINK = re.compile(r'(?<!\\)\[.+?(?<!\\)\]\s*$')
 
 # ![alt](path/to/image.png)
 PT_IMAGE = re.compile(r'!\[([^\]]+)\]\([^\)]+\)')
-
 # [Heading]{#my-id}
 PT_EX_ID = re.compile(r'\{#.+?\}$')
 PT_TAG = re.compile(r'<.*?>')
 PT_ANCHOR = re.compile(r'<a\s+id="[^"]+"\s*>\s*</a>')
+
 
 # <!-- discrete="True" -->
 PT_DISCRETE = re.compile(
