@@ -188,7 +188,7 @@ class MarkdowntocInsert(sublime_plugin.TextCommand, Base):
                     # handle hash headings, ### chapter 1
                     r = sublime.Region(heading.end() - 1,
                                        self.view.line(heading).end())
-                    text = self.view.substr(r).strip().rstrip("#")
+                    text = self.view.substr(r).strip().rstrip('#')
                     indent, discrete_active = get_discrete_header(
                         discrete_active, heading.size() - 1
                     )
@@ -203,7 +203,7 @@ class MarkdowntocInsert(sublime_plugin.TextCommand, Base):
                     text = self.view.substr(lines[0])
                     if text.strip():
                         heading_type = self.view.substr(lines[1])[0]
-                        indent = 1 if heading_type == "=" else 2
+                        indent = 1 if heading_type == '=' else 2
                         indent, discrete_active = get_discrete_header(
                             discrete_active, heading.size() - 1
                         )
