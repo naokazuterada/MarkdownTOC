@@ -55,8 +55,8 @@ class MarkdowntocInsert(sublime_plugin.TextCommand, Base):
 
     def get_toc_open_tag(self):
         search_results = self.view.find_all(
-            r'^<!--[\s\n]+MarkdownTOC[\s\n]+[^>]*-->\n', sublime.IGNORECASE
-        )
+            r'^<!--[\s\n]+MarkdownTOC[\s\n]+[^>]*-->\n',
+            sublime.IGNORECASE)
         search_results = self.remove_items_in_codeblock(search_results)
 
         toc_open_tags = []
@@ -127,7 +127,6 @@ class MarkdowntocInsert(sublime_plugin.TextCommand, Base):
 
             def not_in_image(target):
                 return not Util.within_ranges(target, images)
-
             # Collect images not in codeblock
             for m in PT_IMAGE.finditer(_text):
                 images.append([m.start(), m.end()])
@@ -190,7 +189,6 @@ class MarkdowntocInsert(sublime_plugin.TextCommand, Base):
                     r = sublime.Region(heading.end() - 1,
                                        self.view.line(heading).end())
                     text = self.view.substr(r).strip().rstrip("#")
-                    # indent = heading.size() - 1
                     indent, discrete_active = get_discrete_header(
                         discrete_active, heading.size() - 1
                     )
