@@ -2,14 +2,14 @@
 from base import TestBase
 
 class TestIndent(TestBase):
-    """Test for attributes 'indent'"""
+    '''Test for attributes \'indent\''''
 
     # for debug
     # def tearDown(self):
     #     pass
 
     indent_text = \
-"""
+'''
 
 <!-- MarkdownTOC {0} -->
 
@@ -19,10 +19,10 @@ class TestIndent(TestBase):
 ## bar
 ### buz
 #### qux
-"""
+'''
     # TODO: This test cannot be passed when tab(\t) is convert to space by sublime's other feature
     # def test_indent_default(self):
-    #     """Default indent is 1tab"""
+    #     '''Default indent is 1tab'''
     #     toc = self.init_update(self.indent_text.format('levels="1,2,3,4,5,6"'))['toc']
     #     self.assert_In('- foo', toc)
     #     self.assert_In('\t- bar', toc)

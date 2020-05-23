@@ -2,14 +2,14 @@
 from base import TestBase
 
 class TestUriEncoding(TestBase):
-    """Test for attributes 'uri_encoding'"""
+    '''Test for attributes \'uri_encoding\''''
 
     # for debug
     # def tearDown(self):
     #     pass
 
     uri_encoding_text = \
-"""
+'''
 
 <!-- MarkdownTOC autolink="true" lowercase="only_ascii" {0} -->
 
@@ -20,7 +20,7 @@ class TestUriEncoding(TestBase):
 # こんにちわ 世界
 # Пример Example
 # 一个标题
-"""
+'''
     # default: uri_encoding=true
     def test_uri_encoding_default(self):
         toc = self.init_update(self.uri_encoding_text.format(''))['toc']

@@ -2,16 +2,16 @@
 from base import TestBase
 
 class TestItalic(TestBase):
-    """Test for attributes 'bracket'"""
+    '''Test for attributes \'bracket\''''
 
     # for debug
     # def tearDown(self):
     #     pass
 
-    # TODO: How can we remove "autolink=true" only in these tests below ?
+    # TODO: How can we remove 'autolink=true' only in these tests below ?
 
     bracket_text = \
-"""
+'''
 
 <!-- MarkdownTOC autolink=true -->
 
@@ -31,7 +31,7 @@ class TestItalic(TestBase):
 # this_is_not_italic
 # t_h_i_s__i_s__n_o_t__i_t_a_l_i_c
 # _t_h_i_s__i_s__i_t_a_l_i_c_
-"""
+'''
 
     def test_italic_in_inheading1(self):
         toc = self.init_update(self.bracket_text)['toc']

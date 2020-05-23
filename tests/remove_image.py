@@ -2,14 +2,14 @@
 from base import TestBase
 
 class TestRemoveImage(TestBase):
-    """Test for attributes 'remove_image'"""
+    '''Test for attributes \'remove_image\''''
 
     # for debug
     # def tearDown(self):
     #     pass
 
     remove_image_text = \
-"""
+'''
 
 <!-- MarkdownTOC {0} -->
 
@@ -21,7 +21,7 @@ class TestRemoveImage(TestBase):
 # [link](http://sample.com) In the beginning
 # In the [link](http://sample.com) middle
 # In the last [link](http://sample.com)
-"""
+'''
 
     def common_remove_image_default(self, toc):
         self.assert_In('- In the beginning', toc)
@@ -46,7 +46,7 @@ class TestRemoveImage(TestBase):
         self.assert_In('- In the last link', toc)
 
     remove_image_codeblock_text = \
-"""
+'''
 
 <!-- MarkdownTOC {0} -->
 
@@ -67,7 +67,7 @@ class TestRemoveImage(TestBase):
 # `(ROUND)` and `[SQUARE]`
 # hello[SQUARE] and (ROUND)
 # hello`[SQUARE]` and `(ROUND)`
-"""
+'''
 
     def common_remove_image_codeblock_default(self, toc):
         self.assert_In('- and LINK and \[SQUARE\] and \(ROUND\)', toc)

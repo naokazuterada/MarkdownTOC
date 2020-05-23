@@ -2,24 +2,24 @@
 from base import TestBase
 
 class TestAutolink(TestBase):
-    """Test for attributes 'autolink'"""
+    '''Test for attributes \'autolink\''''
 
     # for debug
     # def tearDown(self):
     #     pass
 
     autolink_text = \
-"""
+'''
 
 <!-- MarkdownTOC {0} -->
 
 <!-- /MarkdownTOC -->
 
 # Foo Bar
-"""
+'''
 
     def test_autolink_default(self):
-        """Default Auto link is false"""
+        '''Default Auto link is false'''
         toc = self.init_update(self.autolink_text.format(''))['toc']
         self.assert_In('- Foo Bar', toc)
 

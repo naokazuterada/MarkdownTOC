@@ -56,7 +56,7 @@ class Id(Base):
 
     # from MarkdownPreview
     def slugify(self, value, separator):
-        """ Slugify a string, to make it URL friendly. """
+        ''' Slugify a string, to make it URL friendly. '''
         value = unicodedata.normalize(
             'NFKD', value).encode(
             'ascii', 'ignore')
@@ -68,7 +68,7 @@ class Id(Base):
 
     # from MarkdownPreview
     def postprocess_inject_header_id(self, html):
-        """ Insert header ids when no anchors are present """
+        ''' Insert header ids when no anchors are present '''
         unique = {}
 
         def header_to_id(text):
@@ -92,7 +92,7 @@ class Id(Base):
                 unique[id] = 1
             else:
                 unique[id] += 1
-                id += "-%d" % value
+                id += '-%d' % value
             return m.group('open')[:-1] + (' id="%s">' %
                                            id) + m.group('text') + m.group('close')
 

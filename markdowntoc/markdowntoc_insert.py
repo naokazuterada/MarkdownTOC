@@ -82,7 +82,7 @@ class MarkdowntocInsert(sublime_plugin.TextCommand, Base):
                 return close_tag
 
     def find_tag_and_insert(self, edit):
-        """Search MarkdownTOC comments in document"""
+        '''Search MarkdownTOC comments in document'''
         toc_starts = self.get_toc_open_tag()
         for dic in toc_starts:
 
@@ -96,11 +96,11 @@ class MarkdowntocInsert(sublime_plugin.TextCommand, Base):
                     tocRegion = sublime.Region(
                         toc_start.end(), toc_close.begin())
                     if toc:
-                        self.view.replace(edit, tocRegion, "\n" + toc + "\n")
+                        self.view.replace(edit, tocRegion, '\n' + toc + '\n')
                         self.log('refresh TOC content')
                         return True
                     else:
-                        self.view.replace(edit, tocRegion, "\n")
+                        self.view.replace(edit, tocRegion, '\n')
                         self.log('TOC is empty')
                         return False
         self.log('cannot find TOC tags')
@@ -344,7 +344,7 @@ class MarkdowntocInsert(sublime_plugin.TextCommand, Base):
         return toc
 
     def update_anchors(self, edit, items, autoanchor):
-        """Inserts, updates or deletes a link anchor in the line before each header."""
+        '''Inserts, updates or deletes a link anchor in the line before each header.'''
         v = self.view
         # Iterate in reverse so that inserts don't affect the position
         for item in reversed(items):
@@ -370,7 +370,7 @@ class MarkdowntocInsert(sublime_plugin.TextCommand, Base):
                             anchor_region.end() + 1))
 
     def get_attributes_from(self, tag_str):
-        """return dict of settings from tag_str"""
+        '''return dict of settings from tag_str'''
         pattern = re.compile(
             r'\b(?P<name>\w+)=((?P<empty>)|(\'(?P<quoted>[^\']+)\')|("(?P<dquoted>[^"]+)")|(?P<simple>\S+))\s')
         attrs = dict(

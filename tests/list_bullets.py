@@ -2,14 +2,14 @@
 from base import TestBase
 
 class TestListBullets(TestBase):
-    """Test for attributes 'bullets'"""
+    '''Test for attributes \'bullets\''''
 
     # for debug
     # def tearDown(self):
     #     pass
 
     bullets_text = \
-"""
+'''
 
 <!-- MarkdownTOC levels="1,2,3,4,5,6" {0} -->
 
@@ -24,7 +24,7 @@ class TestListBullets(TestBase):
 #### Heading4-2
 ##### Heading5
 ###### Heading6
-"""
+'''
 
     def test_bullets_default(self):
         toc = self.init_update(self.bullets_text.format(''))['toc']
