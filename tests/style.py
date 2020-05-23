@@ -2,14 +2,14 @@
 from base import TestBase
 
 class TestStyle(TestBase):
-    """Test for attributes 'style'"""
+    '''Test for attributes \'style\''''
 
     # for debug
     # def tearDown(self):
     #     pass
 
     style_text = \
-"""
+'''
 
 <!-- MarkdownTOC {0} -->
 
@@ -19,10 +19,10 @@ class TestStyle(TestBase):
 ## bar
 ## buz
 # qux
-"""
+'''
 
     def test_style_default(self):
-        """Default Style is unordered"""
+        '''Default Style is unordered'''
         toc = self.init_update(self.style_text.format(''))['toc']
         self.assert_In('- foo', toc)
         self.assert_In('- bar', toc)

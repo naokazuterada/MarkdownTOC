@@ -2,14 +2,14 @@
 from base import TestBase
 
 class TestLowercase(TestBase):
-    """Test for attributes 'lowercase'"""
+    '''Test for attributes \'lowercase\''''
 
     # for debug
     # def tearDown(self):
     #     pass
 
     text = \
-"""
+'''
 
 <!-- MarkdownTOC autolink=true uri_encoding=false {0} -->
 
@@ -18,7 +18,7 @@ class TestLowercase(TestBase):
 # ПРИМЕР EXAMPLE
 # One Two Three
 
-"""
+'''
 
     def get_only_ascii(self, toc):
         self.assert_In('- [ПРИМЕР EXAMPLE](#ПРИМЕР-example)', toc)

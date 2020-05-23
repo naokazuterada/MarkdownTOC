@@ -2,21 +2,21 @@
 from base import TestBase
 
 class LinkPrefixBullets(TestBase):
-    """Test for attributes 'link_prefix'"""
+    '''Test for attributes \'link_prefix\''''
 
     # for debug
     # def tearDown(self):
     #     pass
 
     link_prefix_text = \
-"""
+'''
 
 <!-- MarkdownTOC autolink="true" {0} -->
 
 <!-- /MarkdownTOC -->
 
 # My Beatutiful Heading
-"""
+'''
 
     def test_link_prefix_default(self):
         toc = self.init_update(self.link_prefix_text.format(''))['toc']

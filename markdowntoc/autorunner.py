@@ -1,6 +1,7 @@
 import os.path
 import sublime_plugin
 
+
 class AutoRunner(sublime_plugin.EventListener):
 
     def on_pre_save(self, view):

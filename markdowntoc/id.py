@@ -4,6 +4,7 @@ from urllib.parse import quote
 
 from .base import Base
 
+
 class Id(Base):
 
     def __init__(self, id_replacements, markdown_preview, lowercase):
@@ -41,7 +42,8 @@ class Id(Base):
         _str = re.sub(r'`([^`]*)`', '[codeblock]', _str)
 
         # Treat '_' for italic and '_' as text
-        _str = re.sub(r'( |^)([\*|_]{1,3})([^\*|_\s]+|[^\*|_\s].*[^\*|_\s])\2( |$)', '\\1\\3\\4', _str)
+        _str = re.sub(
+            r'( |^)([\*|_]{1,3})([^\*|_\s]+|[^\*|_\s].*[^\*|_\s])\2( |$)', '\\1\\3\\4', _str)
 
         # **[2] recover codeblocks
         for match in matches:
@@ -54,7 +56,7 @@ class Id(Base):
 
     # from MarkdownPreview
     def slugify(self, value, separator):
-        """ Slugify a string, to make it URL friendly. """
+        ''' Slugify a string, to make it URL friendly. '''
         value = unicodedata.normalize(
             'NFKD', value).encode(
             'ascii', 'ignore')
@@ -66,7 +68,7 @@ class Id(Base):
 
     # from MarkdownPreview
     def postprocess_inject_header_id(self, html):
-        """ Insert header ids when no anchors are present """
+        ''' Insert header ids when no anchors are present '''
         unique = {}
 
         def header_to_id(text):
@@ -90,7 +92,7 @@ class Id(Base):
                 unique[id] = 1
             else:
                 unique[id] += 1
-                id += "-%d" % value
+                id += '-%d' % value
             return m.group('open')[:-1] + (' id="%s">' %
                                            id) + m.group('text') + m.group('close')
 

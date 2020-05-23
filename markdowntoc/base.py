@@ -5,6 +5,7 @@ from .util import Util
 # for debug
 pp = pprint.PrettyPrinter(indent=4)
 
+
 class Base(object):
 
     def settings(self, attr):

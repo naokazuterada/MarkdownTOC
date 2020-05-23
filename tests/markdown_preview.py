@@ -2,14 +2,14 @@
 from base import TestBase
 
 class TestMarkdownPreview(TestBase):
-    """Test for attributes 'markdown_preview'"""
+    '''Test for attributes \'markdown_preview\''''
 
     # for debug
     # def tearDown(self):
     #     pass
 
     markdown_preview_text = \
-"""
+'''
 
 <!-- MarkdownTOC autolink=true uri_encoding=false {0} -->
 
@@ -22,7 +22,7 @@ class TestMarkdownPreview(TestBase):
 # ESPAÑA
 # пример russian
 # ПРИМЕР RUSSIAN
-"""
+'''
     # TODO: Check MarkdownPreview installed or not
 
     # common result (not test, call inside test)
@@ -69,7 +69,7 @@ class TestMarkdownPreview(TestBase):
 
     # uniquify heading's id
     markdown_preview_uniquify_id_text = \
-"""
+'''
 
 <!-- MarkdownTOC autolink=true uri_encoding=false {0} -->
 
@@ -78,7 +78,7 @@ class TestMarkdownPreview(TestBase):
 # Heading
 # Heading
 # Heading
-"""
+'''
 
     def test_markdown_preview_uniquify_id_markdown(self):
         toc = self.init_update(self.markdown_preview_uniquify_id_text.format('markdown_preview=markdown'))['toc']
@@ -93,13 +93,13 @@ class TestMarkdownPreview(TestBase):
 
     # no headings
     markdown_preview_no_heading_text = \
-"""
+'''
 
 <!-- MarkdownTOC autolink=true uri_encoding=false {0} -->
 
 <!-- /MarkdownTOC -->
 
-"""
+'''
 
     def test_markdown_preview_no_heading_markdown(self):
         toc = self.init_update(self.markdown_preview_no_heading_text.format('markdown_preview=markdown'))['toc']
