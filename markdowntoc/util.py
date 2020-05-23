@@ -1,12 +1,12 @@
 import collections
 
+
 class Util:
     def is_out_of_areas(num, areas):
         for area in areas:
             if area[0] < num and num < area[1]:
                 return False
         return True
-
 
     def format(items):
         levels = []
@@ -19,7 +19,6 @@ class Util:
         # replace with depth rank
         for i, item in enumerate(levels):
             levels[i] = _depths.index(levels[i]) + 1
-
 
         # Force set level of first item to 1 -----
         # (first item must be list root)
@@ -35,7 +34,6 @@ class Util:
             item[0] = levels[i]
         return items
 
-
     def strtobool(val):
         """pick out from 'distutils.util' module"""
         if isinstance(val, str):
@@ -45,10 +43,9 @@ class Util:
             elif val in ('n', 'no', 'f', 'false', 'off', '0'):
                 return 0
             else:
-                raise ValueError("invalid truth value %r" % (val,))
+                raise ValueError('invalid truth value %r' % (val,))
         else:
             return bool(val)
-
 
     def within_ranges(target, ranges):
         tb = target[0]

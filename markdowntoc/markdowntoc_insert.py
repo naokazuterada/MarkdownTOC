@@ -26,6 +26,7 @@ PT_EX_ID = re.compile(r'\{#.+?\}$')
 PT_TAG = re.compile(r'<.*?>')
 PT_ANCHOR = re.compile(r'<a\s+id="[^"]+"\s*>\s*</a>')
 
+
 class MarkdowntocInsert(sublime_plugin.TextCommand, Base):
 
     def run(self, edit):
@@ -35,11 +36,11 @@ class MarkdowntocInsert(sublime_plugin.TextCommand, Base):
                 attrs = self.defaults()
 
                 # add TOCTAG
-                toc = "<!-- MarkdownTOC -->\n"
-                toc += "\n"
+                toc = '<!-- MarkdownTOC -->\n'
+                toc += '\n'
                 toc += self.get_toc(attrs, sel.end(), edit)
-                toc += "\n"
-                toc += "<!-- /MarkdownTOC -->\n"
+                toc += '\n'
+                toc += '<!-- /MarkdownTOC -->\n'
 
                 self.view.insert(edit, sel.begin(), toc)
                 self.log('inserted TOC')
@@ -56,7 +57,7 @@ class MarkdowntocInsert(sublime_plugin.TextCommand, Base):
         for toc_open in search_results:
             if 0 < len(toc_open):
 
-                toc_open_tag = {"region": toc_open}
+                toc_open_tag = {'region': toc_open}
 
                 # settings in user settings
                 settings_user = self.defaults()
@@ -85,7 +86,7 @@ class MarkdowntocInsert(sublime_plugin.TextCommand, Base):
         toc_starts = self.get_toc_open_tag()
         for dic in toc_starts:
 
-            toc_start = dic["region"]
+            toc_start = dic['region']
             if 0 < len(toc_start):
 
                 toc_close = self.get_toc_close_tag(toc_start.end())
@@ -139,8 +140,10 @@ class MarkdowntocInsert(sublime_plugin.TextCommand, Base):
                     return m.group(0)
             return re.sub(_pattern, replace_brackets, _text)
 
-        _text = do_escape(_text, re.compile(r'(?<!\\)\[([^\]]*)(?<!\\)\]'), '\[', '\]')
-        _text = do_escape(_text, re.compile(r'(?<!\\)\(([^\)]*)(?<!\\)\)'), '\(', '\)')
+        _text = do_escape(_text, re.compile(
+            r'(?<!\\)\[([^\]]*)(?<!\\)\]'), '\[', '\]')
+        _text = do_escape(_text, re.compile(
+            r'(?<!\\)\(([^\)]*)(?<!\\)\)'), '\(', '\)')
 
         return _text
 
@@ -148,9 +151,9 @@ class MarkdowntocInsert(sublime_plugin.TextCommand, Base):
     def get_toc(self, attrs, begin, edit):
 
         # Search headings in docment
-        pattern_hash = "^#+?[^#]"
-        pattern_h1_h2_equal_dash = "^.*?(?:(?:\r\n)|\n|\r)(?:-+|=+)$"
-        pattern_heading = "%s|%s" % (pattern_h1_h2_equal_dash, pattern_hash)
+        pattern_hash = '^#+?[^#]'
+        pattern_h1_h2_equal_dash = '^.*?(?:(?:\r\n)|\n|\r)(?:-+|=+)$'
+        pattern_heading = '%s|%s' % (pattern_h1_h2_equal_dash, pattern_hash)
         headings = self.view.find_all(pattern_heading)
 
         headings = self.remove_items_in_codeblock(headings)
@@ -268,8 +271,10 @@ class MarkdowntocInsert(sublime_plugin.TextCommand, Base):
                 valids = []
                 for m in re.compile(r'`[^`]*`').finditer(text):
                     codes.append([m.start(), m.end()])
+
                 def not_in_codeblock(target):
                     return not Util.within_ranges(target, codes)
+
                 def not_in_image(target):
                     return not Util.within_ranges(target, images)
                 # Collect images not in codeblock
@@ -302,10 +307,10 @@ class MarkdowntocInsert(sublime_plugin.TextCommand, Base):
                 _id = match_ex_id.group().replace('{#', '').replace('}', '')
             elif attrs['autolink']:
                 _id = Id(
-                        self.settings('id_replacements'),
-                        attrs['markdown_preview'],
-                        str(attrs['lowercase']).lower()
-                    ).heading_to_id(_text)
+                    self.settings('id_replacements'),
+                    attrs['markdown_preview'],
+                    str(attrs['lowercase']).lower()
+                ).heading_to_id(_text)
                 if attrs['uri_encoding']:
                     _id = quote(_id)
 
@@ -389,7 +394,7 @@ class MarkdowntocInsert(sublime_plugin.TextCommand, Base):
 
     def remove_items_in_codeblock(self, items):
 
-        codeblocks = self.view.find_all("^\s*(`{3,}|~{3,})\S*")
+        codeblocks = self.view.find_all('^\s*(`{3,}|~{3,})\S*')
         codeblockAreas = []  # [[area_begin, area_end], ..]
         i = 0
         while i < len(codeblocks) - 1:

@@ -4,6 +4,7 @@ from urllib.parse import quote
 
 from .base import Base
 
+
 class Id(Base):
 
     def __init__(self, id_replacements, markdown_preview, lowercase):
@@ -41,7 +42,8 @@ class Id(Base):
         _str = re.sub(r'`([^`]*)`', '[codeblock]', _str)
 
         # Treat '_' for italic and '_' as text
-        _str = re.sub(r'( |^)([\*|_]{1,3})([^\*|_\s]+|[^\*|_\s].*[^\*|_\s])\2( |$)', '\\1\\3\\4', _str)
+        _str = re.sub(
+            r'( |^)([\*|_]{1,3})([^\*|_\s]+|[^\*|_\s].*[^\*|_\s])\2( |$)', '\\1\\3\\4', _str)
 
         # **[2] recover codeblocks
         for match in matches:
