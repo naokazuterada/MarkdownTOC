@@ -62,7 +62,6 @@ class TestDiscreteHeading(TestBase):
         self.assert_In('- level 1', toc)
         self.assert_In('  - level 3', toc)
         self.assert_In('    - level 6', toc)
-
         self.assert_NotIn('    - level 2', toc)
         self.assert_NotIn('          - level 5', toc)
         self.assert_NotIn('            - level 6', toc)
