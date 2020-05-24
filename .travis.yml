@@ -10,6 +10,7 @@ env:
 matrix:
     include:
         - os: linux
+          services: xvfb
           language: python
           python: 3.7
         - os: osx
