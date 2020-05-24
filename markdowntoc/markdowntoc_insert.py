@@ -166,25 +166,16 @@ class MarkdowntocInsert(sublime_plugin.TextCommand, Base):
 
         headings = self.remove_items_in_codeblock(headings)
 
-        def get_discrete_header(discrete, heading):
-            if discrete and heading == 1:
-                return 1, False
-            elif heading > 1 and discrete:
-                return heading - 1, discrete
-            return heading, discrete
-
         if len(headings) < 1:
             return ''
 
         items = []  # [[headingNum, text, position, anchor_id], ...]
-        discrete_active = False
         for heading in headings:
             if begin < heading.end():
                 lines = self.view.lines(heading)
                 previous_line = self.view.substr(
                     self.view.line(lines[0].a - 1))
                 if PT_DISCRETE.match(previous_line):
-                    discrete_active = True
                     continue
 
                 if len(lines) == 1:
@@ -192,10 +183,7 @@ class MarkdowntocInsert(sublime_plugin.TextCommand, Base):
                     r = sublime.Region(heading.end() - 1,
                                        self.view.line(heading).end())
                     text = self.view.substr(r).strip().rstrip('#')
-                    indent, discrete_active = get_discrete_header(
-                        discrete_active, heading.size() - 1
-                    )
-
+                    indent = heading.size() - 1
                     items.append([indent, text, heading.begin()])
                 elif len(lines) == 2:
                     # handle = or - headings
@@ -207,9 +195,6 @@ class MarkdowntocInsert(sublime_plugin.TextCommand, Base):
                     if text.strip():
                         heading_type = self.view.substr(lines[1])[0]
                         indent = 1 if heading_type == '=' else 2
-                        indent, discrete_active = get_discrete_header(
-                            discrete_active, heading.size() - 1
-                        )
                         items.append([indent, text, heading.begin()])
 
         if len(items) < 1:
