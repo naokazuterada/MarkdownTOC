@@ -16,7 +16,7 @@ class TestDiscreteHeading(TestBase):
 
 # heading 1
 
-<!-- discrete="True" -->
+<!-- MarkdownTOC:excluded  -->
 # heading 2
 
 # heading 3
@@ -37,12 +37,12 @@ class TestDiscreteHeading(TestBase):
 <!-- /MarkdownTOC -->
 
 # level 1
-<!-- discrete="True" -->
+<!-- MarkdownTOC:excluded  -->
 ## level 2
 ### level 3
-<!-- discrete="True" -->
+<!-- MarkdownTOC:excluded  -->
 #### level 4
-<!-- discrete="True" -->
+<!-- MarkdownTOC:excluded  -->
 ##### level 5
 ###### level 6
 
