@@ -126,29 +126,3 @@ class TestLevels(TestBase):
         self.assert_In('- heading 2', toc)
         self.assert_NotIn('- heading 5', toc)
         self.assert_In('- heading 6', toc)
-
-
-    text_3 = """
-
-<!-- MarkdownTOC -->
-
-<!-- /MarkdownTOC -->
-
-# heading 1
-
-## heading 2
-
-### heading 3
-<!-- discrete="True" -->
-#### heading 4
-###### heading 7
-"""
-
-    def test_levels_discrete_levels(self):
-        """Default is no limit"""
-        toc = self.init_update(self.text_3)["toc"]
-        self.assert_In("- heading 1", toc)
-        self.assert_In("- heading 2", toc)
-        self.assert_In("- heading 3", toc)
-        self.assert_NotIn("- heading 4", toc)
-        self.assert_In("- heading 7", toc)
