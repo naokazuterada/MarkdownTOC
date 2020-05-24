@@ -1,8 +1,8 @@
 # coding:utf-8
 from base import TestBase
 
-class TestDiscreteHeading(TestBase):
-    '''Ignore discrete heading'''
+class TestExcludeHeading(TestBase):
+    '''Ignore exclude heading'''
 
     # for debug
     # def tearDown(self):
@@ -23,7 +23,7 @@ class TestDiscreteHeading(TestBase):
 
 '''
 
-    def test_discrete_heading(self):
+    def test_exclude_heading(self):
         '''Default is no limit'''
         toc = self.init_update(self.text_1)['toc']
         self.assert_In('- heading 1', toc)
@@ -48,7 +48,7 @@ class TestDiscreteHeading(TestBase):
 
 '''
 
-    def test_discrete_heading_level(self):
+    def test_exclude_heading_level(self):
         '''Level is correct'''
         toc = self.init_update(self.text_2)['toc']
         # existence
@@ -60,8 +60,8 @@ class TestDiscreteHeading(TestBase):
         self.assert_In('- level 6', toc)
         # level
         self.assert_In('- level 1', toc)
-        self.assert_In('  - level 3', toc)
-        self.assert_In('    - level 6', toc)
+        self.assert_In('    - level 3', toc)
+        self.assert_In('        - level 6', toc)
         self.assert_NotIn('    - level 2', toc)
         self.assert_NotIn('          - level 5', toc)
         self.assert_NotIn('            - level 6', toc)
