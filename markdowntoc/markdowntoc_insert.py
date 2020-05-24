@@ -50,7 +50,7 @@ class MarkdowntocInsert(sublime_plugin.TextCommand, Base):
                 toc += '<!-- /MarkdownTOC -->\n'
 
                 self.view.insert(edit, sel.begin(), toc)
-                self.log("inserted TOC")
+                self.log('inserted TOC')
 
         # TODO: process to add another toc when tag exists
 
