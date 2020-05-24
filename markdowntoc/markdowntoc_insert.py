@@ -28,9 +28,9 @@ PT_ANCHOR = re.compile(r'<a\s+id="[^"]+"\s*>\s*</a>')
 
 
 
-# <!-- discrete="True" -->
-PT_DISCRETE = re.compile(
-    r'^<!--.*?[ ](discrete=[\"\']?(?P<discrete>true)[\"\']?)[ ].*?-->', re.IGNORECASE
+# <!-- MarkdownTOC:excluded  -->
+PT_EXCLUDE = re.compile(
+    r'^<!--.*(MarkdownTOC:excluded).*-->', re.IGNORECASE
 )
 
 
@@ -175,7 +175,7 @@ class MarkdowntocInsert(sublime_plugin.TextCommand, Base):
                 lines = self.view.lines(heading)
                 previous_line = self.view.substr(
                     self.view.line(lines[0].a - 1))
-                if PT_DISCRETE.match(previous_line):
+                if PT_EXCLUDE.match(previous_line):
                     continue
 
                 if len(lines) == 1:
