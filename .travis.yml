@@ -10,8 +10,9 @@ env:
 matrix:
     include:
         - os: linux
+          services: xvfb
           language: python
-          python: 3.3
+          python: 3.7
         - os: osx
           language: generic
 
@@ -22,6 +23,7 @@ before_install:
     - if [ "$TRAVIS_OS_NAME" == "linux"  ]; then
             export DISPLAY=:99.0;
             sh -e /etc/init.d/xvfb start;
+            sleep 3;
       fi
 
 install:
