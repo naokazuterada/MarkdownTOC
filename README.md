@@ -730,7 +730,7 @@ You can change your default setting in your [configuration](#configuration) with
 You can exclude certain headings in the TOC by adding a special comment to the line before the heading, as shown below.
 
 ```markdown
-<!-- MarkdownTOC:excluded  -->
+<!-- MarkdownTOC:excluded -->
 ## This heading will be excluded
 ```
 
