@@ -25,8 +25,10 @@ class Util:
         if len(levels):
             diff_to_root = levels[0] - 1
             if 0 < diff_to_root:
+
                 def pad(level):
                     return level - diff_to_root
+
                 levels = list(map(pad, levels))
 
         # --------------------------
@@ -35,15 +37,15 @@ class Util:
         return items
 
     def strtobool(val):
-        '''pick out from 'distutils.util' module'''
+        """pick out from 'distutils.util' module"""
         if isinstance(val, str):
             val = val.lower()
-            if val in ('y', 'yes', 't', 'true', 'on', '1'):
+            if val in ("y", "yes", "t", "true", "on", "1"):
                 return 1
-            elif val in ('n', 'no', 'f', 'false', 'off', '0'):
+            elif val in ("n", "no", "f", "false", "off", "0"):
                 return 0
             else:
-                raise ValueError('invalid truth value %r' % (val,))
+                raise ValueError("invalid truth value %r" % (val,))
         else:
             return bool(val)
 
@@ -59,17 +61,20 @@ class Util:
 
     # This method is from https://gist.github.com/angstwad/bf22d1822c38a92ec0a9
     def dict_merge(dct, merge_dct):
-        ''' Recursive dict merge. Inspired by :meth:``dict.update()``, instead of
+        """ Recursive dict merge. Inspired by :meth:``dict.update()``, instead of
         updating only top-level keys, dict_merge recurses down into dicts nested
         to an arbitrary depth, updating keys. The ``merge_dct`` is merged into
         ``dct``.
         :param dct: dict onto which the merge is executed
         :param merge_dct: dct merged into dct
         :return: None
-        '''
+        """
         for k, v in merge_dct.items():
-            if (k in dct and isinstance(dct[k], dict)
-                    and isinstance(merge_dct[k], collections.Mapping)):
+            if (
+                k in dct
+                and isinstance(dct[k], dict)
+                and isinstance(merge_dct[k], collections.Mapping)
+            ):
                 Util.dict_merge(dct[k], merge_dct[k])
             else:
                 dct[k] = merge_dct[k]

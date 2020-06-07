@@ -8,44 +8,45 @@ VERSION = sublime.version()
 
 
 class TestBase(TestCase):
-    '''Super class includes common settings and functions. This class doesn't include any tests.'''
+    """Super class includes common settings and functions. This class doesn't include any tests."""
 
     def setUp(self):
         self.view = sublime.active_window().new_file()
         # make sure we have a window to work with
-        s = sublime.load_settings('Preferences.sublime-settings')
-        s.set('close_windows_when_empty', False)
+        s = sublime.load_settings("Preferences.sublime-settings")
+        s.set("close_windows_when_empty", False)
 
     def tearDown(self):
         if self.view:
             # close file
             self.view.set_scratch(True)
             self.view.window().focus_view(self.view)
-            self.view.window().run_command('close_file')
+            self.view.window().run_command("close_file")
 
     # -----
 
     def setText(self, string):
-        self.view.run_command('insert', {'characters': string})
+        self.view.run_command("insert", {"characters": string})
 
     def getRow(self, row):
         return self.view.substr(self.view.line(self.view.text_point(row, 0)))
 
     def moveTo(self, pos):
-        '''Move cursor to pos.'''
+        """Move cursor to pos."""
         self.view.sel().clear()
         self.view.sel().add(sublime.Region(pos))
 
     def getTOC_text(self):
-        '''Find TOC in the document, and return the list texts in it.'''
+        """Find TOC in the document, and return the list texts in it."""
         toc_region = self.view.find(
-            r'<!--[\s\n]+MarkdownTOC[\s\n]+[^>]*-->\n(.|\n)+?<!--[\s\n]+/MarkdownTOC[\s\n]+-->',
-            sublime.IGNORECASE)
+            r"<!--[\s\n]+MarkdownTOC[\s\n]+[^>]*-->\n(.|\n)+?<!--[\s\n]+/MarkdownTOC[\s\n]+-->",
+            sublime.IGNORECASE,
+        )
         toc_all = self.view.substr(toc_region)
 
         # pick toc contents
-        toc_contents = re.sub(r'<!--[\s\n]+MarkdownTOC[\s\n]+[^>]*-->', '', toc_all)
-        toc_contents = re.sub(r'<!--[\s\n]+/MarkdownTOC[\s\n]+-->', '', toc_contents)
+        toc_contents = re.sub(r"<!--[\s\n]+MarkdownTOC[\s\n]+[^>]*-->", "", toc_all)
+        toc_contents = re.sub(r"<!--[\s\n]+/MarkdownTOC[\s\n]+-->", "", toc_contents)
         toc_contents = toc_contents.rstrip()
 
         return toc_contents
@@ -57,7 +58,7 @@ class TestBase(TestCase):
         # 2. insert TOC
         # [NOTICE] Why insert_position=3 ?: Cannnot insert TOC when coursor position <= 2
         self.moveTo(insert_position)
-        self.view.run_command('markdowntoc_insert')
+        self.view.run_command("markdowntoc_insert")
 
         # 3. return TOC
         return self.getTOC_text()
@@ -74,23 +75,26 @@ class TestBase(TestCase):
         self.setText(text)
 
         # 2. update TOC
-        self.view.run_command('markdowntoc_update')
+        self.view.run_command("markdowntoc_update")
 
         # 3. return TOC
-        return {'toc': self.getTOC_text(), 'body': self.view.substr(sublime.Region(0, self.view.size()))}
+        return {
+            "toc": self.getTOC_text(),
+            "body": self.view.substr(sublime.Region(0, self.view.size())),
+        }
 
     # -----
 
     def assert_NotIn(self, txt, toc_txt):
-        '''Adapt assertNotIn to SublimeText2.'''
-        if VERSION < '3000':
+        """Adapt assertNotIn to SublimeText2."""
+        if VERSION < "3000":
             self.assertFalse(txt in toc_txt)
         else:
             self.assertNotIn(txt, toc_txt)
 
     def assert_In(self, txt, toc_txt):
-        '''Adapt assertIn to SublimeText2.'''
-        if VERSION < '3000':
+        """Adapt assertIn to SublimeText2."""
+        if VERSION < "3000":
             self.assertTrue(txt in toc_txt)
         else:
             self.assertIn(txt, toc_txt)

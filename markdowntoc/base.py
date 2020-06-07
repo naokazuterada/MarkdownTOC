@@ -7,10 +7,9 @@ pp = pprint.PrettyPrinter(indent=4)
 
 
 class Base(object):
-
     def settings(self, attr):
-        DEFAULT = 'Packages/MarkdownTOC/MarkdownTOC.sublime-settings'
-        files = sublime.find_resources('MarkdownTOC.sublime-settings')
+        DEFAULT = "Packages/MarkdownTOC/MarkdownTOC.sublime-settings"
+        files = sublime.find_resources("MarkdownTOC.sublime-settings")
         files.remove(DEFAULT)
 
         settings = self.decode_value(DEFAULT)
@@ -21,23 +20,23 @@ class Base(object):
         return settings[attr]
 
     def defaults(self):
-        return self.settings('defaults')
+        return self.settings("defaults")
 
     def decode_value(self, file):
         # Check json syntax
         try:
             return sublime.decode_value(sublime.load_resource(file))
         except ValueError as e:
-            self.error('Invalid json in %s: %s' % (file, e))
+            self.error("Invalid json in %s: %s" % (file, e))
 
     def log(self, arg):
-        if self.settings('logging') is True:
+        if self.settings("logging") is True:
             arg = str(arg)
             sublime.status_message(arg)
             pp.pprint(arg)
 
     def error(self, arg):
-        arg = 'MarkdownTOC Error: '+arg
+        arg = "MarkdownTOC Error: " + arg
         arg = str(arg)
         sublime.status_message(arg)
         pp.pprint(arg)
