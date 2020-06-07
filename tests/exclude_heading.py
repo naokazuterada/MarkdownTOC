@@ -33,7 +33,7 @@ class TestExcludeHeading(TestBase):
 
     text_2 = """
 
-<!-- MarkdownTOC -->
+<!-- MarkdownTOC indent="  " -->
 
 <!-- /MarkdownTOC -->
 
