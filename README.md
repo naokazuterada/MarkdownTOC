@@ -731,7 +731,7 @@ You can exclude certain headings in the TOC by adding a special comment to the l
 
 ```markdown
 <!-- MarkdownTOC:excluded  -->
-## This heading will excluded
+## This heading will be excluded
 ```
 
 You can change your default setting in your [configuration](#configuration) with the key `defaults.remove_image`.
