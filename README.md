@@ -41,7 +41,7 @@ Sublime Text 3 plugin for generating a Table of Contents (TOC) in a Markdown doc
     - [Customizable list bullets in TOC](#customizable-list-bullets-in-toc)
     - [Specify custom indentation prefix](#specify-custom-indentation-prefix)
     - [Preserve images in headings](#preserve-images-in-headings)
-    - [Excluded heading](#excluded-heading)
+    - [Excluded headings](#excluded-headings)
 - [Usage](#usage)
 - [Tips](#tips)
     - [How to remove anchors added by MarkdownTOC](#how-to-remove-anchors-added-by-markdowntoc)
@@ -100,7 +100,7 @@ The **MarkdownTOC** plugin is rich on features and customization, useful for bot
 - [Customizable list bullets in TOC](#customizable-list-bullets-in-toc)
 - [Specify custom indentation prefix](#specify-custom-indentation-prefix)
 - [Preserve images in headings](#preserve-images-in-headings)
-- [Excluded heading](#excluded-heading)
+- [Excluded headings](#excluded-heading)
 
 ### Insertion of TOC based on headings in Markdown document
 
@@ -725,9 +725,9 @@ Please note that the default for the [attribute](#attributes) is: `false`.
 
 You can change your default setting in your [configuration](#configuration) with the key `defaults.remove_image`.
 
-### Excluded heading
+### Excluded headings
 
-You can exclude certain headings in the TOC by adding a special comment to the line before the heading, as shown below.
+You can exclude certain headings in the TOC by adding a special comment to the line above the line with the heading, as shown below.
 
 ```markdown
 <!-- MarkdownTOC:excluded -->
