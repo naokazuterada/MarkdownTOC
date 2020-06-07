@@ -31,12 +31,12 @@ Pull requests should be based on the master branch, unless you want to contribut
 
 ### Coding Style
 
-You should follow [pycodestyle](https://github.com/PyCQA/pycodestyle) (formerly called pep8).
-You can do it easily with [Python PEP8 Autoformat](https://packagecontrol.io/packages/Python%20PEP8%20Autoformat).
+You should use [Black](https://github.com/psf/black) for auto code formatting.
 
-In addition to the [pycodestyle](https://github.com/PyCQA/pycodestyle), the following style guide applies:
-
-- For quoting use single quotes (`'`) instead of double quotes (`"`)
+```
+pip install black
+black .
+```
 
 ### Test
 
