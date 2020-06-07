@@ -45,11 +45,11 @@ class TestMarkdownPreview(TestBase):
         toc = self.init_update(self.markdown_preview_text.format('markdown_preview=markdown'))['toc']
         self.assert_In('- [Hello 世界 World](#hello-world)', toc)
         self.assert_In('- [camión, último](#camion-ultimo)', toc)
-        self.assert_In('- [CAMIÓN, ÚLTIMO](#camion-ultimo-1)', toc)
+        self.assert_In('- [CAMIÓN, ÚLTIMO](#camion-ultimo_1)', toc)
         self.assert_In('- [españa](#espana)', toc)
-        self.assert_In('- [ESPAÑA](#espana-1)', toc)
+        self.assert_In('- [ESPAÑA](#espana_1)', toc)
         self.assert_In('- [пример russian](#russian)', toc)
-        self.assert_In('- [ПРИМЕР RUSSIAN](#russian-1)', toc)
+        self.assert_In('- [ПРИМЕР RUSSIAN](#russian_1)', toc)
 
     # github
     def test_markdown_preview_github(self):
@@ -83,8 +83,8 @@ class TestMarkdownPreview(TestBase):
     def test_markdown_preview_uniquify_id_markdown(self):
         toc = self.init_update(self.markdown_preview_uniquify_id_text.format('markdown_preview=markdown'))['toc']
         self.assert_In('- [Heading](#heading)', toc)
-        self.assert_In('- [Heading](#heading-1)', toc)
-        self.assert_In('- [Heading](#heading-2)', toc)
+        self.assert_In('- [Heading](#heading_1)', toc)
+        self.assert_In('- [Heading](#heading_2)', toc)
     def test_markdown_preview_uniquify_id_github(self):
         toc = self.init_update(self.markdown_preview_uniquify_id_text.format('markdown_preview=github'))['toc']
         self.assert_In('- [Heading](#heading)', toc)

@@ -317,7 +317,8 @@ class MarkdowntocInsert(sublime_plugin.TextCommand, Base):
                 _ids.append(_id)
                 n = _ids.count(_id)
                 if 1 < n:
-                    _id += '-' + str(n - 1)
+                    delimiter = '_' if attrs['markdown_preview'] == 'markdown' else '-'
+                    _id += delimiter + str(n - 1)
 
             if attrs['style'] == 'unordered':
                 list_prefix = _list_bullet + ' '
