@@ -27,6 +27,13 @@ PT_TAG = re.compile(r'<.*?>')
 PT_ANCHOR = re.compile(r'<a\s+id="[^"]+"\s*>\s*</a>')
 
 
+
+# <!-- MarkdownTOC:excluded  -->
+PT_EXCLUDE = re.compile(
+    r'^<!--.*(MarkdownTOC:excluded).*-->', re.IGNORECASE
+)
+
+
 class MarkdowntocInsert(sublime_plugin.TextCommand, Base):
 
     def run(self, edit):
@@ -138,6 +145,7 @@ class MarkdowntocInsert(sublime_plugin.TextCommand, Base):
                     return _open + m.group(1) + _close
                 else:
                     return m.group(0)
+
             return re.sub(_pattern, replace_brackets, _text)
 
         _text = do_escape(_text, re.compile(
@@ -165,10 +173,15 @@ class MarkdowntocInsert(sublime_plugin.TextCommand, Base):
         for heading in headings:
             if begin < heading.end():
                 lines = self.view.lines(heading)
+                previous_line = self.view.substr(
+                    self.view.line(lines[0].a - 1))
+                if PT_EXCLUDE.match(previous_line):
+                    continue
+
                 if len(lines) == 1:
                     # handle hash headings, ### chapter 1
-                    r = sublime.Region(
-                        heading.end() - 1, self.view.line(heading).end())
+                    r = sublime.Region(heading.end() - 1,
+                                       self.view.line(heading).end())
                     text = self.view.substr(r).strip().rstrip('#')
                     indent = heading.size() - 1
                     items.append([indent, text, heading.begin()])
@@ -180,8 +193,8 @@ class MarkdowntocInsert(sublime_plugin.TextCommand, Base):
                     # ----
                     text = self.view.substr(lines[0])
                     if text.strip():
-                        indent = 1 if (
-                            self.view.substr(lines[1])[0] == '=') else 2
+                        heading_type = self.view.substr(lines[1])[0]
+                        indent = 1 if heading_type == '=' else 2
                         items.append([indent, text, heading.begin()])
 
         if len(items) < 1:
