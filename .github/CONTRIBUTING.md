@@ -31,7 +31,7 @@ Pull requests should be based on the master branch, unless you want to contribut
 
 ### Coding Style
 
-You should use [Black](https://github.com/psf/black) for auto code formatting.
+You should use [Black](https://github.com/psf/black) for automatic code formatting.
 
 ```
 pip install black
