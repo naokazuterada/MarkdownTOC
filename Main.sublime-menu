@@ -32,21 +32,9 @@
         "children":
         [
           {
-            "caption": "MarkdownTOC",
-            "children":
-            [
-              {
-                "command": "open_file",
-                "args": {"file": "${packages}/MarkdownTOC/MarkdownTOC.sublime-settings"},
-                "caption": "Settings – Default"
-              },
-              {
-                "command": "open_file",
-                "args": {"file": "${packages}/User/MarkdownTOC.sublime-settings"},
-                "caption": "Settings – User"
-              },
-              { "caption": "-" }
-            ]
+            "caption": "MarkdownTOC Settings",
+            "command": "edit_settings",
+            "args": {"base_file": "${packages}/MarkdownTOC/MarkdownTOC.sublime-settings"},
           }
         ]
       }
