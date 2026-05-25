@@ -407,7 +407,7 @@ class MarkdowntocInsert(sublime_plugin.TextCommand, Base):
 
     def remove_items_in_codeblock(self, items):
 
-        codeblocks = self.view.find_all("^\s*(`{3,}|~{3,})\S*")
+        codeblocks = self.view.find_all("^(\s|[-*])*(`{3,}|~{3,})\S*")
         codeblockAreas = []  # [[area_begin, area_end], ..]
         i = 0
         while i < len(codeblocks) - 1:
