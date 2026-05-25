@@ -1,4 +1,4 @@
-import collections
+from collections.abc import Mapping
 
 
 class Util:
@@ -73,7 +73,7 @@ class Util:
             if (
                 k in dct
                 and isinstance(dct[k], dict)
-                and isinstance(merge_dct[k], collections.Mapping)
+                and isinstance(merge_dct[k], Mapping)
             ):
                 Util.dict_merge(dct[k], merge_dct[k])
             else:
