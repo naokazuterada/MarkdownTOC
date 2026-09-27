@@ -185,7 +185,15 @@ Updating the TOC can also be accomplished without saving by picking from the men
 
 Make sure your file's extension is in the following list.
 
-`.md` `.markdown` `.mdown` `.mdwn` `.mkdn` `.mkd` `.mark`
+`.md` `.markdown` `.mdown` `.mdwn` `.mkdn` `.mkd` `.mark` `.mdx`
+
+You can change this list in your [configuration](#configuration) with the key `autorun_extensions`. For example, to also refresh the TOC in `.txt` files:
+
+```json
+{
+  "autorun_extensions": [".md", ".markdown", ".mdown", ".mdwn", ".mkdn", ".mkd", ".mark", ".mdx", ".txt"]
+}
+```
 
 ### Customizing generation of TOC using attributes
 
@@ -928,6 +936,7 @@ For an overview of the specific behaviour behind an attribute, please refer to t
 - `defaults.uri_encoding`, (see: [URI encoding](#uri-encoding))
 - `defaults.markdown_preview`, (see: [Markdown Preview compatible](#markdown-preview-compatible))
 - `id_replacements`, (see: [Manipulation of auto link ids](#manipulation-of-auto-link-ids))
+- `autorun_extensions`, (see: [Supported file extensions](#supported-file-extensions))
 
 ### Github Configuration
 

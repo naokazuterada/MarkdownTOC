@@ -23,5 +23,6 @@
       "replacement": ""
     }
   ],
+  "autorun_extensions": [".md", ".markdown", ".mdown", ".mdwn", ".mkdn", ".mkd", ".mark", ".mdx"],
   "logging": false
 }
