@@ -7,7 +7,7 @@ MarkdownTOC
 
 Sublime Text 3 plugin for generating a Table of Contents (TOC) in a Markdown document.
 
-[![Package Control](https://img.shields.io/packagecontrol/dt/MarkdownTOC.svg "Package Control downloads")](https://packagecontrol.io/packages/MarkdownTOC) [![Gitter chat](https://badges.gitter.im/naokazuterada/MarkdownTOC.png)](https://gitter.im/naokazuterada/MarkdownTOC)
+[![unit-tests](https://github.com/naokazuterada/MarkdownTOC/actions/workflows/unit-tests.yml/badge.svg)](https://github.com/naokazuterada/MarkdownTOC/actions/workflows/unit-tests.yml) [![Package Control](https://img.shields.io/packagecontrol/dt/MarkdownTOC.svg "Package Control downloads")](https://packagecontrol.io/packages/MarkdownTOC) [![Gitter chat](https://badges.gitter.im/naokazuterada/MarkdownTOC.png)](https://gitter.im/naokazuterada/MarkdownTOC)
 
 ---
 
