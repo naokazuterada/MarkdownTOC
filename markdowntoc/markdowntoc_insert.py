@@ -396,14 +396,7 @@ class MarkdowntocInsert(sublime_plugin.TextCommand, Base):
         )
 
         # parse values according to type of values in settings file
-        defaults = self.defaults()
-        for key in attrs:
-            if type(defaults[key]) is list:
-                attrs[key] = attrs[key].split(",")
-            elif type(defaults[key]) is bool:
-                attrs[key] = Util.strtobool(attrs[key])
-
-        return attrs
+        return self.parse_values(attrs)
 
     def remove_items_in_codeblock(self, items):
 

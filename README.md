@@ -839,7 +839,7 @@ The following attributes can be used to control the generation of the TOC.
 | `indent`               | string                                    | `"\t"`          |
 | `levels`               | string (decimal list separated with `,`)  | `"1,2,3,4,5,6"` |
 | `link_prefix`          | string                                    | `""`            |
-| `bullets`              | string                                    | `"-"`           |
+| `bullets`              | string (list separated with `,`)          | `"-"`           |
 | `lowercase`            | `"all"`or`"only_ascii"`or`"false"`        | `"only_ascii"`  |
 | `remove_image`         | `true`or`false`                           | `true`          |
 | `style`                | `"ordered"` or `"unordered"`              | `"unordered"`   |
@@ -884,10 +884,10 @@ Example: `MarkdownTOC.sublime-settings`
   "defaults": {
     "autolink": true,
     "bracket": "square",
-    "levels": "1,2",
+    "levels": [1,2],
     "indent": "    ",
     "remove_image": false,
-    "bullets": "*",
+    "bullets": ["*"],
     "style": "ordered"
   },
   "id_replacements": [
@@ -904,6 +904,8 @@ Example: `MarkdownTOC.sublime-settings`
 ```
 
 Please see the section on [attributes](#attributes) for an overview of values and the [section on customization](#customizing-generation-of-toc-using-attributes).
+
+In the configuration file, list values such as `levels` and `bullets` can be written either as an array (`[1,2]`, `["*"]`) or as a comma separated string (`"1,2"`, `"*"`).
 
 Configuration precendence is as follows:
 
