@@ -12,7 +12,7 @@ class TestAutolink(TestBase):
     def test_escaped_square_brackets(self):
         """Escaped square brackets"""
         toc_txt = self.init_update(
-            """
+            r"""
 
 <!-- MarkdownTOC autolink="true" bracket="round" -->
 
@@ -21,7 +21,7 @@ class TestAutolink(TestBase):
 # variable \[required\]
 """
         )["toc"]
-        self.assert_In("- [variable \[required\]](#variable-required)", toc_txt)
+        self.assert_In(r"- [variable \[required\]](#variable-required)", toc_txt)
 
     def test_underscores_asterisks_head(self):
         """Underscores and Asterisks in the head of line`"""

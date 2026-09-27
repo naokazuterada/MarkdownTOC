@@ -120,7 +120,7 @@ class TestDefault(TestBase):
 # function(foo[, bar])
 """
         toc = self.init_insert(text)
-        self.assert_In("function\(foo\[, bar\]\)", toc)
+        self.assert_In(r"function\(foo\[, bar\]\)", toc)
 
     def test_spaces_in_atx_heading(self):
         text = """

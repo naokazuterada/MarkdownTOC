@@ -65,8 +65,8 @@ class Id(Base):
     def slugify(self, value, separator):
         """ Slugify a string, to make it URL friendly. """
         value = unicodedata.normalize("NFKD", value).encode("ascii", "ignore")
-        value = re.sub("[^\w\s-]", "", value.decode("ascii")).strip().lower()
-        return re.sub("[%s\s]+" % separator, separator, value)
+        value = re.sub(r"[^\w\s-]", "", value.decode("ascii")).strip().lower()
+        return re.sub(r"[%s\s]+" % separator, separator, value)
 
     # from MarkdownPreview
     def postprocess_inject_header_id(self, html):

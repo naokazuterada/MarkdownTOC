@@ -76,8 +76,8 @@ class TestRemoveImage(TestBase):
 """
 
     def common_remove_image_codeblock_default(self, toc):
-        self.assert_In("- and LINK and \[SQUARE\] and \(ROUND\)", toc)
-        self.assert_In("- hello and LINK and \[SQUARE\] and \(ROUND\)", toc)
+        self.assert_In(r"- and LINK and \[SQUARE\] and \(ROUND\)", toc)
+        self.assert_In(r"- hello and LINK and \[SQUARE\] and \(ROUND\)", toc)
         self.assert_In("- `![IMAGE](image.png) and LINK and [SQUARE] and (ROUND)`", toc)
         self.assert_In(
             "- hello`![IMAGE](image.png) and LINK and [SQUARE] and (ROUND)`", toc
@@ -92,10 +92,10 @@ class TestRemoveImage(TestBase):
         self.assert_In("- hello`![IMAGE](image.png)`", toc)
         self.assert_In("- `LINK`", toc)
         self.assert_In("- hello`LINK`", toc)
-        self.assert_In("- \[SQUARE\] and \(ROUND\)", toc)
+        self.assert_In(r"- \[SQUARE\] and \(ROUND\)", toc)
         self.assert_In("- `[SQUARE]` and `(ROUND)`", toc)
         self.assert_In("- `(ROUND)` and `[SQUARE]`", toc)
-        self.assert_In("- hello\[SQUARE\] and \(ROUND\)", toc)
+        self.assert_In(r"- hello\[SQUARE\] and \(ROUND\)", toc)
         self.assert_In("- hello`[SQUARE]` and `(ROUND)`", toc)
 
     def test_remove_image_codeblock_default(self):
@@ -113,10 +113,10 @@ class TestRemoveImage(TestBase):
             self.remove_image_codeblock_text.format('remove_image="false"')
         )["toc"]
         self.assert_In(
-            "- ![IMAGE](image.png) and LINK and \[SQUARE\] and \(ROUND\)", toc
+            r"- ![IMAGE](image.png) and LINK and \[SQUARE\] and \(ROUND\)", toc
         )
         self.assert_In(
-            "- hello![IMAGE](image.png) and LINK and \[SQUARE\] and \(ROUND\)", toc
+            r"- hello![IMAGE](image.png) and LINK and \[SQUARE\] and \(ROUND\)", toc
         )
         self.assert_In("- `![IMAGE](image.png) and LINK and [SQUARE] and (ROUND)`", toc)
         self.assert_In(
@@ -132,8 +132,8 @@ class TestRemoveImage(TestBase):
         self.assert_In("- hello`![IMAGE](image.png)`", toc)
         self.assert_In("- `LINK`", toc)
         self.assert_In("- hello`LINK`", toc)
-        self.assert_In("- \[SQUARE\] and \(ROUND\)", toc)
+        self.assert_In(r"- \[SQUARE\] and \(ROUND\)", toc)
         self.assert_In("- `[SQUARE]` and `(ROUND)`", toc)
         self.assert_In("- `(ROUND)` and `[SQUARE]`", toc)
-        self.assert_In("- hello\[SQUARE\] and \(ROUND\)", toc)
+        self.assert_In(r"- hello\[SQUARE\] and \(ROUND\)", toc)
         self.assert_In("- hello`[SQUARE]` and `(ROUND)`", toc)
