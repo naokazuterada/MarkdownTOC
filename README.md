@@ -7,7 +7,7 @@ MarkdownTOC
 
 Sublime Text 3 plugin for generating a Table of Contents (TOC) in a Markdown document.
 
-[![Linux and macOS Build Status](https://api.travis-ci.org/naokazuterada/MarkdownTOC.svg?branch=master&label=Linux+and+macOS+build "Linux and macOS Build Status")](https://travis-ci.org/naokazuterada/MarkdownTOC) [![Windows Build Status](https://ci.appveyor.com/api/projects/status/vxj9jbihlrwfa6ui/branch/master?svg=true&label=Windows+build "Windows Build Status")](https://ci.appveyor.com/project/naokazuterada/markdowntoc/branch/master) [![codecov](https://codecov.io/gh/naokazuterada/MarkdownTOC/branch/master/graph/badge.svg)](https://codecov.io/gh/naokazuterada/MarkdownTOC) [![Package Control](https://packagecontrol.herokuapp.com/downloads/MarkdownTOC.svg)](https://packagecontrol.io/packages/MarkdownTOC) [![Gitter chat](https://badges.gitter.im/naokazuterada/MarkdownTOC.png)](https://gitter.im/naokazuterada/MarkdownTOC)
+[![Linux and macOS Build Status](https://api.travis-ci.org/naokazuterada/MarkdownTOC.svg?branch=main&label=Linux+and+macOS+build "Linux and macOS Build Status")](https://travis-ci.org/naokazuterada/MarkdownTOC) [![Windows Build Status](https://ci.appveyor.com/api/projects/status/vxj9jbihlrwfa6ui/branch/main?svg=true&label=Windows+build "Windows Build Status")](https://ci.appveyor.com/project/naokazuterada/markdowntoc/branch/main) [![codecov](https://codecov.io/gh/naokazuterada/MarkdownTOC/branch/main/graph/badge.svg)](https://codecov.io/gh/naokazuterada/MarkdownTOC) [![Package Control](https://packagecontrol.herokuapp.com/downloads/MarkdownTOC.svg)](https://packagecontrol.io/packages/MarkdownTOC) [![Gitter chat](https://badges.gitter.im/naokazuterada/MarkdownTOC.png)](https://gitter.im/naokazuterada/MarkdownTOC)
 
 ---
 
@@ -873,7 +873,7 @@ git clone git@github.com:naokazuterada/MarkdownTOC.git ~/Library/Application\ Su
 
 ### From downloadable archive
 
-1. [Download zip-file](https://github.com/naokazuterada/MarkdownTOC/archive/master.zip) and unpack it.
+1. [Download zip-file](https://github.com/naokazuterada/MarkdownTOC/archive/main.zip) and unpack it.
 2. Open the [Sublime Text][sublimetext] `Packages/` directory (pick menu: Sublime Text > Preferences > Browse Packages).
 3. Move the `MarkdownTOC/` directory into the `Packages/` directory.
 
@@ -977,11 +977,11 @@ This is by no means an exhaustive list and you are welcome to provide additional
 
 ## Contributing
 
-Contributions are most welcome, please see the [guidelines on contributing](https://github.com/naokazuterada/MarkdownTOC/blob/master/.github/CONTRIBUTING.md).
+Contributions are most welcome, please see the [guidelines on contributing](https://github.com/naokazuterada/MarkdownTOC/blob/main/.github/CONTRIBUTING.md).
 
 ## License
 
-- **MarkdownTOC** is licensed under the [MIT License](https://github.com/naokazuterada/MarkdownTOC/blob/master/LICENSE-MIT)
+- **MarkdownTOC** is licensed under the [MIT License](https://github.com/naokazuterada/MarkdownTOC/blob/main/LICENSE-MIT)
 
 ## Author
 

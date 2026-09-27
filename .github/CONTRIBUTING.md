@@ -27,7 +27,7 @@ If you want more general support or to ask questions, please use [Gitter](https:
 
 Patches for fixes, features, and improvements are accepted via pull requests.
 
-Pull requests should be based on the master branch, unless you want to contribute to an active branch for a specific topic.
+Pull requests should be based on the main branch, unless you want to contribute to an active branch for a specific topic.
 
 ### Coding Style
 
