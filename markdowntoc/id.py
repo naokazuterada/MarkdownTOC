@@ -52,7 +52,13 @@ class Id(Base):
 
         # User setting replacements
         for group in self.id_replacements:
-            _str = re.sub(group["pattern"], group["replacement"], _str)
+            try:
+                _str = re.sub(group["pattern"], group["replacement"], _str)
+            except re.error as e:
+                # Skip the broken rule instead of breaking the whole TOC
+                self.error(
+                    "Invalid regex in id_replacements %r: %s" % (group["pattern"], e)
+                )
         return _str
 
     # from MarkdownPreview
