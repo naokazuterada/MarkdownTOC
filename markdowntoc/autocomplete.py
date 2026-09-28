@@ -26,6 +26,8 @@ ENUM_VALUES = {
     "bracket": ["round", "square"],
     "lowercase": ["all", "only_ascii", "false"],
     "markdown_preview": ["github", "markdown"],
+    "scope": ["document", "section"],
+    "start": ["here", "top"],
     "style": ["ordered", "unordered"],
 }
 

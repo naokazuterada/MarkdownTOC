@@ -42,6 +42,7 @@ Sublime Text 3 plugin for generating a Table of Contents (TOC) in a Markdown doc
     - [Specify custom indentation prefix](#specify-custom-indentation-prefix)
     - [Preserve images in headings](#preserve-images-in-headings)
     - [Excluded headings](#excluded-headings)
+    - [Multiple TOCs](#multiple-tocs)
 - [Usage](#usage)
 - [Tips](#tips)
     - [How to remove anchors added by MarkdownTOC](#how-to-remove-anchors-added-by-markdowntoc)
@@ -101,6 +102,7 @@ The **MarkdownTOC** plugin is rich on features and customization, useful for bot
 - [Specify custom indentation prefix](#specify-custom-indentation-prefix)
 - [Preserve images in headings](#preserve-images-in-headings)
 - [Excluded headings](#excluded-heading)
+- [Multiple TOCs](#multiple-tocs)
 
 ### Insertion of TOC based on headings in Markdown document
 
@@ -742,6 +744,52 @@ You can exclude certain headings in the TOC by adding a special comment to the l
 ## This heading will be excluded
 ```
 
+### Multiple TOCs
+
+You can put multiple TOCs in a document, and all of them are refreshed. Each TOC lists the headings after it by default, and you can change the range with the attributes `start` and `scope`.
+
+- `start="top"` lists the headings before the TOC too, e.g. for an index at the end of the document
+- `scope="section"` lists only the headings in the section which the TOC is in. The TOC is in the same section as the heading right after it, e.g. the TOC right below `# API` lists the headings until the next level 1 heading. When no upper heading exists before the TOC, the whole document is the section. With `start="top"`, the headings of the section before the TOC are listed too.
+
+```markdown
+<!-- MarkdownTOC autolink="true" levels="1" -->
+
+- [Usage](#usage)
+- [API](#api)
+- [Index](#index)
+
+<!-- /MarkdownTOC -->
+
+# Usage
+
+# API
+
+<!-- MarkdownTOC autolink="true" scope="section" -->
+
+- [foo\(\)](#foo)
+- [bar\(\)](#bar)
+
+<!-- /MarkdownTOC -->
+
+## foo()
+
+## bar()
+
+# Index
+
+<!-- MarkdownTOC autolink="true" start="top" -->
+
+- [Usage](#usage)
+- [API](#api)
+	- [foo\(\)](#foo)
+	- [bar\(\)](#bar)
+- [Index](#index)
+
+<!-- /MarkdownTOC -->
+```
+
+When a heading is listed in multiple TOCs with different `autoanchor` values, the anchor is added if any of them has `autoanchor="true"`.
+
 ## Usage
 
 1. Open your [Markdown] file
@@ -853,6 +901,8 @@ The following attributes can be used to control the generation of the TOC.
 | `style`                | `"ordered"` or `"unordered"`              | `"unordered"`   |
 | `uri_encoding`         | `true`or`false`                           | `true`          |
 | `markdown_preview`     | `""`or`"github"`or`"markdown"`            | `""`            |
+| `start`                | `"here"`or`"top"`                         | `"here"`        |
+| `scope`                | `"document"`or`"section"`                 | `"document"`    |
 
 Attribute names and their values (`true`/`false` and the fixed choices such as `round`/`square`) are auto-completed while you type inside the `<!-- MarkdownTOC ... -->` tag. You can also complete `-->` to close the tag, which adds the `<!-- /MarkdownTOC -->` end tag as well if it doesn't exist yet.
 
@@ -937,6 +987,7 @@ For an overview of the specific behaviour behind an attribute, please refer to t
 - `defaults.style`, (see: [Ordered or unordered style for TOC elements](#ordered-or-unordered-style-for-toc-elements))
 - `defaults.uri_encoding`, (see: [URI encoding](#uri-encoding))
 - `defaults.markdown_preview`, (see: [Markdown Preview compatible](#markdown-preview-compatible))
+- `defaults.start`, `defaults.scope`, (see: [Multiple TOCs](#multiple-tocs))
 - `id_replacements`, (see: [Manipulation of auto link ids](#manipulation-of-auto-link-ids))
 - `autorun_extensions`, (see: [Supported file extensions](#supported-file-extensions))
 

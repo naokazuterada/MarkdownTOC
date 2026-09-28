@@ -11,7 +11,9 @@
     "lowercase": "only_ascii",
     "style": "unordered",
     "uri_encoding": true,
-    "markdown_preview": ""
+    "markdown_preview": "",
+    "start": "here",
+    "scope": "document"
   },
   "id_replacements": [
     {

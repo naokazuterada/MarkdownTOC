@@ -77,36 +77,69 @@ class MarkdowntocInsert(sublime_plugin.TextCommand, Base):
 
         return toc_open_tags
 
-    def get_toc_close_tag(self, start):
+    def get_toc_close_tags(self):
         close_tags = self.view.find_all(r"<!--[\s\n]+/MarkdownTOC[\s\n]+-->\n")
-        close_tags = self.remove_items_in_codeblock(close_tags)
-        for close_tag in close_tags:
-            if start < close_tag.begin():
-                return close_tag
+        return self.remove_items_in_codeblock(close_tags)
+
+    def get_tocs(self):
+        """Return pairs of open tag (with attributes) and close tag"""
+        open_tags = self.get_toc_open_tag()
+        close_tags = self.get_toc_close_tags()
+        tocs = []
+        for i, open_tag in enumerate(open_tags):
+            start = open_tag["region"].end()
+            if i + 1 < len(open_tags):
+                next_start = open_tags[i + 1]["region"].begin()
+            else:
+                next_start = self.view.size()
+            for close_tag in close_tags:
+                if start < close_tag.begin():
+                    # Ignore the open tag without its own close tag
+                    if close_tag.begin() < next_start:
+                        tocs.append([open_tag, close_tag])
+                    break
+        return tocs
 
     def find_tag_and_insert(self, edit):
-        """Search MarkdownTOC comments in document"""
-        toc_starts = self.get_toc_open_tag()
-        for dic in toc_starts:
+        """Search MarkdownTOC comments in document and refresh all of the TOCs"""
+        tocs = self.get_tocs()
+        if not tocs:
+            self.log("cannot find TOC tags")
+            return False
 
-            toc_start = dic["region"]
-            if 0 < len(toc_start):
+        headings = self.get_headings()
+        edits = []  # [[position, "toc" or "anchor", args], ...]
+        anchors = {}  # {heading position: [item, autoanchor]}
+        has_content = False
+        for open_tag, close_tag in tocs:
+            items = self.select_headings(
+                headings, open_tag, open_tag["region"].begin(), close_tag.end()
+            )
+            toc = self.build_toc(open_tag, items, headings)
+            region = sublime.Region(open_tag["region"].end(), close_tag.begin())
+            content = "\n" + toc + "\n" if toc else "\n"
+            edits.append([region.begin(), "toc", [region, content]])
+            has_content = has_content or bool(toc)
 
-                toc_close = self.get_toc_close_tag(toc_start.end())
+            # When a heading is listed in multiple TOCs, the upper TOC decides
+            # its anchor, but autoanchor=true has priority over false
+            for item in items:
+                current = anchors.get(item[2])
+                if current is None or (open_tag["autoanchor"] and not current[1]):
+                    anchors[item[2]] = [item, open_tag["autoanchor"]]
 
-                if toc_close:
-                    toc = self.get_toc(dic, toc_close.end(), edit)
-                    tocRegion = sublime.Region(toc_start.end(), toc_close.begin())
-                    if toc:
-                        self.view.replace(edit, tocRegion, "\n" + toc + "\n")
-                        self.log("refresh TOC content")
-                        return True
-                    else:
-                        self.view.replace(edit, tocRegion, "\n")
-                        self.log("TOC is empty")
-                        return False
-        self.log("cannot find TOC tags")
-        return False
+        for position, (item, autoanchor) in anchors.items():
+            edits.append([position, "anchor", [item, autoanchor]])
+
+        # Edit from the bottom so that edits don't affect the other positions
+        for position, kind, args in sorted(edits, key=lambda e: e[0], reverse=True):
+            if kind == "toc":
+                self.view.replace(edit, *args)
+            else:
+                self.update_anchor(edit, *args)
+
+        self.log("refresh TOC content" if has_content else "TOC is empty")
+        return has_content
 
     def escape_brackets(self, _text):
         # Escape brackets which not in image and codeblock
@@ -151,7 +184,7 @@ class MarkdowntocInsert(sublime_plugin.TextCommand, Base):
 
     def get_toc(self, attrs, begin, edit):
         headings = self.get_headings()
-        items = self.select_headings(headings, attrs, begin)
+        items = self.select_headings(headings, attrs, begin, begin)
         toc = self.build_toc(attrs, items, headings)
         self.update_anchors(edit, items, attrs["autoanchor"])
         return toc
@@ -192,13 +225,39 @@ class MarkdowntocInsert(sublime_plugin.TextCommand, Base):
                     results.append([heading, indent, text, excluded])
         return results
 
-    def select_headings(self, headings, attrs, begin):
-        """Return items of headings listed in the TOC:
+    def select_headings(self, headings, attrs, toc_begin, toc_end):
+        """Return items of headings listed in the TOC placed from toc_begin to toc_end:
         [[headingNum, text, position], ...]"""
+
+        # scope="section" lists the headings in the section which the TOC is in.
+        # The TOC is in the same section as the heading right after it, so the
+        # parent is the nearest heading before the TOC whose level is upper than
+        # that heading. Without the parent, the TOC is in the root (document).
+        scope_begin = 0
+        scope_end = self.view.size()
+        if attrs["scope"] == "section":
+            nexts = [h for h in headings if toc_end <= h[0].begin()]
+            if nexts:
+                parents = [
+                    h for h in headings if h[0].end() <= toc_begin and h[1] < nexts[0][1]
+                ]
+                if parents:
+                    parent = parents[-1]
+                    scope_begin = parent[0].end()
+                    for h in nexts:
+                        if h[1] <= parent[1]:
+                            scope_end = h[0].begin()
+                            break
+
+        # start="top" lists the headings from the top of the scope,
+        # including the ones before the TOC
+        begin = scope_begin if attrs["start"] == "top" else toc_end
+        end = scope_end
+
         items = [
             [h[1], h[2], h[0].begin()]
             for h in headings
-            if begin < h[0].end() and not h[3]
+            if begin < h[0].end() and h[0].begin() < end and not h[3]
         ]
 
         # Filtering by heading level  ------------------
@@ -230,15 +289,13 @@ class MarkdowntocInsert(sublime_plugin.TextCommand, Base):
 
         # Create TOC  ------------------
         toc = ""
-        auto_ids = self.get_auto_ids(attrs, headings)
+        texts_and_ids = self.get_texts_and_ids(attrs, headings)
         link_prefix = attrs["link_prefix"]
         bullets = attrs["bullets"]
 
         for item in items:
             _indent = item[0] - 1
-            _text, _id, is_auto_id = self.get_text_and_id(attrs, item[1])
-            if is_auto_id:
-                _id = auto_ids[item[2]]
+            _text, _id = texts_and_ids[item[2]]
 
             _list_bullet = bullets[_indent % len(bullets)]
 
@@ -271,27 +328,31 @@ class MarkdowntocInsert(sublime_plugin.TextCommand, Base):
 
         return toc
 
-    def get_auto_ids(self, attrs, headings):
-        """Return auto link ids of all headings: {position: id}
+    def get_texts_and_ids(self, attrs, headings):
+        """Return text and id of all headings for TOC: {position: [text, id]}
 
-        Duplicate ids are numbered over the whole document like GitHub does,
-        including headings out of the TOC (other levels, excluded, before the TOC)
+        Duplicate auto link ids are numbered over the whole document like GitHub
+        does, including headings out of the TOC (other levels, excluded, before
+        the TOC)
         """
-        auto_ids = {}
+        texts_and_ids = {}
         counts = {}
         delimiter = "_" if attrs["markdown_preview"] == "markdown" else "-"
+        # Load the setting only once as it is used for all of the headings
+        id_replacements = self.settings("id_replacements")
         for heading in headings:
-            _text, _id, is_auto_id = self.get_text_and_id(attrs, heading[2])
-            if not is_auto_id:
-                continue
-            n = counts.get(_id, 0)
-            counts[_id] = n + 1
-            if 0 < n:
-                _id += delimiter + str(n)
-            auto_ids[heading[0].begin()] = _id
-        return auto_ids
+            _text, _id, is_auto_id = self.get_text_and_id(
+                attrs, heading[2], id_replacements
+            )
+            if is_auto_id:
+                n = counts.get(_id, 0)
+                counts[_id] = n + 1
+                if 0 < n:
+                    _id += delimiter + str(n)
+            texts_and_ids[heading[0].begin()] = [_text, _id]
+        return texts_and_ids
 
-    def get_text_and_id(self, attrs, _text):
+    def get_text_and_id(self, attrs, _text, id_replacements):
         """Return [text, id, is_auto_id] of the heading text for TOC.
         id is None when autolink=false and the heading has no own id"""
         _id = None
@@ -377,7 +438,7 @@ class MarkdowntocInsert(sublime_plugin.TextCommand, Base):
             _id = match_ex_id.group().replace("{#", "").replace("}", "")
         elif attrs["autolink"]:
             _id = Id(
-                self.settings("id_replacements"),
+                id_replacements,
                 attrs["markdown_preview"],
                 str(attrs["lowercase"]).lower(),
             ).heading_to_id(_text)
@@ -389,28 +450,32 @@ class MarkdowntocInsert(sublime_plugin.TextCommand, Base):
 
     def update_anchors(self, edit, items, autoanchor):
         """Inserts, updates or deletes a link anchor in the line before each header."""
-        v = self.view
         # Iterate in reverse so that inserts don't affect the position
         for item in reversed(items):
-            anchor_region = v.line(item[2] - 1)  # -1 to get to previous line
-            is_update = PT_ANCHOR.match(v.substr(anchor_region))
-            if autoanchor:
-                # if autolink=false then item[3] will be None,
-                # so use raw heading valie(replaced whitespaces) then
-                _id = item[3] or re.sub(r"\s+", "-", item[1])
-                if is_update:
-                    new_anchor = '<a id="{0}"></a>'.format(_id)
-                    v.replace(edit, anchor_region, new_anchor)
-                else:
-                    new_anchor = '\n<a id="{0}"></a>'.format(_id)
-                    v.insert(edit, anchor_region.end(), new_anchor)
+            self.update_anchor(edit, item, autoanchor)
 
+    def update_anchor(self, edit, item, autoanchor):
+        """Inserts, updates or deletes a link anchor in the line before the header."""
+        v = self.view
+        anchor_region = v.line(item[2] - 1)  # -1 to get to previous line
+        is_update = PT_ANCHOR.match(v.substr(anchor_region))
+        if autoanchor:
+            # if autolink=false then item[3] will be None,
+            # so use raw heading valie(replaced whitespaces) then
+            _id = item[3] or re.sub(r"\s+", "-", item[1])
+            if is_update:
+                new_anchor = '<a id="{0}"></a>'.format(_id)
+                v.replace(edit, anchor_region, new_anchor)
             else:
-                if is_update:
-                    v.erase(
-                        edit,
-                        sublime.Region(anchor_region.begin(), anchor_region.end() + 1),
-                    )
+                new_anchor = '\n<a id="{0}"></a>'.format(_id)
+                v.insert(edit, anchor_region.end(), new_anchor)
+
+        else:
+            if is_update:
+                v.erase(
+                    edit,
+                    sublime.Region(anchor_region.begin(), anchor_region.end() + 1),
+                )
 
     def get_attributes_from(self, tag_str):
         """return dict of settings from tag_str"""
