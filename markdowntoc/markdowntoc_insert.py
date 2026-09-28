@@ -149,8 +149,15 @@ class MarkdowntocInsert(sublime_plugin.TextCommand, Base):
 
         return _text
 
-    # TODO: add "end" parameter
     def get_toc(self, attrs, begin, edit):
+        headings = self.get_headings()
+        items = self.select_headings(headings, attrs, begin)
+        toc = self.build_toc(attrs, items, headings)
+        self.update_anchors(edit, items, attrs["autoanchor"])
+        return toc
+
+    def get_headings(self):
+        """Return all headings in document: [[region, level, text, excluded], ...]"""
 
         # Search headings in docment
         pattern_hash = "^#+?[^#]"
@@ -160,44 +167,51 @@ class MarkdowntocInsert(sublime_plugin.TextCommand, Base):
 
         headings = self.remove_items_in_codeblock(headings)
 
-        if len(headings) < 1:
-            return ""
-
-        items = []  # [[headingNum, text, position, anchor_id], ...]
+        results = []
         for heading in headings:
-            if begin < heading.end():
-                lines = self.view.lines(heading)
-                previous_line = self.view.substr(self.view.line(lines[0].a - 1))
-                if PT_EXCLUDE.match(previous_line):
-                    continue
+            lines = self.view.lines(heading)
+            previous_line = self.view.substr(self.view.line(lines[0].a - 1))
+            excluded = bool(PT_EXCLUDE.match(previous_line))
 
-                if len(lines) == 1:
-                    # handle hash headings, ### chapter 1
-                    r = sublime.Region(heading.end() - 1, self.view.line(heading).end())
-                    text = self.view.substr(r).strip().rstrip("#")
-                    indent = heading.size() - 1
-                    items.append([indent, text, heading.begin()])
-                elif len(lines) == 2:
-                    # handle = or - headings
-                    # Title 1
-                    # ====
-                    # section1
-                    # ----
-                    text = self.view.substr(lines[0])
-                    if text.strip():
-                        heading_type = self.view.substr(lines[1])[0]
-                        indent = 1 if heading_type == "=" else 2
-                        items.append([indent, text, heading.begin()])
+            if len(lines) == 1:
+                # handle hash headings, ### chapter 1
+                r = sublime.Region(heading.end() - 1, self.view.line(heading).end())
+                text = self.view.substr(r).strip().rstrip("#")
+                indent = heading.size() - 1
+                results.append([heading, indent, text, excluded])
+            elif len(lines) == 2:
+                # handle = or - headings
+                # Title 1
+                # ====
+                # section1
+                # ----
+                text = self.view.substr(lines[0])
+                if text.strip():
+                    heading_type = self.view.substr(lines[1])[0]
+                    indent = 1 if heading_type == "=" else 2
+                    results.append([heading, indent, text, excluded])
+        return results
 
-        if len(items) < 1:
-            return ""
+    def select_headings(self, headings, attrs, begin):
+        """Return items of headings listed in the TOC:
+        [[headingNum, text, position], ...]"""
+        items = [
+            [h[1], h[2], h[0].begin()]
+            for h in headings
+            if begin < h[0].end() and not h[3]
+        ]
 
         # Filtering by heading level  ------------------
         accepted_levels = list(map(lambda i: int(i), attrs["levels"]))
         items = list(filter((lambda j: j[0] in accepted_levels), items))
 
         # Shape TOC  ------------------
-        items = Util.format(items)
+        return Util.format(items)
+
+    def build_toc(self, attrs, items, headings):
+        """Return TOC text of items, and append the anchor id to each item"""
+        if len(items) < 1:
+            return ""
 
         # TODO: Remove this block in the future release version
         # Depth limit  ------------------
@@ -216,51 +230,17 @@ class MarkdowntocInsert(sublime_plugin.TextCommand, Base):
 
         # Create TOC  ------------------
         toc = ""
-        _ids = []
-        level_counters = [0]
-        remove_image = attrs["remove_image"]
+        auto_ids = self.get_auto_ids(attrs, headings)
         link_prefix = attrs["link_prefix"]
         bullets = attrs["bullets"]
 
         for item in items:
-            _id = None
             _indent = item[0] - 1
-            _text = item[1]
-            if remove_image:
-                # Remove markdown image which not in codeblock
-                images = []
-                codes = []
-                for m in re.compile(r"`[^`]*`").finditer(_text):
-                    codes.append([m.start(), m.end()])
-
-                def not_in_codeblock(_target):
-                    return not Util.within_ranges(_target, codes)
-
-                # Collect images not in codeblock
-                for m in PT_IMAGE.finditer(_text):
-                    images.append([m.start(), m.end()])
-                images = list(filter(not_in_codeblock, images))
-                images = list(map((lambda x: x[0]), images))
-
-                def _replace(m):
-                    if m.start() in images:
-                        return ""
-                    else:
-                        return m.group(0)
-
-                _text = re.sub(PT_IMAGE, _replace, _text)
+            _text, _id, is_auto_id = self.get_text_and_id(attrs, item[1])
+            if is_auto_id:
+                _id = auto_ids[item[2]]
 
             _list_bullet = bullets[_indent % len(bullets)]
-            _text = PT_TAG.sub("", _text)  # remove html tags
-            _text = _text.strip()  # remove start and end spaces
-
-            # Ignore links: e.g. '[link](http://sample.com/)' -> 'link'
-            # this is [link](http://www.sample.com/)
-            link = re.compile(r"([^!])\[([^\]]+)\]\([^\)]+\)")
-            _text = link.sub("\\1\\2", _text)
-            # [link](http://www.sample.com/) link in the beginning of line
-            beginning_link = re.compile(r"^\[([^\]]+)\]\([^\)]+\)")
-            _text = beginning_link.sub("\\1", _text)
 
             # Add indent
             for i in range(_indent):
@@ -268,67 +248,6 @@ class MarkdowntocInsert(sublime_plugin.TextCommand, Base):
                 # Support escaped characters like '\t'
                 _prefix = _prefix.encode().decode("unicode-escape")
                 toc += _prefix
-
-            # -----------------
-            # Reference-style links: e.g. '# heading [my-anchor]'
-            ref_links = list(PT_REF_LINK.finditer(_text))
-
-            def filtering(ref_links, text):
-                images = []
-                codes = []
-                valids = []
-                for m in re.compile(r"`[^`]*`").finditer(text):
-                    codes.append([m.start(), m.end()])
-
-                def not_in_codeblock(target):
-                    return not Util.within_ranges(target, codes)
-
-                def not_in_image(target):
-                    return not Util.within_ranges(target, images)
-
-                # Collect images not in codeblock
-                for m in PT_IMAGE.finditer(text):
-                    images.append([m.start(), m.end()])
-                images = list(filter(not_in_codeblock, images))
-                # # Collect valids not in image tags
-                for m in ref_links:
-                    valids.append([m.start(), m.end()])
-                valids = list(filter(not_in_image, valids))
-                valids = list(filter(not_in_codeblock, valids))
-                valids = list(map((lambda x: x[0]), valids))
-                return list(filter(lambda x: x.start() in valids, ref_links))
-
-            ref_links = filtering(ref_links, _text)
-
-            # -----------------
-
-            # Markdown-Extra special attribute style:
-            # e.g. '# heading {#my-anchor}'
-            match_ex_id = PT_EX_ID.search(_text)
-
-            if len(ref_links):
-                match = ref_links[-1]
-                _text = (
-                    _text[0 : match.start()].replace("[", "").replace("]", "").rstrip()
-                )
-                _id = match.group().replace("[", "").replace("]", "")
-            elif match_ex_id:
-                _text = _text[0 : match_ex_id.start()].rstrip()
-                _id = match_ex_id.group().replace("{#", "").replace("}", "")
-            elif attrs["autolink"]:
-                _id = Id(
-                    self.settings("id_replacements"),
-                    attrs["markdown_preview"],
-                    str(attrs["lowercase"]).lower(),
-                ).heading_to_id(_text)
-                if attrs["uri_encoding"]:
-                    _id = quote(_id)
-
-                _ids.append(_id)
-                n = _ids.count(_id)
-                if 1 < n:
-                    delimiter = "_" if attrs["markdown_preview"] == "markdown" else "-"
-                    _id += delimiter + str(n - 1)
 
             if attrs["style"] == "unordered":
                 list_prefix = _list_bullet + " "
@@ -350,9 +269,123 @@ class MarkdowntocInsert(sublime_plugin.TextCommand, Base):
 
             item.append(_id)
 
-        self.update_anchors(edit, items, attrs["autoanchor"])
-
         return toc
+
+    def get_auto_ids(self, attrs, headings):
+        """Return auto link ids of all headings: {position: id}
+
+        Duplicate ids are numbered over the whole document like GitHub does,
+        including headings out of the TOC (other levels, excluded, before the TOC)
+        """
+        auto_ids = {}
+        counts = {}
+        delimiter = "_" if attrs["markdown_preview"] == "markdown" else "-"
+        for heading in headings:
+            _text, _id, is_auto_id = self.get_text_and_id(attrs, heading[2])
+            if not is_auto_id:
+                continue
+            n = counts.get(_id, 0)
+            counts[_id] = n + 1
+            if 0 < n:
+                _id += delimiter + str(n)
+            auto_ids[heading[0].begin()] = _id
+        return auto_ids
+
+    def get_text_and_id(self, attrs, _text):
+        """Return [text, id, is_auto_id] of the heading text for TOC.
+        id is None when autolink=false and the heading has no own id"""
+        _id = None
+        is_auto_id = False
+        if attrs["remove_image"]:
+            # Remove markdown image which not in codeblock
+            images = []
+            codes = []
+            for m in re.compile(r"`[^`]*`").finditer(_text):
+                codes.append([m.start(), m.end()])
+
+            def not_in_codeblock(_target):
+                return not Util.within_ranges(_target, codes)
+
+            # Collect images not in codeblock
+            for m in PT_IMAGE.finditer(_text):
+                images.append([m.start(), m.end()])
+            images = list(filter(not_in_codeblock, images))
+            images = list(map((lambda x: x[0]), images))
+
+            def _replace(m):
+                if m.start() in images:
+                    return ""
+                else:
+                    return m.group(0)
+
+            _text = re.sub(PT_IMAGE, _replace, _text)
+
+        _text = PT_TAG.sub("", _text)  # remove html tags
+        _text = _text.strip()  # remove start and end spaces
+
+        # Ignore links: e.g. '[link](http://sample.com/)' -> 'link'
+        # this is [link](http://www.sample.com/)
+        link = re.compile(r"([^!])\[([^\]]+)\]\([^\)]+\)")
+        _text = link.sub("\\1\\2", _text)
+        # [link](http://www.sample.com/) link in the beginning of line
+        beginning_link = re.compile(r"^\[([^\]]+)\]\([^\)]+\)")
+        _text = beginning_link.sub("\\1", _text)
+
+        # -----------------
+        # Reference-style links: e.g. '# heading [my-anchor]'
+        ref_links = list(PT_REF_LINK.finditer(_text))
+
+        def filtering(ref_links, text):
+            images = []
+            codes = []
+            valids = []
+            for m in re.compile(r"`[^`]*`").finditer(text):
+                codes.append([m.start(), m.end()])
+
+            def not_in_codeblock(target):
+                return not Util.within_ranges(target, codes)
+
+            def not_in_image(target):
+                return not Util.within_ranges(target, images)
+
+            # Collect images not in codeblock
+            for m in PT_IMAGE.finditer(text):
+                images.append([m.start(), m.end()])
+            images = list(filter(not_in_codeblock, images))
+            # # Collect valids not in image tags
+            for m in ref_links:
+                valids.append([m.start(), m.end()])
+            valids = list(filter(not_in_image, valids))
+            valids = list(filter(not_in_codeblock, valids))
+            valids = list(map((lambda x: x[0]), valids))
+            return list(filter(lambda x: x.start() in valids, ref_links))
+
+        ref_links = filtering(ref_links, _text)
+
+        # -----------------
+
+        # Markdown-Extra special attribute style:
+        # e.g. '# heading {#my-anchor}'
+        match_ex_id = PT_EX_ID.search(_text)
+
+        if len(ref_links):
+            match = ref_links[-1]
+            _text = _text[0 : match.start()].replace("[", "").replace("]", "").rstrip()
+            _id = match.group().replace("[", "").replace("]", "")
+        elif match_ex_id:
+            _text = _text[0 : match_ex_id.start()].rstrip()
+            _id = match_ex_id.group().replace("{#", "").replace("}", "")
+        elif attrs["autolink"]:
+            _id = Id(
+                self.settings("id_replacements"),
+                attrs["markdown_preview"],
+                str(attrs["lowercase"]).lower(),
+            ).heading_to_id(_text)
+            if attrs["uri_encoding"]:
+                _id = quote(_id)
+            is_auto_id = True
+
+        return [_text, _id, is_auto_id]
 
     def update_anchors(self, edit, items, autoanchor):
         """Inserts, updates or deletes a link anchor in the line before each header."""
