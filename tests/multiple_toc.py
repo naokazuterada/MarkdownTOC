@@ -223,3 +223,104 @@ class TestMultipleToc(TestBase):
 """
         body = self.init_update(text)["body"]
         self.assert_In("<!-- MarkdownTOC -->\n\n<!-- MarkdownTOC -->\n\n- heading\n\n<!-- /MarkdownTOC -->", body)
+
+    text_insert = """
+
+<!-- MarkdownTOC -->
+
+<!-- /MarkdownTOC -->
+
+# heading 1
+
+# heading 2
+## heading 2-1
+"""
+
+    def insert_at(self, pt):
+        self.setText(self.text_insert)
+        self.moveTo(pt)
+        self.view.run_command("markdowntoc_insert")
+        return self.view.substr(self.view.find(r"(.|\n)*", 0))
+
+    def test_insert_another_toc(self):
+        """Insert TOC adds a new TOC even when a TOC exists"""
+        pt = self.text_insert.index("## heading 2-1")
+        body = self.insert_at(pt)
+        tocs = self.tocs(body)
+        self.assertEqual(len(tocs), 2)
+        self.assert_In("- heading 1", tocs[0])
+        self.assertEqual(tocs[1].strip(), "- heading 2-1")
+        self.assert_In("<!-- /MarkdownTOC -->\n## heading 2-1", body)
+
+    def test_insert_in_toc(self):
+        """Insert TOC in an existing TOC only refreshes it"""
+        pt = self.text_insert.index("<!-- /MarkdownTOC -->")
+        body = self.insert_at(pt)
+        tocs = self.tocs(body)
+        self.assertEqual(len(tocs), 1)
+        self.assert_In("- heading 1", tocs[0])
+
+    def test_insert_in_middle_of_line(self):
+        """The new TOC is inserted below the line not to split the line"""
+        pt = self.text_insert.index("heading 2\n") + len("heading")
+        body = self.insert_at(pt)
+        self.assert_In(
+            "# heading 2\n<!-- MarkdownTOC -->\n\n- heading 2-1\n\n<!-- /MarkdownTOC -->\n## heading 2-1",
+            body,
+        )
+
+    def test_insert_in_middle_of_last_line(self):
+        """The new TOC is inserted below the last line without line break"""
+        self.setText("\n\n# heading 1")
+        self.moveTo(len("\n\n# head"))
+        self.view.run_command("markdowntoc_insert")
+        body = self.view.substr(self.view.find(r"(.|\n)*", 0))
+        self.assertEqual(body, "\n\n# heading 1\n<!-- MarkdownTOC -->\n\n<!-- /MarkdownTOC -->\n")
+
+    text_inherit = """
+
+<!-- MarkdownTOC autolink="true" bracket=square levels="1" -->
+
+<!-- /MarkdownTOC -->
+
+# Usage
+
+# API
+{0}
+## foo()
+## bar()
+{1}
+"""
+
+    def insert_marker(self, text):
+        """Insert TOC at '|' in text"""
+        pt = text.index("|")
+        self.setText(text.replace("|", ""))
+        self.moveTo(pt)
+        self.view.run_command("markdowntoc_insert")
+        return self.view.substr(self.view.find(r"(.|\n)*", 0))
+
+    def test_insert_inherits_attributes(self):
+        """The new TOC inherits the attributes of the first TOC except levels"""
+        body = self.insert_marker(self.text_inherit.format("|", "# Index"))
+        self.assert_In(
+            '# API\n<!-- MarkdownTOC autolink="true" bracket=square scope="section" -->\n\n'
+            "- [foo\\(\\)][foo]\n- [bar\\(\\)][bar]\n",
+            body,
+        )
+
+    def test_insert_no_scope_at_end_of_document(self):
+        """scope="section" is not added when the section continues to the end"""
+        body = self.insert_marker(self.text_inherit.format("|", ""))
+        self.assert_In('# API\n<!-- MarkdownTOC autolink="true" bracket=square -->\n', body)
+
+    def test_insert_no_scope_in_root(self):
+        """scope="section" is not added when the TOC is not in a section"""
+        body = self.insert_marker(self.text_inherit.format("", "|\n# Index"))
+        self.assert_In('<!-- MarkdownTOC autolink="true" bracket=square -->\n\n- [Index][index]\n', body)
+
+    def test_insert_first_toc(self):
+        """The first TOC has no attributes"""
+        text = "\n\n# API\n|\n## foo()\n\n# Index\n"
+        body = self.insert_marker(text)
+        self.assert_In("# API\n<!-- MarkdownTOC -->\n\n- foo\\(\\)\n- Index\n", body)

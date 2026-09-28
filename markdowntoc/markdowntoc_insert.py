@@ -25,6 +25,12 @@ PT_IMAGE = re.compile(r"!\[([^\]]+)\]\([^\)]+\)")
 PT_EX_ID = re.compile(r"\{#.+?\}$")
 PT_TAG = re.compile(r"<.*?>")
 PT_ANCHOR = re.compile(r'<a\s+id="[^"]+"\s*>\s*</a>')
+# name="value" in the TOC tag
+PT_ATTRIBUTE = re.compile(
+    r'\b(?P<name>\w+)=((?P<empty>)|(\'(?P<quoted>[^\']+)\')|("(?P<dquoted>[^"]+)")|(?P<simple>\S+))\s'
+)
+# Attributes not inherited by a new TOC as they depend on the position
+RANGE_ATTRIBUTES = ["levels", "start", "scope"]
 
 
 # <!-- MarkdownTOC:excluded  -->
@@ -33,22 +39,58 @@ PT_EXCLUDE = re.compile(r"^<!--.*(MarkdownTOC:excluded).*-->", re.IGNORECASE)
 
 class MarkdowntocInsert(sublime_plugin.TextCommand, Base):
     def run(self, edit):
-        if not self.find_tag_and_insert(edit):
-            sels = self.view.sel()
-            for sel in sels:
-                attrs = self.defaults()
+        """Insert a new TOC at the cursor, then refresh all of the TOCs"""
+        tocs = self.get_tocs()
+        headings = self.get_headings()
 
-                # add TOCTAG
-                toc = "<!-- MarkdownTOC -->\n"
-                toc += "\n"
-                toc += self.get_toc(attrs, sel.end(), edit)
-                toc += "\n"
-                toc += "<!-- /MarkdownTOC -->\n"
+        # Decide all of the tags before inserting as inserts change the positions
+        inserts = []
+        for sel in self.view.sel():
+            pt = sel.begin()
+            # Don't insert in an existing TOC
+            if any(o["region"].begin() <= pt < c.end() for o, c in tocs):
+                continue
+            # The tag must be at the beginning of a line, so insert it below
+            # the line not to split the line
+            before = after = ""
+            line = self.view.line(pt)
+            if line.begin() != pt:
+                pt = line.end()
+                before = "\n"
+                # Use the line break after the line if exists
+                after = "" if pt < self.view.size() else "\n"
+            else:
+                after = "\n"
+            attrs = self.get_new_toc_attributes(tocs, headings, pt)
+            tag = "<!-- MarkdownTOC%s -->\n\n<!-- /MarkdownTOC -->" % attrs
+            inserts.append([pt, before + tag + after])
 
-                self.view.insert(edit, sel.begin(), toc)
-                self.log("inserted TOC")
+        # Insert from the bottom so that inserts don't affect the other positions
+        for pt, tag in sorted(inserts, key=lambda i: i[0], reverse=True):
+            self.view.insert(edit, pt, tag)
+            self.log("inserted TOC")
 
-        # TODO: process to add another toc when tag exists
+        self.find_tag_and_insert(edit)
+
+    def get_new_toc_attributes(self, tocs, headings, pt):
+        """Return the attributes text for a new TOC inserted at pt.
+
+        When a TOC already exists, the new TOC inherits the attributes of the
+        first TOC except for the range ones, and gets scope="section" when it is
+        in a section which ends before the end of the document.
+        """
+        if not tocs:
+            return ""
+        tag_str = self.view.substr(tocs[0][0]["region"])
+        attrs = [
+            m.group(0).strip()
+            for m in PT_ATTRIBUTE.finditer(tag_str)
+            if m.group("name") not in RANGE_ATTRIBUTES
+        ]
+        parent, section_end = self.get_section(headings, pt, pt)
+        if parent and section_end is not None:
+            attrs.append('scope="section"')
+        return "".join(" " + attr for attr in attrs)
 
     def get_toc_open_tag(self):
         search_results = self.view.find_all(
@@ -182,13 +224,6 @@ class MarkdowntocInsert(sublime_plugin.TextCommand, Base):
 
         return _text
 
-    def get_toc(self, attrs, begin, edit):
-        headings = self.get_headings()
-        items = self.select_headings(headings, attrs, begin, begin)
-        toc = self.build_toc(attrs, items, headings)
-        self.update_anchors(edit, items, attrs["autoanchor"])
-        return toc
-
     def get_headings(self):
         """Return all headings in document: [[region, level, text, excluded], ...]"""
 
@@ -225,29 +260,41 @@ class MarkdowntocInsert(sublime_plugin.TextCommand, Base):
                     results.append([heading, indent, text, excluded])
         return results
 
+    def get_section(self, headings, toc_begin, toc_end):
+        """Return [parent heading, end position] of the section which the TOC
+        placed from toc_begin to toc_end is in.
+
+        The TOC is in the same section as the heading right after it, so the
+        parent is the nearest heading before the TOC whose level is upper than
+        that heading. parent is None when the TOC is in the root (document), and
+        end position is None when the section continues to the end of document.
+        """
+        nexts = [h for h in headings if toc_end <= h[0].begin()]
+        if nexts:
+            parents = [
+                h for h in headings if h[0].end() <= toc_begin and h[1] < nexts[0][1]
+            ]
+            if parents:
+                parent = parents[-1]
+                for h in nexts:
+                    if h[1] <= parent[1]:
+                        return [parent, h[0].begin()]
+                return [parent, None]
+        return [None, None]
+
     def select_headings(self, headings, attrs, toc_begin, toc_end):
         """Return items of headings listed in the TOC placed from toc_begin to toc_end:
         [[headingNum, text, position], ...]"""
 
-        # scope="section" lists the headings in the section which the TOC is in.
-        # The TOC is in the same section as the heading right after it, so the
-        # parent is the nearest heading before the TOC whose level is upper than
-        # that heading. Without the parent, the TOC is in the root (document).
+        # scope="section" lists the headings in the section which the TOC is in
         scope_begin = 0
         scope_end = self.view.size()
         if attrs["scope"] == "section":
-            nexts = [h for h in headings if toc_end <= h[0].begin()]
-            if nexts:
-                parents = [
-                    h for h in headings if h[0].end() <= toc_begin and h[1] < nexts[0][1]
-                ]
-                if parents:
-                    parent = parents[-1]
-                    scope_begin = parent[0].end()
-                    for h in nexts:
-                        if h[1] <= parent[1]:
-                            scope_end = h[0].begin()
-                            break
+            parent, section_end = self.get_section(headings, toc_begin, toc_end)
+            if parent:
+                scope_begin = parent[0].end()
+            if section_end is not None:
+                scope_end = section_end
 
         # start="top" lists the headings from the top of the scope,
         # including the ones before the TOC
@@ -448,12 +495,6 @@ class MarkdowntocInsert(sublime_plugin.TextCommand, Base):
 
         return [_text, _id, is_auto_id]
 
-    def update_anchors(self, edit, items, autoanchor):
-        """Inserts, updates or deletes a link anchor in the line before each header."""
-        # Iterate in reverse so that inserts don't affect the position
-        for item in reversed(items):
-            self.update_anchor(edit, item, autoanchor)
-
     def update_anchor(self, edit, item, autoanchor):
         """Inserts, updates or deletes a link anchor in the line before the header."""
         v = self.view
@@ -479,9 +520,7 @@ class MarkdowntocInsert(sublime_plugin.TextCommand, Base):
 
     def get_attributes_from(self, tag_str):
         """return dict of settings from tag_str"""
-        pattern = re.compile(
-            r'\b(?P<name>\w+)=((?P<empty>)|(\'(?P<quoted>[^\']+)\')|("(?P<dquoted>[^"]+)")|(?P<simple>\S+))\s'
-        )
+        pattern = PT_ATTRIBUTE
         attrs = dict(
             (
                 m.group("name"),
