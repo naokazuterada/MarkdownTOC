@@ -155,6 +155,22 @@ class TestDefault(TestBase):
         self.assert_In("Heading 1\n", toc)
         self.assert_In("Heading 2\n", toc)
 
+    def test_keep_hash_in_text(self):
+        """ Keep '#' not following a space, which is not a closing sequence"""
+        text = """
+
+
+# C#
+
+## C++ & C# ##
+
+## Issue #1
+"""
+        toc = self.init_insert(text)
+        self.assert_In("- C#\n", toc)
+        self.assert_In("- C++ & C#\n", toc)
+        self.assert_In("- Issue #1", toc)
+
     def test_id_replacement(self):
         """ Reoplace chars(or string) in id_replacements object in id string"""
         text = """

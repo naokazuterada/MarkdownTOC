@@ -25,6 +25,8 @@ PT_IMAGE = re.compile(r"!\[([^\]]+)\]\([^\)]+\)")
 PT_EX_ID = re.compile(r"\{#.+?\}$")
 PT_TAG = re.compile(r"<.*?>")
 PT_ANCHOR = re.compile(r'<a\s+id="[^"]+"\s*>\s*</a>')
+# Closing sequence of ATX heading: '## heading ##'
+PT_CLOSING_SEQUENCE = re.compile(r"(^|\s+)#+$")
 # name="value" in the TOC tag
 PT_ATTRIBUTE = re.compile(
     r'\b(?P<name>\w+)=((?P<empty>)|(\'(?P<quoted>[^\']+)\')|("(?P<dquoted>[^"]+)")|(?P<simple>\S+))\s'
@@ -244,7 +246,10 @@ class MarkdowntocInsert(sublime_plugin.TextCommand, Base):
             if len(lines) == 1:
                 # handle hash headings, ### chapter 1
                 r = sublime.Region(heading.end() - 1, self.view.line(heading).end())
-                text = self.view.substr(r).strip().rstrip("#")
+                text = self.view.substr(r).strip()
+                # Remove the closing sequence, which must follow a space
+                # (e.g. '## heading ##'), not '#' in text like 'C#'
+                text = PT_CLOSING_SEQUENCE.sub("", text)
                 indent = heading.size() - 1
                 results.append([heading, indent, text, excluded])
             elif len(lines) == 2:
