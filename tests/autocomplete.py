@@ -8,6 +8,9 @@ class TestAutoComplete(TestBase):
 
     def completions_at(self, text, pt):
         """Return [trigger, contents] of completions at pt in text"""
+        # Start with a new view as this can be called multiple times in a test
+        self.tearDown()
+        self.setUp()
         self.setText(text)
         self.moveTo(pt)
         result = AutoComplete().on_query_completions(self.view, "", [pt])
