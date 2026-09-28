@@ -28,7 +28,7 @@ Sublime Text 3 plugin for generating a Table of Contents (TOC) in a Markdown doc
         - [Supported file extensions](#supported-file-extensions)
     - [Customizing generation of TOC using attributes](#customizing-generation-of-toc-using-attributes)
     - [Auto anchoring when heading has anchor defined](#auto-anchoring-when-heading-has-anchor-defined)
-    - [Auto linking for _clickable_ TOC](#auto-linking-for-_clickable_-toc)
+    - [Auto linking for _clickable_ TOC](#auto-linking-for-clickable-toc)
         - [Lowercasing in ids](#lowercasing-in-ids)
             - [Preserve case](#preserve-case)
             - [Lowercase all characters](#lowercase-all-characters)
@@ -993,17 +993,19 @@ For an overview of the specific behaviour behind an attribute, please refer to t
 
 ### Github Configuration
 
-A configuration for writing Markdown primaily for use on [Github] _could_ look like the following:
+To make the links match the heading ids on [Github], use the following configuration:
 
 ```json
 {
   "defaults": {
     "autolink": true,
-    "bracket": "round",
-    "lowercase": "only_ascii"
+    "markdown_preview": "github",
+    "uri_encoding": false
   }
 }
 ```
+
+`uri_encoding` must be `false` with `markdown_preview: "github"`, as it already encodes non-ASCII characters.
 
 ### Configuration and Collaboration
 

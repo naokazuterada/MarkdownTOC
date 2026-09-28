@@ -125,3 +125,20 @@ class TestMarkdownPreview(TestBase):
             self.markdown_preview_no_heading_text.format("markdown_preview=github")
         )["toc"]
         self.assert_NotIn("^- ", toc)
+
+    def test_github_without_emphasis(self):
+        """Emphasis marks are not in the id like GitHub"""
+        text = """
+
+<!-- MarkdownTOC autolink="true" markdown_preview="github" -->
+
+<!-- /MarkdownTOC -->
+
+# _italic_ heading
+# **bold** text
+# under_score_name
+"""
+        toc = self.init_update(text)["toc"]
+        self.assert_In("(#italic-heading)", toc)
+        self.assert_In("(#bold-text)", toc)
+        self.assert_In("(#under_score_name)", toc)

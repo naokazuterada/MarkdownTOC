@@ -16,6 +16,8 @@ class Id(Base):
         if heading is None:
             return ""
         if self.markdown_preview == "github":
+            # GitHub makes the id from the rendered text without emphasis marks
+            heading = self.remove_emphasis(heading)
             _h1 = self.postprocess_inject_header_id("<h1>%s</h1>" % heading)
             pattern = r'<h1 id="(.*)">.*</h1>'
             matches = re.finditer(pattern, _h1)
@@ -33,6 +35,22 @@ class Id(Base):
             return self.do_id_replacements(_id)
 
     def do_id_replacements(self, _str):
+        _str = self.remove_emphasis(_str)
+
+        # User setting replacements
+        for group in self.id_replacements:
+            try:
+                _str = re.sub(group["pattern"], group["replacement"], _str)
+            except re.error as e:
+                # Skip the broken rule instead of breaking the whole TOC
+                self.error(
+                    "Invalid regex in id_replacements %r: %s" % (group["pattern"], e)
+                )
+        return _str
+
+    def remove_emphasis(self, _str):
+        """Remove marks of emphasis like '_italic_' and '**bold**', and backquotes
+        of code spans"""
 
         # **Ignore the texts in codeblocks
         # **[1] stock and take over codeblocks
@@ -50,15 +68,6 @@ class Id(Base):
         for match in matches:
             _str = _str.replace("[codeblock]", match.groups()[0], 1)
 
-        # User setting replacements
-        for group in self.id_replacements:
-            try:
-                _str = re.sub(group["pattern"], group["replacement"], _str)
-            except re.error as e:
-                # Skip the broken rule instead of breaking the whole TOC
-                self.error(
-                    "Invalid regex in id_replacements %r: %s" % (group["pattern"], e)
-                )
         return _str
 
     # from MarkdownPreview

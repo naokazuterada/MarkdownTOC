@@ -94,3 +94,18 @@ class TestDuplicateIds(TestBase):
 """
         body = self.init_update(text)["body"]
         self.assert_In('<a id="example-1"></a>\n# Example', body)
+
+    def test_numbered_id_used_by_another_heading(self):
+        """Number again when the numbered id is used by another heading like GitHub"""
+        text = """
+
+<!-- MarkdownTOC autolink="true" -->
+
+<!-- /MarkdownTOC -->
+
+# Foo
+# Foo
+# foo-1
+"""
+        toc = self.init_update(text)["toc"]
+        self.assert_In("- [Foo](#foo)\n- [Foo](#foo-1)\n- [foo-1](#foo-1-1)", toc)

@@ -392,10 +392,19 @@ class MarkdowntocInsert(sublime_plugin.TextCommand, Base):
                 attrs, heading[2], id_replacements
             )
             if is_auto_id:
-                n = counts.get(_id, 0)
-                counts[_id] = n + 1
-                if 0 < n:
-                    _id += delimiter + str(n)
+                if attrs["markdown_preview"] == "markdown":
+                    n = counts.get(_id, 0)
+                    counts[_id] = n + 1
+                    if 0 < n:
+                        _id += delimiter + str(n)
+                else:
+                    # Like GitHub, number again when the numbered id is used
+                    # by another heading, e.g. "foo-1" for "Foo", "Foo", "foo-1"
+                    base = _id
+                    while _id in counts:
+                        counts[base] += 1
+                        _id = base + delimiter + str(counts[base])
+                    counts[_id] = 0
             texts_and_ids[heading[0].begin()] = [_text, _id]
         return texts_and_ids
 
