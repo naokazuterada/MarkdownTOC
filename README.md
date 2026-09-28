@@ -749,7 +749,7 @@ You can exclude certain headings in the TOC by adding a special comment to the l
 You can put multiple TOCs in a document, and all of them are refreshed. To add another TOC, pick Insert TOC again at the position where you want to insert it. The new TOC inherits the attributes of the first TOC except for `levels`, `start` and `scope`, and gets `scope="section"` when it is inserted in a section which ends before the end of the document. Each TOC lists the headings after it by default, and you can change the range with the attributes `start` and `scope`.
 
 - `start="top"` lists the headings before the TOC too, e.g. for an index at the end of the document
-- `scope="section"` lists only the headings in the section which the TOC is in. The TOC is in the same section as the heading right after it, e.g. the TOC right below `# API` lists the headings until the next level 1 heading. When no upper heading exists before the TOC, the whole document is the section. With `start="top"`, the headings of the section before the TOC are listed too.
+- `scope="section"` lists only the headings in the section which the TOC is in. The TOC is in the same section as the heading right after it, e.g. the TOC below `# API` (with any content but headings between them) lists the headings until the next level 1 heading. When no upper heading exists before the TOC, the whole document is the section. With `start="top"`, the headings of the section before the TOC are listed too.
 
 ```markdown
 <!-- MarkdownTOC autolink="true" levels="1" -->
